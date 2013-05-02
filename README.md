@@ -1,4 +1,7 @@
 owaka
 =====
 
-Continuous integration for php / phing
+Sexy continuous integration for php / phing
+
+
+owaka means assist in kanza.
