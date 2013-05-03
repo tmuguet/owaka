@@ -15,11 +15,24 @@ class Model_Build extends ORM
             'foreign_key' => 'project_id'
         ),
     );
-    protected $_has_one = array(
+    protected $_has_one    = array(
+        'codesniffer_globaldata' => array(
+            'model'       => 'codesniffer_globaldata',
+            'foreign_key' => 'build_id'
+        ),
+        'coverage_globaldata' => array(
+            'model'       => 'coverage_globaldata',
+            'foreign_key' => 'build_id'
+        ),
+        'phpmd_globaldata' => array(
+            'model'       => 'phpmd_globaldata',
+            'foreign_key' => 'build_id'
+        ),
         'phpunit_globaldata' => array(
             'model'       => 'phpunit_globaldata',
             'foreign_key' => 'build_id'
-        ),);
+        ),
+    );
     // @codingStandardsIgnoreEnd
 
     /**
@@ -43,33 +56,33 @@ class Model_Build extends ORM
      *
      * @return array
      */
-    public function rules()
-    {
-        $rules = array(
-            'name'                  => array(
-                array('not_empty'),
-                array('min_length', array(':value', 3)),
-                array('max_length', array(':value', 45)),
-            ),
-            'description'           => array(
-                // Can be empty
-                array('min_length', array(':value', 0)),
-                array('max_length', array(':value', 2048)),
-            ),
-            'are_numbers_auto'      => array(
-                array('not_empty'),
-                array('kValidation::boolean', array(':value'))
-            ),
-            'next_available_number' => array(
-                array('kValidation::integer', array(':value', 0, 4294967295))
-            ),
-            'is_ready'              => array(
-                array('not_empty'),
-                array('kValidation::boolean', array(':value'))
-            ),
-        );
-        return $rules;
-    }
+    /* public function rules()
+      {
+      $rules = array(
+      'name'                  => array(
+      array('not_empty'),
+      array('min_length', array(':value', 3)),
+      array('max_length', array(':value', 45)),
+      ),
+      'description'           => array(
+      // Can be empty
+      array('min_length', array(':value', 0)),
+      array('max_length', array(':value', 2048)),
+      ),
+      'are_numbers_auto'      => array(
+      array('not_empty'),
+      array('kValidation::boolean', array(':value'))
+      ),
+      'next_available_number' => array(
+      array('kValidation::integer', array(':value', 0, 4294967295))
+      ),
+      'is_ready'              => array(
+      array('not_empty'),
+      array('kValidation::boolean', array(':value'))
+      ),
+      );
+      return $rules;
+      } */
 
     /**
      * Tests existence of an instance

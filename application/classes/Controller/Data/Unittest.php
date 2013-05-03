@@ -6,7 +6,7 @@ class Controller_Data_Unittest extends Controller_Data_Base
     public function action_parse()
     {
         $build  = $this->request->param('id');
-        $report = $this->getReportsPath($build, 'phpunit');
+        $report = Helper_Owaka::getReportsPath($build, 'phpunit');
 
         if (file_exists($report) && file_get_contents($report) != "") {
             $global           = ORM::factory('phpunit_globaldata');

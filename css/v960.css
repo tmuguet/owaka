@@ -1,0 +1,436 @@
+/*
+	960 Grid System ~ Core CSS.
+	Learn more ~ http://960.gs/
+
+	Licensed under GPL and MIT.
+*/
+
+/* =Containers
+--------------------------------------------------------------------------------*/
+
+.container_v12,
+.container_v16
+{
+	height: 960px;
+}
+
+/* =Grid >> Global
+--------------------------------------------------------------------------------*/
+
+.grid_v1,
+.grid_v2,
+.grid_v3,
+.grid_v4,
+.grid_v5,
+.grid_v6,
+.grid_v7,
+.grid_v8,
+.grid_v9,
+.grid_v10,
+.grid_v11,
+.grid_v12,
+.grid_v13,
+.grid_v14,
+.grid_v15,
+.grid_v16
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.container_12 .grid_v3,
+.container_16 .grid_v4
+{
+	height: 220px;
+}
+
+.container_12 .grid_v6,
+.container_16 .grid_v8
+{
+	height: 460px;
+}
+
+.container_12 .grid_v9,
+.container_16 .grid_v12
+{
+	height: 700px;
+}
+
+.container_12 .grid_v12,
+.container_16 .grid_v16
+{
+	height: 940px;
+}
+
+/* =Grid >> Children (Alpha ~ First, Omega ~ Last)
+--------------------------------------------------------------------------------*/
+
+.alpha
+{
+	margin-top: 0;
+}
+
+.omega
+{
+	margin-bottom: 0;
+}
+
+/* =Grid >> 12 Columns
+--------------------------------------------------------------------------------*/
+
+.container_12 .grid_v1
+{
+	height: 60px;
+}
+
+.container_12 .grid_v2
+{
+	height: 140px;
+}
+
+.container_12 .grid_v4
+{
+	height: 300px;
+}
+
+.container_12 .grid_v5
+{
+	height: 380px;
+}
+
+.container_12 .grid_v7
+{
+	height: 540px;
+}
+
+.container_12 .grid_v8
+{
+	height: 620px;
+}
+
+.container_12 .grid_v10
+{
+	height: 780px;
+}
+
+.container_12 .grid_v11
+{
+	height: 860px;
+}
+
+/* =Grid >> 16 Columns
+--------------------------------------------------------------------------------*/
+
+.container_16 .grid_v1
+{
+	height: 40px;
+}
+
+.container_16 .grid_v2
+{
+	height: 100px;
+}
+
+.container_16 .grid_v3
+{
+	height: 160px;
+}
+
+.container_16 .grid_v5
+{
+	height: 280px;
+}
+
+.container_16 .grid_v6
+{
+	height: 340px;
+}
+
+.container_16 .grid_v7
+{
+	height: 400px;
+}
+
+.container_16 .grid_v9
+{
+	height: 520px;
+}
+
+.container_16 .grid_v10
+{
+	height: 580px;
+}
+
+.container_16 .grid_v11
+{
+	height: 640px;
+}
+
+.container_16 .grid_v13
+{
+	height: 760px;
+}
+
+.container_16 .grid_v14
+{
+	height: 820px;
+}
+
+.container_16 .grid_v15
+{
+	height: 880px;
+}
+
+/* =Prefix Extra Space >> Global
+--------------------------------------------------------------------------------*/
+
+.container_12 .prefix_v3,
+.container_16 .prefix_v4
+{
+	padding-top: 240px;
+}
+
+.container_12 .prefix_v6,
+.container_16 .prefix_v8
+{
+	padding-top: 480px;
+}
+
+.container_12 .prefix_v9,
+.container_16 .prefix_v12
+{
+	padding-top: 720px;
+}
+
+/* =Prefix Extra Space >> 12 Columns
+--------------------------------------------------------------------------------*/
+
+.container_12 .prefix_v1
+{
+	padding-top: 80px;
+}
+
+.container_12 .prefix_v2
+{
+	padding-top: 160px;
+}
+
+.container_12 .prefix_v4
+{
+	padding-top: 320px;
+}
+
+.container_12 .prefix_v5
+{
+	padding-top: 400px;
+}
+
+.container_12 .prefix_v7
+{
+	padding-top: 560px;
+}
+
+.container_12 .prefix_v8
+{
+	padding-top: 640px;
+}
+
+.container_12 .prefix_v10
+{
+	padding-top: 800px;
+}
+
+.container_12 .prefix_v11
+{
+	padding-top: 880px;
+}
+
+/* =Prefix Extra Space >> 16 Columns
+--------------------------------------------------------------------------------*/
+
+.container_16 .prefix_v1
+{
+	padding-top: 60px;
+}
+
+.container_16 .prefix_v2
+{
+	padding-top: 120px;
+}
+
+.container_16 .prefix_v3
+{
+	padding-top: 180px;
+}
+
+.container_16 .prefix_v5
+{
+	padding-top: 300px;
+}
+
+.container_16 .prefix_v6
+{
+	padding-top: 360px;
+}
+
+.container_16 .prefix_v7
+{
+	padding-top: 420px;
+}
+
+.container_16 .prefix_v9
+{
+	padding-top: 540px;
+}
+
+.container_16 .prefix_v10
+{
+	padding-top: 600px;
+}
+
+.container_16 .prefix_v11
+{
+	padding-top: 660px;
+}
+
+.container_16 .prefix_v13
+{
+	padding-top: 780px;
+}
+
+.container_16 .prefix_v14
+{
+	padding-top: 840px;
+}
+
+.container_16 .prefix_v15
+{
+	padding-top: 900px;
+}
+
+/* =Suffix Extra Space >> Global
+--------------------------------------------------------------------------------*/
+
+.container_12 .suffix_v3,
+.container_16 .suffix_v4
+{
+	padding-bottom: 240px;
+}
+
+.container_12 .suffix_v6,
+.container_16 .suffix_v8
+{
+	padding-bottom: 480px;
+}
+
+.container_12 .suffix_v9,
+.container_16 .suffix_v12
+{
+	padding-bottom: 720px;
+}
+
+/* =Suffix Extra Space >> 12 Columns
+--------------------------------------------------------------------------------*/
+
+.container_12 .suffix_v1
+{
+	padding-bottom: 80px;
+}
+
+.container_12 .suffix_v2
+{
+	padding-bottom: 160px;
+}
+
+.container_12 .suffix_v4
+{
+	padding-bottom: 320px;
+}
+
+.container_12 .suffix_v5
+{
+	padding-bottom: 400px;
+}
+
+.container_12 .suffix_v7
+{
+	padding-bottom: 560px;
+}
+
+.container_12 .suffix_v8
+{
+	padding-bottom: 640px;
+}
+
+.container_12 .suffix_v10
+{
+	padding-bottom: 800px;
+}
+
+.container_12 .suffix_v11
+{
+	padding-bottom: 880px;
+}
+
+/* =Suffix Extra Space >> 16 Columns
+--------------------------------------------------------------------------------*/
+
+.container_16 .suffix_v1
+{
+	padding-bottom: 60px;
+}
+
+.container_16 .suffix_v2
+{
+	padding-bottom: 120px;
+}
+
+.container_16 .suffix_v3
+{
+	padding-bottom: 180px;
+}
+
+.container_16 .suffix_v5
+{
+	padding-bottom: 300px;
+}
+
+.container_16 .suffix_v6
+{
+	padding-bottom: 360px;
+}
+
+.container_16 .suffix_v7
+{
+	padding-bottom: 420px;
+}
+
+.container_16 .suffix_v9
+{
+	padding-bottom: 540px;
+}
+
+.container_16 .suffix_v10
+{
+	padding-bottom: 600px;
+}
+
+.container_16 .suffix_v11
+{
+	padding-bottom: 660px;
+}
+
+.container_16 .suffix_v13
+{
+	padding-bottom: 780px;
+}
+
+.container_16 .suffix_v14
+{
+	padding-bottom: 840px;
+}
+
+.container_16 .suffix_v15
+{
+	padding-bottom: 900px;
+}

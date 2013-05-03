@@ -41,7 +41,7 @@ class Model_Project extends ORM
      *
      * @return array
      */
-    public function rules()
+    /*public function rules()
     {
         $rules = array(
             'name'                  => array(
@@ -67,7 +67,7 @@ class Model_Project extends ORM
             ),
         );
         return $rules;
-    }
+    }*/
 
     /**
      * Tests existence of an instance

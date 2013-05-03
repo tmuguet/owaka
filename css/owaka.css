@@ -1,0 +1,70 @@
+body {
+    background-color: #ffffff;
+    overflow: hidden;
+    background-size: cover;
+}
+
+body.splotchy.build-ok {
+    background-image: url('../img/LT_SplotchyDuotone_04.jpg');
+}
+
+body.splotchy.build-unstable {
+    background-image: url('../img/LT_SplotchyDuotone_01.jpg');
+}
+
+body.splotchy.build-error {
+    background-image: url('../img/LT_SplotchyDuotone_05.jpg');
+}
+
+body.grunge.build-ok {
+    background-image: url('../img/LT_SubtleGrunge_04.jpg');
+}
+
+body.grunge.build-unstable {
+    background-image: url('../img/LT_SubtleGrunge_06.jpg');
+}
+
+body.grunge.build-error {
+    background-image: url('../img/LT_SubtleGrunge_07.jpg');
+}
+
+.grid {
+    text-align: center;
+    overflow: hidden;
+}
+
+.grid h1, .grid h2, .grid h3 {
+    color: #3383bb;
+    text-decoration: none;
+}
+
+p,
+dl,
+hr,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+ul,
+pre,
+table,
+address,
+fieldset
+{
+	margin-bottom: 10%;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+tr.build {
+    height: 20px;
+}
+
+tr.build td {
+    vertical-align: middle;
+}

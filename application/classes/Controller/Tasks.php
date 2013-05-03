@@ -23,14 +23,36 @@ class Controller_Tasks extends Controller_Data_Base // TODO: change this !
 
         foreach ($projects as $project) {
             chdir($project->path);
-            if ($project->has_parent) {
-                passthru('hg pull', $result);
-            }
-            passthru('hg update', $result);
+            
+            switch ($project->scm) {
+                case 'mercurial':
+                    if ($project->has_parent) {
+                        passthru('hg pull', $result);
+                    }
+                    var_dump(exec('hg update', $result));
+                    var_dump($result);
+                    //passthru('hg update', $result);
+                    break;
 
-            exec('hg tip', $tip);
-            preg_match('/\s(\d+):/', $tip[0], $matches);
-            $rev = $matches[1];
+                case 'git':
+                    passthru('git update', $result);
+                    break;
+            }
+            
+            switch ($project->scm) {
+                case 'mercurial':
+                    exec('hg tip', $tip);
+                    var_dump($tip);
+                    preg_match('/\s(\d+):/', $tip[0], $matches);
+                    $rev = $matches[1];
+                    break;
+
+                case 'git':
+                    exec('git log -1', $tip);
+                    preg_match('/commit\s+([0-9a-f]+)/', $tip[0], $matches);
+                    $rev = $matches[1];
+                    break;
+            }
 
             if ($rev != $project->lastrevision) {
                 $build             = ORM::factory('Build');
@@ -70,7 +92,7 @@ class Controller_Tasks extends Controller_Data_Base // TODO: change this !
         $this->copyReports($build);
 
         if ($buildResult == 0) {
-            //$build->status = 'ok';    // Do not update yet
+//$build->status = 'ok';    // Do not update yet
         } else if ($buildResult == 1) {
             $build->status = 'error';
         } else {
@@ -131,11 +153,11 @@ class Controller_Tasks extends Controller_Data_Base // TODO: change this !
     protected function analyseReports(Model_Build &$build)
     {
         if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {
-            $build->status = 'ok';
+            $build->status     = 'ok';
             $build->regression = 0;
         } else {
             $build->status = 'unstable';
-            // Get previous build and compare failures
+// Get previous build and compare failures
         }
         $build->finished = time();
         $build->update();

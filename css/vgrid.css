@@ -1,0 +1,155 @@
+.container_v12,
+.container_v16
+{
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+/* =Grid >> Global
+--------------------------------------------------------------------------------*/
+
+.grid_v1,
+.grid_v2,
+.grid_v3,
+.grid_v4,
+.grid_v5,
+.grid_v6,
+.grid_v7,
+.grid_v8,
+.grid_v9,
+.grid_v10,
+.grid_v11,
+.grid_v12,
+.grid_v13,
+.grid_v14,
+.grid_v15,
+.grid_v16
+{
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+
+.container_12 .grid_v3,
+.container_16 .grid_v4
+{
+    height: 23%;
+}
+
+.container_12 .grid_v6,
+.container_16 .grid_v8
+{
+    height: 48%;
+}
+
+.container_12 .grid_v9,
+.container_16 .grid_v12
+{
+    height: 73%;
+}
+
+.container_12 .grid_v12,
+.container_16 .grid_v16
+{
+    height: 98%;
+}
+
+.container_12 .grid_v1
+{
+    height: 6.333%;
+}
+
+.container_12 .grid_v2
+{
+    height: 14.666%;
+}
+
+.container_12 .grid_v4
+{
+    height: 31.333%;
+}
+
+.container_12 .grid_v5
+{
+    height: 39.666%;
+}
+
+.container_12 .grid_v7
+{
+    height: 56.333%;
+}
+
+.container_12 .grid_v8
+{
+    height: 64.666%;
+}
+
+.container_12 .grid_v10
+{
+    height: 81.333%;
+}
+
+.container_12 .grid_v11
+{
+    height: 89.666%;
+}
+
+.container_16 .grid_v1
+{
+    height: 4.25%;
+}
+
+.container_16 .grid_v2
+{
+    height: 10.5%;
+}
+
+.container_16 .grid_v3
+{
+    height: 16.75%;
+}
+
+.container_16 .grid_v5
+{
+    height: 29.25%;
+}
+
+.container_16 .grid_v6
+{
+    height: 35.5%;
+}
+
+.container_16 .grid_v7
+{
+    height: 41.75%;
+}
+
+.container_16 .grid_v9
+{
+    height: 54.25%;
+}
+
+.container_16 .grid_v10
+{
+    height: 60.5%;
+}
+
+.container_16 .grid_v11
+{
+    height: 66.75%;
+}
+
+.container_16 .grid_v13
+{
+    height: 79.25%;
+}
+
+.container_16 .grid_v14
+{
+    height: 85.5%;
+}
+
+.container_16 .grid_v15
+{
+    height: 91.75%;
+}
