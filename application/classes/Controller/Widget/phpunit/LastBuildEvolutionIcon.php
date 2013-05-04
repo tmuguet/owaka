@@ -35,6 +35,14 @@ class Controller_Widget_phpunit_LastBuildEvolutionIcon extends Controller_Widget
                 $this->statusData      = '-';
                 $this->statusDataLabel = '<br>no changes';
             } else {
+                if ($errors < 0 && $failures < 0) {
+                    $this->widgetStatus = 'ok';
+                } else if ($errors > 0) {
+                    $this->widgetStatus = 'error';
+                } else {
+                    $this->widgetStatus = 'unstable';
+                }
+                
                 $this->status          = ($errors > 0 ? 'error' : 'ok');
                 $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
                 $this->statusDataLabel = 'tests errored';

@@ -41,11 +41,13 @@ class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widge
             switch ($display) {
                 case 'total':
                     if ($total == 0) {
+                        $this->widgetStatus    = 'ok';
                         $this->status          = 'ok';
                         $this->statusData      = '-';
                         $this->statusDataLabel = '<br>no changes';
                     } else {
-                        $this->status          = ($total > 0 ? 'ok' : 'unstable');
+                        $this->widgetStatus    = ($total > 0 ? 'ok' : 'unstable');
+                        $this->status          = $this->widgetStatus;
                         $this->statusData      = ($total > 0 ? '+' . $total : $total) . '%';
                         $this->statusDataLabel = '<br>total';
                     }
@@ -53,11 +55,13 @@ class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widge
 
                 case 'methods':
                     if ($methods == 0) {
+                        $this->widgetStatus    = 'ok';
                         $this->status          = 'ok';
                         $this->statusData      = '-';
                         $this->statusDataLabel = '<br>no changes';
                     } else {
-                        $this->status          = ($methods > 0 ? 'ok' : 'unstable');
+                        $this->widgetStatus    = ($methods > 0 ? 'ok' : 'unstable');
+                        $this->status          = $this->widgetStatus;
                         $this->statusData      = ($methods > 0 ? '+' . $methods : $methods) . '%';
                         $this->statusDataLabel = '<br>methods';
                     }
@@ -65,6 +69,7 @@ class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widge
 
                 case 'statements':
                     if ($statements == 0) {
+                        $this->widgetStatus    = 'ok';
                         $this->status          = 'ok';
                         $this->statusData      = '-';
                         $this->statusDataLabel = '<br>no changes';
@@ -76,6 +81,11 @@ class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widge
                     break;
 
                 default:
+                    if ($methods <= 0 && $statements <= 0) {
+                        $this->widgetStatus = 'ok';
+                    } else {
+                        $this->widgetStatus = 'unstable';
+                    }
                     if ($methods == 0) {
                         $this->status          = 'ok';
                         $this->statusData      = '-';
@@ -85,7 +95,7 @@ class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widge
                         $this->statusData      = ($methods > 0 ? '+' . $methods : $methods) . '%';
                         $this->statusDataLabel = '<br>methods';
                     }
-                    
+
                     if ($statements == 0) {
                         $this->substatus          = 'ok';
                         $this->substatusData      = '-';

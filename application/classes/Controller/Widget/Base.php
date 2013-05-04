@@ -14,6 +14,8 @@ abstract class Controller_Widget_Base extends Controller
      * @var string 
      */
     protected $widgetTitle = NULL;
+    
+    protected $widgetStatus = NULL;
 
     /**
      * Reference to the widget model, should not be used in final widgets
@@ -136,6 +138,7 @@ abstract class Controller_Widget_Base extends Controller
         View::set_global('row', $this->getModelWidget()->row);
         View::set_global('widgetIcon', $this->widgetIcon);
         View::set_global('widgetTitle', $this->widgetTitle);
+        View::set_global('widgetStatus', $this->widgetStatus);
         View::set_global('title', $this->_title);
         View::set_global('subtitle', $this->_subtitle);
     }

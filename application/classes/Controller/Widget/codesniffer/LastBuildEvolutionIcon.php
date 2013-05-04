@@ -35,6 +35,7 @@ class Controller_Widget_codesniffer_LastBuildEvolutionIcon extends Controller_Wi
                 $this->statusData      = '-';
                 $this->statusDataLabel = '<br>no changes';
             } else {
+                $this->widgetStatus    = ($errors > 0 || $warnings > 0 ? 'unstable' : 'ok');
                 $this->status          = ($errors > 0 ? 'error' : 'ok');
                 $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
                 $this->statusDataLabel = 'rules errors';

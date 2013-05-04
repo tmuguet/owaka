@@ -39,11 +39,13 @@ class Controller_Widget_phpunit_LastBuildIcon extends Controller_Widget_BaseIcon
             $this->statusData      = $build->phpunit_globaldata->errors;
             $this->statusDataLabel = 'tests errored<br>out of ' . $build->phpunit_globaldata->tests;
         } else {
-            $this->status          = 'error';
-            $this->statusData      = $build->phpunit_globaldata->errors;
-            $this->statusDataLabel = 'errors';
-            $this->substatus       = 'unstable';
-            $this->substatusData   = $build->phpunit_globaldata->failures;
+            $this->widgetStatus = 'error';
+
+            $this->status             = 'error';
+            $this->statusData         = $build->phpunit_globaldata->errors;
+            $this->statusDataLabel    = 'errors';
+            $this->substatus          = 'unstable';
+            $this->substatusData      = $build->phpunit_globaldata->failures;
             $this->substatusDataLabel = 'failed';
         }
 

@@ -92,6 +92,12 @@ class Controller_Widget_coverage_LastBuildIcon extends Controller_Widget_BaseIco
                     } else {
                         $this->substatus = 'error';
                     }
+                    
+                    if ($this->status == 'ok' && $this->substatus == 'ok') {
+                        $this->widgetStatus = 'ok';
+                    } else {
+                        $this->widgetStatus = 'unstable';
+                    }
                     break;
             }
         }

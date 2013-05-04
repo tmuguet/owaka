@@ -27,7 +27,7 @@ class Controller_Widget_codesniffer_LastBuildIcon extends Controller_Widget_Base
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors == 0) {
-            $this->status          = 'ok';
+            $this->status       = 'ok';
         } else if ($build->codesniffer_globaldata->warnings > 0 && $build->codesniffer_globaldata->errors == 0) {
             $this->status          = 'unstable';
             $this->statusData      = $build->codesniffer_globaldata->warnings;
@@ -37,6 +37,7 @@ class Controller_Widget_codesniffer_LastBuildIcon extends Controller_Widget_Base
             $this->statusData      = $build->codesniffer_globaldata->errors;
             $this->statusDataLabel = 'rules errors';
         } else {
+            $this->widgetStatus       = 'error';
             $this->status             = 'error';
             $this->statusData         = $build->codesniffer_globaldata->errors;
             $this->statusDataLabel    = 'errors';
