@@ -6,11 +6,14 @@ class Controller_Welcome extends Controller
 
     public function action_index()
     {
-        $widgets     = ORM::factory('Widget')->find_all();
+        $widgets     = ORM::factory('Widget')
+                ->order_by('position', 'ASC')
+                ->find_all();
         $widgetsView = array();
         foreach ($widgets as $widget) {
-            $widgetsView[] = View::factory('widgets/' . $widget->type)
-                    ->set('widget', $widget);
+            /*$widgetsView[] = View::factory('widgets/' . $widget->type)
+                    ->set('widget', $widget);*/
+            $widgetsView[] = Request::factory('w/'.$widget->type.'/main/'.$widget->id)->execute();
         }
 
         $view = View::factory('dashboard')

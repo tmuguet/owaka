@@ -6,7 +6,7 @@ class Controller_Data_Codesniffer extends Controller_Data_Base
     public function action_parse()
     {
         $build  = $this->request->param('id');
-        $report = Helper_Owaka::getReportsPath($build, 'codesniffer');
+        $report = Owaka::getReportsPath($build, 'codesniffer');
 
         if (file_exists($report) && file_get_contents($report) != "") {
             $global           = ORM::factory('codesniffer_globaldata');

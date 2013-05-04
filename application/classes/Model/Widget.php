@@ -9,7 +9,7 @@ class Model_Widget extends ORM
      * "Has many" relationships
      * @var array
      */
-    protected $_has_one = array(
+    protected $_belongs_to = array(
         'project' => array(
             'model'       => 'Project',
             'foreign_key' => 'project_id'),

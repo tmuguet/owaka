@@ -1,8 +1,12 @@
 <?php
 
-class Helper_Owaka
+class Owaka
 {
 
+    const WIDGET_MAIN = 'main';
+    const WIDGET_PROJECT = 'project';
+    const WIDGET_BUILD = 'build';
+    
     static public function getReportsPath($buildId, $reportType)
     {
         $build = ORM::factory('Build', $buildId);

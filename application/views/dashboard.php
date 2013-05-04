@@ -24,10 +24,10 @@
     </head>
     <body>
 
-        <div class="container container_12 container_v12">
+        <div class="container container_12">
             <?php
             foreach ($widgets as $widget) {
-                echo $widget->render();
+                echo $widget->body();
             }
             ?>
         </div>

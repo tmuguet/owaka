@@ -19,9 +19,24 @@ class Task_Run extends Minion_Task
 
     protected function validate(Model_Build &$build)
     {
+        // Get last build duration to compute ETA
+        $lastBuild = $build->project->builds
+                ->where('status', 'NOT IN', array('queued', 'building'))
+                ->order_by('id', 'DESC')
+                ->limit(1)
+                ->find();
+        $lastStart = new DateTime($lastBuild->started);
+        $lastFinished = new DateTime($lastBuild->finished);
+        $lastDuration = $lastFinished->diff($lastStart, TRUE);
+        
+        $start = new DateTime();
+        $eta = new DateTime();
+        $eta->add($lastDuration);
+        
         chdir((empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path));
 
         $build->status = 'building';
+        $build->started = Date::toMySql($eta);
         $build->update();
 
         passthru(
@@ -51,17 +66,17 @@ class Task_Run extends Minion_Task
     protected function copyReports(Model_Build &$build)
     {
         if (!empty($build->project->phpunit_dir_report)) {
-            $path = Helper_Owaka::getReportsPath($build->id, 'phpunit_dir');
+            $path = Owaka::getReportsPath($build->id, 'phpunit_dir');
             exec('cp -R ' . $path . ' ' . APPPATH . '/reports/' . $build->id . '/phpunit');
         }
 
         if (!empty($build->project->coverage_dir_report)) {
-            $path = Helper_Owaka::getReportsPath($build->id, 'coverage_dir');
+            $path = Owaka::getReportsPath($build->id, 'coverage_dir');
             exec('cp -R ' . $path . ' ' . APPPATH . '/reports/' . $build->id . '/coverage');
         }
 
         if (!empty($build->project->phpdoc_dir_report)) {
-            $path = Helper_Owaka::getReportsPath($build->id, 'phpdoc_dir');
+            $path = Owaka::getReportsPath($build->id, 'phpdoc_dir');
             exec('cp -R ' . $path . ' ' . APPPATH . '/reports/' . $build->id . '/phpdoc');
         }
     }
@@ -104,7 +119,7 @@ class Task_Run extends Minion_Task
             $build->status = 'unstable';
 // Get previous build and compare failures
         }
-        $build->finished = time();
+        $build->finished = DB::expr('NOW()');
         $build->update();
     }
 }

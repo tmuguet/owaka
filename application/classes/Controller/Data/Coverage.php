@@ -6,7 +6,7 @@ class Controller_Data_Coverage extends Controller_Data_Base
     public function action_parse()
     {
         $build  = $this->request->param('id');
-        $report = Helper_Owaka::getReportsPath($build, 'coverage');
+        $report = Owaka::getReportsPath($build, 'coverage');
 
         if (file_exists($report) && file_get_contents($report) != "") {
             $global           = ORM::factory('coverage_globaldata');

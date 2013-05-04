@@ -1,7 +1,7 @@
 body {
     background-color: #ffffff;
-    overflow: hidden;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 body.splotchy.build-ok {
@@ -31,11 +31,48 @@ body.grunge.build-error {
 .grid {
     text-align: center;
     overflow: hidden;
+    position: relative;
+}
+
+.grid-hover {
+    position: absolute;
+    z-index: 10000;
+}
+
+.grid-ico {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    text-align: right;
+}
+
+.grid-ico-label {
+    text-transform: lowercase;
+    vertical-align: top;
+    margin-left: 36px;
+}
+
+.widget-detailed {
+    display: none;
+}
+
+.grid-content {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.grid-hover .grid-content {
+    right: 25%;
 }
 
 .grid h1, .grid h2, .grid h3 {
     color: #3383bb;
     text-decoration: none;
+    text-align: left;
+    padding-left: 5px;
 }
 
 p,
@@ -54,7 +91,7 @@ table,
 address,
 fieldset
 {
-	margin-bottom: 10%;
+    margin-bottom: 10%;
 }
 
 .clickable {
@@ -66,5 +103,9 @@ tr.build {
 }
 
 tr.build td {
+    vertical-align: middle;
+}
+
+tr.build td img {
     vertical-align: middle;
 }

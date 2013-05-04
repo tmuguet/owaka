@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $(window).trigger('resize');
+    //$(window).trigger('resize');
 
     $(".container").addClass('ui-widget');
     $(".grid_1, .grid_2, .grid_3, .grid_4").addClass('ui-widget-content');
@@ -11,8 +11,8 @@ $(document).ready(function() {
     $(".build-queued").addClass('ui-state-active');
 });
 $(window).resize(function() {
-    $(".container").height($(".container").width());
-    console.log($(".container").width());
+    //$(".container").height($(".container").width());
+    //console.log($(".container").width());
 /*    var fontsize = $(".container").width()/12.00;
     $(".container").css("font-size", fontsize+"%");*/
 });

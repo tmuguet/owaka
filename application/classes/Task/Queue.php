@@ -56,8 +56,7 @@ class Task_Refresh extends Minion_Task
                 $build->revision   = $rev;
                 $build->message    = implode("\n", $tip);
                 $build->status     = "queued";
-                $build->regression = 0;
-                $build->started    = time();
+                $build->started    = DB::expr('NOW()');
                 $build->eta        = NULL;
                 $build->finished   = NULL;
                 $build->create();
