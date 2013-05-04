@@ -28,25 +28,27 @@ body.grunge.build-error {
     background-image: url('../img/LT_SubtleGrunge_07.jpg');
 }
 
-.grid {
-    text-align: center;
-    overflow: hidden;
-    position: relative;
+.ui-widget-overlay {
+    z-index: 9999;
 }
 
-.grid-hover {
-    position: absolute;
+.grid-elt {
+    text-align: center;
+    overflow: hidden;
+}
+
+.grid-elt-hover {
     z-index: 10000;
 }
 
-.grid-ico {
+.grid-elt-ico {
     position: absolute;
     top: 0px;
     right: 0px;
     text-align: right;
 }
 
-.grid-ico-label {
+.grid-elt-ico-label {
     text-transform: lowercase;
     vertical-align: top;
     margin-left: 36px;
@@ -56,7 +58,7 @@ body.grunge.build-error {
     display: none;
 }
 
-.grid-content {
+.grid-elt-content {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -64,11 +66,11 @@ body.grunge.build-error {
     left: 0px;
 }
 
-.grid-hover .grid-content {
+.grid-elt-hover .grid-elt-content {
     right: 25%;
 }
 
-.grid h1, .grid h2, .grid h3 {
+.grid-elt h1, .grid-elt h2, .grid-elt h3 {
     color: #3383bb;
     text-decoration: none;
     text-align: left;

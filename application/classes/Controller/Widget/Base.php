@@ -132,6 +132,8 @@ abstract class Controller_Widget_Base extends Controller
         View::set_global('id', $this->getModelWidget()->id);
         View::set_global('width', $this->getWidth());
         View::set_global('height', $this->getHeight());
+        View::set_global('column', $this->getModelWidget()->column);
+        View::set_global('row', $this->getModelWidget()->row);
         View::set_global('widgetIcon', $this->widgetIcon);
         View::set_global('widgetTitle', $this->widgetTitle);
         View::set_global('title', $this->_title);

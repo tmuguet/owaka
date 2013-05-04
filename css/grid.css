@@ -1,0 +1,131 @@
+/* 
+    Document   : grid
+    Created on : 4 mai 2013, 18:45:52
+    Author     : tmuguet
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#owaka {
+    position: fixed;
+    top: 60px;
+    left: 0px;
+    font-size: 36px;
+    font-weight: bolder;
+    
+    -webkit-transform:rotate(-90deg);
+    -moz-transform:rotate(-90deg);
+    -o-transform:rotate(-90deg);
+    -ms-transform:rotate(-90deg);
+}
+
+#grid {
+    position: relative;
+    margin-top: 20px;
+    margin-left: 80px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.grid-elt
+{
+	display: inline;
+	position: absolute;
+}
+
+.grid_1 {
+    width: 60px;
+}
+
+.grid_2 {
+    width: 140px;
+}
+
+.grid_3 {
+    width: 220px;
+}
+
+.grid_4 {
+    width: 300px;
+}
+
+.grid_5 {
+    width: 380px;
+}
+
+.grid_6 {
+    width: 460px;
+}
+
+.grid_7 {
+    width: 540px;
+}
+
+.grid_8 {
+    width: 620px;
+}
+
+.grid_9 {
+    width: 700px;
+}
+
+.grid_10 {
+    width: 780px;
+}
+
+.grid_11 {
+    width: 860px;
+}
+
+.grid_12 {
+    width: 940px;
+}
+
+
+.grid_v1 {
+    height: 60px;
+}
+
+.grid_v2 {
+    height: 140px;
+}
+
+.grid_v3 {
+    height: 220px;
+}
+
+.grid_v4 {
+    height: 300px;
+}
+
+.grid_v5 {
+    height: 380px;
+}
+
+.grid_v6 {
+    height: 460px;
+}
+
+.grid_v7 {
+    height: 540px;
+}
+
+.grid_v8 {
+    height: 620px;
+}
+
+.grid_v9 {
+    height: 700px;
+}
+
+.grid_v10 {
+    height: 780px;
+}
+
+.grid_v11 {
+    height: 860px;
+}
+
+.grid_v12 {
+    height: 940px;
+}

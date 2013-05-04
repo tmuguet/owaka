@@ -1,8 +1,13 @@
 $(document).ready(function() {
     //$(window).trigger('resize');
 
-    $(".container").addClass('ui-widget');
-    $(".grid_1, .grid_2, .grid_3, .grid_4").addClass('ui-widget-content');
+    $(".grid-elt").addClass('ui-widget-content');
+    $.each($(".grid-elt"), function() {
+        $(this).css("width", $(this).attr("data-grid-width")*80-20);
+        $(this).css("height", $(this).attr("data-grid-height")*80-20);
+        $(this).css("top", $(this).attr("data-grid-row")*80);
+        $(this).css("left", $(this).attr("data-grid-column")*80);
+    });
     
     $(".build-ok").addClass('ui-state-focus');
     $(".build-unstable").addClass('ui-state-highlight');

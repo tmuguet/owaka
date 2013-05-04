@@ -5,22 +5,23 @@
 
     function open_widget_<?php echo $id; ?>() {
         var o = $("#widget_<?php echo $id; ?>");
-        var position = o.position();
-        o.css('top', position.top);
-        o.css('left', position.left);
-        o.addClass('grid-hover');
+        o.addClass('grid-elt-hover');
+        $("#overlay").fadeIn(200);
 
-        o.addClass('grid_<?php echo $width * 2; ?>', 200);
-        o.find('.widget-detailed').fadeIn(200);
+        o.animate({
+            width: o.attr("data-grid-width")*2*80-20
+        }, 300);
+        o.find('.widget-detailed').delay(200).fadeIn(200);
         timer_widget_<?php echo $id; ?> = null;
     }
     function close_widget_<?php echo $id; ?>() {
         var o = $("#widget_<?php echo $id; ?>");
-        o.css('top', '');
-        o.css('left', '');
         o.find('.widget-detailed').fadeOut(100);
-        o.removeClass("grid_<?php echo ($width * 2); ?>", 100, function() {
-            o.removeClass('grid-hover');
+        o.animate({
+            width: o.attr("data-grid-width")*80-20
+        }, 100, function() {
+            $("#overlay").fadeOut(100);
+            o.removeClass('grid-elt-hover');
         });
     }
 

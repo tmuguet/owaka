@@ -7,7 +7,6 @@ class Controller_Welcome extends Controller
     public function action_index()
     {
         $widgets     = ORM::factory('Widget')
-                ->order_by('position', 'ASC')
                 ->find_all();
         $widgetsView = array();
         foreach ($widgets as $widget) {
