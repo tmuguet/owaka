@@ -44,14 +44,24 @@ body.grunge.build-error {
 .grid-elt-ico {
     position: absolute;
     top: 0px;
-    right: 0px;
+    left: 0px;
+    text-align: left;
+}
+
+.grid-elt-more {
+    position: absolute;
+    top: 30px;
+    left: 0px;
     text-align: right;
+    width: 23%;
+}
+
+.grid-elt-ico img {
+    float: left;
 }
 
 .grid-elt-ico-label {
     text-transform: lowercase;
-    vertical-align: top;
-    margin-left: 36px;
 }
 
 .widget-detailed {
@@ -67,14 +77,15 @@ body.grunge.build-error {
 }
 
 .grid-elt-hover .grid-elt-content {
-    right: 25%;
+    left: 25%;
 }
 
 .grid-elt h1, .grid-elt h2, .grid-elt h3 {
     color: #3383bb;
     text-decoration: none;
-    text-align: left;
+    text-align: right;
     padding-left: 5px;
+    overflow: hidden;
 }
 
 p,

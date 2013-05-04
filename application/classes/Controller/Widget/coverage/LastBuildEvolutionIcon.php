@@ -34,6 +34,11 @@ class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widge
                 $display = 'methods+statements';
             }
 
+            $this->widgetLinks[] = array(
+                "title" => 'report',
+                "url"  => 'reports/' . $builds[0]->id . '/coverage/index.html'
+            );
+
             $total      = $builds[0]->coverage_globaldata->totalcoverage - $builds[1]->coverage_globaldata->totalcoverage;
             $methods    = $builds[0]->coverage_globaldata->methodcoverage - $builds[1]->coverage_globaldata->methodcoverage;
             $statements = $builds[0]->coverage_globaldata->statementcoverage - $builds[1]->coverage_globaldata->statementcoverage;

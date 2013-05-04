@@ -35,6 +35,11 @@ class Controller_Widget_coverage_LastBuildIcon extends Controller_Widget_BaseIco
                 $display = 'methods+statements';
             }
 
+            $this->widgetLinks[] = array(
+                "title" => 'report',
+                "url"  => 'reports/' . $build->id . '/coverage/index.html'
+            );
+
             switch ($display) {
                 case 'total':
                     $this->statusData      = floor($build->coverage_globaldata->totalcoverage) . '%';

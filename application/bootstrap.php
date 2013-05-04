@@ -129,6 +129,15 @@ Route::set('widget', 'w/<controller>/<action>/<id>(/<data>)',
             'directory' => 'Widget'
         ));
 
+Route::set('reports', 'reports/<id>/<type>/<page>', array(
+            'page' => '.+',
+            'type' => '(phpunit|coverage|phpdoc)'
+        ))
+        ->defaults(array(
+            'controller' => 'report',
+            'action'     => 'index'
+        ));
+
 Route::set('default', '(<controller>(/<action>(/<id>)))')
         ->defaults(array(
             'controller' => 'welcome',

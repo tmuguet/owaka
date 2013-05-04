@@ -26,7 +26,12 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
                 ->with('phpunit_globaldata')
                 ->limit(10)
                 ->find_all();
-        
+
+        $this->widgetLinks[] = array(
+            "title" => 'latest report',
+            "url"   => 'reports/' . $builds[0]->id . '/phpunit/index.html'
+        );
+
         foreach ($builds as $build) {
             $status = '';
 

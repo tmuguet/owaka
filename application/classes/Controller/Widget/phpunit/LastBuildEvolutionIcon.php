@@ -27,6 +27,11 @@ class Controller_Widget_phpunit_LastBuildEvolutionIcon extends Controller_Widget
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {
+            $this->widgetLinks[] = array(
+                "title" => 'report',
+                "url"  => 'reports/' . $builds[0]->id . '/phpunit/index.html'
+            );
+
             $errors   = $builds[0]->phpunit_globaldata->errors - $builds[1]->phpunit_globaldata->errors;
             $failures = $builds[0]->phpunit_globaldata->failures - $builds[1]->phpunit_globaldata->failures;
 
@@ -42,7 +47,7 @@ class Controller_Widget_phpunit_LastBuildEvolutionIcon extends Controller_Widget
                 } else {
                     $this->widgetStatus = 'unstable';
                 }
-                
+
                 $this->status          = ($errors > 0 ? 'error' : 'ok');
                 $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
                 $this->statusDataLabel = 'tests errored';

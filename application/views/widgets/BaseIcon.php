@@ -29,7 +29,7 @@ if (empty($statusData) && empty($substatus)) {
     echo '</div>';
 }
 ?>
-<script type="text/javascript">
+<?php /*<script type="text/javascript">
     $(document).ready(function() {
         $("#widget_<?php echo $id; ?>").click(function(e) {
             document.location.href = 'welcome/build/<?php echo $id; ?>';
@@ -38,6 +38,6 @@ if (empty($statusData) && empty($substatus)) {
         });
     });
 </script>
-<?php
+<?php*/
 echo View::factory('widgets/BaseEnd')->render();
 ?>

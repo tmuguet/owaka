@@ -32,11 +32,13 @@ EOT;
                     ->limit(1)
                     ->find();
 
-            if ($build->status == 'error') {
-                $this->_status = 'error';
-                break;
-            } else if ($build->status == 'unstable') {
-                $this->_status = 'unstable';
+            if ($build->loaded()) {
+                if ($build->status == 'error') {
+                    $this->_status = 'error';
+                    break;
+                } else if ($build->status == 'unstable') {
+                    $this->_status = 'unstable';
+                }
             }
         }
 
