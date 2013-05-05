@@ -18,7 +18,7 @@ echo View::factory('widgets/BaseStart')->render();
                     ?><br/>no data</td></tr>
         <?php else: ?>
             <?php foreach ($rows as $row): ?>
-                <tr class="<?php echo $row['class']; ?>">
+                <tr class="<?php echo (!empty($row['class']) ? $row['class'] : ''); ?>">
                     <?php foreach ($row['columns'] as $column): ?>
                         <td><?php echo $column; ?></td>
                     <?php endforeach; ?>

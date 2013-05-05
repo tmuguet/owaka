@@ -22,6 +22,7 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
         );
 
         $builds = $this->getProject()->builds
+                ->where('status', 'NOT IN', array('building', 'queued'))
                 ->order_by('id', 'DESC')
                 ->with('phpunit_globaldata')
                 ->limit(10)

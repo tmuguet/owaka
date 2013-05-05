@@ -18,6 +18,7 @@ class Controller_Widget_phpmd_LastBuildEvolutionIcon extends Controller_Widget_B
     public function action_project()
     {
         $builds = $this->getProject()->builds
+                ->where('status', 'NOT IN', array('building', 'queued'))
                 ->order_by('id', 'DESC')
                 ->with('phpmd_globaldata')
                 ->limit(2)

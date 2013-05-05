@@ -1,6 +1,6 @@
 <?php
 
-class Task_Refresh extends Minion_Task
+class Task_Queue extends Minion_Task
 {
 
     protected function _execute(array $params)

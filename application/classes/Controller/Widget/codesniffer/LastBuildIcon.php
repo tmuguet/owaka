@@ -18,6 +18,7 @@ class Controller_Widget_codesniffer_LastBuildIcon extends Controller_Widget_Base
     public function action_project()
     {
         $build = $this->getProject()->builds
+                ->where('status', 'NOT IN', array('building', 'queued'))
                 ->order_by('id', 'DESC')
                 ->with('codesniffer_globaldata')
                 ->limit(1)

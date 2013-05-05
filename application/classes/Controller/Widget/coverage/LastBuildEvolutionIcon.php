@@ -18,6 +18,7 @@ class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widge
     public function action_project()
     {
         $builds = $this->getProject()->builds
+                ->where('status', 'NOT IN', array('building', 'queued'))
                 ->order_by('id', 'DESC')
                 ->with('coverage_globaldata')
                 ->limit(2)
@@ -39,9 +40,9 @@ class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widge
                 "url"  => 'reports/' . $builds[0]->id . '/coverage/index.html'
             );
 
-            $total      = $builds[0]->coverage_globaldata->totalcoverage - $builds[1]->coverage_globaldata->totalcoverage;
-            $methods    = $builds[0]->coverage_globaldata->methodcoverage - $builds[1]->coverage_globaldata->methodcoverage;
-            $statements = $builds[0]->coverage_globaldata->statementcoverage - $builds[1]->coverage_globaldata->statementcoverage;
+            $total      = round($builds[0]->coverage_globaldata->totalcoverage - $builds[1]->coverage_globaldata->totalcoverage, 2);
+            $methods    = round($builds[0]->coverage_globaldata->methodcoverage - $builds[1]->coverage_globaldata->methodcoverage, 2);
+            $statements = round($builds[0]->coverage_globaldata->statementcoverage - $builds[1]->coverage_globaldata->statementcoverage, 2);
 
             switch ($display) {
                 case 'total':
@@ -86,7 +87,7 @@ class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widge
                     break;
 
                 default:
-                    if ($methods <= 0 && $statements <= 0) {
+                    if ($methods >= 0 && $statements >= 0) {
                         $this->widgetStatus = 'ok';
                     } else {
                         $this->widgetStatus = 'unstable';

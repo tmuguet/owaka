@@ -8,8 +8,13 @@ class Task_Run extends Minion_Task
         $build = ORM::factory('Build')
                 ->where('status', '=', 'queued')
                 ->order_by('started', 'ASC')
+                ->order_by('id', 'ASC')
                 ->limit(1)
                 ->find();
+
+        if (!$build->loaded()) {
+            return;
+        }
 
         $this->validate($build);
         $this->nightly($build);
@@ -20,23 +25,21 @@ class Task_Run extends Minion_Task
     protected function validate(Model_Build &$build)
     {
         // Get last build duration to compute ETA
-        $lastBuild = $build->project->builds
+        $lastBuild    = $build->project->builds
                 ->where('status', 'NOT IN', array('queued', 'building'))
                 ->order_by('id', 'DESC')
                 ->limit(1)
                 ->find();
-        $lastStart = new DateTime($lastBuild->started);
+        $lastStart    = new DateTime($lastBuild->started);
         $lastFinished = new DateTime($lastBuild->finished);
         $lastDuration = $lastFinished->diff($lastStart, TRUE);
-        
-        $start = new DateTime();
-        $eta = new DateTime();
-        $eta->add($lastDuration);
-        
+        var_dump($lastDuration->format('%H:%I:%S'));
+
         chdir((empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path));
 
-        $build->status = 'building';
-        $build->started = Date::toMySql($eta);
+        $build->status  = 'building';
+        $build->started = DB::expr('NOW()');
+        $build->eta     = DB::expr('ADDTIME(NOW(), \'' . $lastDuration->format('%H:%I:%S') . '\')');
         $build->update();
 
         passthru(
@@ -47,12 +50,13 @@ class Task_Run extends Minion_Task
         $outdir = APPPATH . '/reports/' . $build->id . '/';
         mkdir($outdir, 0700);
         rename('log.html', $outdir . 'log.html');
+
         chdir(DOCROOT);
 
         $this->copyReports($build);
 
         if ($buildResult == 0) {
-//$build->status = 'ok';    // Do not update yet
+            //$build->status = 'ok';    // Do not update yet
         } else if ($buildResult == 1) {
             $build->status = 'error';
         } else {
@@ -87,9 +91,11 @@ class Task_Run extends Minion_Task
             chdir((empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path));
 
             passthru(
-                    'phing -logger phing.listener.HtmlColorLogger ' . $build->project->phing_target_nightly,
+                    'phing -logger phing.listener.HtmlColorLogger -logfile nightly.html ' . $build->project->phing_target_nightly,
                     $updateResult
             );
+            $outdir = APPPATH . '/reports/' . $build->id . '/';
+            rename('nightly.html', $outdir . 'nightly.html');
 
             if ($updateResult == 0) {
                 echo "Update successful\n";
@@ -113,11 +119,9 @@ class Task_Run extends Minion_Task
     protected function analyseReports(Model_Build &$build)
     {
         if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {
-            $build->status     = 'ok';
-            $build->regression = 0;
+            $build->status = 'ok';
         } else {
             $build->status = 'unstable';
-// Get previous build and compare failures
         }
         $build->finished = DB::expr('NOW()');
         $build->update();

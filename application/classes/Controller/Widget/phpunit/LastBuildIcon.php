@@ -18,6 +18,7 @@ class Controller_Widget_phpunit_LastBuildIcon extends Controller_Widget_BaseIcon
     public function action_project()
     {
         $build = $this->getProject()->builds
+                ->where('status', 'NOT IN', array('building', 'queued'))
                 ->order_by('id', 'DESC')
                 ->with('phpunit_globaldata')
                 ->limit(1)

@@ -18,6 +18,7 @@ class Controller_Widget_phpunit_LastBuildEvolutionIcon extends Controller_Widget
     public function action_project()
     {
         $builds = $this->getProject()->builds
+                ->where('status', 'NOT IN', array('building', 'queued'))
                 ->order_by('id', 'DESC')
                 ->with('phpunit_globaldata')
                 ->limit(2)
@@ -29,7 +30,7 @@ class Controller_Widget_phpunit_LastBuildEvolutionIcon extends Controller_Widget
         } else {
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"  => 'reports/' . $builds[0]->id . '/phpunit/index.html'
+                "url"   => 'reports/' . $builds[0]->id . '/phpunit/index.html'
             );
 
             $errors   = $builds[0]->phpunit_globaldata->errors - $builds[1]->phpunit_globaldata->errors;
@@ -48,13 +49,25 @@ class Controller_Widget_phpunit_LastBuildEvolutionIcon extends Controller_Widget
                     $this->widgetStatus = 'unstable';
                 }
 
-                $this->status          = ($errors > 0 ? 'error' : 'ok');
-                $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
-                $this->statusDataLabel = 'tests errored';
+                if ($errors == 0) {
+                    $this->status          = 'ok';
+                    $this->statusData      = '-';
+                    $this->statusDataLabel = '<br>no changes';
+                } else {
+                    $this->status          = ($errors > 0 ? 'error' : 'ok');
+                    $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
+                    $this->statusDataLabel = 'tests errored';
+                }
 
-                $this->substatus          = ($failures > 0 ? 'unstable' : 'ok');
-                $this->substatusData      = ($failures > 0 ? '+' . $failures : $failures);
-                $this->substatusDataLabel = 'tests failed';
+                if ($failures == 0) {
+                    $this->substatus          = 'ok';
+                    $this->substatusData      = '-';
+                    $this->substatusDataLabel = '<br>no changes';
+                } else {
+                    $this->substatus          = ($failures > 0 ? 'unstable' : 'ok');
+                    $this->substatusData      = ($failures > 0 ? '+' . $failures : $failures);
+                    $this->substatusDataLabel = 'tests failed';
+                }
             }
         }
 
