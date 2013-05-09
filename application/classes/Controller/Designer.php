@@ -1,7 +1,7 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Widgets extends Controller
+class Controller_Designer extends Controller
 {
 
     private function _getWidgets($path)
@@ -22,7 +22,9 @@ class Controller_Widgets extends Controller
         foreach ($files as $file) {
             $nameWidget = str_replace('/', '_',
                                       str_replace(APPPATH . 'classes/Controller/Widget/', '', substr($file, 0, -4)));
-            include_once $file;
+            if (!class_exists('Controller_Widget_' . $nameWidget, FALSE)) {
+                include_once $file;
+            }
 
             $class = new ReflectionClass('Controller_Widget_' . $nameWidget);
             if ($class->isInstantiable()) {
@@ -34,22 +36,29 @@ class Controller_Widgets extends Controller
 
     public function action_main()
     {
-        $controllers = $this->getWidgets();
-        $widgets     = array();
-        foreach ($controllers as $controller) {
+        $widgets     = ORM::factory('Widget')
+                ->find_all();
+        $widgetsView = array();
+        foreach ($widgets as $widget) {
+            $widgetsView[] = Request::factory('w/' . $widget->type . '/main/' . $widget->id)->execute();
+        }
+        
+        $controllers = array();
+        foreach ($this->getWidgets() as $controller) {
             $name           = "Controller_Widget_" . $controller;
             $size           = $name::getPreferredSize();
             $availableSizes = $name::getOptimizedSizes();
-            $widgets[]      = array(
+            $controllers[]      = array(
                 "widget"         => $controller,
                 "size"           => $size,
                 "availableSizes" => $availableSizes
             );
         }
 
-        $view = View::factory('widgets')
+        $view = View::factory('designer')
                 ->set('from', 'sample')
-                ->set('widgets', $widgets);
+                ->set('widgets', $widgets)
+                ->set('controllers', $controllers);
 
         $this->response->body($view);
     }

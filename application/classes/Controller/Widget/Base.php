@@ -55,7 +55,13 @@ abstract class Controller_Widget_Base extends Controller
     {
         if ($this->_model === NULL) {
             $widgetId = $this->request->param('id');
-            switch ($this->request->action()) {
+            
+            if ($this->request->action() == 'sample') {
+                $action = $this->request->param('type');
+            } else {
+                $action = $this->request->action();
+            }
+            switch ($action) {
                 case Owaka::WIDGET_MAIN:
                     $this->_model = ORM::factory('Widget', $widgetId);
                     break;

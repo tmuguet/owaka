@@ -128,6 +128,14 @@ Route::set('widget', 'w/<controller>/<action>(/<id>(/<data>))',
         ->defaults(array(
             'directory' => 'Widget'
         ));
+Route::set('widget', 'd/<controller>/<type>(/<id>(/<data>))',
+           array(
+            'type' => '(main|project|build|sample)'
+        ))
+        ->defaults(array(
+            'directory' => 'Widget',
+            'action' => 'sample'
+        ));
 
 Route::set('reports', 'reports/<id>/<type>/<page>', array(
             'page' => '.+',

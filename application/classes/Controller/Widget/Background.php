@@ -93,9 +93,22 @@ EOT;
     }
     
     public function action_sample() {
+        $this->initViews();
+        
         $this->_status = 'ok';
         $this->_theme  = $this->getParameter('theme');
-
-        $this->render();
+        
+        $content = <<<EOT
+<script type="text/javascript">
+    \$(document).ready(function() {
+        \$("body").addClass("{$this->_theme} build-{$this->_status}");
+    });
+</script>
+EOT;
+        $view = View::factory('widgets/BaseIcon')
+                ->set('status', $this->_status);
+        $content .= $view->render();
+        
+        $this->response->body($content);
     }
 }
