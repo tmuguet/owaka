@@ -40,7 +40,8 @@
                     </div>
                     <div class="grid-elt-content">
                         <img src="img/freepik/warningsign.png" width="128" class="ico"/><br>
-                        No widget in this dashboard
+                        No widget in this dashboard<br>
+                        <a href="designer/<?php echo $from; ?>/<?php if ($from == "project") {echo $projectId;} else if ($from == "build") {echo $buildId;} ?>">Go in designer mode</a>
                     </div>
                 </div>
 <?php

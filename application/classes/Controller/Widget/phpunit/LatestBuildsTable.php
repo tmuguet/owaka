@@ -8,7 +8,7 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
         return array(
             'project' => array(
                 'type'     => 'project',
-                'required' => ($dashboard == 'main')
+                'required' => false
             ),
         );
     }
@@ -22,7 +22,18 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
 
     public function action_main()
     {
-        return $this->action_project();
+        if ($this->getProject() === NULL) {
+            $builds = ORM::factory('Build')
+                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->order_by('id', 'DESC')
+                    ->with('phpunit_globaldata')
+                    ->limit(10)
+                    ->find_all();
+
+            $this->process($builds);
+        } else {
+            $this->action_project();
+        }
     }
 
     public function action_project()
@@ -61,10 +72,12 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
             "Revision", "Status"
         );
 
-        $this->widgetLinks[] = array(
-            "title" => 'latest report',
-            "url"   => 'reports/' . $builds[0]->id . '/phpunit/index.html'
-        );
+        if (sizeof($builds) > 0) {
+            $this->widgetLinks[] = array(
+                "title" => 'latest report',
+                "url"   => 'reports/' . $builds[0]->id . '/phpunit/index.html'
+            );
+        }
 
         foreach ($builds as $build) {
             $status = '';

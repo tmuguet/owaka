@@ -37,6 +37,10 @@ body.grunge.build-error {
     overflow: hidden;
 }
 
+.grid-elt.widget-deleted {
+    display: none;
+}
+
 .grid-elt-hover {
     z-index: 10000;
 }
@@ -147,23 +151,29 @@ tr.build td img {
 }
 
 #grid.sample {
-    margin-left: 320px;
+    margin-left: 340px;
 }
 
-#samples {
+#list_widgets {
     position: fixed;
-    top: 20px;
-    bottom: 20px;
-    left: 120px;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
     width: 200px;
     overflow-x: hidden;
+    padding-left: 120px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-#samples_details {
+#widget_details {
     position: fixed;
-    top: 20px;
-    bottom: 20px;
-    left: 140px;
-    width: 180px;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 200px;
     display: none;
+    padding-left: 120px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }

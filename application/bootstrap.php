@@ -121,29 +121,35 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('widget', 'w/<controller>/<action>(/<id>(/<data>))',
+Route::set('widget', 'w/<controller>/<action>/<id>(/<data>)',
            array(
             'action' => '(main|project|build|sample)'
         ))
         ->defaults(array(
             'directory' => 'Widget'
         ));
-Route::set('widget', 'd/<controller>/<type>(/<id>(/<data>))',
+Route::set('widget-sample', 'd/<controller>/<type>(/<id>(/<data>))',
            array(
             'type' => '(main|project|build|sample)'
         ))
         ->defaults(array(
             'directory' => 'Widget',
-            'action' => 'sample'
+            'action'    => 'sample'
         ));
 
-Route::set('reports', 'reports/<id>/<type>/<page>', array(
+Route::set('reports', 'reports/<id>/<type>/<page>',
+           array(
             'page' => '.+',
             'type' => '(phpunit|coverage|phpdoc)'
         ))
         ->defaults(array(
             'controller' => 'report',
             'action'     => 'index'
+        ));
+
+Route::set('api', 'api/<controller>/<action>(/<id>)')
+        ->defaults(array(
+            'directory' => 'api',
         ));
 
 Route::set('default', '(<controller>(/<action>(/<id>)))')

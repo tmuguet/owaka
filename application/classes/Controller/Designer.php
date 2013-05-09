@@ -15,7 +15,7 @@ class Controller_Designer extends Controller
         return $phpFiles;
     }
 
-    protected function getWidgets()
+    protected function getWidgets($from)
     {
         $files   = $this->_getWidgets(APPPATH . 'classes/Controller/Widget/');
         $widgets = array();
@@ -27,7 +27,7 @@ class Controller_Designer extends Controller
             }
 
             $class = new ReflectionClass('Controller_Widget_' . $nameWidget);
-            if ($class->isInstantiable()) {
+            if ($class->isInstantiable() && $class->hasMethod('action_' . $from)) {
                 $widgets[] = $nameWidget;
             }
         }
@@ -36,19 +36,35 @@ class Controller_Designer extends Controller
 
     public function action_main()
     {
-        $widgets     = ORM::factory('Widget')
+        $widgets = ORM::factory('Widget')
                 ->find_all();
-        $widgetsView = array();
-        foreach ($widgets as $widget) {
-            $widgetsView[] = Request::factory('w/' . $widget->type . '/main/' . $widget->id)->execute();
-        }
-        
+        $this->show($widgets);
+    }
+
+    public function action_project()
+    {
+        $projectId = $this->request->param('id');
+        $widgets   = ORM::factory('Project_Widget')->where('project_id', '=', $projectId)->find_all();
+        $this->show($widgets, $projectId);
+    }
+
+    public function action_build()
+    {
+        $buildId = $this->request->param('id');
+        $build   = ORM::factory('Build', $buildId);
+        $widgets = ORM::factory('Build_Widget')->where('project_id', '=', $build->project_id)->find_all();
+        $this->show($widgets, $build->project_id, $buildId);
+    }
+
+    protected function show($widgets, $projectId = NULL, $buildId = NULL)
+    {
+
         $controllers = array();
-        foreach ($this->getWidgets() as $controller) {
+        foreach ($this->getWidgets($this->request->action()) as $controller) {
             $name           = "Controller_Widget_" . $controller;
             $size           = $name::getPreferredSize();
             $availableSizes = $name::getOptimizedSizes();
-            $controllers[]      = array(
+            $controllers[]  = array(
                 "widget"         => $controller,
                 "size"           => $size,
                 "availableSizes" => $availableSizes
@@ -56,25 +72,16 @@ class Controller_Designer extends Controller
         }
 
         $view = View::factory('designer')
-                ->set('from', 'sample')
+                ->set('from', $this->request->action())
                 ->set('widgets', $widgets)
                 ->set('controllers', $controllers);
+        if ($projectId !== NULL) {
+            $view->set('projectId', $projectId);
+        }
+        if ($buildId !== NULL) {
+            $view->set('buildId', $buildId);
+        }
 
         $this->response->body($view);
-    }
-
-    public function action_info()
-    {
-        $name           = "Controller_Widget_" . $this->request->param('id');
-        $size           = $name::getPreferredSize();
-        $availableSizes = $name::getOptimizedSizes();
-        $params         = $name::getExpectedParameters('main');
-        $widget         = array(
-            "widget"         => $this->request->param('id'),
-            "size"           => $size,
-            "availableSizes" => $availableSizes,
-            "params"         => $params
-        );
-        $this->response->body(json_encode($widget));
     }
 }

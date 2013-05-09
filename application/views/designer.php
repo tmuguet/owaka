@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>owaka</title>
+        <title>owaka/Designer</title>
         <base href="/owaka/">
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,23 +21,17 @@
     </head>
     <body>
         <div id="overlay" class="ui-widget-overlay ui-helper-hidden"> </div>
-        <div id="owaka"><h1>owaka</h1></div>
-        <div id="menu">
-            <a href="#" onclick="$('.grid-elt').toggle();
-                    return false;">toggle widgets</a>
-            <ul>
-                <li><a href="welcome/main">Home</a></li>
-            </ul>
-        </div>
         <div id="grid" class="sample">
-            <?php $_maxId = 0; foreach ($widgets as $_widget) {
-                    echo Request::factory('d/' . $_widget->type . '/main/' . $_widget->id)->execute()->body();
-                    $_maxId = max($_maxId, $_widget->id);
-//                    echo $_widget->body();
-                }
+            <?php
+            $_maxId = 0;
+            foreach ($widgets as $_widget) {
+                echo Request::factory('d/' . $_widget->type . '/' . $from . '/' . $_widget->id)->execute()->body();
+                $_maxId = max($_maxId, $_widget->id);
+            }
             ?>
         </div>
-        <div id="samples">
+        <div id="widget_details"></div>
+        <div id="list_widgets">
             <ul>
                 <?php foreach ($controllers as $_controller): ?>
                     <li class="widget-elt" data-widget="<?php echo $_controller['widget']; ?>" data-width="<?php echo $_controller['size'][0]; ?>" data-height="<?php echo $_controller['size'][1]; ?>"><?php echo $_controller['widget']; ?></li>
@@ -45,18 +39,18 @@
                 <?php endforeach; ?>
             </ul>
         </div>
-        <div id="samples_details">
-            Name: <span id="samples_name"></span><br/>
-            Size: <select id="samples_size"></select><br/>
-            <hr/>
-            <span class="drag">Drag me!</span>
-            <hr/>
-            <a href="javascript:void(0)" id="samples_hide">Back</a><br/>
-            Rows: <button id="rows_delete">-</button> <button id="rows_add">+</button><br/>
-            Columns: <button id="columns_delete">-</button> <button id="columns_add">+</button>
+        <div id="owaka"><h1>owaka</h1></div>
+        <div id="menu">
+            <a href="javascrip:void(0)" onclick="$('.grid-elt').toggle();">toggle widgets</a><br>
+            <a href="javascript:void(0)" onclick="save()">Save</a>
+            <ul>
+                <li><a href="welcome/main">Home</a></li>
+            </ul>
         </div>
         <script type="text/javascript">
-                var c = <?php echo $_maxId+1; ?>;
+                var c = <?php
+                echo ($_maxId + 1);
+                ?>;
                 var positions = {};
                 var max_row = 8;
                 var max_column = 16;
@@ -67,10 +61,11 @@
                         positions[_row][_column] = true;
                     }
                 }
-<?php foreach ($widgets as $_widget) {
+<?php
+foreach ($widgets as $_widget) {
     for ($_row = 0; $_row < $_widget->height; $_row++) {
         for ($_col = 0; $_col < $_widget->width; $_col++) {
-            echo 'positions[' . ($_row+$_widget->row) . '][' . ($_col+$_widget->column) . '] = false;';
+            echo 'positions[' . ($_row + $_widget->row) . '][' . ($_col + $_widget->column) . '] = false;';
         }
     }
 }
@@ -79,7 +74,7 @@
                     if (from_row + height > max_row || from_column + width > max_column) {
                         return false;
                     }
-                    
+
                     for (var _row = 0; _row < height; _row++) {
                         for (var _column = 0; _column < width; _column++) {
                             if (!positions[_row + from_row][_column + from_column]) {
@@ -92,7 +87,7 @@
 
                 function updateGridPlaceholders() {
                     $("#grid .grid-placeholder").remove();
-                    var size = $("#samples_size").val().split("_");
+                    var size = $("#widget_size").val().split("_");
                     var gridWidth = parseInt(size[0]);
                     var gridHeight = parseInt(size[1]);
 
@@ -105,9 +100,10 @@
                     for (var _row = 0; _row < max_row; _row += gridHeight) {
                         for (var _column = 0; _column < max_column; _column += gridWidth) {
                             if (isAvailable(_row, _column, gridWidth, gridHeight)) {
-                                var content = '<div id="placeholder_' + _row + '_' + _column + '" class="grid-elt grid-placeholder" data-grid-width="' + gridWidth + '" data-grid-height="' + gridHeight + '" data-grid-column="' + _column + '" data-grid-row="' + _row + '"></div>';
+                                var content = '<div id="placeholder_' + _row + '_' + _column + '" style="display: none" class="grid-elt grid-placeholder" data-grid-width="' + gridWidth + '" data-grid-height="' + gridHeight + '" data-grid-column="' + _column + '" data-grid-row="' + _row + '"></div>';
                                 $("#grid").append(content);
                                 computeElements();
+                                $("#grid .grid-placeholder").fadeIn(500);
                             }
                         }
                     }
@@ -118,7 +114,7 @@
                         drop: function(event, ui) {
                             var row = parseInt($(this).attr("data-grid-row"));
                             var column = parseInt($(this).attr("data-grid-column"));
-                            var size = $("#samples_size").val().split("_");
+                            var size = $("#widget_size").val().split("_");
                             var width = parseInt(size[0]);
                             var height = parseInt(size[1]);
 
@@ -128,83 +124,82 @@
                             if (height == 0) {
                                 height = 1;
                             }
-
-                            $.get('d/' + ui.draggable.attr("data-widget") + '/sample/' + c, function(data) {
-                                var o = $(data).attr({
-                                    "data-grid-row": row,
-                                    "data-grid-column": column,
-                                    "data-grid-width": width,
-                                    "data-grid-height": height
-                                });
+                            var postData = {
+                                row: row,
+                                column: column,
+                                width: width,
+                                height: height,
+                                params: $("#widget_drag").data("params")
+                            };
+                            $.post('d/' + $("#widget_drag").attr("data-widget") + '/sample/' + c, postData, function(data) {
+                                var o = $(data).addClass('widget-added')
+                                        .data("params", postData.params)
+                                        .data("type", $("#widget_drag").attr("data-widget"));
                                 for (var _row = 0; _row < height; _row++) {
                                     for (var _col = 0; _col < width; _col++) {
                                         positions[_row + row][_col + column] = false;
                                     }
                                 }
-                                $("#grid .grid-placeholder").remove();
                                 $('#grid').append(o);
                                 c++;
                                 computeElements();
-                                $("#samples_hide").trigger('click');
+                                $("#widget_hide").trigger('click');
                             });
                         }
                     });
                 }
 
-                $(document).ready(function() {
-                    $("#rows_delete").button().click(function() {
-                        max_row--;
-                        updateGridPlaceholders();
-                    });
-                    $("#rows_add").button().click(function() {
-                        positions[max_row] = {};
-                        for (var _col=0; _col < max_column; _col++) {
-                            positions[max_row][_col] = true;
+                function deleteMe(o) {
+                    var widget = $(o).closest('.grid-elt');
+                    var row = parseInt(widget.attr("data-grid-row"));
+                    var column = parseInt(widget.attr("data-grid-column"));
+                    for (var _row = 0; _row < parseInt(widget.attr("data-grid-height")); _row++) {
+                        for (var _col = 0; _col < parseInt(widget.attr("data-grid-width")); _col++) {
+                            positions[_row + row][_col + column] = true;
                         }
-                        max_row++;
-                        updateGridPlaceholders();
-                    });
-                    $("#columns_delete").button().click(function() {
-                        max_column--;
-                        updateGridPlaceholders();
-                    });
-                    $("#columns_add").button().click(function() {
-                        for (var _row=0; _row < max_row; _row++) {
-                            positions[_row][max_column] = true;
-                        }
-                        max_column++;
-                        updateGridPlaceholders();
-                    });
+                    }
 
-                    $("#samples_hide").click(function() {
-                        $("#samples").show('slide', {direction: 'left'}, 500);
-                        $("#samples_details").hide('slide', {direction: 'right'}, 500);
-                        $("#grid .grid-placeholder").remove();
-                    });
-                    $("#samples .widget-elt").click(function() {
+                    widget.trigger('mouseleave');
+                    if (widget.hasClass('widget-added')) {
+                        widget.remove();
+                    } else {
+                        widget.addClass('widget-deleted');
+                    }
+                }
+
+                function save() {
+                    $.each($('.grid-elt.widget-deleted'), function() {
                         var o = $(this);
-                        $.get('designer/info/' + $(this).attr("data-widget"), function(data) {
-                            $("#samples").hide("slide", {direction: 'left'}, 500);
-                            $("#samples_details").show('slide', {direction: 'right'}, 500);
-                            $("#samples_name").html(o.attr("data-widget"));
+                        $.post('api/dashboard/delete/' + $(this).attr("data-widget-id"), function() {
+                            o.remove();
+                        });
+                    });
+                    $.each($('.grid-elt.widget-added'), function() {
+                        var o = $(this);
+                        var postData = {
+                            row: o.attr("data-grid-row"),
+                            column: o.attr("data-grid-column"),
+                            width: o.attr("data-grid-width"),
+                            height: o.attr("data-grid-height"),
+                            params: o.data("params")
+                        };
+                        $.post('api/dashboard/add/' + o.data("type"), postData, function() {
+                            o.removeClass('widget-added');
+                        });
+                    });
+                }
 
-                            var options = '';
-                            $.each(data.availableSizes, function(i) {
-                                options += '<option value="' + data.availableSizes[i][0] + '_' + data.availableSizes[i][1] + '">' + data.availableSizes[i][0] + '*' + data.availableSizes[i][1] + '</option>';
-                            });
-                            $("#samples_size").html(options);
-                            $("#samples_size").val(data.size[0] + '_' + data.size[1]);
-                            updateGridPlaceholders();
-                            $("#samples_details .drag").attr("data-widget", o.attr("data-widget"));
-                            console.log(JSON.stringify(data));
-                        }, "json");
-                    });
-                    $("#samples_details .drag").draggable({
-                        appendTo: "body",
-                        helper: "clone"
-                    });
-                    $("#samples_size").change(function() {
-                        updateGridPlaceholders();
+                $(document).ready(function() {
+                    $("#list_widgets, #widget_details").addClass('ui-widget-content');
+
+                    $("#list_widgets .widget-elt").click(function() {
+                        var postData = {};
+<?php if (isset($projectId)): echo 'postData.projectId = ' . $projectId . ';';
+endif; ?>
+<?php if (isset($buildId)): echo 'postData.buildId = ' . $buildId . ';';
+endif; ?>
+
+                        $("#widget_details").load('designer_details/<?php echo $from; ?>/' + $(this).attr("data-widget"), postData);
                     });
                 });
         </script>

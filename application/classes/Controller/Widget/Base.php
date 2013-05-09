@@ -55,7 +55,7 @@ abstract class Controller_Widget_Base extends Controller
     {
         if ($this->_model === NULL) {
             $widgetId = $this->request->param('id');
-            
+
             if ($this->request->action() == 'sample') {
                 $action = $this->request->param('type');
             } else {
@@ -67,22 +67,25 @@ abstract class Controller_Widget_Base extends Controller
                     break;
 
                 case Owaka::WIDGET_PROJECT:
-                    // not supported yet
+                    $this->_model = ORM::factory('Project_Widget', $widgetId);
                     break;
 
                 case Owaka::WIDGET_BUILD:
                     $this->_model = ORM::factory('Build_Widget', $widgetId);
                     break;
-                
+
                 case Owaka::WIDGET_SAMPLE:
-                    $this->_model = ORM::factory('Widget');
-                    $size = static::getPreferredSize();
-                    $this->_model->width = $size[0];
-                    $this->_model->height = $size[1];
-                    $this->_model->column = 0;
-                    $this->_model->row = 0;
-                    $this->_model->id = $this->request->param('id');
-                    $this->_model->type = get_called_class();
+                    $post = $this->request->post();
+
+                    $this->_model         = ORM::factory('Widget');
+                    $size                 = static::getPreferredSize();
+                    $this->_model->width  = $post['width'];
+                    $this->_model->height = $post['height'];
+                    $this->_model->column = $post['column'];
+                    $this->_model->row    = $post['row'];
+                    $this->_model->id     = $this->request->param('id');
+                    $this->_model->params = json_encode($post['params']);
+                    $this->_model->type   = get_called_class();
                     break;
             }
         }
@@ -148,7 +151,7 @@ abstract class Controller_Widget_Base extends Controller
     protected function getParameter($name)
     {
         $params = $this->getParameters();
-        if (isset($params[$name])) {
+        if (isset($params[$name]) && !empty($params[$name])) {
             return $params[$name];
         } else {
             // Find default value
@@ -176,8 +179,18 @@ abstract class Controller_Widget_Base extends Controller
 
     protected function initViews()
     {
+        if ($this->request->action() == 'sample') {
+            array_unshift($this->widgetLinks,
+                          array(
+                "title" => 'delete',
+                "url"   => 'javascript:void(0)',
+                "js"    => 'deleteMe(this);'
+            ));
+        }
+
         View::set_global('from', $this->request->action());
-        View::set_global('widgetType', str_replace("_", "/", str_replace("Controller_Widget_", "", $this->getModelWidget()->type)));
+        View::set_global('widgetType',
+                         str_replace("_", "/", str_replace("Controller_Widget_", "", $this->getModelWidget()->type)));
         View::set_global('id', $this->getModelWidget()->id);
         View::set_global('width', $this->getWidth());
         View::set_global('height', $this->getHeight());
