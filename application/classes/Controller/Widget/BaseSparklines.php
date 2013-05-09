@@ -1,9 +1,21 @@
 <?php
 
-class Controller_Widget_BaseSparklines extends Controller_Widget_BaseRaw
+abstract class Controller_Widget_BaseSparklines extends Controller_Widget_BaseRaw
 {
 
     protected $sparklines = array();
+
+    static public function getPreferredSize()
+    {
+        return array(4, 2);
+    }
+
+    static public function getOptimizedSizes()
+    {
+        return array(
+            array(4, 2), array(4, 4), array(4, 6)
+        );
+    }
 
     protected function render()
     {

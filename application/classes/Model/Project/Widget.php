@@ -1,7 +1,7 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
-class Model_Build extends ORM
+class Model_Project_Widget extends ORM
 {
 
     // @codingStandardsIgnoreStart
@@ -12,26 +12,7 @@ class Model_Build extends ORM
     protected $_belongs_to = array(
         'project' => array(
             'model'       => 'Project',
-            'foreign_key' => 'project_id'
-        ),
-    );
-    protected $_has_one    = array(
-        'codesniffer_globaldata' => array(
-            'model'       => 'codesniffer_globaldata',
-            'foreign_key' => 'build_id'
-        ),
-        'coverage_globaldata'    => array(
-            'model'       => 'coverage_globaldata',
-            'foreign_key' => 'build_id'
-        ),
-        'phpmd_globaldata'       => array(
-            'model'       => 'phpmd_globaldata',
-            'foreign_key' => 'build_id'
-        ),
-        'phpunit_globaldata'     => array(
-            'model'       => 'phpunit_globaldata',
-            'foreign_key' => 'build_id'
-        ),
+            'foreign_key' => 'project_id'),
     );
     // @codingStandardsIgnoreEnd
 
@@ -43,9 +24,13 @@ class Model_Build extends ORM
     /*    public function list_columns()
       {
       $columns = array(
-      "id"       => NULL,
-      "revision" => NULL,
-      "status"   => NULL,
+      "id"         => NULL,
+      "type"       => NULL,
+      "params"     => NULL,
+      "project_id" => NULL,
+      "width"      => NULL,
+      "height"     => NULL,
+      "postion"    => NULL,
       );
       //        return array_merge(parent::list_columns(), $columns);
       return $columns;
@@ -99,17 +84,9 @@ class Model_Build extends ORM
             return FALSE;
         }
         return (DB::select(array(DB::expr('COUNT(id)'), 'total'))
-                        ->from('builds')
+                        ->from('project_widgets')
                         ->where('id', '=', $id)
                         ->execute()
                         ->get('total') > 0);
-    }
-
-    public function previousBuild()
-    {
-        return ORM::factory('build')
-                        ->where('build.id', '<', $this->id)
-                        ->order_by('build.id', 'DESC')
-                        ->limit(1);
     }
 }

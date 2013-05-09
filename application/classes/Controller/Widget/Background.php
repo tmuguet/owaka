@@ -6,6 +6,29 @@ class Controller_Widget_Background extends Controller_Widget_Base
     private $_theme  = NULL;
     private $_status = NULL;
 
+    static public function getPreferredSize()
+    {
+        return array(0, 0);
+    }
+
+    static public function getOptimizedSizes()
+    {
+        return array(array(0, 0));
+    }
+
+    static public function getExpectedParameters()
+    {
+        return array(
+            'theme' => array(
+                'title'    => 'Theme',
+                'type'     => 'enum',
+                'enum'     => array('grunge', 'splotchy'),
+                'default'  => 'grunge',
+                'required' => false
+            )
+        );
+    }
+
     protected function render()
     {
         $content = <<<EOT
@@ -42,8 +65,7 @@ EOT;
             }
         }
 
-        $params       = $this->getParameters();
-        $this->_theme = $params['theme'];
+        $this->_theme = $this->getParameter('theme');
 
         $this->render();
     }
@@ -57,9 +79,7 @@ EOT;
                 ->find();
 
         $this->_status = $build->status;
-
-        $params       = $this->getParameters();
-        $this->_theme = $params['theme'];
+        $this->_theme  = $this->getParameter('theme');
 
         $this->render();
     }
@@ -67,9 +87,14 @@ EOT;
     public function action_build()
     {
         $this->_status = $this->getBuild()->status;
+        $this->_theme  = $this->getParameter('theme');
 
-        $params       = $this->getParameters();
-        $this->_theme = $params['theme'];
+        $this->render();
+    }
+    
+    public function action_sample() {
+        $this->_status = 'ok';
+        $this->_theme  = $this->getParameter('theme');
 
         $this->render();
     }

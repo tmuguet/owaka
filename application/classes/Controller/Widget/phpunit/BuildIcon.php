@@ -1,7 +1,21 @@
 <?php
 
-class Controller_Widget_phpunit_LastBuildIcon extends Controller_Widget_BaseIcon
+class Controller_Widget_phpunit_BuildIcon extends Controller_Widget_BaseIcon
 {
+
+    static public function getExpectedParameters($dashboard)
+    {
+        return array(
+            'project' => array(
+                'type'     => 'project',
+                'required' => ($dashboard == 'main')
+            ),
+            'build'   => array(
+                'type'     => 'build',
+                'required' => false,
+            )
+        );
+    }
 
     public function before()
     {
@@ -12,25 +26,45 @@ class Controller_Widget_phpunit_LastBuildIcon extends Controller_Widget_BaseIcon
 
     public function action_main()
     {
-        return $this->action_project();
+        return $this->action_build();
     }
 
     public function action_project()
     {
-        $build = $this->getProject()->builds
-                ->where('status', 'NOT IN', array('building', 'queued'))
-                ->order_by('id', 'DESC')
-                ->with('phpunit_globaldata')
-                ->limit(1)
-                ->find();
+        return $this->action_build();
+    }
 
-        if (!$build->phpunit_globaldata->loaded()) {
+    public function action_build()
+    {
+        $build = $this->getBuild();
+        if ($build === NULL) {
+            $build = $this->getProject()->lastBuild()
+                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->with('phpunit_globaldata')
+                    ->find();
+        }
+        $this->process($build);
+    }
+
+    public function action_sample()
+    {
+        $build                               = ORM::factory('Build');
+        $build->phpunit_globaldata->tests    = 2042;
+        $build->phpunit_globaldata->errors   = 1;
+        $build->phpunit_globaldata->failures = 6;
+
+        $this->process($build, TRUE);
+    }
+
+    protected function process(Model_Build &$build, $forceShow = FALSE)
+    {
+        if (!$build->phpunit_globaldata->loaded() && !$forceShow) {
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"  => 'reports/' . $build->id . '/phpunit/index.html'
+                "url"   => 'reports/' . $build->id . '/phpunit/index.html'
             );
 
             if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {

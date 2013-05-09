@@ -1,8 +1,11 @@
 $(document).ready(function() {
     //$(window).trigger('resize');
 
-    $(".grid-elt").addClass('ui-widget-content');
-    $.each($(".grid-elt"), function() {
+    computeElements();
+});
+function computeElements() {
+    $.each($(".grid-elt").not('.ui-widget-content'), function() {
+        $(this).addClass('ui-widget-content');
         $(this).css("width", $(this).attr("data-grid-width")*80-20);
         $(this).css("height", $(this).attr("data-grid-height")*80-20);
         $(this).css("top", $(this).attr("data-grid-row")*80);
@@ -14,7 +17,7 @@ $(document).ready(function() {
     $(".build-error").addClass('ui-state-error');
     $(".build-building").addClass('ui-state-active');
     $(".build-queued").addClass('ui-state-active');
-});
+}
 $(window).resize(function() {
     //$(".container").height($(".container").width());
     //console.log($(".container").width());

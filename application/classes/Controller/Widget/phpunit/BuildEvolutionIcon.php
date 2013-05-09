@@ -1,7 +1,21 @@
 <?php
 
-class Controller_Widget_phpunit_LastBuildEvolutionIcon extends Controller_Widget_BaseIcon
+class Controller_Widget_phpunit_BuildEvolutionIcon extends Controller_Widget_BaseIcon
 {
+
+    static public function getExpectedParameters($dashboard)
+    {
+        return array(
+            'project' => array(
+                'type'     => 'project',
+                'required' => ($dashboard == 'main')
+            ),
+            'build'   => array(
+                'type'     => 'build',
+                'required' => false,
+            )
+        );
+    }
 
     public function before()
     {
@@ -12,29 +26,60 @@ class Controller_Widget_phpunit_LastBuildEvolutionIcon extends Controller_Widget
 
     public function action_main()
     {
-        return $this->action_project();
+        return $this->action_build();
     }
 
     public function action_project()
     {
-        $builds = $this->getProject()->builds
-                ->where('status', 'NOT IN', array('building', 'queued'))
-                ->order_by('id', 'DESC')
-                ->with('phpunit_globaldata')
-                ->limit(2)
-                ->find_all();
+        return $this->action_build();
+    }
 
-        if ($builds->count() != 2 || !$builds[0]->phpunit_globaldata->loaded() || !$builds[1]->phpunit_globaldata->loaded()) {
+    public function action_build()
+    {
+        $build = $this->getBuild();
+        if ($build === NULL) {
+            $build = $this->getProject()->lastBuild()
+                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->with('phpunit_globaldata')
+                    ->find();
+        }
+
+        $prevBuild = $build->previousBuild()
+                ->where('status', 'NOT IN', array('building', 'queued'))
+                ->with('phpunit_globaldata')
+                ->find();
+
+        $this->process($build, $prevBuild);
+    }
+
+    public function action_sample()
+    {
+        $build                               = ORM::factory('Build');
+        $build->phpunit_globaldata->tests    = 1200;
+        $build->phpunit_globaldata->errors   = 0;
+        $build->phpunit_globaldata->failures = 6;
+
+        $prevBuild                               = ORM::factory('Build');
+        $prevBuild->phpunit_globaldata->tests    = 1178;
+        $prevBuild->phpunit_globaldata->errors   = 0;
+        $prevBuild->phpunit_globaldata->failures = 7;
+
+        $this->process($build, $prevBuild, TRUE);
+    }
+
+    protected function process(Model_Build &$build, Model_Build &$prevBuild, $forceShow = FALSE)
+    {
+        if ((!$build->phpunit_globaldata->loaded() || !$prevBuild->phpunit_globaldata->loaded()) && !$forceShow) {
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"   => 'reports/' . $builds[0]->id . '/phpunit/index.html'
+                "url"   => 'reports/' . $build->id . '/phpunit/index.html'
             );
 
-            $errors   = $builds[0]->phpunit_globaldata->errors - $builds[1]->phpunit_globaldata->errors;
-            $failures = $builds[0]->phpunit_globaldata->failures - $builds[1]->phpunit_globaldata->failures;
+            $errors   = $build->phpunit_globaldata->errors - $prevBuild->phpunit_globaldata->errors;
+            $failures = $build->phpunit_globaldata->failures - $prevBuild->phpunit_globaldata->failures;
 
             if ($errors == 0 && $failures == 0) {
                 $this->status          = 'ok';

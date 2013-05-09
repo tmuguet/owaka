@@ -9,7 +9,7 @@ class Model_Build_Widget extends ORM
      * "Has many" relationships
      * @var array
      */
-    protected $_has_one = array(
+    protected $_belongs_to = array(
         'project' => array(
             'model'       => 'Project',
             'foreign_key' => 'project_id'),
@@ -84,7 +84,7 @@ class Model_Build_Widget extends ORM
             return FALSE;
         }
         return (DB::select(array(DB::expr('COUNT(id)'), 'total'))
-                        ->from('widgets')
+                        ->from('build_widgets')
                         ->where('id', '=', $id)
                         ->execute()
                         ->get('total') > 0);

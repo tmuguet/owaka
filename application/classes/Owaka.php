@@ -6,6 +6,7 @@ class Owaka
     const WIDGET_MAIN = 'main';
     const WIDGET_PROJECT = 'project';
     const WIDGET_BUILD = 'build';
+    const WIDGET_SAMPLE = 'sample';
     
     static public function getReportsPath($buildId, $reportType)
     {

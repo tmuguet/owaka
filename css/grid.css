@@ -6,23 +6,10 @@
         Purpose of the stylesheet follows.
 */
 
-#owaka {
-    position: fixed;
-    top: 60px;
-    left: 0px;
-    font-size: 36px;
-    font-weight: bolder;
-    
-    -webkit-transform:rotate(-90deg);
-    -moz-transform:rotate(-90deg);
-    -o-transform:rotate(-90deg);
-    -ms-transform:rotate(-90deg);
-}
-
 #grid {
     position: relative;
     margin-top: 20px;
-    margin-left: 80px;
+    margin-left: 120px;
     margin-right: 20px;
     margin-bottom: 20px;
 }

@@ -122,3 +122,48 @@ tr.build td {
 tr.build td img {
     vertical-align: middle;
 }
+
+#owaka {
+    position: fixed;
+    top: 60px;
+    left: 40px;
+}
+
+#owaka h1 {
+    font-size: 36px;
+    font-weight: bolder;
+    
+    -webkit-transform:rotate(-90deg);
+    -moz-transform:rotate(-90deg);
+    -o-transform:rotate(-90deg);
+    -ms-transform:rotate(-90deg);
+    transform:rotate(-90deg);
+}
+
+#menu {
+    position: fixed;
+    top: 140px;
+    left: 0px;
+}
+
+#grid.sample {
+    margin-left: 320px;
+}
+
+#samples {
+    position: fixed;
+    top: 20px;
+    bottom: 20px;
+    left: 120px;
+    width: 200px;
+    overflow-x: hidden;
+}
+
+#samples_details {
+    position: fixed;
+    top: 20px;
+    bottom: 20px;
+    left: 140px;
+    width: 180px;
+    display: none;
+}

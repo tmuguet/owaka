@@ -1,7 +1,28 @@
 <?php
 
-class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widget_BaseIcon
+class Controller_Widget_coverage_BuildEvolutionIcon extends Controller_Widget_BaseIcon
 {
+
+    static public function getExpectedParameters($dashboard)
+    {
+        return array(
+            'project' => array(
+                'type'     => 'project',
+                'required' => ($dashboard == 'main')
+            ),
+            'build'   => array(
+                'type'     => 'build',
+                'required' => false,
+            ),
+            'display' => array(
+                'title'    => 'Display',
+                'type'     => 'enum',
+                'enum'     => array('total', 'methods', 'statements', 'methods+statements'),
+                'default'  => 'methods+statements',
+                'required' => false,
+            ),
+        );
+    }
 
     public function before()
     {
@@ -12,37 +33,66 @@ class Controller_Widget_coverage_LastBuildEvolutionIcon extends Controller_Widge
 
     public function action_main()
     {
-        return $this->action_project();
+        return $this->action_build();
     }
 
     public function action_project()
     {
-        $builds = $this->getProject()->builds
-                ->where('status', 'NOT IN', array('building', 'queued'))
-                ->order_by('id', 'DESC')
-                ->with('coverage_globaldata')
-                ->limit(2)
-                ->find_all();
+        return $this->action_build();
+    }
 
-        if ($builds->count() != 2 || !$builds[0]->coverage_globaldata->loaded() || !$builds[1]->coverage_globaldata->loaded()) {
+    public function action_build()
+    {
+        $build = $this->getBuild();
+        if ($build === NULL) {
+            $build = $this->getProject()->lastBuild()
+                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->with('coverage_globaldata')
+                    ->find();
+        }
+
+        $prevBuild = $build->previousBuild()
+                ->where('status', 'NOT IN', array('building', 'queued'))
+                ->with('coverage_globaldata')
+                ->find();
+        
+        $this->process($build, $prevBuild);
+    }
+
+    public function action_sample()
+    {
+        $build                                   = ORM::factory('Build');
+        $build->coverage_globaldata->totalcoverage   = 98.47;
+        $build->coverage_globaldata->methodcoverage = 97.68;
+        $build->coverage_globaldata->statementcoverage = 99.82;
+
+        $prevBuild                                   = ORM::factory('Build');
+        $prevBuild->coverage_globaldata->totalcoverage   = 98.12;
+        $prevBuild->coverage_globaldata->methodcoverage = 96.42;
+        $prevBuild->coverage_globaldata->statementcoverage = 99.85;
+
+        $this->process($build, $prevBuild, TRUE);
+    }
+
+    protected function process(Model_Build &$build, Model_Build &$prevBuild, $forceShow = FALSE)
+    {
+        if ((!$build->coverage_globaldata->loaded() || !$prevBuild->coverage_globaldata->loaded()) && !$forceShow) {
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {
-            $params = $this->getParameters();
-            if (isset($params['display'])) {
-                $display = $params['display'];
-            } else {
-                $display = 'methods+statements';
-            }
+            $display = $this->getParameter('display');
 
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"  => 'reports/' . $builds[0]->id . '/coverage/index.html'
+                "url"   => 'reports/' . $build->id . '/coverage/index.html'
             );
 
-            $total      = round($builds[0]->coverage_globaldata->totalcoverage - $builds[1]->coverage_globaldata->totalcoverage, 2);
-            $methods    = round($builds[0]->coverage_globaldata->methodcoverage - $builds[1]->coverage_globaldata->methodcoverage, 2);
-            $statements = round($builds[0]->coverage_globaldata->statementcoverage - $builds[1]->coverage_globaldata->statementcoverage, 2);
+            $total      = round($build->coverage_globaldata->totalcoverage - $prevBuild->coverage_globaldata->totalcoverage,
+                                2);
+            $methods    = round($build->coverage_globaldata->methodcoverage - $prevBuild->coverage_globaldata->methodcoverage,
+                                2);
+            $statements = round($build->coverage_globaldata->statementcoverage - $prevBuild->coverage_globaldata->statementcoverage,
+                                2);
 
             switch ($display) {
                 case 'total':

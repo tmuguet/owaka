@@ -9,6 +9,14 @@ abstract class Controller_Widget_BaseIcon extends Controller_Widget_Base
     protected $substatus          = NULL;
     protected $substatusData      = NULL;
     protected $substatusDataLabel = NULL;
+    
+    static public function getPreferredSize() {
+        return array(2,2);
+    }
+    
+    static public function getOptimizedSizes() {
+        return array(array(2, 2));
+    }
 
     protected function render()
     {

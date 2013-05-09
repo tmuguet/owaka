@@ -21,53 +21,53 @@ class Model_Project extends ORM
      * 
      * @return array
      */
-/*    public function list_columns()
-    {
-        $columns = array(
-            "id"                    => NULL,
-            "name"                  => NULL,
-            "is_active"             => NULL,
-            "scm"                   => NULL,
-            "path"                  => NULL,
-            "phing_target_validate" => NULL,
-            "phing_target_nightly"  => NULL,
-        );
-//        return array_merge(parent::list_columns(), $columns);
-        return $columns;
-    }*/
+    /*    public function list_columns()
+      {
+      $columns = array(
+      "id"                    => NULL,
+      "name"                  => NULL,
+      "is_active"             => NULL,
+      "scm"                   => NULL,
+      "path"                  => NULL,
+      "phing_target_validate" => NULL,
+      "phing_target_nightly"  => NULL,
+      );
+      //        return array_merge(parent::list_columns(), $columns);
+      return $columns;
+      } */
 
     /**
      * Rule definitions for validation
      *
      * @return array
      */
-    /*public function rules()
-    {
-        $rules = array(
-            'name'                  => array(
-                array('not_empty'),
-                array('min_length', array(':value', 3)),
-                array('max_length', array(':value', 45)),
-            ),
-            'description'           => array(
-                // Can be empty
-                array('min_length', array(':value', 0)),
-                array('max_length', array(':value', 2048)),
-            ),
-            'are_numbers_auto'      => array(
-                array('not_empty'),
-                array('kValidation::boolean', array(':value'))
-            ),
-            'next_available_number' => array(
-                array('kValidation::integer', array(':value', 0, 4294967295))
-            ),
-            'is_ready'              => array(
-                array('not_empty'),
-                array('kValidation::boolean', array(':value'))
-            ),
-        );
-        return $rules;
-    }*/
+    /* public function rules()
+      {
+      $rules = array(
+      'name'                  => array(
+      array('not_empty'),
+      array('min_length', array(':value', 3)),
+      array('max_length', array(':value', 45)),
+      ),
+      'description'           => array(
+      // Can be empty
+      array('min_length', array(':value', 0)),
+      array('max_length', array(':value', 2048)),
+      ),
+      'are_numbers_auto'      => array(
+      array('not_empty'),
+      array('kValidation::boolean', array(':value'))
+      ),
+      'next_available_number' => array(
+      array('kValidation::integer', array(':value', 0, 4294967295))
+      ),
+      'is_ready'              => array(
+      array('not_empty'),
+      array('kValidation::boolean', array(':value'))
+      ),
+      );
+      return $rules;
+      } */
 
     /**
      * Tests existence of an instance
@@ -88,5 +88,13 @@ class Model_Project extends ORM
                         ->where('id', '=', $id)
                         ->execute()
                         ->get('total') > 0);
+    }
+
+    public function lastBuild()
+    {
+        return ORM::factory('build')
+                        ->where('build.project_id', '=', $this->id)
+                        ->order_by('build.id', 'DESC')
+                        ->limit(1);
     }
 }

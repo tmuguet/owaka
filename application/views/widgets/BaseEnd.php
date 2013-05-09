@@ -1,5 +1,6 @@
 </div>
 </div>
+
 <script type="text/javascript">
     var timer_widget_<?php echo $id; ?> = null;
 
