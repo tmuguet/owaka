@@ -10,7 +10,7 @@ class Controller_Welcome extends Controller
                 ->find_all();
         $widgetsView = array();
         foreach ($widgets as $widget) {
-            $widgetsView[] = Request::factory('w/' . $widget->type . '/main/' . $widget->id)->execute();
+            $widgetsView[] = Request::factory('w/main/' . $widget->type . '/display/' . $widget->id)->execute();
         }
 
         $view = View::factory('dashboard')
@@ -26,7 +26,7 @@ class Controller_Welcome extends Controller
         $widgets     = ORM::factory('Project_Widget')->where('project_id', '=', $projectId)->find_all();
         $widgetsView = array();
         foreach ($widgets as $widget) {
-            $widgetsView[] = Request::factory('w/' . $widget->type . '/project/' . $widget->id)->execute();
+            $widgetsView[] = Request::factory('w/project/' . $widget->type . '/display/' . $widget->id)->execute();
         }
 
         $view = View::factory('dashboard')
@@ -45,7 +45,7 @@ class Controller_Welcome extends Controller
         $widgets     = ORM::factory('Build_Widget')->where('project_id', '=', $build->project_id)->find_all();
         $widgetsView = array();
         foreach ($widgets as $widget) {
-            $widgetsView[] = Request::factory('w/' . $widget->type . '/build/' . $widget->id)->execute();
+            $widgetsView[] = Request::factory('w/build/' . $widget->type . '/display/' . $widget->id)->execute();
         }
 
         $view = View::factory('dashboard')

@@ -20,12 +20,12 @@ class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget
         $this->widgetTitle = 'phpunit';
     }
 
-    public function action_main()
+    public function display_main()
     {
-        return $this->action_project();
+        return $this->display_project();
     }
 
-    public function action_project()
+    public function display_project()
     {
         $builds = $this->getProject()->builds
                 ->where('status', 'NOT IN', array('building', 'queued'))
@@ -37,7 +37,12 @@ class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget
         $this->process($builds);
     }
 
-    public function action_sample()
+    public function sample_main()
+    {
+        return $this->sample_project();
+    }
+
+    public function sample_project()
     {
         $builds = array();
         $t      = 1042;
@@ -76,7 +81,5 @@ class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget
         $this->sparklines[] = array("title" => "Tests", "data"  => array_reverse($tests));
         $this->sparklines[] = array("title" => "Failures", "data"  => array_reverse($failures));
         $this->sparklines[] = array("title" => "Errors", "data"  => array_reverse($errors));
-
-        $this->render();
     }
 }

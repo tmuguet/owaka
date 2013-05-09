@@ -31,17 +31,7 @@ class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
         $this->widgetTitle = 'coverage';
     }
 
-    public function action_main()
-    {
-        return $this->action_build();
-    }
-
-    public function action_project()
-    {
-        return $this->action_build();
-    }
-
-    public function action_build()
+    public function display_all()
     {
         $build = $this->getBuild();
         if ($build === NULL) {
@@ -53,7 +43,7 @@ class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
         $this->process($build);
     }
 
-    public function action_sample()
+    public function sample_all()
     {
         $build                                         = ORM::factory('Build');
         $build->coverage_globaldata->totalcoverage     = 98.47;
@@ -143,7 +133,5 @@ class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
                     break;
             }
         }
-
-        $this->render();
     }
 }

@@ -31,17 +31,7 @@ class Controller_Widget_coverage_BuildEvolutionIcon extends Controller_Widget_Ba
         $this->widgetTitle = 'coverage';
     }
 
-    public function action_main()
-    {
-        return $this->action_build();
-    }
-
-    public function action_project()
-    {
-        return $this->action_build();
-    }
-
-    public function action_build()
+    public function display_all()
     {
         $build = $this->getBuild();
         if ($build === NULL) {
@@ -55,20 +45,20 @@ class Controller_Widget_coverage_BuildEvolutionIcon extends Controller_Widget_Ba
                 ->where('status', 'NOT IN', array('building', 'queued'))
                 ->with('coverage_globaldata')
                 ->find();
-        
+
         $this->process($build, $prevBuild);
     }
 
-    public function action_sample()
+    public function sample_all()
     {
-        $build                                   = ORM::factory('Build');
-        $build->coverage_globaldata->totalcoverage   = 98.47;
-        $build->coverage_globaldata->methodcoverage = 97.68;
+        $build                                         = ORM::factory('Build');
+        $build->coverage_globaldata->totalcoverage     = 98.47;
+        $build->coverage_globaldata->methodcoverage    = 97.68;
         $build->coverage_globaldata->statementcoverage = 99.82;
 
-        $prevBuild                                   = ORM::factory('Build');
-        $prevBuild->coverage_globaldata->totalcoverage   = 98.12;
-        $prevBuild->coverage_globaldata->methodcoverage = 96.42;
+        $prevBuild                                         = ORM::factory('Build');
+        $prevBuild->coverage_globaldata->totalcoverage     = 98.12;
+        $prevBuild->coverage_globaldata->methodcoverage    = 96.42;
         $prevBuild->coverage_globaldata->statementcoverage = 99.85;
 
         $this->process($build, $prevBuild, TRUE);
@@ -164,7 +154,5 @@ class Controller_Widget_coverage_BuildEvolutionIcon extends Controller_Widget_Ba
                     break;
             }
         }
-
-        $this->render();
     }
 }

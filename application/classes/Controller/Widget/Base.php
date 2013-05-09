@@ -56,10 +56,10 @@ abstract class Controller_Widget_Base extends Controller
         if ($this->_model === NULL) {
             $widgetId = $this->request->param('id');
 
-            if ($this->request->action() == 'sample') {
-                $action = $this->request->param('type');
+            if ($this->request->action() == 'virtual') {
+                $action = 'sample';
             } else {
-                $action = $this->request->action();
+                $action = $this->request->param('dashboard');
             }
             switch ($action) {
                 case Owaka::WIDGET_MAIN:
@@ -78,12 +78,11 @@ abstract class Controller_Widget_Base extends Controller
                     $post = $this->request->post();
 
                     $this->_model         = ORM::factory('Widget');
-                    $size                 = static::getPreferredSize();
                     $this->_model->width  = $post['width'];
                     $this->_model->height = $post['height'];
                     $this->_model->column = $post['column'];
                     $this->_model->row    = $post['row'];
-                    $this->_model->id     = $this->request->param('id');
+                    $this->_model->id     = $widgetId;
                     $this->_model->params = json_encode($post['params']);
                     $this->_model->type   = get_called_class();
                     break;
@@ -156,7 +155,7 @@ abstract class Controller_Widget_Base extends Controller
         } else {
             // Find default value
             $class              = get_called_class();
-            $expectedParameters = $class::getExpectedParameters($this->request->action());
+            $expectedParameters = $class::getExpectedParameters($this->request->param('dashboard'));
             if (isset($expectedParameters[$name]) && isset($expectedParameters[$name]['default'])) {
                 return $expectedParameters[$name]['default'];
             } else {
@@ -179,16 +178,7 @@ abstract class Controller_Widget_Base extends Controller
 
     protected function initViews()
     {
-        if ($this->request->action() == 'sample') {
-            array_unshift($this->widgetLinks,
-                          array(
-                "title" => 'delete',
-                "url"   => 'javascript:void(0)',
-                "js"    => 'deleteMe(this);'
-            ));
-        }
-
-        View::set_global('from', $this->request->action());
+        View::set_global('from', $this->request->param('dashboard'));
         View::set_global('widgetType',
                          str_replace("_", "/", str_replace("Controller_Widget_", "", $this->getModelWidget()->type)));
         View::set_global('id', $this->getModelWidget()->id);
@@ -202,5 +192,44 @@ abstract class Controller_Widget_Base extends Controller
         View::set_global('widgetLinks', $this->widgetLinks);
         View::set_global('title', $this->_title);
         View::set_global('subtitle', $this->_subtitle);
+    }
+
+    public function action_display()
+    {
+        $name = "display_" . $this->request->param('dashboard');
+        if (method_exists($this, $name)) {
+            $this->$name();
+        } else if (method_exists($this, "display_all")) {
+            $this->display_all();
+        } else {
+            throw new HTTP_Exception_500("Widget " . get_called_class() . " does not support dashboard " . $this->request->param('dashboard'));
+        }
+
+        $this->render();
+    }
+
+    public function action_sample()
+    {
+        array_unshift($this->widgetLinks,
+                      array(
+            "title" => 'delete',
+            "url"   => 'javascript:void(0)',
+            "js"    => 'deleteMe(this);'
+        ));
+
+        $name = "sample_" . $this->request->param('dashboard');
+        if (method_exists($this, $name)) {
+            $this->$name();
+        } else if (method_exists($this, "sample_all")) {
+            $this->sample_all();
+        } else {
+            throw new HTTP_Exception_500("Widget " . get_called_class() . " does not support dashboard preview " . $this->request->param('dashboard'));
+        }
+        
+        $this->render();
+    }
+    
+    public function action_virtual() {
+        $this->action_sample();
     }
 }

@@ -3,8 +3,9 @@
 class Controller_Widget_Background extends Controller_Widget_Base
 {
 
-    private $_theme  = NULL;
-    private $_status = NULL;
+    private $_theme             = NULL;
+    private $_status            = NULL;
+    private $_additionalContent = NULL;
 
     static public function getPreferredSize()
     {
@@ -31,6 +32,8 @@ class Controller_Widget_Background extends Controller_Widget_Base
 
     protected function render()
     {
+        parent::initViews();
+
         $content = <<<EOT
 <script type="text/javascript">
     \$(document).ready(function() {
@@ -38,10 +41,14 @@ class Controller_Widget_Background extends Controller_Widget_Base
     });
 </script>
 EOT;
+        if (!empty($this->_additionalContent)) {
+            $content .= $this->_additionalContent;
+        }
+
         $this->response->body($content);
     }
 
-    public function action_main()
+    public function display_main()
     {
         $projects = ORM::factory('Project')
                 ->where('is_active', '=', '1')
@@ -66,11 +73,9 @@ EOT;
         }
 
         $this->_theme = $this->getParameter('theme');
-
-        $this->render();
     }
 
-    public function action_project()
+    public function display_project()
     {
         $build = $this->getProject()->builds
                 ->where('status', 'NOT IN', array('building', 'queued'))
@@ -78,37 +83,23 @@ EOT;
                 ->limit(1)
                 ->find();
 
-        $this->_status = $build->status;
+        $this->_status = ($build->loaded() ? $build->status : 'ok');
         $this->_theme  = $this->getParameter('theme');
-
-        $this->render();
     }
 
-    public function action_build()
+    public function display_build()
     {
-        $this->_status = $this->getBuild()->status;
+        $this->_status = ($this->getBuild()->loaded() ? $this->getBuild()->status : 'ok');
         $this->_theme  = $this->getParameter('theme');
-
-        $this->render();
     }
-    
-    public function action_sample() {
-        $this->initViews();
-        
+
+    public function sample_all()
+    {
         $this->_status = 'ok';
         $this->_theme  = $this->getParameter('theme');
-        
-        $content = <<<EOT
-<script type="text/javascript">
-    \$(document).ready(function() {
-        \$("body").addClass("{$this->_theme} build-{$this->_status}");
-    });
-</script>
-EOT;
-        $view = View::factory('widgets/BaseIcon')
+
+        $view                     = View::factory('widgets/BaseIcon')
                 ->set('status', $this->_status);
-        $content .= $view->render();
-        
-        $this->response->body($content);
+        $this->_additionalContent = $view;
     }
 }

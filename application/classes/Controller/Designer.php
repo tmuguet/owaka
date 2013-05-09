@@ -27,7 +27,7 @@ class Controller_Designer extends Controller
             }
 
             $class = new ReflectionClass('Controller_Widget_' . $nameWidget);
-            if ($class->isInstantiable() && $class->hasMethod('action_' . $from)) {
+            if ($class->isInstantiable() && ($class->hasMethod('display_' . $from) || $class->hasMethod('display_all'))) {
                 $widgets[] = $nameWidget;
             }
         }
@@ -38,14 +38,14 @@ class Controller_Designer extends Controller
     {
         $widgets = ORM::factory('Widget')
                 ->find_all();
-        $this->show($widgets);
+        $this->render($widgets);
     }
 
     public function action_project()
     {
         $projectId = $this->request->param('id');
         $widgets   = ORM::factory('Project_Widget')->where('project_id', '=', $projectId)->find_all();
-        $this->show($widgets, $projectId);
+        $this->render($widgets, $projectId);
     }
 
     public function action_build()
@@ -53,12 +53,11 @@ class Controller_Designer extends Controller
         $buildId = $this->request->param('id');
         $build   = ORM::factory('Build', $buildId);
         $widgets = ORM::factory('Build_Widget')->where('project_id', '=', $build->project_id)->find_all();
-        $this->show($widgets, $build->project_id, $buildId);
+        $this->render($widgets, $build->project_id, $buildId);
     }
 
-    protected function show($widgets, $projectId = NULL, $buildId = NULL)
+    protected function render($widgets, $projectId = NULL, $buildId = NULL)
     {
-
         $controllers = array();
         foreach ($this->getWidgets($this->request->action()) as $controller) {
             $name           = "Controller_Widget_" . $controller;

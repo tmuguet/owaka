@@ -32,7 +32,7 @@ class Controller_Widget_Queue extends Controller_Widget_BaseTable
         $this->widgetTitle = 'queue';
     }
 
-    public function action_main()
+    public function display_main()
     {
         $builds = ORM::factory('Build')
                 ->where('status', 'IN', array('queued', 'building'))
@@ -45,7 +45,7 @@ class Controller_Widget_Queue extends Controller_Widget_BaseTable
         $this->process($builds);
     }
 
-    public function action_sample()
+    public function sample_main()
     {
         $builds               = array();
         $build                = ORM::factory('Build');
@@ -84,7 +84,5 @@ class Controller_Widget_Queue extends Controller_Widget_BaseTable
                 ),
             );
         }
-
-        $this->render();
     }
 }

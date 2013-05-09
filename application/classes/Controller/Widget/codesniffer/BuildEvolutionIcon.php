@@ -24,17 +24,7 @@ class Controller_Widget_codesniffer_BuildEvolutionIcon extends Controller_Widget
         $this->widgetTitle = 'codesniffer';
     }
 
-    public function action_main()
-    {
-        return $this->action_build();
-    }
-
-    public function action_project()
-    {
-        return $this->action_build();
-    }
-
-    public function action_build()
+    public function display_all()
     {
         $build = $this->getBuild();
         if ($build === NULL) {
@@ -52,7 +42,7 @@ class Controller_Widget_codesniffer_BuildEvolutionIcon extends Controller_Widget
         $this->process($build, $prevBuild);
     }
 
-    public function action_sample()
+    public function sample_all()
     {
         $build                                   = ORM::factory('Build');
         $build->codesniffer_globaldata->errors   = 10;
@@ -89,7 +79,5 @@ class Controller_Widget_codesniffer_BuildEvolutionIcon extends Controller_Widget
                 $this->substatusDataLabel = 'rules warnings';
             }
         }
-
-        $this->render();
     }
 }

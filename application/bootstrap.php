@@ -121,20 +121,13 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('widget', 'w/<controller>/<action>/<id>(/<data>)',
+Route::set('widget', 'w/<dashboard>/<controller>/<action>/<id>(/<data>)',
            array(
-            'action' => '(main|project|build|sample)'
+            'dashboard' => '(main|project|build)',
+            'action'    => '(display|sample|virtual)'
         ))
         ->defaults(array(
             'directory' => 'Widget'
-        ));
-Route::set('widget-sample', 'd/<controller>/<type>(/<id>(/<data>))',
-           array(
-            'type' => '(main|project|build|sample)'
-        ))
-        ->defaults(array(
-            'directory' => 'Widget',
-            'action'    => 'sample'
         ));
 
 Route::set('reports', 'reports/<id>/<type>/<page>',
@@ -147,7 +140,10 @@ Route::set('reports', 'reports/<id>/<type>/<page>',
             'action'     => 'index'
         ));
 
-Route::set('api', 'api/<controller>/<action>(/<id>)')
+Route::set('api', 'api/<controller>/<action>(/<dashboard>(/<id>(/<data>)))',
+           array(
+            'dashboard' => '(main|project|build)'
+        ))
         ->defaults(array(
             'directory' => 'api',
         ));

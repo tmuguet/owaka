@@ -25,7 +25,7 @@
             <?php
             $_maxId = 0;
             foreach ($widgets as $_widget) {
-                echo Request::factory('d/' . $_widget->type . '/' . $from . '/' . $_widget->id)->execute()->body();
+                echo Request::factory('w/' . $from . '/' . $_widget->type . '/sample/' . $_widget->id)->execute()->body();
                 $_maxId = max($_maxId, $_widget->id);
             }
             ?>
@@ -131,7 +131,7 @@ foreach ($widgets as $_widget) {
                                 height: height,
                                 params: $("#widget_drag").data("params")
                             };
-                            $.post('d/' + $("#widget_drag").attr("data-widget") + '/sample/' + c, postData, function(data) {
+                            $.post('w/<?php echo $from; ?>/' + $("#widget_drag").attr("data-widget") + '/virtual/' + c, postData, function(data) {
                                 var o = $(data).addClass('widget-added')
                                         .data("params", postData.params)
                                         .data("type", $("#widget_drag").attr("data-widget"));
@@ -170,7 +170,7 @@ foreach ($widgets as $_widget) {
                 function save() {
                     $.each($('.grid-elt.widget-deleted'), function() {
                         var o = $(this);
-                        $.post('api/dashboard/delete/' + $(this).attr("data-widget-id"), function() {
+                        $.post('api/dashboard/delete/<?php echo $from; ?>/' + $(this).attr("data-widget-id") + '<?php if ($from != 'main') {echo '/' . $projectId;} ?>', function() {
                             o.remove();
                         });
                     });
@@ -183,7 +183,7 @@ foreach ($widgets as $_widget) {
                             height: o.attr("data-grid-height"),
                             params: o.data("params")
                         };
-                        $.post('api/dashboard/add/' + o.data("type"), postData, function() {
+                        $.post('api/dashboard/add/<?php echo $from; ?>/' + o.data("type") + '<?php if ($from != 'main') {echo '/' . $projectId;} ?>', postData, function() {
                             o.removeClass('widget-added');
                         });
                     });
@@ -195,9 +195,11 @@ foreach ($widgets as $_widget) {
                     $("#list_widgets .widget-elt").click(function() {
                         var postData = {};
 <?php if (isset($projectId)): echo 'postData.projectId = ' . $projectId . ';';
-endif; ?>
+endif;
+?>
 <?php if (isset($buildId)): echo 'postData.buildId = ' . $buildId . ';';
-endif; ?>
+endif;
+?>
 
                         $("#widget_details").load('designer_details/<?php echo $from; ?>/' + $(this).attr("data-widget"), postData);
                     });

@@ -24,17 +24,7 @@ class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseI
         $this->widgetTitle = 'phpmd';
     }
 
-    public function action_main()
-    {
-        return $this->action_build();
-    }
-
-    public function action_project()
-    {
-        return $this->action_build();
-    }
-
-    public function action_build()
+    public function display_all()
     {
         $build = $this->getBuild();
         if ($build === NULL) {
@@ -52,7 +42,7 @@ class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseI
         $this->process($build, $prevBuild, TRUE);
     }
 
-    public function action_sample()
+    public function sample_all()
     {
         $build                           = ORM::factory('Build');
         $build->phpmd_globaldata->errors = 10;
@@ -81,7 +71,5 @@ class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseI
                 $this->statusDataLabel = 'errors';
             }
         }
-
-        $this->render();
     }
 }
