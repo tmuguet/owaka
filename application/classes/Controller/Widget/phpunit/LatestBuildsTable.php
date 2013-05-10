@@ -113,7 +113,10 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
             }
 
             $this->rows[] = array(
-                "url"     => 'welcome/build/' . $build->id,
+                "link"    => array(
+                    "type" => 'build',
+                    "id"   => $build->id
+                ),
                 "class"   => 'clickable build build-' . $build->status,
                 "columns" => array(
                     'r' . $build->revision,

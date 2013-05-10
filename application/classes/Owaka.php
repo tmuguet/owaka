@@ -3,11 +3,11 @@
 class Owaka
 {
 
-    const WIDGET_MAIN = 'main';
+    const WIDGET_MAIN    = 'main';
     const WIDGET_PROJECT = 'project';
-    const WIDGET_BUILD = 'build';
-    const WIDGET_SAMPLE = 'sample';
-    
+    const WIDGET_BUILD   = 'build';
+    const WIDGET_SAMPLE  = 'sample';
+
     static public function getReportsPath($buildId, $reportType)
     {
         $build = ORM::factory('Build', $buildId);
@@ -34,5 +34,62 @@ class Owaka
         $reportPath .= $build->project->$report;
 
         return $reportPath;
+    }
+
+    static public function processLink($from, $link, $outputAs = 'html')
+    {
+        $url     = '';
+        $title   = '';
+        $onclick = '';
+        if (isset($link['type'])) {
+            switch ($link['type']) {
+                case 'project':
+                    if ($from == "main") {
+                        $url   = 'dashboard/project/' . $link['id'];
+                        $title = 'project';
+                    }
+                    break;
+
+                case 'build':
+                    if ($from == "main" || $from == "project") {
+                        $url   = 'dashboard/build/' . $link['id'];
+                        $title = 'build';
+                    }
+                    break;
+            }
+        } else {
+            $url   = $link['url'];
+            $title = $link['title'];
+            if (isset($link['js'])) {
+                $onclick = $link['js'];
+            }
+        }
+
+        $content = '';
+        switch ($outputAs) {
+            case 'html':
+                $content = '<a href="';
+                if (empty($url) && !empty($onclick)) {
+                    $content .= 'javascript:void(0)';
+                } else {
+                    $content .= $url;
+                }
+                $content .= '"';
+                if (!empty($onclick)) {
+                    $content .= ' onclick="' . $onclick . '"';
+                }
+                $content .= '>' . $title . '</a>';
+                break;
+
+            case 'js':
+                if (!empty($onclick)) {
+                    $content = $onclick;
+                } else {
+                    $content = 'document.location.href=\'' . $url . '\';';
+                }
+                break;
+        }
+
+        return $content;
     }
 }

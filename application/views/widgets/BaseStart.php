@@ -13,27 +13,7 @@ if (!empty($widgetStatus)) {
                 <?php foreach ($widgetLinks as $link): ?>
                     <li>
                         <?php
-                        if (isset($link['type'])) {
-                            switch ($link['type']) {
-                                case 'project':
-                                    if ($from == "main") {
-                                        echo '<a href="dashboard/project/' . $link['id'] . '">project</a>';
-                                    }
-                                    break;
-                                
-                                case 'build':
-                                    if ($from == "main" || $from == "project") {
-                                        echo '<a href="dashboard/build/' . $link['id'] . '">build</a>';
-                                    }
-                                    break;
-                            }
-                        } else {
-                            echo '<a href="' . $link['url'] . '"';
-                            if (isset($link['js'])) {
-                                echo ' onclick="' . $link['js'] . '"';
-                            }
-                            echo '>' . $link['title'] . '</a>';
-                        }
+                        echo Owaka::processLink($from, $link);
                         ?>
                     </li>
                 <?php endforeach; ?>

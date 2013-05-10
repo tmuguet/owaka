@@ -18,8 +18,14 @@ echo View::factory('widgets/BaseStart')->render();
                     ?><br/>no data</td></tr>
         <?php else: ?>
             <?php foreach ($rows as $_row): ?>
-                <tr class="<?php echo (!empty($_row['class']) ? $_row['class'] : ''); ?>">
-                    <?php foreach ($_row['columns'] as $_column): ?>
+                <tr class="<?php
+                echo (!empty($_row['class']) ? $_row['class'] : '');
+                ?>"<?php
+                if (!empty($_row['link'])) {
+                    echo ' onclick="' . Owaka::processLink($from, $_row['link'], 'js') . '"';
+                }
+                ?>>
+                        <?php foreach ($_row['columns'] as $_column): ?>
                         <td><?php echo $_column; ?></td>
                     <?php endforeach; ?>
                 </tr>
