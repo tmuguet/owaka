@@ -59,9 +59,12 @@ class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {
-
             $display = $this->getParameter('display');
 
+            $this->widgetLinks[] = array(
+                "type" => 'build',
+                "id"   => $build->id
+            );
             $this->widgetLinks[] = array(
                 "title" => 'report',
                 "url"   => 'reports/' . $build->id . '/coverage/index.html'

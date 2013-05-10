@@ -61,10 +61,16 @@ class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget
 
     protected function process($builds, $forceShow = FALSE)
     {
-        $this->widgetLinks[] = array(
-            "title" => 'latest report',
-            "url"   => 'reports/' . $builds[0]->id . '/phpunit/index.html'
-        );
+        if (sizeof($builds) > 0) {
+            $this->widgetLinks[] = array(
+                "type" => 'build',
+                "id"   => $builds[0]->id
+            );
+            $this->widgetLinks[] = array(
+                "title" => 'latest report',
+                "url"   => 'reports/' . $builds[0]->id . '/phpunit/index.html'
+            );
+        }
 
         $tests    = array();
         $failures = array();

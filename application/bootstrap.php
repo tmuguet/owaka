@@ -133,7 +133,7 @@ Route::set('widget', 'w/<dashboard>/<controller>/<action>/<id>(/<data>)',
 Route::set('reports', 'reports/<id>/<type>/<page>',
            array(
             'page' => '.+',
-            'type' => '(phpunit|coverage|phpdoc)'
+            'type' => '(phpunit|coverage|phpdoc|phpmd|codesniffer)'
         ))
         ->defaults(array(
             'controller' => 'report',
@@ -150,6 +150,6 @@ Route::set('api', 'api/<controller>/<action>(/<dashboard>(/<id>(/<data>)))',
 
 Route::set('default', '(<controller>(/<action>(/<id>)))')
         ->defaults(array(
-            'controller' => 'welcome',
+            'controller' => 'dashboard',
             'action'     => 'main',
         ));

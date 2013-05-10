@@ -41,11 +41,9 @@
         </div>
         <div id="owaka"><h1>owaka</h1></div>
         <div id="menu">
-            <a href="javascrip:void(0)" onclick="$('.grid-elt').toggle();">toggle widgets</a><br>
-            <a href="javascript:void(0)" onclick="save()">Save</a>
-            <ul>
-                <li><a href="welcome/main">Home</a></li>
-            </ul>
+            <a href="dashboard/<?php echo ($from == 'main' ? $from : 'project'); ?>/<?php if ($from != "main") {echo $projectId;} ?>" title="Quit designer mode"><img src="img/freepik/powerbutton.png" width="32" alt="Quit designer mode"/></a>
+            <a href="javascript:void(0)" onclick="$('.grid-elt').toggle()" title="Toggle widgets"><img src="img/freepik/layout7.png" width="32" alt="Toggle widgets"/></a>
+            <a href="javascript:void(0)" onclick="save()" title="Save"><img src="img/freepik/floppydisk.png" width="32" alt="Save"/></a>
         </div>
         <script type="text/javascript">
                 var c = <?php

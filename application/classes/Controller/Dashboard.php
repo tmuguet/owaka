@@ -1,7 +1,7 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Welcome extends Controller
+class Controller_Dashboard extends Controller
 {
 
     public function action_main()
@@ -26,7 +26,7 @@ class Controller_Welcome extends Controller
         $widgets     = ORM::factory('Project_Widget')->where('project_id', '=', $projectId)->find_all();
         $widgetsView = array();
         foreach ($widgets as $widget) {
-            $widgetsView[] = Request::factory('w/project/' . $widget->type . '/display/' . $widget->id)->execute();
+            $widgetsView[] = Request::factory('w/project/' . $widget->type . '/display/' . $widget->id . '/' . $projectId)->execute();
         }
 
         $view = View::factory('dashboard')
@@ -39,13 +39,13 @@ class Controller_Welcome extends Controller
 
     public function action_build()
     {
-        $buildId     = $this->request->param('id');
-        $build = ORM::factory('Build', $buildId);
-        
+        $buildId = $this->request->param('id');
+        $build   = ORM::factory('Build', $buildId);
+
         $widgets     = ORM::factory('Build_Widget')->where('project_id', '=', $build->project_id)->find_all();
         $widgetsView = array();
         foreach ($widgets as $widget) {
-            $widgetsView[] = Request::factory('w/build/' . $widget->type . '/display/' . $widget->id)->execute();
+            $widgetsView[] = Request::factory('w/build/' . $widget->type . '/display/' . $widget->id . '/' . $buildId)->execute();
         }
 
         $view = View::factory('dashboard')

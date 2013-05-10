@@ -48,10 +48,11 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
         $this->process($builds);
     }
 
-    public function sample_main() {
+    public function sample_main()
+    {
         return $this->sample_project();
     }
-    
+
     public function sample_project()
     {
         $builds = array();
@@ -78,7 +79,11 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
 
         if (sizeof($builds) > 0) {
             $this->widgetLinks[] = array(
-                "title" => 'latest report',
+                "type" => 'build',
+                "id"   => $builds[0]->id
+            );
+            $this->widgetLinks[] = array(
+                "title" => 'report',
                 "url"   => 'reports/' . $builds[0]->id . '/phpunit/index.html'
             );
         }

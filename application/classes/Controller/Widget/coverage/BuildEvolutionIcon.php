@@ -73,6 +73,10 @@ class Controller_Widget_coverage_BuildEvolutionIcon extends Controller_Widget_Ba
             $display = $this->getParameter('display');
 
             $this->widgetLinks[] = array(
+                "type" => 'build',
+                "id"   => $build->id
+            );
+            $this->widgetLinks[] = array(
                 "title" => 'report',
                 "url"   => 'reports/' . $build->id . '/coverage/index.html'
             );

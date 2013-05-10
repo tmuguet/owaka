@@ -59,6 +59,15 @@ class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseI
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {
+            $this->widgetLinks[] = array(
+                "type" => 'build',
+                "id"   => $build->id
+            );
+            $this->widgetLinks[] = array(
+                "title" => 'report',
+                "url"   => 'reports/' . $build->id . '/phpmd/index.html'
+            );
+            
             $errors = $build->phpmd_globaldata->errors - $prevBuild->phpmd_globaldata->errors;
 
             if ($errors == 0) {

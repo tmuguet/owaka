@@ -51,12 +51,23 @@ class Controller_Widget_phpmd_BuildIcon extends Controller_Widget_BaseIcon
         if (!$build->phpmd_globaldata->loaded() && !$forceShow) {
             $this->status     = 'nodata';
             $this->statusData = 'No data';
-        } else if ($build->phpmd_globaldata->errors == 0) {
-            $this->status = 'ok';
         } else {
-            $this->status          = 'unstable';
-            $this->statusData      = $build->phpmd_globaldata->errors;
-            $this->statusDataLabel = 'errors';
+            $this->widgetLinks[] = array(
+                "type" => 'build',
+                "id"   => $build->id
+            );
+            $this->widgetLinks[] = array(
+                "title" => 'report',
+                "url"   => 'reports/' . $build->id . '/phpmd/index.html'
+            );
+
+            if ($build->phpmd_globaldata->errors == 0) {
+                $this->status = 'ok';
+            } else {
+                $this->status          = 'unstable';
+                $this->statusData      = $build->phpmd_globaldata->errors;
+                $this->statusDataLabel = 'errors';
+            }
         }
     }
 }

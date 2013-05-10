@@ -61,6 +61,15 @@ class Controller_Widget_codesniffer_BuildEvolutionIcon extends Controller_Widget
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {
+            $this->widgetLinks[] = array(
+                "type" => 'build',
+                "id"   => $build->id
+            );
+            $this->widgetLinks[] = array(
+                "title" => 'report',
+                "url"   => 'reports/' . $build->id . '/codesniffer/index.xml'
+            );
+            
             $errors   = $build->codesniffer_globaldata->errors - $prevBuild->codesniffer_globaldata->errors;
             $warnings = $build->codesniffer_globaldata->warnings - $prevBuild->codesniffer_globaldata->warnings;
 

@@ -64,6 +64,10 @@ class Controller_Widget_phpunit_BuildEvolutionIcon extends Controller_Widget_Bas
             $this->statusData = 'No data';
         } else {
             $this->widgetLinks[] = array(
+                "type" => 'build',
+                "id"   => $build->id
+            );
+            $this->widgetLinks[] = array(
                 "title" => 'report',
                 "url"   => 'reports/' . $build->id . '/phpunit/index.html'
             );

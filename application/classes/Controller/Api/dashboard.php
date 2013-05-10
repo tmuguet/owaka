@@ -23,6 +23,8 @@ class Controller_Api_dashboard extends Controller
 
     public function action_add()
     {
+        $params = $this->request->post('params');
+        
         switch ($this->request->param('dashboard')) {
             case "main":
                 $widget             = ORM::factory('Widget');
@@ -30,15 +32,24 @@ class Controller_Api_dashboard extends Controller
             case "project":
                 $widget             = ORM::factory('Project_Widget');
                 $widget->project_id = $this->request->param('data');
+                if (isset($params['project']) && $widget->project_id == $params['project']) {
+                    unset($params['project']);
+                }
                 break;
             case "build":
                 $widget             = ORM::factory('Build_Widget');
                 $widget->project_id = $this->request->param('data');
+                if (isset($params['project']) && $widget->project_id == $params['project']) {
+                    unset($params['project']);
+                }
                 break;
             default: throw new Exception("Unsupported dashboard type");
         }
+        foreach ($params as $key => $value) {
+            if (empty($value)) {unset($params[$key]);}
+        }
         $widget->type   = $this->request->param('id');
-        $widget->params = json_encode($this->request->post('params'));
+        $widget->params = json_encode();
         $widget->width  = $this->request->post('width');
         $widget->height = $this->request->post('height');
         $widget->column = $this->request->post('column');

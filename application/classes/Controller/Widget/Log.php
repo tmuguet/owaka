@@ -30,21 +30,23 @@ class Controller_Widget_Log extends Controller_Widget_BaseRaw
         $this->widgetTitle = 'log';
     }
 
-    public function display_main()
+    public function display_all()
     {
-        return $this->display_project();
-    }
-
-    public function display_project()
-    {
-        $build = $this->getProject()->builds
-                ->order_by('id', 'DESC')
-                ->limit(1)
-                ->find();
+        $build = $this->getBuild();
+        if ($build === NULL) {
+            $build = $this->getProject()->lastBuild()
+                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->find();
+        }
 
         if (!file_exists(APPPATH . 'reports/' . $build->id . '/log.html')) {
             $this->content = 'No data';
         } else {
+            $this->widgetLinks[] = array(
+                "type" => 'build',
+                "id"   => $build->id
+            );
+
             $this->content = file_get_contents(APPPATH . 'reports/' . $build->id . '/log.html');
         }
     }
