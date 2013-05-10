@@ -79,13 +79,25 @@ class Controller_Widget_codesniffer_BuildEvolutionIcon extends Controller_Widget
                 $this->statusDataLabel = '<br>no changes';
             } else {
                 $this->widgetStatus    = ($errors > 0 || $warnings > 0 ? 'unstable' : 'ok');
-                $this->status          = ($errors > 0 ? 'error' : 'ok');
-                $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
-                $this->statusDataLabel = 'rules errors';
+                if ($errors == 0) {
+                    $this->status          = 'ok';
+                    $this->statusData      = '-';
+                    $this->statusDataLabel = '<br>no changes';
+                } else {
+                    $this->status          = ($errors > 0 ? 'error' : 'ok');
+                    $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
+                    $this->statusDataLabel = 'rules errors';
+                }
 
-                $this->substatus          = ($warnings > 0 ? 'unstable' : 'ok');
-                $this->substatusData      = ($warnings > 0 ? '+' . $warnings : $warnings);
-                $this->substatusDataLabel = 'rules warnings';
+                if ($warnings == 0) {
+                    $this->substatus          = 'ok';
+                    $this->substatusData      = '-';
+                    $this->substatusDataLabel = '<br>no changes';
+                } else {
+                    $this->substatus          = ($warnings > 0 ? 'unstable' : 'ok');
+                    $this->substatusData      = ($warnings > 0 ? '+' . $warnings : $warnings);
+                    $this->substatusDataLabel = 'rules warnings';
+                }
             }
         }
     }
