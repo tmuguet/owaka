@@ -1,3 +1,22 @@
+<?php
+if (!isset($projectId)) {$projectId = NULL;}
+if (!isset($buildId)) {$buildId = NULL;}
+if ($projectId !== NULL) {
+    $project = ORM::factory('Project', $projectId);
+    $lastBuild = $project->lastBuild()->find();
+    if (!$lastBuild->loaded()) {
+        $lastBuild = NULL;
+    }
+} else {
+    $project = NULL;
+    $lastBuild = NULL;
+}
+if ($buildId !== NULL) {
+    $build = ORM::factory('Build', $buildId);
+} else {
+    $build = NULL;
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,17 +40,49 @@
     </head>
     <body>
         <div id="overlay" class="ui-widget-overlay ui-helper-hidden"> </div>
-        <div id="owaka"><h1>owaka</h1></div>
-        <div id="menu">
-            <a href="designer/<?php echo $from; ?>/<?php if ($from != "main") {echo $projectId;} ?>" title="Go to designer mode"><img src="img/freepik/layout3.png" width="32" alt="Designer mode"/></a>
-            <a href="javascript:void(0)" onclick="$('.grid-elt').toggle()" title="Toggle widgets"><img src="img/freepik/layout7.png" width="32" alt="Toggle widgets"/></a>
+        <div id="left-panel">
+            <div id="owaka"><h1>owaka</h1></div>
+            <div id="menu">
+                <a href="designer/<?php echo $from; ?>/<?php if ($from != "main") {echo $projectId;} ?>" title="Go to designer mode"><img src="img/freepik/layout3.png" width="32" alt="Designer mode"/></a>
+                <a href="javascript:void(0)" onclick="$('.grid-elt').toggle()" title="Toggle widgets"><img src="img/freepik/layout7.png" width="32" alt="Toggle widgets"/></a>
 
-            <ul>
-                <li><a href="dashboard/main">Home</a></li>
-            <?php foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $project): ?>
-                <li<?php if (($from == 'project' || $from == 'build') && $projectId == $project->id) {echo ' style="font-weight: bold"';} ?>><a href="dashboard/project/<?php echo $project->id; ?>"><?php echo $project->name; ?></a></li>
-            <?php endforeach; ?>
-            </ul>
+                <ul>
+                    <li><a href="dashboard/main">Home</a></li>
+                <?php foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $_project): ?>
+                    <li>
+                        <a href="dashboard/project/<?php echo $_project->id; ?>"<?php if (($from == 'project' || $from == 'build') && $projectId == $_project->id) {echo ' style="font-weight: bold"';} ?>><?php echo $_project->name; ?></a>
+                        <?php if (($from == 'project' || $from == 'build') && $projectId == $_project->id) {
+                            echo '<ul>';
+                            if ($from == 'project') {
+                                $_source = ($lastBuild === NULL ? array() : $lastBuild->rangeBuild());
+                            } else {
+                                $_source = $build->rangeBuild();
+                            }
+                            foreach ($_source as $_build) {
+                                echo '<li><a href="dashboard/build/'.$_build->id.'"';
+                                if ($buildId == $_build->id) {echo ' style="font-weight: bold"';}
+                                echo '>r' . $_build->revision .'</a></li>';
+                            }
+                            echo '</ul>';
+                        }
+                        ?>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+        <div id="top-panel">
+            <h2><?php
+            switch ($from) {
+                case "main": echo 'main'; break;
+                case "project" :
+                    echo $project->name;
+                    echo ' - latest: ';
+                    echo ($lastBuild === NULL ? 'none' : 'r' . $lastBuild->revision);
+                    break;
+                case "build": echo $project->name . ' - r' .$build->revision; break;
+            }
+            ?></h2>
         </div>
         <div id="grid">
             <?php if (empty($widgets)) { ?>

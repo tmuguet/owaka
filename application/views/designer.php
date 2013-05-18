@@ -34,16 +34,18 @@
         <div id="list_widgets">
             <ul>
                 <?php foreach ($controllers as $_controller): ?>
-                    <li class="widget-elt" data-widget="<?php echo $_controller['widget']; ?>" data-width="<?php echo $_controller['size'][0]; ?>" data-height="<?php echo $_controller['size'][1]; ?>"><?php echo $_controller['widget']; ?></li>
+                <li class="widget-elt"><a href="javascript:void(0)" data-widget="<?php echo $_controller['widget']; ?>" data-width="<?php echo $_controller['size'][0]; ?>" data-height="<?php echo $_controller['size'][1]; ?>"><?php echo str_replace("_", "/", $_controller['widget']); ?></a></li>
 
                 <?php endforeach; ?>
             </ul>
         </div>
-        <div id="owaka"><h1>owaka</h1></div>
-        <div id="menu">
-            <a href="dashboard/<?php echo ($from == 'main' ? $from : 'project'); ?>/<?php if ($from != "main") {echo $projectId;} ?>" title="Quit designer mode"><img src="img/freepik/powerbutton.png" width="32" alt="Quit designer mode"/></a>
-            <a href="javascript:void(0)" onclick="$('.grid-elt').toggle()" title="Toggle widgets"><img src="img/freepik/layout7.png" width="32" alt="Toggle widgets"/></a>
-            <a href="javascript:void(0)" onclick="save()" title="Save"><img src="img/freepik/floppydisk.png" width="32" alt="Save"/></a>
+        <div id="left-panel">
+            <div id="owaka"><h1>owaka</h1></div>
+            <div id="menu">
+                <a href="dashboard/<?php echo ($from == 'main' ? $from : 'project'); ?>/<?php if ($from != "main") {echo $projectId;} ?>" title="Quit designer mode"><img src="img/freepik/powerbutton.png" width="32" alt="Quit designer mode"/></a>
+                <a href="javascript:void(0)" onclick="$('.grid-elt').toggle()" title="Toggle widgets"><img src="img/freepik/layout7.png" width="32" alt="Toggle widgets"/></a>
+                <a href="javascript:void(0)" onclick="save()" title="Save"><img src="img/freepik/floppydisk.png" width="32" alt="Save"/></a>
+            </div>
         </div>
         <script type="text/javascript">
                 var c = <?php
@@ -188,9 +190,7 @@ foreach ($widgets as $_widget) {
                 }
 
                 $(document).ready(function() {
-                    $("#list_widgets, #widget_details").addClass('ui-widget-content');
-
-                    $("#list_widgets .widget-elt").click(function() {
+                    $("#list_widgets .widget-elt a").click(function() {
                         var postData = {};
 <?php if (isset($projectId)): echo 'postData.projectId = ' . $projectId . ';';
 endif;

@@ -108,8 +108,35 @@ class Model_Build extends ORM
     public function previousBuild()
     {
         return ORM::factory('build')
+                        ->where('build.project_id', '=', $this->project_id)
                         ->where('build.id', '<', $this->id)
                         ->order_by('build.id', 'DESC')
                         ->limit(1);
+    }
+
+    public function nextBuild()
+    {
+        return ORM::factory('build')
+                        ->where('build.project_id', '=', $this->project_id)
+                        ->where('build.id', '>', $this->id)
+                        ->order_by('build.id', 'ASC')
+                        ->limit(1);
+    }
+
+    public function rangeBuild()
+    {
+        $previous = ORM::factory('build')
+                ->where('build.project_id', '=', $this->project_id)
+                ->where('build.id', '<', $this->id)
+                ->order_by('build.id', 'DESC')
+                ->limit(5)
+                ->find_all()->as_array();
+        $next     = ORM::factory('build')
+                ->where('build.project_id', '=', $this->project_id)
+                ->where('build.id', '>', $this->id)
+                ->order_by('build.id', 'ASC')
+                ->limit(5)
+                ->find_all()->as_array();
+        return array_merge(array_reverse($next), array($this), $previous);
     }
 }

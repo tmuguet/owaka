@@ -140,9 +140,8 @@ Columns: <button id="columns_delete">-</button> <button id="columns_add">+</butt
     });
 
     $("#widget_hide").click(function() {
-        $("#list_widgets").show('slide', {direction: 'left'}, 500, function() {
-            $("#widget_details").hide();
-        });
+        $("#list_widgets").show('slide', {direction: 'left'}, 500);
+        $("#widget_details").fadeOut(500);
         $("#grid .grid-placeholder").fadeOut(200, function() {
             $(this).remove();
         });
@@ -164,7 +163,7 @@ Columns: <button id="columns_delete">-</button> <button id="columns_add">+</butt
     });
 
     $("#list_widgets").hide("slide", {direction: 'left'}, 500);
-    $("#widget_details").show();
+    $("#widget_details").fadeIn(500);
 
     updateGridPlaceholders();
     $("#widget_drag").attr("data-widget", '<?php echo $widget; ?>');
