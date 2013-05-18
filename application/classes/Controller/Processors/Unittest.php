@@ -1,16 +1,23 @@
 <?php
 
-class Controller_Data_Unittest extends Controller_Data_Base
+/**
+ * Unittest (phpunit)
+ */
+class Controller_Processors_Unittest extends Controller_Processors_Base
 {
 
-    public function action_parse()
+    /**
+     * Processes a PHPUnit XML report
+     * @param int $buildId Build ID
+     * @return bool true if report successfully treated; false if no report available
+     */
+    public function process($buildId)
     {
-        $build  = $this->request->param('id');
-        $report = Owaka::getReportsPath($build, 'phpunit');
+        $report = Owaka::getReportsPath($buildId, 'phpunit');
 
         if (file_exists($report) && file_get_contents($report) != "") {
             $global           = ORM::factory('phpunit_globaldata');
-            $global->build_id = $build;
+            $global->build_id = $buildId;
             $global->tests    = 0;
             $global->failures = 0;
             $global->errors   = 0;
@@ -27,7 +34,7 @@ class Controller_Data_Unittest extends Controller_Data_Base
                     foreach ($subtestsuite->children() as $testcase) {
                         if ($testcase->count() > 0) {
                             $error            = ORM::factory('phpunit_error');
-                            $error->build_id  = $build;
+                            $error->build_id  = $buildId;
                             $error->testsuite = (string) $subtestsuite['name'];
                             $error->testcase  = (string) $testcase['name'];
                             $error->create();
@@ -37,9 +44,9 @@ class Controller_Data_Unittest extends Controller_Data_Base
             }
 
             $global->create();
-            $this->response->body(true);
+            return true;
         }
 
-        $this->response->body(false);
+        return false;
     }
 }

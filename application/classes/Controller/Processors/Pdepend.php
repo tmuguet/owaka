@@ -1,16 +1,23 @@
 <?php
 
-class Controller_Data_Pdepend extends Controller_Data_Base
+/**
+ * Pdepend
+ */
+class Controller_Processors_Pdepend extends Controller_Processors_Base
 {
 
-    public function action_parse()
+    /**
+     * Processes a PHPdepend XML report
+     * @param int $buildId Build ID
+     * @return bool true if report successfully treated; false if no report available
+     */
+    public function process($buildId)
     {
-        $build  = $this->request->param('id');
-        $report = Owaka::getReportsPath($build, 'pdepend');
+        $report = Owaka::getReportsPath($buildId, 'pdepend');
 
         if (file_exists($report) && file_get_contents($report) != "") {
             $global           = ORM::factory('pdepend_globaldata');
-            $global->build_id = $build;
+            $global->build_id = $buildId;
 
             $xml            = simplexml_load_file($report);
             $global->ahh    = (double) $xml['ahh'];
@@ -36,10 +43,10 @@ class Controller_Data_Pdepend extends Controller_Data_Base
             $global->roots  = (int) $xml['roots'];
 
             $global->create();
-            
-            $this->response->body(true);
+
+            return true;
         }
 
-        $this->response->body(false);
+        return false;
     }
 }

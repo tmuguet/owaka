@@ -1,16 +1,23 @@
 <?php
 
-class Controller_Data_Codesniffer extends Controller_Data_Base
+/**
+ * Codesniffer
+ */
+class Controller_Processors_Codesniffer extends Controller_Processors_Base
 {
 
-    public function action_parse()
+    /**
+     * Processes a Codesniffer XML report
+     * @param int $buildId Build ID
+     * @return bool true if report successfully treated; false if no report available
+     */
+    public function process($buildId)
     {
-        $build  = $this->request->param('id');
-        $report = Owaka::getReportsPath($build, 'codesniffer');
+        $report = Owaka::getReportsPath($buildId, 'codesniffer');
 
         if (file_exists($report) && file_get_contents($report) != "") {
             $global           = ORM::factory('codesniffer_globaldata');
-            $global->build_id = $build;
+            $global->build_id = $buildId;
             $global->warnings = 0;
             $global->errors   = 0;
 
@@ -18,7 +25,7 @@ class Controller_Data_Codesniffer extends Controller_Data_Base
             foreach ($xml->children() as $file) {
                 foreach ($file->children() as $item) {
                     $error           = ORM::factory('codesniffer_error');
-                    $error->build_id = $build;
+                    $error->build_id = $buildId;
                     $error->file     = (string) $file['name'];
                     $error->message  = (string) $item['message'];
                     $error->line     = (int) $item['line'];
@@ -42,9 +49,9 @@ class Controller_Data_Codesniffer extends Controller_Data_Base
             }
 
             $global->create();
-            $this->response->body(true);
+            return true;
         }
 
-        $this->response->body(false);
+        return false;
     }
 }

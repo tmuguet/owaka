@@ -111,7 +111,7 @@ class Task_Run extends Minion_Task
     {
         $datas = array("codesniffer", "coverage", "pdepend", "phpmd", "unittest");
         foreach ($datas as $data) {
-            $request = Request::factory('data_' . $data . '/parse/' . $build->id)
+            $request = Request::factory('processors_' . $data . '/process/' . $build->id)
                     ->execute();
         }
     }

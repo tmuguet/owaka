@@ -1,16 +1,23 @@
 <?php
 
-class Controller_Data_Coverage extends Controller_Data_Base
+/**
+ * Coverage
+ */
+class Controller_Processors_Coverage extends Controller_Processors_Base
 {
 
-    public function action_parse()
+    /**
+     * Processes a coverage XML report
+     * @param int $buildId Build ID
+     * @return bool true if report successfully treated; false if no report available or if empty report
+     */
+    public function process($buildId)
     {
-        $build  = $this->request->param('id');
-        $report = Owaka::getReportsPath($build, 'coverage');
+        $report = Owaka::getReportsPath($buildId, 'coverage');
 
         if (file_exists($report) && file_get_contents($report) != "") {
             $global           = ORM::factory('coverage_globaldata');
-            $global->build_id = $build;
+            $global->build_id = $buildId;
 
             $xml                    = simplexml_load_file($report);
             $global->methodcount    = (int) $xml['methodcount'];
@@ -31,9 +38,9 @@ class Controller_Data_Coverage extends Controller_Data_Base
             if ($global->methodcount > 0 || $global->statementcount > 0 || $global->totalcount > 0) {
                 $global->create();
             }
-            $this->response->body(true);
+            return true;
         }
 
-        $this->response->body(false);
+        return false;
     }
 }
