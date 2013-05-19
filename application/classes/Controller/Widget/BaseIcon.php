@@ -1,31 +1,76 @@
 <?php
 
+/**
+ * Base class for all widgets using icons
+ */
 abstract class Controller_Widget_BaseIcon extends Controller_Widget_Base
 {
 
-    protected $status             = NULL;
-    protected $statusData         = NULL;
-    protected $statusDataLabel    = NULL;
+    /**
+     * Main status of the widget, among ok/unstable/error/nodata
+     * @var string
+     */
+    protected $status = NULL;
+
+    /**
+     * Main status data (optional)
+     * @var string
+     */
+    protected $statusData = NULL;
+
+    /**
+     * Main status label for data (optional; used only if statusData not empty)
+     * @var string
+     */
+    protected $statusDataLabel = NULL;
+
+    /**
+     * Secondary status of the widget, among ok/unstable/error/nodata (optional)
+     * @var string 
+     */
     protected $substatus          = NULL;
+
+    /**
+     * Secondary status data (optional; used only if substatus and statusData not empty)
+     * @var string
+     */
     protected $substatusData      = NULL;
+
+    /**
+     * Secondary status label for data (optional; used only if substatusData not empty)
+     * @var string
+     */
     protected $substatusDataLabel = NULL;
-    
-    static public function getPreferredSize() {
-        return array(2,2);
+
+    /**
+     * Gets the preferred size (width, height)
+     * @return int[]
+     */
+    static public function getPreferredSize()
+    {
+        return array(2, 2);
     }
-    
-    static public function getOptimizedSizes() {
+
+    /**
+     * Gets the sizes (width, height) which this widget is optimized for
+     * @return int[][]
+     */
+    static public function getOptimizedSizes()
+    {
         return array(array(2, 2));
     }
 
+    /**
+     * Renders the widget
+     */
     protected function render()
     {
         if (empty($this->widgetStatus) && !empty($this->status) && empty($this->substatus)) {
             $this->widgetStatus = $this->status;
         }
-        
+
         parent::initViews();
-        
+
         $view = View::factory('widgets/BaseIcon')
                 ->set('status', $this->status)
                 ->set('statusData', $this->statusData)

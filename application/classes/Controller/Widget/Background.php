@@ -1,23 +1,53 @@
 <?php
 
+/**
+ * Widget for displaying a background image depending on the build status
+ */
 class Controller_Widget_Background extends Controller_Widget_Base
 {
 
-    private $_theme             = NULL;
-    private $_status            = NULL;
+    /**
+     * Theme of backgrounds
+     * @var string
+     */
+    private $_theme = NULL;
+
+    /**
+     * Status
+     * @var string 
+     */
+    private $_status = NULL;
+
+    /**
+     * Additional content (used in sample mode to actually display the widget on the grid)
+     * @var string 
+     */
     private $_additionalContent = NULL;
 
+    /**
+     * Gets the preferred size (width, height)
+     * @return int[]
+     */
     static public function getPreferredSize()
     {
         return array(0, 0);
     }
 
+    /**
+     * Gets the sizes (width, height) which this widget is optimized for
+     * @return int[][]
+     */
     static public function getOptimizedSizes()
     {
         return array(array(0, 0));
     }
 
-    static public function getExpectedParameters()
+    /**
+     * Gets the expected parameters
+     * @param string $dashboard Type of dashboard
+     * @return array
+     */
+    static public function getExpectedParameters($dashboard)
     {
         return array(
             'theme' => array(
@@ -30,6 +60,27 @@ class Controller_Widget_Background extends Controller_Widget_Base
         );
     }
 
+    /**
+     * Gets the widget icon
+     * @return string
+     */
+    protected function getWidgetIcon()
+    {
+        return Owaka::ICON_PIC;
+    }
+
+    /**
+     * Gets the widget title
+     * @return string
+     */
+    protected function getWidgetTitle()
+    {
+        return 'background';
+    }
+
+    /**
+     * Renders the background
+     */
     protected function render()
     {
         parent::initViews();
@@ -48,6 +99,10 @@ EOT;
         $this->response->body($content);
     }
 
+    /**
+     * Displays for main dashboard.
+     * Fetches the latest builds of each projects; widget status is the more severe status found.
+     */
     public function display_main()
     {
         $projects = ORM::factory('Project')
@@ -75,6 +130,10 @@ EOT;
         $this->_theme = $this->getParameter('theme');
     }
 
+    /**
+     * Displays for project dashboard.
+     * Widget status is the status of latest build.
+     */
     public function display_project()
     {
         $build = $this->getProject()->builds
@@ -87,19 +146,25 @@ EOT;
         $this->_theme  = $this->getParameter('theme');
     }
 
+    /**
+     * Displays for project build.
+     * Widget status is the status of the build.
+     */
     public function display_build()
     {
         $this->_status = ($this->getBuild()->loaded() ? $this->getBuild()->status : 'ok');
         $this->_theme  = $this->getParameter('theme');
     }
 
+    /**
+     * Displays a sample, status is always OK.
+     */
     public function sample_all()
     {
         $this->_status = 'ok';
         $this->_theme  = $this->getParameter('theme');
 
-        $view                     = View::factory('widgets/BaseIcon')
+        $this->_additionalContent = View::factory('widgets/BaseIcon')
                 ->set('status', $this->_status);
-        $this->_additionalContent = $view;
     }
 }

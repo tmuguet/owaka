@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * Displays the number of errors and failures of the latest 50 builds.
+ */
 class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget_BaseSparklines
 {
 
+    /**
+     * Gets the expected parameters
+     * @param string $dashboard Type of dashboard
+     * @return array
+     */
     static public function getExpectedParameters($dashboard)
     {
         return array(
@@ -13,18 +21,35 @@ class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget
         );
     }
 
-    public function before()
+    /**
+     * Gets the widget icon
+     * @return string
+     */
+    protected function getWidgetIcon()
     {
-        parent::before();
-        $this->widgetIcon  = 'pad';
-        $this->widgetTitle = 'phpunit';
+        return Owaka::ICON_PAD;
     }
 
+    /**
+     * Gets the widget title
+     * @return string
+     */
+    protected function getWidgetTitle()
+    {
+        return 'phpunit';
+    }
+
+    /**
+     * Processes the widget for main dashboard
+     */
     public function display_main()
     {
         return $this->display_project();
     }
 
+    /**
+     * Processes the widget for project dashboard
+     */
     public function display_project()
     {
         $builds = $this->getProject()->builds
@@ -37,11 +62,17 @@ class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget
         $this->process($builds);
     }
 
+    /**
+     * Processes the widget for sample in main dashboard
+     */
     public function sample_main()
     {
         return $this->sample_project();
     }
 
+    /**
+     * Processes the widget for sample in project dashboard
+     */
     public function sample_project()
     {
         $builds = array();
@@ -59,6 +90,11 @@ class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget
         $this->process($builds, TRUE);
     }
 
+    /**
+     * Processes the widget
+     * @param Model_Build[] $builds    Builds to process, from latest to oldest
+     * @param bool          $forceShow Force showing widget when model is not loaded
+     */
     protected function process($builds, $forceShow = FALSE)
     {
         if (sizeof($builds) > 0) {

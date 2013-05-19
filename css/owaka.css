@@ -68,6 +68,13 @@ body.grunge.build-error {
     text-transform: lowercase;
 }
 
+.grid-elt-title {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    text-align: right;
+}
+
 .widget-detailed {
     display: none;
 }

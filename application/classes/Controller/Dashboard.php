@@ -1,9 +1,16 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * Displays dashboards
+ */
 class Controller_Dashboard extends Controller
 {
 
+    /**
+     * Displays main dashboard
+     * @url http://example.com/dashboard/main
+     */
     public function action_main()
     {
         $widgets     = ORM::factory('Widget')
@@ -20,13 +27,20 @@ class Controller_Dashboard extends Controller
         $this->response->body($view);
     }
 
+    /**
+     * Displays project dashboard
+     * @url http://example.com/dashboard/project/<project_id>
+     */
     public function action_project()
     {
         $projectId   = $this->request->param('id');
-        $widgets     = ORM::factory('Project_Widget')->where('project_id', '=', $projectId)->find_all();
+        $widgets     = ORM::factory('Project_Widget')
+                ->where('project_id', '=', $projectId)
+                ->find_all();
         $widgetsView = array();
         foreach ($widgets as $widget) {
-            $widgetsView[] = Request::factory('w/project/' . $widget->type . '/display/' . $widget->id . '/' . $projectId)->execute();
+            $widgetsView[] = Request::factory('w/project/' . $widget->type . '/display/' . $widget->id . '/' . $projectId)
+                    ->execute();
         }
 
         $view = View::factory('dashboard')
@@ -37,15 +51,21 @@ class Controller_Dashboard extends Controller
         $this->response->body($view);
     }
 
+    /**
+     * Displays build dashboard
+     * @url http://example.com/dashboard/build/<build_id>
+     */
     public function action_build()
     {
-        $buildId = $this->request->param('id');
-        $build   = ORM::factory('Build', $buildId);
-
-        $widgets     = ORM::factory('Build_Widget')->where('project_id', '=', $build->project_id)->find_all();
+        $buildId     = $this->request->param('id');
+        $build       = ORM::factory('Build', $buildId);
+        $widgets     = ORM::factory('Build_Widget')
+                ->where('project_id', '=', $build->project_id)
+                ->find_all();
         $widgetsView = array();
         foreach ($widgets as $widget) {
-            $widgetsView[] = Request::factory('w/build/' . $widget->type . '/display/' . $widget->id . '/' . $buildId)->execute();
+            $widgetsView[] = Request::factory('w/build/' . $widget->type . '/display/' . $widget->id . '/' . $buildId)
+                    ->execute();
         }
 
         $view = View::factory('dashboard')
@@ -57,5 +77,3 @@ class Controller_Dashboard extends Controller
         $this->response->body($view);
     }
 }
-
-// End Welcome

@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * Displays the evolution of the number of errors with previous build.
+ */
 class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseIcon
 {
 
+    /**
+     * Gets the expected parameters
+     * @param string $dashboard Type of dashboard
+     * @return array
+     */
     static public function getExpectedParameters($dashboard)
     {
         return array(
@@ -17,13 +25,27 @@ class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseI
         );
     }
 
-    public function before()
+    /**
+     * Gets the widget icon
+     * @return string
+     */
+    protected function getWidgetIcon()
     {
-        parent::before();
-        $this->widgetIcon  = 'flag';
-        $this->widgetTitle = 'phpmd';
+        return Owaka::ICON_FLAG;
     }
 
+    /**
+     * Gets the widget title
+     * @return string
+     */
+    protected function getWidgetTitle()
+    {
+        return 'PHPMD';
+    }
+
+    /**
+     * Processes the widget for all dashboards
+     */
     public function display_all()
     {
         $build = $this->getBuild();
@@ -42,6 +64,9 @@ class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseI
         $this->process($build, $prevBuild, TRUE);
     }
 
+    /**
+     * Processes the widget for sample in all dashboards
+     */
     public function sample_all()
     {
         $build                           = ORM::factory('Build');
@@ -53,6 +78,12 @@ class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseI
         $this->process($build, $prevBuild, TRUE);
     }
 
+    /**
+     * Processes the widget
+     * @param Model_Build $build     Current build to process
+     * @param Model_Build $prevBuild Previous build to process
+     * @param bool        $forceShow Force showing widget when model is not loaded
+     */
     protected function process(Model_Build &$build, Model_Build &$prevBuild, $forceShow = FALSE)
     {
         if ((!$build->phpmd_globaldata->loaded() || !$prevBuild->phpmd_globaldata->loaded()) && !$forceShow) {
@@ -67,7 +98,7 @@ class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseI
                 "title" => 'report',
                 "url"   => 'reports/' . $build->id . '/phpmd/index.html'
             );
-            
+
             $errors = $build->phpmd_globaldata->errors - $prevBuild->phpmd_globaldata->errors;
 
             if ($errors == 0) {

@@ -1,18 +1,16 @@
 <?php
 
+/**
+ * Widget for display the latest build log file
+ */
 class Controller_Widget_Log extends Controller_Widget_BaseRaw
 {
 
-    static public function getPreferredSize()
-    {
-        return parent::getPreferredSize();
-    }
-
-    static public function getOptimizedSizes()
-    {
-        return parent::getOptimizedSizes();
-    }
-
+    /**
+     * Gets the expected parameters
+     * @param string $dashboard Type of dashboard
+     * @return array
+     */
     static public function getExpectedParameters($dashboard)
     {
         return array(
@@ -23,13 +21,27 @@ class Controller_Widget_Log extends Controller_Widget_BaseRaw
         );
     }
 
-    public function before()
+    /**
+     * Gets the widget icon
+     * @return string
+     */
+    protected function getWidgetIcon()
     {
-        parent::before();
-        $this->widgetIcon  = 'doc';
-        $this->widgetTitle = 'log';
+        return Owaka::ICON_DOC;
     }
 
+    /**
+     * Gets the widget title
+     * @return string
+     */
+    protected function getWidgetTitle()
+    {
+        return 'Log';
+    }
+
+    /**
+     * Processes the widget for all dashboards
+     */
     public function display_all()
     {
         $build = $this->getBuild();
@@ -50,8 +62,12 @@ class Controller_Widget_Log extends Controller_Widget_BaseRaw
             $this->content = file_get_contents(APPPATH . 'reports/' . $build->id . '/log.html');
         }
     }
-    
-    public function sample_all() {
+
+    /**
+     * Processes the widget for sample in all dashboards
+     */
+    public function sample_all()
+    {
         $this->content = <<<EOT
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin interdum consectetur molestie. Morbi mi turpis, adipiscing lacinia faucibus ut, lobortis sit amet lorem. Vivamus malesuada, turpis eget gravida pretium, diam mauris convallis diam, a euismod mi lectus non justo. Aenean eleifend mattis pellentesque. Nulla consequat dictum luctus. Phasellus ante quam, commodo a sollicitudin a, tristique vitae quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus lorem elit, bibendum eget suscipit eget, tempus ac sem. Quisque id urna mi. Suspendisse potenti. Aliquam suscipit cursus metus nec commodo.
 

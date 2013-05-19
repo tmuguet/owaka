@@ -20,8 +20,8 @@ if (!empty($widgetStatus)) {
             </ul>
         </div>
     <?php endif; ?>
-    <div class="grid-elt-content">
-
+    <div class="grid-elt-title">
         <?php if (!empty($title)): ?><h2><?php echo $title; ?></h2><?php endif; ?>
-
         <?php if (!empty($subtitle)): ?><h3><?php echo $subtitle; ?></h3><?php endif; ?>
+    </div>
+    <div class="grid-elt-content">

@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * Displays the coverage status of a build.
+ */
 class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
 {
 
+    /**
+     * Gets the expected parameters
+     * @param string $dashboard Type of dashboard
+     * @return array
+     */
     static public function getExpectedParameters($dashboard)
     {
         return array(
@@ -24,13 +32,27 @@ class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
         );
     }
 
-    public function before()
+    /**
+     * Gets the widget icon
+     * @return string
+     */
+    protected function getWidgetIcon()
     {
-        parent::before();
-        $this->widgetIcon  = 'target';
-        $this->widgetTitle = 'coverage';
+        return Owaka::ICON_TARGET;
     }
 
+    /**
+     * Gets the widget title
+     * @return string
+     */
+    protected function getWidgetTitle()
+    {
+        return 'Coverage';
+    }
+
+    /**
+     * Processes the widget for all dashboards
+     */
     public function display_all()
     {
         $build = $this->getBuild();
@@ -43,6 +65,9 @@ class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
         $this->process($build);
     }
 
+    /**
+     * Processes the widget for sample in all dashboards
+     */
     public function sample_all()
     {
         $build                                         = ORM::factory('Build');
@@ -53,6 +78,11 @@ class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
         $this->process($build, TRUE);
     }
 
+    /**
+     * Processes the widget
+     * @param Model_Build $build     Current build to process
+     * @param bool        $forceShow Force showing widget when model is not loaded
+     */
     protected function process(Model_Build &$build, $forceShow = FALSE)
     {
         if (!$build->coverage_globaldata->loaded() && !$forceShow) {

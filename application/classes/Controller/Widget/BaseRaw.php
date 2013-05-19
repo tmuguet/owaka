@@ -1,15 +1,30 @@
 <?php
 
+/**
+ * Base class for all widgets displaying text
+ */
 abstract class Controller_Widget_BaseRaw extends Controller_Widget_Base
 {
 
+    /**
+     * Raw HTML content to display
+     * @var string
+     */
     protected $content = NULL;
 
+    /**
+     * Gets the preferred size (width, height)
+     * @return int[]
+     */
     static public function getPreferredSize()
     {
         return array(6, 4);
     }
 
+    /**
+     * Gets the sizes (width, height) which this widget is optimized for
+     * @return int[][]
+     */
     static public function getOptimizedSizes()
     {
         return array(
@@ -18,6 +33,9 @@ abstract class Controller_Widget_BaseRaw extends Controller_Widget_Base
         );
     }
 
+    /**
+     * Renders the widget
+     */
     protected function render()
     {
         parent::initViews();

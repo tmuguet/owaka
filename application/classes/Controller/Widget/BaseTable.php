@@ -1,16 +1,36 @@
 <?php
 
+/**
+ * Base class for all widgets displaying tables
+ */
 abstract class Controller_Widget_BaseTable extends Controller_Widget_Base
 {
 
+    /**
+     * Name of the columns
+     * @var array
+     */
     protected $columnsHeaders = array();
+    
+    /**
+     * List of rows
+     * @var array
+     */
     protected $rows           = array();
 
+    /**
+     * Gets the preferred size (width, height)
+     * @return int[]
+     */
     static public function getPreferredSize()
     {
         return array(2, 4);
     }
 
+    /**
+     * Gets the sizes (width, height) which this widget is optimized for
+     * @return int[][]
+     */
     static public function getOptimizedSizes()
     {
         return array(
@@ -19,6 +39,9 @@ abstract class Controller_Widget_BaseTable extends Controller_Widget_Base
         );
     }
 
+    /**
+     * Renders the widget
+     */
     protected function render()
     {
         parent::initViews();

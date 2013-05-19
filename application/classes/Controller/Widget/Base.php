@@ -1,21 +1,22 @@
 <?php
 
+/**
+ * Base class for all widgets
+ */
 abstract class Controller_Widget_Base extends Controller
 {
 
     /**
-     * Icon to be displayed
+     * Status of the widget (ok, unstable, error)
      * @var string
      */
-    protected $widgetIcon = NULL;
+    protected $widgetStatus = NULL;
 
     /**
-     * Title of the widget
-     * @var string 
+     * Links provided by the widget
+     * @var array 
      */
-    protected $widgetTitle  = NULL;
-    protected $widgetStatus = NULL;
-    protected $widgetLinks  = array();
+    protected $widgetLinks = array();
 
     /**
      * Reference to the widget model, should not be used in final widgets
@@ -33,31 +34,49 @@ abstract class Controller_Widget_Base extends Controller
      * Reference to the build
      * @var Model_Build
      */
-    private $_build    = NULL;
-    private $_title    = NULL;
+    private $_build = NULL;
+
+    /**
+     * Header of the widget (e.g. project name)
+     * @var string
+     */
+    private $_title = NULL;
+
+    /**
+     * Subheader of the widget (e.g. revision name)
+     * @var string
+     */
     private $_subtitle = NULL;
 
+    /**
+     * Automatically executed before the controller action.
+     * Sets the widget headers.
+     *
+     * @return  void
+     */
     public function before()
     {
         parent::before();
-        if ($this->getModelWidget() instanceof Model_Widget) {
-            if ($this->getProject() !== NULL) {
-                $this->_title = $this->getProject()->name;
+        if ($this->getProject() !== NULL) {
+            $this->_title = $this->getProject()->name;
 
-                /* if ($this->getBuild() !== NULL) {
-                  $this->_subtitle = 'r' . $this->getBuild()->revision;
-                  } */
+            if ($this->getBuild() !== NULL) {
+                $this->_subtitle = 'r' . $this->getBuild()->revision;
             }
         }
     }
 
+    /**
+     * Gets the ORM model of the widget, based on the context
+     * @return Model_Widget|Model_Project_Widget|Model_Build_Widget
+     */
     protected function getModelWidget()
     {
         if ($this->_model === NULL) {
             $widgetId = $this->request->param('id');
 
-            if ($this->request->action() == 'virtual') {
-                $action = 'sample';
+            if ($this->request->action() == Owaka::WIDGET_VIRTUAL) {
+                $action = Owaka::WIDGET_SAMPLE;
             } else {
                 $action = $this->request->param('dashboard');
             }
@@ -91,6 +110,11 @@ abstract class Controller_Widget_Base extends Controller
         return $this->_model;
     }
 
+    /**
+     * Gets the current project, based on the context (or NULL if no project associated)
+     * @return Model_Project|null
+     * @throws Exception Unexpected type of widget (should NEVER happen)
+     */
     protected function getProject()
     {
         if ($this->_project === NULL) {
@@ -116,6 +140,11 @@ abstract class Controller_Widget_Base extends Controller
         return $this->_project;
     }
 
+    /**
+     * Gets the current build, based on the context (or NULL if no build associated)
+     * @return Model_Build|null
+     * @throws Exception Unexpected type of widget (should NEVER happen)
+     */
     protected function getBuild()
     {
         if ($this->_build === NULL) {
@@ -138,6 +167,10 @@ abstract class Controller_Widget_Base extends Controller
         return $this->_build;
     }
 
+    /**
+     * Gets all the widget parameter values.
+     * @return array
+     */
     protected function getParameters()
     {
         if (!empty($this->getModelWidget()->params)) {
@@ -147,6 +180,11 @@ abstract class Controller_Widget_Base extends Controller
         }
     }
 
+    /**
+     * Gets a widget parameter value by its name, or its default value if not set in the parameters, or NULL if not found.
+     * @param string $name
+     * @return string
+     */
     protected function getParameter($name)
     {
         $params = $this->getParameters();
@@ -164,30 +202,56 @@ abstract class Controller_Widget_Base extends Controller
         }
     }
 
+    /**
+     * Gets the width of the widget
+     * @return int
+     */
     protected function getWidth()
     {
         return $this->getModelWidget()->width;
     }
 
+    /**
+     * Gets the height of the widget
+     * @return int
+     */
     protected function getHeight()
     {
         return $this->getModelWidget()->height;
     }
 
+    /**
+     * Renders the widget
+     */
     abstract protected function render();
 
+    /**
+     * Gets the widget title
+     * @return string
+     */
+    abstract protected function getWidgetTitle();
+
+    /**
+     * Gets the widget icon
+     * @return string
+     */
+    abstract protected function getWidgetIcon();
+
+    /**
+     * Initializes the views by setting all needed variables
+     */
     protected function initViews()
     {
         if ($this->getProject() !== NULL) {
             array_unshift($this->widgetLinks,
-                       array(
+                          array(
                 "type" => 'project',
                 "id"   => $this->getProject()->id
             ));
         }
         if ($this->getBuild() !== NULL) {
             array_unshift($this->widgetLinks,
-                       array(
+                          array(
                 "type" => 'build',
                 "id"   => $this->getBuild()->id
             ));
@@ -201,14 +265,19 @@ abstract class Controller_Widget_Base extends Controller
         View::set_global('height', $this->getHeight());
         View::set_global('column', $this->getModelWidget()->column);
         View::set_global('row', $this->getModelWidget()->row);
-        View::set_global('widgetIcon', $this->widgetIcon);
-        View::set_global('widgetTitle', $this->widgetTitle);
+        View::set_global('widgetIcon', $this->getWidgetIcon());
+        View::set_global('widgetTitle', $this->getWidgetTitle());
         View::set_global('widgetStatus', $this->widgetStatus);
         View::set_global('widgetLinks', $this->widgetLinks);
         View::set_global('title', $this->_title);
         View::set_global('subtitle', $this->_subtitle);
     }
 
+    /**
+     * Displays a widget
+     * @url http://example.com/w/<dashboard>/<widget>/display
+     * @throws HTTP_Exception_500 Type of dashboard not supported for the widget
+     */
     public function action_display()
     {
         $name = "display_" . $this->request->param('dashboard');
@@ -223,6 +292,11 @@ abstract class Controller_Widget_Base extends Controller
         $this->render();
     }
 
+    /**
+     * Displays a sample widget
+     * @url http://example.com/w/<dashboard>/<widget>/sample
+     * @throws HTTP_Exception_500 Type of dashboard not supported for the widget
+     */
     public function action_sample()
     {
         array_unshift($this->widgetLinks,
@@ -244,6 +318,11 @@ abstract class Controller_Widget_Base extends Controller
         $this->render();
     }
 
+    /**
+     * Displays a virtual widget
+     * @url http://example.com/w/<dashboard>/<widget>/virtual
+     * @throws HTTP_Exception_500 Type of dashboard not supported for the widget
+     */
     public function action_virtual()
     {
         $this->action_sample();

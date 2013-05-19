@@ -1,18 +1,16 @@
 <?php
 
+/**
+ * Displays the building queue.
+ */
 class Controller_Widget_Queue extends Controller_Widget_BaseTable
 {
 
-    static public function getPreferredSize()
-    {
-        return parent::getPreferredSize();
-    }
-
-    static public function getOptimizedSizes()
-    {
-        return parent::getOptimizedSizes();
-    }
-
+    /**
+     * Gets the expected parameters
+     * @param string $dashboard Type of dashboard
+     * @return array
+     */
     static public function getExpectedParameters($dashboard)
     {
         return array(
@@ -26,12 +24,27 @@ class Controller_Widget_Queue extends Controller_Widget_BaseTable
         );
     }
 
-    public function before()
+    /**
+     * Gets the widget icon
+     * @return string
+     */
+    protected function getWidgetIcon()
     {
-        $this->widgetIcon  = 'clock';
-        $this->widgetTitle = 'queue';
+        return Owaka::ICON_CLOCK;
     }
 
+    /**
+     * Gets the widget title
+     * @return string
+     */
+    protected function getWidgetTitle()
+    {
+        return 'Queue';
+    }
+
+    /**
+     * Processes the widget for main dashboard
+     */
     public function display_main()
     {
         $builds = ORM::factory('Build')
@@ -45,6 +58,9 @@ class Controller_Widget_Queue extends Controller_Widget_BaseTable
         $this->process($builds);
     }
 
+    /**
+     * Processes the widget for sample in main dashboard
+     */
     public function sample_main()
     {
         $builds               = array();
@@ -63,6 +79,10 @@ class Controller_Widget_Queue extends Controller_Widget_BaseTable
         $this->process($builds);
     }
 
+    /**
+     * Processes the widget
+     * @param Model_Build[] $builds Builds to process
+     */
     protected function process($builds)
     {
 
