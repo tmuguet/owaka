@@ -19,7 +19,7 @@ if (is_file(APPPATH . 'classes/Kohana' . EXT)) {
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/timezones
  */
-date_default_timezone_set('America/Chicago');
+date_default_timezone_set('##TIMEZONE##');
 
 /**
  * Set the default locale.
@@ -27,7 +27,7 @@ date_default_timezone_set('America/Chicago');
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/function.setlocale
  */
-setlocale(LC_ALL, 'en_US.utf-8');
+setlocale(LC_ALL, '##LOCALE##');
 
 /**
  * Enable the Kohana auto-loader.
@@ -58,10 +58,10 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
 /**
  * Set the default language
  */
-I18n::lang('en-us');
+I18n::lang('#LANG#');
 
 
-Cookie::$salt = '&3*g-r$JDJ';
+Cookie::$salt = '##COOKIESALT##';
 
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
@@ -89,7 +89,7 @@ if (isset($_SERVER['KOHANA_ENV'])) {
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 Kohana::init(array(
-    'base_url' => '/owaka/',
+    'base_url' => '/##REWRITEBASE##/',
 ));
 
 /**

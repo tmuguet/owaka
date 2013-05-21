@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<project name="owaka" basedir="." default="update">
+
+    <!-- Sets the DSTAMP, TSTAMP and TODAY properties -->
+    <tstamp/>
+
+    <resolvepath propertyName="build.fulldir" file="${project.basedir}"/>
+    <property file="${build.fulldir}/build.properties" override="true" />
+    <resolvepath propertyName="build.srcdir" file="${project.basedir}/../../"/>
+    
+    <target name="_config" description="Check configuration" hidden="true">
+        <fail unless="config" msg="config is not set"/>
+        <available file="${build.fulldir}/${config}.properties" property="_config_exists"/>
+        <fail unless="_config_exists" msg="Properties file for ${config} does not exist"/>
+        
+        <property file="${build.fulldir}/${config}.properties" override="true" />
+        <fail unless="build.deploydir" msg="build.deploydir is not set for ${config}"/>
+        
+        <fail unless="build.env" msg="build.env is not set for ${config}"/>
+        <fail unless="db.host" msg="db.host is not set for ${config}"/>
+        <fail unless="db.user" msg="db.user is not set for ${config}"/>
+        <fail unless="db.pass" msg="db.pass is not set for ${config}"/>
+        <fail unless="db.name" msg="db.name is not set for ${config}"/>
+    </target>
+    
+    <target name="validate">
+        <phing phingfile="${build.fulldir}/_validate.xml" target="validate" haltonfailure="true"/>
+    </target>
+    
+    <target name="doc">
+        <phing phingfile="${build.fulldir}/_validate.xml" target="doc" haltonfailure="true"/>
+    </target>
+    
+    <target name="analysis">
+        <phing phingfile="${build.fulldir}/_validate.xml" target="analysis" haltonfailure="true"/>
+    </target>
+    
+    <target name="test">
+        <phing phingfile="${build.fulldir}/_validate.xml" target="test" haltonfailure="true"/>
+    </target>
+    
+    <target name="test_partial">
+        <fail unless="testname" msg="testname is not set"/>
+        <property name="noreinstall" value="true"/>
+        <phing phingfile="${build.fulldir}/_validate.xml" target="test_partial" haltonfailure="true"/>
+    </target>
+    
+    <target name="install">
+        <phingcall target="_config"/>
+        <phing phingfile="${build.fulldir}/_db.xml" target="install" haltonfailure="true"/>
+        <phing phingfile="${build.fulldir}/_deploy.xml" target="install" haltonfailure="true"/>
+    </target>
+    
+    <target name="reinstall">
+        <phingcall target="_config"/>
+        <phing phingfile="${build.fulldir}/_db.xml" target="reinstall" haltonfailure="true"/>
+        <phing phingfile="${build.fulldir}/_deploy.xml" target="reinstall" haltonfailure="true"/>
+    </target>
+    
+    <target name="update">
+        <phingcall target="_config"/>
+        <phing phingfile="${build.fulldir}/_db.xml" target="update" haltonfailure="true"/>
+        <phing phingfile="${build.fulldir}/_deploy.xml" target="update" haltonfailure="true"/>
+    </target>
+    
+    <target name="uninstall">
+        <phingcall target="_config"/>
+        <phing phingfile="${build.fulldir}/_db.xml" target="uninstall" haltonfailure="true"/>
+        <phing phingfile="${build.fulldir}/_deploy.xml" target="uninstall" haltonfailure="true"/>
+    </target>
+</project>

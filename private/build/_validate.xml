@@ -1,0 +1,170 @@
+<?xml version="1.0" ?>
+<project name="owaka-validate" basedir="." default="validate">
+
+    <if>
+        <not>
+            <isset property="config"/>
+        </not>
+        <then>
+            <property name="config" value="test"/>
+        </then>
+    </if>
+    <property file="${build.fulldir}/${config}.properties" override="true" />
+
+    <fileset dir="${build.deploydir}/application" id="app-php">
+        <include name="classes/**/*.php" />
+        <include name="views/**/*.php" />
+    </fileset>
+    
+    <fileset dir="${build.deploydir}/application" id="app-php-test">
+        <include name="classes/Controller/**/*.php" />
+        <include name="classes/Model/**/*.php" />
+        <include name="classes/Helper/**/*.php" />
+        <include name="classes/*.php" />
+    </fileset>
+    
+    <target name="_prepare" hidden="true">
+        <if>
+            <and>
+                <isset property="noreinstall"/>
+                <istrue value="${noreinstall}"/>
+            </and>
+            <then>
+                <phing phingfile="${build.fulldir}/build.xml" target="update" haltonfailure="true"/>
+            </then>
+            <else>
+                <phing phingfile="${build.fulldir}/build.xml" target="reinstall" haltonfailure="true"/>
+            </else>
+        </if>
+        
+        
+        <delete dir="tmp/coverage_db" includeemptydirs="true" quiet="true"/>
+        <delete dir="tmp/coverage_result" includeemptydirs="true" quiet="true"/>
+        <delete dir="tmp/reports" includeemptydirs="true" quiet="true"/>
+
+        <mkdir dir="tmp/coverage_db"/>
+        <mkdir dir="tmp/coverage_result"/>
+        <mkdir dir="tmp/reports"/>
+        <mkdir dir="tmp/reports/tests"/>
+        <mkdir dir="tmp/reports/coverage"/>
+        <mkdir dir="tmp/reports/apidocs"/>
+    </target>
+    
+    <target name="_analysis" hidden="true">
+        <phpdepend>
+            <fileset refid="app-php-test"/>
+            <logger type="summary-xml" outfile="tmp/reports/metrics.xml"/>
+            <logger type="jdepend-chart" outfile="tmp/reports/jdepend.svg"/>
+            <logger type="overview-pyramid" outfile="tmp/reports/pyramid.svg"/>
+        </phpdepend>
+        
+        <phpmd>
+            <fileset refid="app-php-test"/>
+            <formatter type="html" outfile="tmp/reports/phpmd.html"/>
+        </phpmd>
+        
+        <!--<phpcpd>
+            <fileset refid="app-php-test"/>
+            <formatter type="pmd" outfile="reports/pmd-cpd.xml"/>
+        </phpcpd>-->
+        
+        <phpcodesniffer standard="kasagi" docGenerator="HTML" docFile="tmp/reports/codesniffer-doc.html">
+            <fileset refid="app-php-test"/>
+            <formatter type="checkstyle" usefile="true" outfile="tmp/reports/codesniffer.xml"/>
+        </phpcodesniffer>
+    </target>
+    
+    <target name="_unit_test" hidden="true">
+        <pdosqlexec 
+            url="mysql:host=${build.db.host};dbname=${db.name}" 
+            userid="${build.db.user}" 
+            password="${build.db.pass}">
+            <transaction src="${build.fulldir}/data/_db/unittest-init.sql"/>
+        </pdosqlexec>
+        
+        <coverage-setup database="tmp/coverage_db/coverage.db">
+            <fileset refid="app-php-test"/>
+        </coverage-setup>
+    
+        <echo msg="Executing all tests"/>
+        <phpunit codecoverage="true" printsummary="true" failureproperty="tests_failure" errorproperty="tests_error" bootstrap="${build.deploydir}/private/tests/bootstrap.php">
+            <formatter type="xml" todir="tmp/reports"/>
+            <batchtest>
+                <fileset dir="${build.deploydir}/private/tests/boot">
+                    <include name="**/*.php"/>
+                </fileset>
+            </batchtest>
+            <batchtest>
+                <fileset dir="${build.deploydir}/private/tests/classes">
+                    <include name="**/*.php"/>
+                    <exclude name="**/_mocks"/>
+                </fileset>
+            </batchtest>
+        </phpunit>
+        
+        <phpunitreport infile="tmp/reports/testsuites.xml"
+                       format="frames" todir="tmp/reports/tests"/>
+        
+        <coverage-report outfile="tmp/reports/coverage.xml">
+            <report todir="tmp/reports/coverage"/>
+        </coverage-report>
+    </target>
+    
+    <target name="_unit_test_partial" hidden="true">
+        <fail unless="testname" msg="testname is not set"/>
+    
+        <pdosqlexec 
+            url="mysql:host=${build.db.host};dbname=${build.db.name}" 
+            userid="${build.db.user}" 
+            password="${build.db.pass}">
+            <transaction src="${build.fulldir}/data/_db/unittest-init.sql"/>
+        </pdosqlexec>
+    
+        <echo msg="Executing partial tests: ${testname}"/>
+        <phpunit codecoverage="false" printsummary="true" failureproperty="tests_failure" errorproperty="tests_error" bootstrap="${build.deploydir}/private/tests/bootstrap.php">
+            <formatter type="xml" todir="tmp/reports"/>
+            <batchtest>
+                <fileset dir="${build.deploydir}/private/tests/classes">
+                    <include name="**/${testname}.php"/>
+                    <exclude name="**/_mocks"/>
+                </fileset>
+            </batchtest>
+        </phpunit>
+        
+        <phpunitreport infile="tmp/reports/testsuites.xml"
+                       format="frames" todir="tmp/reports/tests"/>
+    </target>
+    
+    <target name="_doc" hidden="true">
+        <phpdoc2 title="owaka" destdir="tmp/reports/apidocs" template="responsive">
+            <fileset refid="app-php-test"/>
+        </phpdoc2>
+    </target>
+    
+    <target name="validate" hidden="true">
+        <phingcall target="_prepare"/>
+        <phingcall target="_analysis"/>
+        <phingcall target="_doc"/>
+        <phingcall target="_unit_test"/>
+    </target>
+    
+    <target name="doc" hidden="true">
+        <phingcall target="_prepare"/>
+        <phingcall target="_doc"/>
+    </target>
+    
+    <target name="analysis" hidden="true">
+        <phingcall target="_prepare"/>
+        <phingcall target="_analysis"/>
+    </target>
+    
+    <target name="test" hidden="true">
+        <phingcall target="_prepare"/>
+        <phingcall target="_unit_test"/>
+    </target>
+    
+    <target name="test_partial" hidden="true">
+        <phingcall target="_prepare"/>
+        <phingcall target="_unit_test_partial"/>
+    </target>
+</project>

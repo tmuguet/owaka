@@ -7,10 +7,10 @@ return array
         (
         'type'         => 'mysql',
         'connection'   => array(
-            'hostname'   => 'localhost',
-            'database'   => 'owaka',
-            'username'   => 'owaka',
-            'password'   => 'owaka',
+            'hostname'   => '##HOST##',
+            'database'   => '##DATABASE##',
+            'username'   => '##USER##',
+            'password'   => '##PASSWORD##',
             'persistent' => FALSE,
         ),
         'table_prefix' => '',

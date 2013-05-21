@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<project name="owaka-db" basedir="." default="update">
+
+    <fail unless="config" msg="Not initialized"/>
+    <property file="${build.fulldir}/${config}.properties" override="true" />
+        
+    <target name="_config_create" description="Creates database configuration" hidden="true">
+        <echo msg="Creating database configuration"/>
+        <mkdir dir="${build.fulldir}/data/${config}/db/" />
+        <copy file="${build.fulldir}/data/_db/init.sql" tofile="${build.fulldir}/data/${config}/db/init.sql" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="HOST" value="${db.host}" />
+                    <token key="USER" value="${db.user}" />
+                    <token key="PASSWORD" value="${db.pass}" />
+                    <token key="DATABASE" value="${db.name}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        
+        <copy file="${build.fulldir}/data/_db/delete.sql" tofile="${build.fulldir}/data/${config}/db/delete.sql" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="HOST" value="${db.host}" />
+                    <token key="USER" value="${db.user}" />
+                    <token key="PASSWORD" value="${db.pass}" />
+                    <token key="DATABASE" value="${db.name}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+    
+    <target name="_init" description="Initialises database" hidden="true">
+        <pdosqlexec 
+            url="mysql:host=${build.db.host}" 
+            userid="${build.db.user}" 
+            password="${build.db.pass}">
+            <transaction src="${build.fulldir}/data/${config}/db/init.sql"/>
+        </pdosqlexec>
+    </target>
+    
+    <target name="_migrate" description="Migrates database" hidden="true">  
+        <mkdir dir="${build.fulldir}/data/${config}/db/" />
+        
+        <taskdef name="dbdeploy" classname="phing.tasks.ext.dbdeploy.DbDeployTask"/>
+
+        <property name="_dbdeploy.deployfile" value="${build.fulldir}/data/${config}/db/deploy-${DSTAMP}${TSTAMP}.sql" />
+        <property name="_dbdeploy.undofile" value="${build.fulldir}/data/${config}/db/undo-${DSTAMP}${TSTAMP}.sql" />
+
+        <echo msg="Generating deployment scripts"/>
+        <dbdeploy 
+            url="mysql:host=${build.db.host};dbname=${db.name}" 
+            userid="${build.db.user}" 
+            password="${build.db.pass}" 
+            dir="${build.srcdir}/private/db-deltas" 
+            outputfile="${_dbdeploy.deployfile}" 
+            undooutputfile="${_dbdeploy.undofile}" />
+        
+        <echo msg="Applying deployment scripts"/>
+        <pdosqlexec 
+            url="mysql:host=${build.db.host};dbname=${db.name}" 
+            userid="${build.db.user}" 
+            password="${build.db.pass}">
+            <transaction src="${_dbdeploy.deployfile}"/>
+        </pdosqlexec>
+        
+        <delete file="${_dbdeploy.deployfile}" quiet="true"/>
+        <delete file="${_dbdeploy.undofile}" quiet="true"/>
+    </target>
+    
+    <target name="_remove" description="Remove database" hidden="true">
+        <pdosqlexec 
+            url="mysql:host=${build.db.host}" 
+            userid="${build.db.user}" 
+            password="${build.db.pass}">
+            <transaction src="${build.fulldir}/data/${config}/db/delete.sql"/>
+        </pdosqlexec>
+    </target>
+    
+    
+    <target name="install" description="Install database" hidden="true">
+        <phingcall target="_config_create"/>
+        <phingcall target="_init"/>
+        <phingcall target="_migrate"/>
+    </target>
+    
+    <target name="reinstall" description="Reinstall database" hidden="true">
+        <phingcall target="_remove"/>
+        <phingcall target="install"/>
+    </target>
+    
+    <target name="update" description="Update database" hidden="true">
+        <phingcall target="_migrate"/>
+    </target>
+    
+    <target name="uninstall" description="Uninstall database" hidden="true">
+        <phingcall target="_remove"/>
+    </target>
+</project>

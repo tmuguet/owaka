@@ -1,0 +1,222 @@
+<?xml version="1.0" ?>
+<project name="owaka-deploy" basedir="." default="update">
+
+    <fail unless="config" msg="Not initialized"/>
+    <property file="${build.fulldir}/${config}.properties" override="true" />
+
+    <taskdef classname="yuicompressor.yuicompressorTask" name="yuicompressor"/>
+
+    <fileset dir="${build.srcdir}" id="kohana">
+        <include name="modules/**" />
+        <include name="system/**" />
+    </fileset>
+    
+    <fileset dir="${build.srcdir}" id="app">
+        <include name="application/classes/**" />
+        <include name="application/i18n/**" />
+        <include name="application/messages/**" />
+        <include name="application/views/**" />
+        <include name="application/bootstrap.php" />
+        <include name="img/**" />
+        <include name="favicon.ico" />
+        <include name="index.php" />
+    </fileset>
+    
+    <fileset dir="${build.srcdir}" id="app-tests">
+        <include name="application/classes/**" />
+        <include name="application/i18n/**" />
+        <include name="application/messages/**" />
+        <include name="application/views/**" />
+        <include name="application/bootstrap.php" />
+        <include name="private/tests/**" />
+        <include name="index.php" />
+        <exclude name="application/config" />
+        <exclude name="application/logs" />
+        <exclude name="application/cache" />
+        <exclude name="application/reports" />
+    </fileset>
+    
+    <fileset dir="${build.srcdir}/css" id="css-minimized-images">
+        <include name="images/**" />
+        <include name="smoothness/images/**" />
+    </fileset>
+    
+    <fileset dir="${build.srcdir}/css" id="css-all">
+        <include name="**" />
+    </fileset>
+    
+    <fileset dir="${build.srcdir}/js" id="js-minimized">
+        <include name="images/**" />
+    </fileset>
+    
+    <fileset dir="${build.srcdir}/js" id="js-all">
+        <include name="**" />
+    </fileset>
+    
+    <target name="_scripts" description="Copies JS/CSS files" hidden="true">
+        <if>
+            <equals arg1="${build.env}" arg2="TESTING"/>
+            <then>
+                <echo msg="Skipping deploying JS/CSS"/>
+            </then>
+            <elseif>
+                <equals arg1="${build.env}" arg2="DEVELOPMENT"/>
+                <then>
+                    <echo msg="Deploying all JS/CSS..."/>
+                    <copy todir="${build.deploydir}/js">
+                        <fileset refid="js-all"/>
+                    </copy>
+                    <copy todir="${build.deploydir}/css">
+                        <fileset refid="css-all"/>
+                    </copy>
+                </then>
+            </elseif>
+            <else>
+                <echo msg="Deploying minimized JS/CSS..."/>
+                <mkdir dir="${build.deploydir}/js" />
+                <mkdir dir="${build.deploydir}/css/images" />
+                
+                <copy todir="${build.deploydir}/js">
+                    <fileset refid="js-minimized"/>
+                </copy>
+                <copy todir="${build.deploydir}/css/images">
+                    <mapper type="flatten"/>
+                    <fileset refid="css-minimized-images"/>
+                </copy>
+                
+                <yuicompressor inputfiles="${build.srcdir}/js/_files.php" outputcombined="${build.deploydir}/js/all.js" outputmin="${build.deploydir}/js/all-min.js"/>
+                
+                <yuicompressor inputfiles="${build.srcdir}/css/_files.php" outputcombined="${build.deploydir}/css/all.css" outputmin="${build.deploydir}/css/all-min.css"/>
+            </else>
+        </if>
+    </target>
+    
+    <target name="_sources" description="Copies sources" hidden="true">
+        <if>
+            <os family="mac"/>
+            <then>
+                <property name="OS" value="MACOS"/>
+            </then>
+            <else>
+                <property name="OS" value="UNIX"/>
+            </else>
+        </if>
+        
+        <mkdir dir="${build.deploydir}"/>
+        <mkdir dir="${build.deploydir}/application/cache"/>
+        <mkdir dir="${build.deploydir}/application/logs"/>
+        <mkdir dir="${build.deploydir}/application/reports"/>
+        <echo msg="Deploying application in ${build.deploydir} with env ${build.env}..."/>
+        <copy todir="${build.deploydir}">
+            <fileset refid="kohana"/>
+        </copy>
+        <if>
+            <equals arg1="${build.env}" arg2="TESTING"/>
+            <then>
+                <copy todir="${build.deploydir}">
+                    <fileset refid="app-tests"/>
+                    <filterchain>
+                        <filterreader classname="preprocessor.PreProcessorFilter">
+                            <param name="${build.env}" value="1" />
+                            <param name="${OS}" value="1" />
+                            <!--<param name="macrodir" value="${src.dir}/private/macros" />
+                            <param name="codedir" value="${src.dir}/private/code" />-->
+                        </filterreader>
+                    </filterchain>
+                </copy>
+            </then>
+            <else>
+                <copy todir="${build.deploydir}">
+                    <fileset refid="app"/>
+                    <filterchain>
+                        <filterreader classname="preprocessor.PreProcessorFilter">
+                            <param name="${build.env}" value="1" />
+                            <param name="${OS}" value="1" />
+                            <!--<param name="macrodir" value="${src.dir}/private/macros" />
+                            <param name="codedir" value="${src.dir}/private/code" />-->
+                        </filterreader>
+                    </filterchain>
+                </copy>
+            </else>
+        </if>
+        
+        <phingcall target="_scripts"/>
+        
+        <copy file="${build.srcdir}/.htaccess" tofile="${build.deploydir}/.htaccess" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="REWRITEBASE" value="${config.rewritebase}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        
+        <copy file="${build.srcdir}/application/bootstrap.php" tofile="${build.deploydir}/application/bootstrap.php" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="REWRITEBASE" value="${config.rewritebase}" />
+                    <token key="TIMEZONE" value="${config.timezone}" />
+                    <token key="LOCALE" value="${config.locale}" />
+                    <token key="LANG" value="${config.lang}" />
+                    <token key="COOKIESALT" value="${config.cookiesalt}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        
+        <if>
+            <isset property="build.owner"/>
+            <then>
+                <chown user="${build.owner}" failonerror="false" >
+                    <fileset dir="${build.deploydir}">
+                        <include name="application/cache"/>
+                        <include name="application/logs"/>
+                    </fileset>
+                </chown>
+            </then>
+        </if>
+    </target>
+    
+    <target name="_config" description="Creates config" hidden="true">
+        <echo msg="Writing database configuration..."/>
+        <copy file="${build.srcdir}/application/config/database.php" tofile="${build.deploydir}/application/config/database.php" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="HOST" value="${db.host}" />
+                    <token key="USER" value="${db.user}" />
+                    <token key="PASSWORD" value="${db.pass}" />
+                    <token key="DATABASE" value="${db.name}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <echo msg="Writing auth configuration..."/>
+        <copy file="${build.srcdir}/application/config/auth.php" tofile="${build.deploydir}/application/config/auth.php" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="HASHKEY" value="${config.auth.hashkey}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+    
+    <target name="_remove" description="Removes sources" hidden="true">
+        <delete dir="${build.deploydir}" includeemptydirs="true" quiet="true"/>
+    </target>
+    
+    <target name="install" description="Install files" hidden="true">
+        <phingcall target="_sources"/>
+        <phingcall target="_config"/>
+    </target>
+    
+    <target name="reinstall" description="Reinstall files" hidden="true">
+        <phingcall target="_remove"/>
+        <phingcall target="install"/>
+    </target>
+    
+    <target name="update" description="Update files" hidden="true">
+        <phingcall target="_sources"/>
+        <phingcall target="_config"/>
+    </target>
+    
+    <target name="uninstall" description="Uninstall files" hidden="true">
+        <phingcall target="_remove"/>
+    </target>
+</project>

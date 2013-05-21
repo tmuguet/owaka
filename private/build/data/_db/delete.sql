@@ -1,0 +1,4 @@
+GRANT USAGE ON *.* TO '##USER##'@'##HOST##';
+DROP USER '##USER##'@'##HOST##';
+
+DROP DATABASE IF EXISTS `##DATABASE##` ;

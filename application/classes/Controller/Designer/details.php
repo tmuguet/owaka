@@ -1,4 +1,4 @@
-<?php
+<?php defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
  * Gets details of a widget for the designer mode
