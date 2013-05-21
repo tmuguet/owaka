@@ -32,18 +32,20 @@ class Task_Queue extends Minion_Task
                     break;
 
                 case 'git':
-                    passthru('git update', $result);
+                    passthru('git pull', $result);
                     break;
             }
 
             switch ($project->scm) {
                 case 'mercurial':
+                    $tip = array();
                     exec('hg tip', $tip);
                     preg_match('/\s(\d+):/', $tip[0], $matches);
                     $rev = $matches[1];
                     break;
 
                 case 'git':
+                    $tip = array();
                     exec('git log -1', $tip);
                     preg_match('/commit\s+([0-9a-f]+)/', $tip[0], $matches);
                     $rev = $matches[1];
