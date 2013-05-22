@@ -26,7 +26,7 @@ class Controller_Api_build extends Controller
         foreach ($builds as $build) {
             $output[] = array(
                 "id"       => $build->id,
-                "revision" => $build->revision,
+                "revision" => $build->getRevision(),
                 "status"   => $build->status,
             );
         }

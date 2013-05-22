@@ -140,7 +140,7 @@ Route::set('reports', 'reports/<id>/<type>/<page>',
             'action'     => 'index'
         ));
 
-Route::set('api', 'api/<controller>/<action>(/<dashboard>(/<id>(/<data>)))',
+Route::set('api', 'api/<controller>/<action>(/<dashboard>)(/<id>(/<data>))',
            array(
             'dashboard' => '(main|project|build)'
         ))
