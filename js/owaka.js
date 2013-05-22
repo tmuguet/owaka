@@ -25,14 +25,19 @@ function close_widget(id) {
         o.removeClass('grid-elt-hover');
     });
 }
+
+function computeElement(o) {
+    o.addClass('ui-widget-content');
+    o.css("width", o.attr("data-grid-width") * 80 - 20);
+    o.css("height", o.attr("data-grid-height") * 80 - 20);
+    o.css("top", o.attr("data-grid-row") * 80);
+    o.css("left", o.attr("data-grid-column") * 80);
+}
+
 function computeElements() {
     $.each($(".grid-elt").not('.ui-widget-content'), function() {
         var id = $(this).attr("id");
-        $(this).addClass('ui-widget-content');
-        $(this).css("width", $(this).attr("data-grid-width") * 80 - 20);
-        $(this).css("height", $(this).attr("data-grid-height") * 80 - 20);
-        $(this).css("top", $(this).attr("data-grid-row") * 80);
-        $(this).css("left", $(this).attr("data-grid-column") * 80);
+        computeElement($(this));
 
         timer_widget[id] = null;
 

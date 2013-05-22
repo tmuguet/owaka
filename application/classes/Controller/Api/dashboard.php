@@ -84,6 +84,6 @@ class Controller_Api_dashboard extends Controller
         $widget->column = $this->request->post('column');
         $widget->row    = $this->request->post('row');
         $widget->create();
-        $this->response->body(json_encode(array("ok")));
+        $this->response->body(json_encode(array("res" => "ok", "id" => $widget->id)));
     }
 }

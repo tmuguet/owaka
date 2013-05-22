@@ -14,7 +14,7 @@
     margin-bottom: 20px;
 }
 
-.grid-elt
+.grid-elt, .widget-placeholder
 {
 	display: inline;
 	position: absolute;
