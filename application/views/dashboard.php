@@ -61,7 +61,7 @@ if ($buildId !== NULL) {
                             foreach ($_source as $_build) {
                                 echo '<li><a href="dashboard/build/'.$_build->id.'"';
                                 if ($buildId == $_build->id) {echo ' style="font-weight: bold"';}
-                                echo '>r' . $_build->revision .'</a></li>';
+                                echo '>' . $_build->getRevision() .'</a></li>';
                             }
                             echo '</ul>';
                         }
@@ -78,9 +78,9 @@ if ($buildId !== NULL) {
                 case "project" :
                     echo $project->name;
                     echo ' - latest: ';
-                    echo ($lastBuild === NULL ? 'none' : 'r' . $lastBuild->revision);
+                    echo ($lastBuild === NULL ? 'none' : $lastBuild->getRevision());
                     break;
-                case "build": echo $project->name . ' - r' .$build->revision; break;
+                case "build": echo $project->name . ' - ' .$build->getRevision(); break;
             }
             ?></h2>
         </div>

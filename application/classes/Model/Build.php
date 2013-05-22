@@ -139,4 +139,12 @@ class Model_Build extends ORM
                 ->find_all()->as_array();
         return array_merge(array_reverse($next), array($this), $previous);
     }
+    
+    public function getRevision() {
+        if (ctype_digit($this->revision)) {
+            return 'r'.$this->revision;
+        } else {
+            return substr($this->revision, 0, 10);
+        }
+    }
 }

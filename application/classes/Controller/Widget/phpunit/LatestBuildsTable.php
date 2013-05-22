@@ -155,7 +155,7 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
                 ),
                 "class"   => 'clickable build build-' . $build->status,
                 "columns" => array(
-                    'r' . $build->revision,
+                    $build->getRevision(),
                     $status
                 ),
             );

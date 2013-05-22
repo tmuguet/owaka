@@ -61,7 +61,7 @@ abstract class Controller_Widget_Base extends Controller
             $this->_title = $this->getProject()->name;
 
             if ($this->getBuild() !== NULL) {
-                $this->_subtitle = 'r' . $this->getBuild()->revision;
+                $this->_subtitle = $this->getBuild()->getRevision();
             }
         }
     }
