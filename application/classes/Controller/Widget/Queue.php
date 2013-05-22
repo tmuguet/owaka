@@ -59,27 +59,6 @@ class Controller_Widget_Queue extends Controller_Widget_BaseTable
     }
 
     /**
-     * Processes the widget for sample in main dashboard
-     */
-    public function sample_main()
-    {
-        $builds               = array();
-        $build                = ORM::factory('Build');
-        $build->status        = "building";
-        $build->project->name = "foo";
-        $build->eta           = time() + rand(180, 3600);
-        $builds[]             = $build;
-
-        for ($i = 0; $i < 3; $i++) {
-            $build                = ORM::factory('Build');
-            $build->project->name = "bar " . $i;
-            $builds[]             = $build;
-        }
-
-        $this->process($builds);
-    }
-
-    /**
      * Processes the widget
      * @param Model_Build[] $builds Builds to process
      */

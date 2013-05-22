@@ -59,26 +59,12 @@ class Controller_Widget_phpunit_BuildIcon extends Controller_Widget_BaseIcon
     }
 
     /**
-     * Processes the widget for sample in all dashboards
-     */
-    public function sample_all()
-    {
-        $build                               = ORM::factory('Build');
-        $build->phpunit_globaldata->tests    = 2042;
-        $build->phpunit_globaldata->errors   = 1;
-        $build->phpunit_globaldata->failures = 6;
-
-        $this->process($build, TRUE);
-    }
-
-    /**
      * Processes the widget
      * @param Model_Build $build     Current build to process
-     * @param bool        $forceShow Force showing widget when model is not loaded
      */
-    protected function process(Model_Build &$build, $forceShow = FALSE)
+    protected function process(Model_Build &$build)
     {
-        if (!$build->phpunit_globaldata->loaded() && !$forceShow) {
+        if (!$build->phpunit_globaldata->loaded()) {
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {

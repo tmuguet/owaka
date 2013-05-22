@@ -74,40 +74,10 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
     }
 
     /**
-     * Processes the widget for sample in main dashboard
-     */
-    public function sample_main()
-    {
-        return $this->sample_project();
-    }
-
-    /**
-     * Processes the widget for sample in project dashboard
-     */
-    public function sample_project()
-    {
-        $builds = array();
-        $t      = 1042;
-        $f      = 0;
-        $e      = 0;
-        for ($i = 0; $i < 10; $i++) {
-            $build                               = ORM::factory('Build');
-            $build->revision                     = 10 - $i;
-            $build->phpunit_globaldata->tests    = $t                                   = max(0, $t + rand(-10, 5));
-            $build->phpunit_globaldata->errors   = $e                                   = max(0, $e + rand(-2, 2));
-            $build->phpunit_globaldata->failures = $f                                   = max(0, $f + rand(-3, 3));
-            $builds[]                            = $build;
-        }
-
-        $this->process($builds, TRUE);
-    }
-
-    /**
      * Processes the widget
      * @param Model_Build[] $builds    Builds to process, from latest to oldest
-     * @param bool          $forceShow Force showing widget when model is not loaded
      */
-    protected function process($builds, $forceShow = FALSE)
+    protected function process($builds)
     {
         $this->columnsHeaders = array(
             "Revision", "Status"
@@ -129,7 +99,7 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
 
             if ($build->status == "building") {
                 $status = 'ETA ' . date("H:i", strtotime($build->eta));
-            } else if (!$build->phpunit_globaldata->loaded() && !$forceShow) {
+            } else if (!$build->phpunit_globaldata->loaded()) {
                 $status .= View::factory('icon')->set('status', 'nodata')->set('size', 16)->render();
             } else if ($build->phpunit_globaldata->failures > 0 || $build->phpunit_globaldata->errors > 0) {
                 if ($build->phpunit_globaldata->failures > 0) {

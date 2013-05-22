@@ -299,11 +299,16 @@ abstract class Controller_Widget_Base extends Controller
      */
     public function action_sample()
     {
-        $name = "sample_" . $this->request->param('dashboard');
+        $name  = "sample_" . $this->request->param('dashboard');
+        $name2 = "display_" . $this->request->param('dashboard');
         if (method_exists($this, $name)) {
             $this->$name();
         } else if (method_exists($this, "sample_all")) {
             $this->sample_all();
+        } else if (method_exists($this, $name2)) {
+            $this->$name2();
+        } else if (method_exists($this, "display_all")) {
+            $this->display_all();
         } else {
             throw new HTTP_Exception_500("Widget " . get_called_class() . " does not support dashboard preview " . $this->request->param('dashboard'));
         }

@@ -72,32 +72,13 @@ class Controller_Widget_coverage_BuildEvolutionIcon extends Controller_Widget_Ba
     }
 
     /**
-     * Processes the widget for sample in all dashboards
-     */
-    public function sample_all()
-    {
-        $build                                         = ORM::factory('Build');
-        $build->coverage_globaldata->totalcoverage     = 98.47;
-        $build->coverage_globaldata->methodcoverage    = 97.68;
-        $build->coverage_globaldata->statementcoverage = 99.82;
-
-        $prevBuild                                         = ORM::factory('Build');
-        $prevBuild->coverage_globaldata->totalcoverage     = 98.12;
-        $prevBuild->coverage_globaldata->methodcoverage    = 96.42;
-        $prevBuild->coverage_globaldata->statementcoverage = 99.85;
-
-        $this->process($build, $prevBuild, TRUE);
-    }
-
-    /**
      * Processes the widget
      * @param Model_Build $build     Current build to process
      * @param Model_Build $prevBuild Previous build to process
-     * @param bool        $forceShow Force showing widget when model is not loaded
      */
-    protected function process(Model_Build &$build, Model_Build &$prevBuild, $forceShow = FALSE)
+    protected function process(Model_Build &$build, Model_Build &$prevBuild)
     {
-        if ((!$build->coverage_globaldata->loaded() || !$prevBuild->coverage_globaldata->loaded()) && !$forceShow) {
+        if (!$build->coverage_globaldata->loaded() || !$prevBuild->coverage_globaldata->loaded()) {
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {

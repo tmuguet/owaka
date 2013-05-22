@@ -157,12 +157,33 @@ EOT;
     }
 
     /**
-     * Displays a sample, status is always OK.
+     * Displays a sample for main dashboard.
      */
-    public function sample_all()
+    public function sample_main()
     {
-        $this->_status = 'ok';
-        $this->_theme  = $this->getParameter('theme');
+        $this->display_main();
+
+        $this->_additionalContent = View::factory('widgets/BaseIcon')
+                ->set('status', $this->_status);
+    }
+
+    /**
+     * Displays a sample for project dashboard.
+     */
+    public function sample_project()
+    {
+        $this->display_project();
+
+        $this->_additionalContent = View::factory('widgets/BaseIcon')
+                ->set('status', $this->_status);
+    }
+
+    /**
+     * Displays a sample for build dashboard.
+     */
+    public function sample_build()
+    {
+        $this->display_build();
 
         $this->_additionalContent = View::factory('widgets/BaseIcon')
                 ->set('status', $this->_status);

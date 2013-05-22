@@ -61,32 +61,17 @@ class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseI
                 ->with('phpmd_globaldata')
                 ->find();
 
-        $this->process($build, $prevBuild, TRUE);
-    }
-
-    /**
-     * Processes the widget for sample in all dashboards
-     */
-    public function sample_all()
-    {
-        $build                           = ORM::factory('Build');
-        $build->phpmd_globaldata->errors = 10;
-
-        $prevBuild                           = ORM::factory('Build');
-        $prevBuild->phpmd_globaldata->errors = 8;
-
-        $this->process($build, $prevBuild, TRUE);
+        $this->process($build, $prevBuild);
     }
 
     /**
      * Processes the widget
      * @param Model_Build $build     Current build to process
      * @param Model_Build $prevBuild Previous build to process
-     * @param bool        $forceShow Force showing widget when model is not loaded
      */
-    protected function process(Model_Build &$build, Model_Build &$prevBuild, $forceShow = FALSE)
+    protected function process(Model_Build &$build, Model_Build &$prevBuild)
     {
-        if ((!$build->phpmd_globaldata->loaded() || !$prevBuild->phpmd_globaldata->loaded()) && !$forceShow) {
+        if (!$build->phpmd_globaldata->loaded() || !$prevBuild->phpmd_globaldata->loaded()) {
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {

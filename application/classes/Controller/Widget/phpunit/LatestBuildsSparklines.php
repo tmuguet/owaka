@@ -63,39 +63,10 @@ class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget
     }
 
     /**
-     * Processes the widget for sample in main dashboard
-     */
-    public function sample_main()
-    {
-        return $this->sample_project();
-    }
-
-    /**
-     * Processes the widget for sample in project dashboard
-     */
-    public function sample_project()
-    {
-        $builds = array();
-        $t      = 1042;
-        $f      = 1;
-        $e      = 0;
-        for ($i = 0; $i < 50; $i++) {
-            $build                               = ORM::factory('Build');
-            $build->phpunit_globaldata->tests    = $t                                   = max(0, $t + rand(-10, 5));
-            $build->phpunit_globaldata->errors   = $e                                   = max(0, $e + rand(-2, 2));
-            $build->phpunit_globaldata->failures = $f                                   = max(0, $f + rand(-3, 3));
-            $builds[]                            = $build;
-        }
-
-        $this->process($builds, TRUE);
-    }
-
-    /**
      * Processes the widget
      * @param Model_Build[] $builds    Builds to process, from latest to oldest
-     * @param bool          $forceShow Force showing widget when model is not loaded
      */
-    protected function process($builds, $forceShow = FALSE)
+    protected function process($builds)
     {
         if (sizeof($builds) > 0) {
             $this->widgetLinks[] = array(
@@ -113,7 +84,7 @@ class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget
         $errors   = array();
 
         foreach ($builds as $build) {
-            if ($build->phpunit_globaldata->loaded() || $forceShow) {
+            if ($build->phpunit_globaldata->loaded()) {
                 $tests[]    = $build->phpunit_globaldata->tests;
                 $failures[] = $build->phpunit_globaldata->failures;
                 $errors[]   = $build->phpunit_globaldata->errors;

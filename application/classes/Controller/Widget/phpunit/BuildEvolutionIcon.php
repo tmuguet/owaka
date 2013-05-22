@@ -65,32 +65,13 @@ class Controller_Widget_phpunit_BuildEvolutionIcon extends Controller_Widget_Bas
     }
 
     /**
-     * Processes the widget for sample in all dashboards
-     */
-    public function sample_all()
-    {
-        $build                               = ORM::factory('Build');
-        $build->phpunit_globaldata->tests    = 1200;
-        $build->phpunit_globaldata->errors   = 0;
-        $build->phpunit_globaldata->failures = 6;
-
-        $prevBuild                               = ORM::factory('Build');
-        $prevBuild->phpunit_globaldata->tests    = 1178;
-        $prevBuild->phpunit_globaldata->errors   = 0;
-        $prevBuild->phpunit_globaldata->failures = 7;
-
-        $this->process($build, $prevBuild, TRUE);
-    }
-
-    /**
      * Processes the widget
      * @param Model_Build $build     Current build to process
      * @param Model_Build $prevBuild Previous build to process
-     * @param bool        $forceShow Force showing widget when model is not loaded
      */
-    protected function process(Model_Build &$build, Model_Build &$prevBuild, $forceShow = FALSE)
+    protected function process(Model_Build &$build, Model_Build &$prevBuild)
     {
-        if ((!$build->phpunit_globaldata->loaded() || !$prevBuild->phpunit_globaldata->loaded()) && !$forceShow) {
+        if (!$build->phpunit_globaldata->loaded() || !$prevBuild->phpunit_globaldata->loaded()) {
             $this->status     = 'nodata';
             $this->statusData = 'No data';
         } else {
