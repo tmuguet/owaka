@@ -46,9 +46,6 @@ class Controller_Designer_details extends Controller
         if (isset($params['project']) && !empty($post['projectId'])) {
             $params['project']['default'] = $post['projectId'];
         }
-        if (isset($params['build']) && !empty($post['buildId'])) {
-            $params['build']['default'] = $post['buildId'];
-        }
 
         $view = View::factory('designer_widgetdetails')
                 ->set('from', $this->request->action())

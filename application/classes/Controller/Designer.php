@@ -76,19 +76,17 @@ class Controller_Designer extends Controller
      */
     public function action_build()
     {
-        $buildId = $this->request->param('id');
-        $build   = ORM::factory('Build', $buildId);
-        $widgets = ORM::factory('Build_Widget')->where('project_id', '=', $build->project_id)->find_all();
-        $this->render($widgets, $build->project_id, $buildId);
+        $projectId = $this->request->param('id');
+        $widgets = ORM::factory('Build_Widget')->where('project_id', '=', $projectId)->find_all();
+        $this->render($widgets, $projectId);
     }
 
     /**
      * Renders designer
      * @param (Model_Widget|Model_Project_Widget|Model_Build_Widget)[] $widgets   List of registered widgets
      * @param int|null                                                 $projectId Project ID
-     * @param int|null                                                 $buildId   Build ID
      */
-    protected function render($widgets, $projectId = NULL, $buildId = NULL)
+    protected function render($widgets, $projectId = NULL)
     {
         $controllers = array();
         foreach ($this->getWidgets($this->request->action()) as $controller) {
@@ -108,9 +106,6 @@ class Controller_Designer extends Controller
                 ->set('controllers', $controllers);
         if ($projectId !== NULL) {
             $view->set('projectId', $projectId);
-        }
-        if ($buildId !== NULL) {
-            $view->set('buildId', $buildId);
         }
 
         $this->response->body($view);

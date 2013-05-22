@@ -195,9 +195,6 @@ foreach ($widgets as $_widget) {
 <?php if (isset($projectId)): echo 'postData.projectId = ' . $projectId . ';';
 endif;
 ?>
-<?php if (isset($buildId)): echo 'postData.buildId = ' . $buildId . ';';
-endif;
-?>
 
                         $("#widget_details").load('designer_details/<?php echo $from; ?>/' + $(this).attr("data-widget"), postData);
                     });
