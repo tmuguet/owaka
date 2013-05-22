@@ -242,21 +242,6 @@ abstract class Controller_Widget_Base extends Controller
      */
     protected function initViews()
     {
-        if ($this->getProject() !== NULL) {
-            array_unshift($this->widgetLinks,
-                          array(
-                "type" => 'project',
-                "id"   => $this->getProject()->id
-            ));
-        }
-        if ($this->getBuild() !== NULL) {
-            array_unshift($this->widgetLinks,
-                          array(
-                "type" => 'build',
-                "id"   => $this->getBuild()->id
-            ));
-        }
-
         View::set_global('from', $this->request->param('dashboard'));
         View::set_global('widgetType',
                          str_replace("_", "/", str_replace("Controller_Widget_", "", $this->getModelWidget()->type)));
@@ -289,6 +274,21 @@ abstract class Controller_Widget_Base extends Controller
             throw new HTTP_Exception_500("Widget " . get_called_class() . " does not support dashboard " . $this->request->param('dashboard'));
         }
 
+        if ($this->getProject() !== NULL) {
+            array_unshift($this->widgetLinks,
+                          array(
+                "type" => 'project',
+                "id"   => $this->getProject()->id
+            ));
+        }
+        if ($this->getBuild() !== NULL) {
+            array_unshift($this->widgetLinks,
+                          array(
+                "type" => 'build',
+                "id"   => $this->getBuild()->id
+            ));
+        }
+
         $this->render();
     }
 
@@ -299,13 +299,6 @@ abstract class Controller_Widget_Base extends Controller
      */
     public function action_sample()
     {
-        array_unshift($this->widgetLinks,
-                      array(
-            "title" => 'delete',
-            "url"   => 'javascript:void(0)',
-            "js"    => 'deleteMe(this);'
-        ));
-
         $name = "sample_" . $this->request->param('dashboard');
         if (method_exists($this, $name)) {
             $this->$name();
@@ -314,6 +307,15 @@ abstract class Controller_Widget_Base extends Controller
         } else {
             throw new HTTP_Exception_500("Widget " . get_called_class() . " does not support dashboard preview " . $this->request->param('dashboard'));
         }
+
+        // Remove all links
+        $this->widgetLinks = array(
+            array(
+                "title" => 'delete',
+                "url"   => 'javascript:void(0)',
+                "js"    => 'deleteMe(this);'
+            )
+        );
 
         $this->render();
     }
