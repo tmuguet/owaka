@@ -80,6 +80,7 @@ class includeTest extends Kohana_UnitTest_TestCase
     {
         $files = array(
             APPPATH . '/classes/Date.php',
+            APPPATH . '/classes/File.php',
             APPPATH . '/classes/Owaka.php',
         );
         $this->_test($files);

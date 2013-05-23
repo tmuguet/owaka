@@ -109,19 +109,27 @@ class Task_Run extends Minion_Task
 
     protected function parseReports(Model_Build &$build)
     {
-        $datas = array("codesniffer", "coverage", "pdepend", "phpmd", "unittest");
-        foreach ($datas as $data) {
-            $request = Request::factory('processors_' . $data . '/process/' . $build->id)
+        foreach (File::findProcessors() as $processor) {
+            $name = str_replace("Controller_", "", $processor);
+            $request = Request::factory($name . '/process/' . $build->id)
                     ->execute();
         }
     }
 
     protected function analyseReports(Model_Build &$build)
     {
-        if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {
-            $build->status = 'ok';
-        } else {
-            $build->status = 'unstable';
+        $build->status = 'ok';
+        foreach (File::findAnalyzers() as $processor) {
+            $name = str_replace("Controller_", "", $processor);
+            $result = Request::factory($name . '/analyze/' . $build->id)
+                    ->execute()->body();
+            
+            if ($result == 'error') {
+                $build->status = 'error';
+                break;
+            } else if ($result == 'unstable') {
+                $build->status = 'unstable';
+            }
         }
         $build->finished = DB::expr('NOW()');
         $build->update();

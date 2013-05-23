@@ -28,4 +28,14 @@ abstract class Controller_Processors_Base extends Controller
             $this->response->body("false");
         }
     }
+    
+    public function action_analyze() {
+        $buildId = $this->request->param('id');
+        $result = NULL;
+        if (method_exists($this, 'analyze')) {
+            $result = $this->analyze(ORM::factory('Build', $buildId));
+        }
+        
+        $this->response->body($result);
+    }
 }

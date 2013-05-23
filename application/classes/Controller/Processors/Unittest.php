@@ -49,4 +49,13 @@ class Controller_Processors_Unittest extends Controller_Processors_Base
 
         return false;
     }
+
+    public function analyze(Model_Build &$build)
+    {
+        if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {
+            return 'ok';
+        } else {
+            return 'unstable';
+        }
+    }
 }
