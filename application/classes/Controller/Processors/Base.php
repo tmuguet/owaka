@@ -70,17 +70,13 @@ abstract class Controller_Processors_Base extends Controller
     protected function getReportCompletePath($buildId, $type)
     {
         $destination = APPPATH . '/reports/' . $buildId . '/' . $this->getName() . '/';
-        foreach (static::getInputReports() as $key => $info) {
-            if ($info == $type) {
-                $path = realpath($destination . $info['keep-as']);
-                if (!empty($path)) {
-                    return $path;
-                } else {
-                    return NULL;
-                }
-            }
+        $reports     = static::getInputReports();
+        $path        = realpath($destination . $reports[$type]['keep-as']);
+        if (!empty($path)) {
+            return $path;
+        } else {
+            return NULL;
         }
-        return NULL;
     }
 
     /**
