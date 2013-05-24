@@ -16,6 +16,7 @@ class Owaka
     const ICON_ALARM       = 'alarm';
     const ICON_ANCHOR      = 'anchor';
     const ICON_ANNOUNCER   = 'announcer';
+    const ICON_BOOK4       = 'book4';
     const ICON_CLOCK       = 'clock';
     const ICON_DOC         = 'doc';
     const ICON_FLAG        = 'flag';
