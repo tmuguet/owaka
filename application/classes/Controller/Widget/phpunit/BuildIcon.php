@@ -74,7 +74,7 @@ class Controller_Widget_phpunit_BuildIcon extends Controller_Widget_BaseIcon
             );
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"   => 'reports/' . $build->id . '/phpunit/index.html'
+                "url"   => Owaka::getReportUri($build->id, 'unittest', 'report')
             );
 
             if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {

@@ -6,6 +6,24 @@
 class Controller_Processors_Coverage extends Controller_Processors_Base
 {
 
+    static public function getInputReports()
+    {
+        return array(
+            'raw' => array(
+                'title'       => 'Coverage raw report',
+                'description' => 'Coverage XML report',
+                'type'        => 'file',
+                'keep-as'     => 'coverage.xml'
+            ),
+            'dir' => array(
+                'title'       => 'Coverage report directory',
+                'description' => 'Coverage HTML report directory',
+                'type'        => 'dir',
+                'keep-as'     => './'
+            )
+        );
+    }
+
     /**
      * Processes a coverage XML report
      * @param int $buildId Build ID
@@ -13,9 +31,9 @@ class Controller_Processors_Coverage extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = Owaka::getReportsPath($buildId, 'coverage');
+        $report = $this->getReportCompletePath($buildId, 'raw');
 
-        if (file_exists($report) && file_get_contents($report) != "") {
+        if (file_get_contents($report) != "") {
             $global           = ORM::factory('coverage_globaldata');
             $global->build_id = $buildId;
 

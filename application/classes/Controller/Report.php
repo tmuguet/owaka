@@ -19,10 +19,12 @@ class Controller_Report extends Controller
         $page       = $this->request->param('page');
 
         $path = realpath(APPPATH . 'reports/' . $buildId . '/' . $reportType . '/' . $page);
-        if (!file_exists($path) || strpos($path, APPPATH . 'reports/' . $buildId . '/' . $reportType . '/') !== 0) {
+        if (empty($path) || strpos($path, APPPATH . 'reports/' . $buildId . '/' . $reportType . '/') !== 0) {
             throw new HTTP_Exception_404();
         }
-
+        
+        $mime = File::mime_by_ext(strtolower(pathinfo($path, PATHINFO_EXTENSION)));
+        $this->response->headers('Content-Type', $mime);
         $this->response->body(file_get_contents($path));
     }
 }

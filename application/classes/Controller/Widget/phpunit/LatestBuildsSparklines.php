@@ -75,7 +75,7 @@ class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget
             );
             $this->widgetLinks[] = array(
                 "title" => 'latest report',
-                "url"   => 'reports/' . $builds[0]->id . '/phpunit/index.html'
+                "url"   => Owaka::getReportUri($builds[0]->id, 'unittest', 'report')
             );
         }
 

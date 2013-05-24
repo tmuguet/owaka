@@ -6,6 +6,18 @@
 class Controller_Processors_Phpmd extends Controller_Processors_Base
 {
 
+    static public function getInputReports()
+    {
+        return array(
+            'html' => array(
+                'title'       => 'PHPMD HTML report',
+                'description' => 'PHPMD HTML report',
+                'type'        => 'file',
+                'keep-as'     => 'report.html'
+            )
+        );
+    }
+
     /**
      * Processes a PHPMD HTML report
      * @param int $buildId Build ID
@@ -13,9 +25,9 @@ class Controller_Processors_Phpmd extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = Owaka::getReportsPath($buildId, 'phpmd');
+        $report = $this->getReportCompletePath($buildId, 'html');
 
-        if (file_exists($report) && file_get_contents($report) != "") {
+        if (file_get_contents($report) != "") {
             $content          = file_get_contents($report);
             $global           = ORM::factory('phpmd_globaldata');
             $global->build_id = $buildId;

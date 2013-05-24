@@ -6,6 +6,42 @@
 class Controller_Processors_Pdepend extends Controller_Processors_Base
 {
 
+    static public function getInputReports()
+    {
+        return array(
+            'summary'       => array(
+                'title'       => 'PhpDepend report',
+                'description' => 'PhpDepend XML report (logger summary-xml)',
+                'type'        => 'file',
+                'keep-as'     => 'summary.xml'
+            ),
+            'jdepend_chart' => array(
+                'title'       => 'PhpDepend jdepend chart',
+                'description' => 'PhpDepend jdepend chart (logger jdepend-chart)',
+                'type'        => 'file',
+                'keep-as'     => 'jdepend.svg'
+            ),
+            'jdepend_xml'   => array(
+                'title'       => 'PhpDepend jdepend XML',
+                'description' => 'PhpDepend jdepend XML (logger jdepend-xml)',
+                'type'        => 'file',
+                'keep-as'     => 'jdepend.xml'
+            ),
+            'pyramid'       => array(
+                'title'       => 'PhpDepend pyramid',
+                'description' => 'PhpDepend pyramid (logger overview-pyramid)',
+                'type'        => 'file',
+                'keep-as'     => 'pyramid.svg'
+            ),
+            'phpunit_xml'   => array(
+                'title'       => 'PhpDepend phpunit XML',
+                'description' => 'PhpDepend phpunit XML (logger phpunit-xml)',
+                'type'        => 'file',
+                'keep-as'     => 'phpunit.xml'
+            )
+        );
+    }
+
     /**
      * Processes a PHPdepend XML report
      * @param int $buildId Build ID
@@ -13,9 +49,9 @@ class Controller_Processors_Pdepend extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = Owaka::getReportsPath($buildId, 'pdepend');
+        $report = $this->getReportCompletePath($buildId, 'summary');
 
-        if (file_exists($report) && file_get_contents($report) != "") {
+        if (file_get_contents($report) != "") {
             $global           = ORM::factory('pdepend_globaldata');
             $global->build_id = $buildId;
 

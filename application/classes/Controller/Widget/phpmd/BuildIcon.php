@@ -76,7 +76,7 @@ class Controller_Widget_phpmd_BuildIcon extends Controller_Widget_BaseIcon
             );
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"   => 'reports/' . $build->id . '/phpmd/index.html'
+                "url"   => Owaka::getReportUri($build->id, 'phpmd', 'html')
             );
 
             if ($build->phpmd_globaldata->errors == 0) {

@@ -81,7 +81,7 @@ class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseI
             );
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"   => 'reports/' . $build->id . '/phpmd/index.html'
+                "url"   => Owaka::getReportUri($build->id, 'phpmd', 'html')
             );
 
             $errors = $build->phpmd_globaldata->errors - $prevBuild->phpmd_globaldata->errors;

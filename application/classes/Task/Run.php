@@ -33,7 +33,6 @@ class Task_Run extends Minion_Task
         $lastStart    = new DateTime($lastBuild->started);
         $lastFinished = new DateTime($lastBuild->finished);
         $lastDuration = $lastFinished->diff($lastStart, TRUE);
-        var_dump($lastDuration->format('%H:%I:%S'));
 
         chdir((empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path));
 
@@ -69,19 +68,10 @@ class Task_Run extends Minion_Task
 
     protected function copyReports(Model_Build &$build)
     {
-        if (!empty($build->project->phpunit_dir_report)) {
-            $path = Owaka::getReportsPath($build->id, 'phpunit_dir');
-            exec('cp -R ' . $path . ' ' . APPPATH . '/reports/' . $build->id . '/phpunit');
-        }
-
-        if (!empty($build->project->coverage_dir_report)) {
-            $path = Owaka::getReportsPath($build->id, 'coverage_dir');
-            exec('cp -R ' . $path . ' ' . APPPATH . '/reports/' . $build->id . '/coverage');
-        }
-
-        if (!empty($build->project->phpdoc_dir_report)) {
-            $path = Owaka::getReportsPath($build->id, 'phpdoc_dir');
-            exec('cp -R ' . $path . ' ' . APPPATH . '/reports/' . $build->id . '/phpdoc');
+        foreach (File::findProcessors() as $processor) {
+            $name = str_replace("Controller_", "", $processor);
+            $request = Request::factory($name . '/copy/' . $build->id)
+                    ->execute();
         }
     }
 

@@ -83,7 +83,7 @@ class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
             );
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"   => 'reports/' . $build->id . '/coverage/index.html'
+                "url"   => Owaka::getReportUri($build->id, 'coverage', 'dir')
             );
 
             switch ($display) {

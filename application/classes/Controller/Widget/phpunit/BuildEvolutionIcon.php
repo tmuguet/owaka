@@ -81,7 +81,7 @@ class Controller_Widget_phpunit_BuildEvolutionIcon extends Controller_Widget_Bas
             );
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"   => 'reports/' . $build->id . '/phpunit/index.html'
+                "url"   => Owaka::getReportUri($build->id, 'unittest', 'report')
             );
 
             $errors   = $build->phpunit_globaldata->errors - $prevBuild->phpunit_globaldata->errors;

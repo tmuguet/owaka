@@ -90,7 +90,7 @@ class Controller_Widget_coverage_BuildEvolutionIcon extends Controller_Widget_Ba
             );
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"   => 'reports/' . $build->id . '/coverage/index.html'
+                "url"   => Owaka::getReportUri($build->id, 'coverage', 'dir')
             );
 
             $total      = round(

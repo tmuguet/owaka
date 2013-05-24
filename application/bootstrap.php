@@ -130,14 +130,15 @@ Route::set('widget', 'w/<dashboard>/<controller>/<action>/<id>(/<data>)',
             'directory' => 'Widget'
         ));
 
-Route::set('reports', 'reports/<id>/<type>/<page>',
+Route::set('reports', 'reports/<id>/<type>(/<page>)',
            array(
             'page' => '.+',
-            'type' => '(phpunit|coverage|phpdoc|phpmd|codesniffer)'
+            'type' => '[a-z_]+'
         ))
         ->defaults(array(
             'controller' => 'report',
-            'action'     => 'index'
+            'action'     => 'index',
+            'page'       => 'index.html'
         ));
 
 Route::set('api', 'api/<controller>/<action>(/<dashboard>)(/<id>(/<data>))',

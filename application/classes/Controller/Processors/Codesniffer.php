@@ -6,6 +6,18 @@
 class Controller_Processors_Codesniffer extends Controller_Processors_Base
 {
 
+    static public function getInputReports()
+    {
+        return array(
+            'xml' => array(
+                'title'       => 'Code Sniffer report',
+                'description' => 'Code Sniffer XML report in checkstyle format',
+                'type'        => 'file',
+                'keep-as'     => 'index.xml'
+            )
+        );
+    }
+
     /**
      * Processes a Codesniffer XML report
      * @param int $buildId Build ID
@@ -13,9 +25,9 @@ class Controller_Processors_Codesniffer extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = Owaka::getReportsPath($buildId, 'codesniffer');
+        $report = $this->getReportCompletePath($buildId, 'xml');
 
-        if (file_exists($report) && file_get_contents($report) != "") {
+        if (file_get_contents($report) != "") {
             $global           = ORM::factory('codesniffer_globaldata');
             $global->build_id = $buildId;
             $global->warnings = 0;

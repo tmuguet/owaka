@@ -81,7 +81,7 @@ class Controller_Widget_codesniffer_BuildEvolutionIcon extends Controller_Widget
             );
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"   => 'reports/' . $build->id . '/codesniffer/index.xml'
+                "url"   => Owaka::getReportUri($build->id, 'codesniffer', 'xml')
             );
             
             $errors   = $build->codesniffer_globaldata->errors - $prevBuild->codesniffer_globaldata->errors;

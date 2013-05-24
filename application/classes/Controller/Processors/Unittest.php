@@ -6,6 +6,24 @@
 class Controller_Processors_Unittest extends Controller_Processors_Base
 {
 
+    static public function getInputReports()
+    {
+        return array(
+            'xml'    => array(
+                'title'       => 'PHPUnit XML report',
+                'description' => 'PHPUnit XML report with xml format',
+                'type'        => 'file',
+                'keep-as'     => 'report.xml'
+            ),
+            'report' => array(
+                'title'       => 'PHPUnit report',
+                'description' => 'PHPUnit HTML report directory',
+                'type'        => 'dir',
+                'keep-as'     => './'
+            )
+        );
+    }
+
     /**
      * Processes a PHPUnit XML report
      * @param int $buildId Build ID
@@ -13,9 +31,9 @@ class Controller_Processors_Unittest extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = Owaka::getReportsPath($buildId, 'phpunit');
+        $report = $this->getReportCompletePath($buildId, 'xml');
 
-        if (file_exists($report) && file_get_contents($report) != "") {
+        if (file_get_contents($report) != "") {
             $global           = ORM::factory('phpunit_globaldata');
             $global->build_id = $buildId;
             $global->tests    = 0;
