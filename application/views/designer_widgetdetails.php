@@ -116,35 +116,30 @@ Columns: <button id="columns_delete">-</button> <button id="columns_add">+</butt
 
 <script type="text/javascript">
     $("#rows_delete").button().click(function() {
-        max_row--;
-        updateGridPlaceholders();
+        $.owaka.designer.max_row--;
+        $.owaka.designer.slots._resize();
+        $.owaka.designer.widget.prepareToAdd();
     });
     $("#rows_add").button().click(function() {
-        positions[max_row] = {};
-        for (var _col = 0; _col < max_column; _col++) {
-            positions[max_row][_col] = true;
-        }
-        max_row++;
-        updateGridPlaceholders();
+        $.owaka.designer.max_row++;
+        $.owaka.designer.slots._resize();
+        $.owaka.designer.widget.prepareToAdd();
     });
     $("#columns_delete").button().click(function() {
-        max_column--;
-        updateGridPlaceholders();
+        $.owaka.designer.max_column--;
+        $.owaka.designer.slots._resize();
+        $.owaka.designer.widget.prepareToAdd();
     });
     $("#columns_add").button().click(function() {
-        for (var _row = 0; _row < max_row; _row++) {
-            positions[_row][max_column] = true;
-        }
-        max_column++;
-        updateGridPlaceholders();
+        $.owaka.designer.max_column++;
+        $.owaka.designer.slots._resize();
+        $.owaka.designer.widget.prepareToAdd();
     });
 
     $("#widget_hide").click(function() {
         $("#list_widgets").show('slide', {direction: 'left'}, 500);
         $("#widget_details").fadeOut(500);
-        $("#grid .grid-placeholder").fadeOut(200, function() {
-            $(this).remove();
-        });
+        $.owaka.designer.slots.hide();
     });
 
     $("#widget_drag").draggable({
@@ -159,12 +154,13 @@ Columns: <button id="columns_delete">-</button> <button id="columns_add">+</butt
         }
     });
     $("#widget_size").change(function() {
-        updateGridPlaceholders();
+        $.owaka.designer.widget.prepareToAdd();
     });
 
     $("#list_widgets").hide("slide", {direction: 'left'}, 500);
     $("#widget_details").fadeIn(500);
 
-    updateGridPlaceholders();
+
+    $.owaka.designer.widget.prepareToAdd();
     $("#widget_drag").attr("data-widget", '<?php echo $widget; ?>');
 </script>

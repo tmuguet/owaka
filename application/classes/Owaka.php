@@ -54,6 +54,7 @@ class Owaka
         $url     = '';
         $title   = '';
         $onclick = '';
+        $class   = '';
         if (isset($link['type'])) {
             switch ($link['type']) {
                 case 'project':
@@ -76,6 +77,9 @@ class Owaka
             if (isset($link['js'])) {
                 $onclick = $link['js'];
             }
+            if (isset($link['class'])) {
+                $class = $link['class'];
+            }
         }
 
         $content = '';
@@ -90,6 +94,9 @@ class Owaka
                 $content .= '"';
                 if (!empty($onclick)) {
                     $content .= ' onclick="' . $onclick . '"';
+                }
+                if (!empty($class)) {
+                    $content .= ' class="' . $class . '"';
                 }
                 $content .= '>' . $title . '</a>';
                 break;

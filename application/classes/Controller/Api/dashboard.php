@@ -1,4 +1,5 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
+defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
  * API entry for managing dashboards
@@ -84,6 +85,39 @@ class Controller_Api_dashboard extends Controller
         $widget->column = $this->request->post('column');
         $widget->row    = $this->request->post('row');
         $widget->create();
-        $this->response->body(json_encode(array("res" => "ok", "id" => $widget->id)));
+        $this->response->body(json_encode(array("res" => "ok", "id"  => $widget->id)));
+    }
+
+    /**
+     * Moves a widget in a dashboard
+     * 
+     * Returns "ok" if succeeded.
+     * 
+     * @url http://example.com/api/dashboard/move/<dashboard>/<widget_id>
+     * @postparameter column  Widget column (mandatory)
+     * @postparameter row     Widget row (mandatory)
+     * @throws Exception Unsupported dashboard type (should never happen)
+     */
+    public function action_move()
+    {
+        $widgetId = $this->request->param('id');
+
+        switch ($this->request->param('dashboard')) {
+            case "main":
+                $widget = ORM::factory('Widget', $widgetId);
+                break;
+            case "project":
+                $widget = ORM::factory('Project_Widget', $widgetId);
+                break;
+            case "build":
+                $widget = ORM::factory('Build_Widget', $widgetId);
+                break;
+            default: throw new Exception("Unsupported dashboard type");
+        }
+
+        $widget->column = $this->request->post('column');
+        $widget->row    = $this->request->post('row');
+        $widget->update();
+        $this->response->body(json_encode(array("res" => "ok", "id"  => $widget->id)));
     }
 }

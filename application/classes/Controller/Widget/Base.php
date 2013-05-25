@@ -318,7 +318,12 @@ abstract class Controller_Widget_Base extends Controller
             array(
                 "title" => 'delete',
                 "url"   => 'javascript:void(0)',
-                "js"    => 'deleteMe(this);'
+                "js"    => '$.owaka.designer.widget.remove(this);'
+            ),
+            array(
+                "title" => 'move',
+                "url"   => 'javascript:void(0)',
+                "class"    => 'widget-move'
             )
         );
 
