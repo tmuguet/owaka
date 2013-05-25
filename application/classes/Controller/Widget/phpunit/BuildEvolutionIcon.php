@@ -92,7 +92,7 @@ class Controller_Widget_phpunit_BuildEvolutionIcon extends Controller_Widget_Bas
                 $this->statusData      = '-';
                 $this->statusDataLabel = '<br>no changes';
             } else {
-                if ($errors < 0 && $failures < 0) {
+                if ($errors <= 0 && $failures <= 0) {
                     $this->widgetStatus = 'ok';
                 } else if ($errors > 0) {
                     $this->widgetStatus = 'error';
