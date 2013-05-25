@@ -10,6 +10,9 @@ class File extends Kohana_File
      */
     public static function getFiles($path)
     {
+        if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
+            $path .= DIRECTORY_SEPARATOR;
+        }
         $phpFiles = glob($path . '*.php');
 
         $dirs = glob($path . '*', GLOB_MARK | GLOB_ONLYDIR);
@@ -30,12 +33,17 @@ class File extends Kohana_File
             $path .= DIRECTORY_SEPARATOR;
         }
 
-        $files   = self::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . $path);
+#if TESTING
+        $basePath = DOCROOT . 'private' . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . '_FileTest' . DIRECTORY_SEPARATOR;
+#else
+        $basePath = APPPATH . 'classes' . DIRECTORY_SEPARATOR;
+#endif
+        $files   = self::getFiles($basePath . $path);
         $classes = array();
         foreach ($files as $file) {
             $nameClass = str_replace(
                     DIRECTORY_SEPARATOR, '_',
-                    str_replace(APPPATH . 'classes' . DIRECTORY_SEPARATOR, '', substr($file, 0, -4))
+                    str_replace($basePath, '', substr($file, 0, -4))
             );
             if (!class_exists($nameClass, FALSE)) {
                 include_once $file;
