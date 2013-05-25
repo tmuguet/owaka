@@ -3,6 +3,9 @@
 class Task_Run extends Minion_Task
 {
 
+    private $_outdir       = NULL;
+    private $_outdir_owaka = NULL;
+
     protected function _execute(array $params)
     {
         $build = ORM::factory('Build')
@@ -16,10 +19,27 @@ class Task_Run extends Minion_Task
             return;
         }
 
-        $this->validate($build);
-        $this->nightly($build);
-        $this->parseReports($build);
-        $this->analyseReports($build);
+        $this->_outdir       = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $build->id . DIRECTORY_SEPARATOR;
+        $this->_outdir_owaka = $this->_outdir . 'owaka' . DIRECTORY_SEPARATOR;
+
+        mkdir($this->_outdir, 0700);
+        mkdir($this->_outdir_owaka, 0700);
+        $logger = new Log_FlatFile($this->_outdir_owaka . 'builder.log');
+        Kohana::$log->attach($logger);
+
+        Kohana::$log->add(Log::INFO, "Starting build " . $build->id . " for project " . $build->project->name);
+
+        try {
+            $this->validate($build);
+            $this->nightly($build);
+            $this->parseReports($build);
+            $this->analyzeReports($build);
+        } catch (Exception $e) {
+            Kohana_Exception::log($e);
+        }
+
+        Kohana::$log->add(Log::INFO, "Finished build " . $build->id);
+        Kohana::$log->write();
     }
 
     protected function validate(Model_Build &$build)
@@ -41,24 +61,31 @@ class Task_Run extends Minion_Task
         $build->eta     = DB::expr('ADDTIME(NOW(), \'' . $lastDuration->format('%H:%I:%S') . '\')');
         $build->update();
 
-        passthru(
-                'phing -logger phing.listener.HtmlColorLogger -logfile log.html ' . $build->project->phing_target_validate . ' -Dowaka.build=' . $build->id,
-                $buildResult
+        Kohana::$log->add(Log::INFO, "Starting validating...");
+        $buildLog = array();
+        exec(
+                'phing -logger phing.listener.HtmlColorLogger -logfile buildlog.html ' . $build->project->phing_target_validate . ' -Dowaka.build=' . $build->id,
+                $buildLog, $buildResult
         );
+        if (!empty($buildLog)) {
+            Kohana::$log->add(Log::INFO, "Additional log: " . implode("\n", $buildLog));
+        }
+        Kohana::$log->add(Log::INFO, "Finished validating with result $buildResult");
 
-        $outdir = APPPATH . '/reports/' . $build->id . '/';
-        mkdir($outdir, 0700);
-        rename('log.html', $outdir . 'log.html');
+        rename('buildlog.html', $this->_outdir_owaka . 'buildlog.html');
 
         chdir(DOCROOT);
 
         $this->copyReports($build);
 
         if ($buildResult == 0) {
+            Kohana::$log->add(Log::INFO, "Build successful");
             //$build->status = 'ok';    // Do not update yet
         } else if ($buildResult == 1) {
+            Kohana::$log->add(Log::INFO, "Build failed with errors");
             $build->status = 'error';
         } else {
+            Kohana::$log->add(Log::INFO, "Build unproperly configured");
             $build->status = 'error';   // Build unproperly configured
         }
 
@@ -69,7 +96,8 @@ class Task_Run extends Minion_Task
     protected function copyReports(Model_Build &$build)
     {
         foreach (File::findProcessors() as $processor) {
-            $name = str_replace("Controller_", "", $processor);
+            $name    = str_replace("Controller_", "", $processor);
+            Kohana::$log->add(Log::INFO, "Copying reports for $name...");
             $request = Request::factory($name . '/copy/' . $build->id)
                     ->execute();
         }
@@ -80,19 +108,24 @@ class Task_Run extends Minion_Task
         if (!empty($build->project->phing_target_nightly)) {
             chdir((empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path));
 
-            passthru(
-                    'phing -logger phing.listener.HtmlColorLogger -logfile nightly.html ' . $build->project->phing_target_nightly,
-                    $updateResult
+            Kohana::$log->add(Log::INFO, "Starting deploying nightly...");
+            $updateLog = array();
+            exec(
+                    'phing -logger phing.listener.HtmlColorLogger -logfile nightlylog.html ' . $build->project->phing_target_nightly,
+                    $updateLog, $updateResult
             );
-            $outdir = APPPATH . '/reports/' . $build->id . '/';
-            rename('nightly.html', $outdir . 'nightly.html');
+            if (!empty($updateLog)) {
+                Kohana::$log->add(Log::INFO, "Additional log: " . implode("\n", $updateLog));
+            }
+            Kohana::$log->add(Log::INFO, "Finished deploying nightly with result $updateResult");
+            rename('nightlylog.html', $this->_outdir_owaka . 'nightlylog.html');
 
             if ($updateResult == 0) {
-                echo "Update successful\n";
+                Kohana::$log->add(Log::INFO, "Update successful");
             } else if ($updateResult == 1) {
-                echo "Update failed with errors\n";
+                Kohana::$log->add(Log::INFO, "Update failed with errors");
             } else {
-                echo "Update unproperly configured\n";
+                Kohana::$log->add(Log::INFO, "Update unproperly configured");
             }
         }
     }
@@ -100,28 +133,35 @@ class Task_Run extends Minion_Task
     protected function parseReports(Model_Build &$build)
     {
         foreach (File::findProcessors() as $processor) {
-            $name = str_replace("Controller_", "", $processor);
+            $name    = str_replace("Controller_", "", $processor);
+            Kohana::$log->add(Log::INFO, "Processing reports for $name...");
             $request = Request::factory($name . '/process/' . $build->id)
                     ->execute();
         }
     }
 
-    protected function analyseReports(Model_Build &$build)
+    protected function analyzeReports(Model_Build &$build)
     {
-        $build->status = 'ok';
-        foreach (File::findAnalyzers() as $processor) {
-            $name = str_replace("Controller_", "", $processor);
-            $result = Request::factory($name . '/analyze/' . $build->id)
-                    ->execute()->body();
-            
-            if ($result == 'error') {
-                $build->status = 'error';
-                break;
-            } else if ($result == 'unstable') {
-                $build->status = 'unstable';
+        // Do not update if status is already set (-> error)
+        if ($build->status == 'building') {
+            $build->status = 'ok';
+            foreach (File::findAnalyzers() as $processor) {
+                $name   = str_replace("Controller_", "", $processor);
+                Kohana::$log->add(Log::INFO, "Analyzing reports for $name...");
+                $result = Request::factory($name . '/analyze/' . $build->id)
+                                ->execute()->body();
+
+                if ($result == 'error') {
+                    $build->status = 'error';
+                    break;
+                } else if ($result == 'unstable') {
+                    $build->status = 'unstable';
+                }
             }
+            $build->finished = DB::expr('NOW()');
+            $build->update();
+        } else {
+            Kohana::$log->add(Log::INFO, "Skipping analyze of reports: status already set to " . $build->status);
         }
-        $build->finished = DB::expr('NOW()');
-        $build->update();
     }
 }

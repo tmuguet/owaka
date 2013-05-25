@@ -7,6 +7,16 @@ abstract class Controller_Processors_Base extends Controller
 {
 
     /**
+     * Gets the input reports
+     * @throws Exception
+     * @todo Document this
+     */
+    static public function getInputReports()
+    {
+        throw new Exception('Not implemented');
+    }
+
+    /**
      * Processes a report
      * @param int $buildId Build ID
      * @return bool true if report successfully treated; false if no report available
@@ -14,19 +24,26 @@ abstract class Controller_Processors_Base extends Controller
      */
     abstract public function process($buildId);
 
-    public function action_copy()
+    /**
+     * Copies all available reports for the processor in owaka's data directory
+     */
+    public final function action_copy()
     {
-        $buildId = $this->request->param('id');
+        $buildId              = $this->request->param('id');    // TODO: validate
+        $destinationDirectory = APPPATH . 'reports/' . $buildId . '/' . $this->getName() . '/';
 
-        $destinationDirectory = APPPATH . '/reports/' . $buildId . '/' . $this->getName() . '/';
         foreach (static::getInputReports() as $type => $info) {
             $source      = $this->getInputReportCompletePath($buildId, $type);
             $destination = $destinationDirectory . $info['keep-as'];    // TODO: this can get messy if mis-used !
+
             if (!empty($source) && !empty($destination)) {
+                Kohana::$log->add(Log::DEBUG, "Copying $source to $destination");
                 if (!file_exists($destinationDirectory)) {
+                    // Create the directory only if at least one report is available
                     mkdir($destinationDirectory, 0700);
                 }
 
+                // TODO: this won't work if $destination has several levels
                 if ($info['type'] == 'dir') {
                     if (!file_exists($destination)) {
                         exec('cp -R ' . $source . ' ' . $destination);    // TODO: use PHP functions
@@ -40,17 +57,34 @@ abstract class Controller_Processors_Base extends Controller
         }
     }
 
-    protected function getName()
+    /**
+     * Gets the name of the processor being called
+     * @return string
+     */
+    protected final function getName()
     {
         return strtolower(str_replace("Controller_Processors_", "", get_called_class()));
     }
 
-    protected function getReportName($type)
+    /**
+     * Gets the canonical report name for a report-type, as stored in the DB
+     * @param string $type Type of report to get
+     * @return string
+     * @see getInputReports() for report types
+     */
+    protected final function getReportName($type)
     {
         return $this->getName() . '_' . $type;
     }
 
-    protected function getInputReportCompletePath($buildId, $type)
+    /**
+     * Gets the path of an input report, or NULL if no report available
+     * @param int $buildId Build ID
+     * @param string $type Type of report to get
+     * @return string|null
+     * @see getInputReports() for report types
+     */
+    protected final function getInputReportCompletePath($buildId, $type)
     {
         $build = ORM::factory('Build', $buildId);
         $name  = ORM::factory('Project_Report')->search($build->project_id, $this->getReportName($type));
@@ -64,12 +98,24 @@ abstract class Controller_Processors_Base extends Controller
         if (substr($reportPath, 0, -1) != DIRECTORY_SEPARATOR) {
             $reportPath .= DIRECTORY_SEPARATOR;
         }
-        return $reportPath . $name;
+        $realPath = realpath($reportPath . $name);
+        if (empty($realPath)) {
+            return NULL;
+        } else {
+            return $realPath;
+        }
     }
 
-    protected function getReportCompletePath($buildId, $type)
+    /**
+     * Gets the path of a report in owaka's data directory, or NULL if not available
+     * @param int $buildId Build ID
+     * @param string $type Type of report to get
+     * @return string|null
+     * @see getInputReports() for report types
+     */
+    protected final function getReportCompletePath($buildId, $type)
     {
-        $destination = APPPATH . '/reports/' . $buildId . '/' . $this->getName() . '/';
+        $destination = APPPATH . 'reports/' . $buildId . '/' . $this->getName() . '/';
         $reports     = static::getInputReports();
         $path        = realpath($destination . $reports[$type]['keep-as']);
         if (!empty($path)) {
@@ -80,10 +126,10 @@ abstract class Controller_Processors_Base extends Controller
     }
 
     /**
-     * Processes a report
+     * Processes the reports
      * @url http://example.com/processors_<processor>/process/<build_id>
      */
-    public function action_process()
+    public final function action_process()
     {
         $buildId = $this->request->param('id');
         $result  = $this->process($buildId);
@@ -94,12 +140,17 @@ abstract class Controller_Processors_Base extends Controller
         }
     }
 
-    public function action_analyze()
+    /**
+     * Analyzes the reports to determine the build status
+     * @url http://example.com/processors_<processor>/analyze/<build_id>
+     */
+    public final function action_analyze()
     {
         $buildId = $this->request->param('id');
         $result  = NULL;
         if (method_exists($this, 'analyze')) {
-            $result = $this->analyze(ORM::factory('Build', $buildId));
+            $build  = ORM::factory('Build', $buildId);
+            $result = $this->analyze($build);
         }
 
         $this->response->body($result);
