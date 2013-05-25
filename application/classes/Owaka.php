@@ -26,20 +26,35 @@ class Owaka
     const ICON_SECURITY    = 'security';
     const ICON_TARGET      = 'target';
 
+    /**
+     * Gets the URI to a report
+     * @param int $buildId Build ID
+     * @param string $processor Processor which generated the report
+     * @param string|null $type Type of report to find. If null, returns the first existing report.
+     * @return string|null URI to report, or null if not found
+     * @see Controller_Processors_Base::getInputReports()
+     */
     static public function getReportUri($buildId, $processor, $type = NULL)
     {
         $processorClass = 'Controller_Processors_' . $processor;
-        $reports        = $processorClass::getInputReports();
-        $root           = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $processor . DIRECTORY_SEPARATOR;
-        $uri            = 'reports/' . $buildId . '/' . $processor . '/';
+        if (!class_exists($processorClass)) {
+            throw new Exception("Cannot find processor $processor");
+        }
+        $reports = $processorClass::getInputReports();
+        $root    = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $processor . DIRECTORY_SEPARATOR;
+        $uri     = 'reports/' . $buildId . '/' . $processor . '/';
         if ($type != NULL) {
+            if (!isset($reports[$type])) {
+                throw new Exception("Report type $type is not defined for $processor");
+            }
+
             $path = realpath($root . $reports[$type]['keep-as']);
             if (!empty($path)) {
                 return $uri . $reports[$type]['keep-as'];
             }
         } else {
             // Find first available
-            foreach ($reports as $key => $info) {
+            foreach ($reports as $info) {
                 $path = realpath($root . $info['keep-as']);
                 if (!empty($path)) {
                     return $uri . $info['keep-as'];
@@ -61,6 +76,8 @@ class Owaka
                     if ($from == "main") {
                         $url   = 'dashboard/project/' . $link['id'];
                         $title = 'project';
+                    } else {
+                        return null;
                     }
                     break;
 
@@ -68,6 +85,8 @@ class Owaka
                     if ($from == "main" || $from == "project") {
                         $url   = 'dashboard/build/' . $link['id'];
                         $title = 'build';
+                    } else {
+                        return null;
                     }
                     break;
             }
@@ -77,9 +96,9 @@ class Owaka
             if (isset($link['js'])) {
                 $onclick = $link['js'];
             }
-            if (isset($link['class'])) {
-                $class = $link['class'];
-            }
+        }
+        if (isset($link['class'])) {
+            $class = $link['class'];
         }
 
         $content = '';

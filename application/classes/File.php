@@ -38,16 +38,17 @@ class File extends Kohana_File
 #else
         $basePath = APPPATH . 'classes' . DIRECTORY_SEPARATOR;
 #endif
-        $files   = self::getFiles($basePath . $path);
-        $classes = array();
+        $files    = self::getFiles($basePath . $path);
+        $classes  = array();
         foreach ($files as $file) {
             $nameClass = str_replace(
-                    DIRECTORY_SEPARATOR, '_',
-                    str_replace($basePath, '', substr($file, 0, -4))
+                    DIRECTORY_SEPARATOR, '_', str_replace($basePath, '', substr($file, 0, -4))
             );
+            // @codeCoverageIgnoreStart
             if (!class_exists($nameClass, FALSE)) {
                 include_once $file;
             }
+            // @codeCoverageIgnoreEnd
 
             $class = new ReflectionClass($nameClass);
             if ($class->isInstantiable()) {
