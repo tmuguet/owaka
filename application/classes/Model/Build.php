@@ -32,6 +32,10 @@ class Model_Build extends ORM
             'model'       => 'phpunit_globaldata',
             'foreign_key' => 'build_id'
         ),
+        'pdepend_globaldata'     => array(
+            'model'       => 'pdepend_globaldata',
+            'foreign_key' => 'build_id'
+        ),
     );
     // @codingStandardsIgnoreEnd
 
@@ -126,23 +130,24 @@ class Model_Build extends ORM
     public function rangeBuild()
     {
         $previous = ORM::factory('build')
-                ->where('build.project_id', '=', $this->project_id)
-                ->where('build.id', '<', $this->id)
-                ->order_by('build.id', 'DESC')
-                ->limit(5)
-                ->find_all()->as_array();
+                        ->where('build.project_id', '=', $this->project_id)
+                        ->where('build.id', '<', $this->id)
+                        ->order_by('build.id', 'DESC')
+                        ->limit(5)
+                        ->find_all()->as_array();
         $next     = ORM::factory('build')
-                ->where('build.project_id', '=', $this->project_id)
-                ->where('build.id', '>', $this->id)
-                ->order_by('build.id', 'ASC')
-                ->limit(5)
-                ->find_all()->as_array();
+                        ->where('build.project_id', '=', $this->project_id)
+                        ->where('build.id', '>', $this->id)
+                        ->order_by('build.id', 'ASC')
+                        ->limit(5)
+                        ->find_all()->as_array();
         return array_merge(array_reverse($next), array($this), $previous);
     }
-    
-    public function getRevision() {
+
+    public function getRevision()
+    {
         if (ctype_digit($this->revision)) {
-            return 'r'.$this->revision;
+            return 'r' . $this->revision;
         } else {
             return substr($this->revision, 0, 10);
         }

@@ -19,7 +19,7 @@ class Controller_Processors_Coverage extends Controller_Processors_Base
                 'title'       => 'Coverage report directory',
                 'description' => 'Coverage HTML report directory',
                 'type'        => 'dir',
-                'keep-as'     => './'
+                'keep-as'     => '.'
             )
         );
     }

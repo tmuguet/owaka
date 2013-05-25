@@ -13,7 +13,7 @@ class Controller_Processors_Phpdoc extends Controller_Processors_Base
                 'title'       => 'PHPdoc report',
                 'description' => 'PHPdoc report directory',
                 'type'        => 'dir',
-                'keep-as'     => './'
+                'keep-as'     => '.'
             )
         );
     }

@@ -30,7 +30,7 @@ abstract class Controller_Processors_Base extends Controller
     public final function action_copy()
     {
         $buildId              = $this->request->param('id');    // TODO: validate
-        $destinationDirectory = APPPATH . 'reports/' . $buildId . '/' . $this->getName() . '/';
+        $destinationDirectory = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $this->getName() . DIRECTORY_SEPARATOR;
 
         foreach (static::getInputReports() as $type => $info) {
             $source      = $this->getInputReportCompletePath($buildId, $type);
@@ -48,7 +48,7 @@ abstract class Controller_Processors_Base extends Controller
                     if (!file_exists($destination)) {
                         exec('cp -R ' . $source . ' ' . $destination);    // TODO: use PHP functions
                     } else {
-                        exec('cp -R ' . $source . '/* ' . $destination);    // TODO: use PHP functions
+                        exec('cp -R ' . $source . DIRECTORY_SEPARATOR . '* ' . $destination);    // TODO: use PHP functions
                     }
                 } else {
                     exec('cp ' . $source . ' ' . $destination); // TODO: use PHP functions
@@ -115,7 +115,7 @@ abstract class Controller_Processors_Base extends Controller
      */
     protected final function getReportCompletePath($buildId, $type)
     {
-        $destination = APPPATH . 'reports/' . $buildId . '/' . $this->getName() . '/';
+        $destination = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $this->getName() . DIRECTORY_SEPARATOR;
         $reports     = static::getInputReports();
         $path        = realpath($destination . $reports[$type]['keep-as']);
         if (!empty($path)) {

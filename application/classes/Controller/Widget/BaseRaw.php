@@ -39,7 +39,7 @@ abstract class Controller_Widget_BaseRaw extends Controller_Widget_Base
     protected function render()
     {
         parent::initViews();
-        $view = View::factory('widgets/BaseText')
+        $view = View::factory('widgets' . DIRECTORY_SEPARATOR . 'BaseText')
                 ->set('content', $this->content);
 
         $this->response->body($view);

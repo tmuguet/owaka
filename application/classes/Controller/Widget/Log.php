@@ -51,7 +51,8 @@ class Controller_Widget_Log extends Controller_Widget_BaseRaw
                     ->find();
         }
 
-        if (!file_exists(APPPATH . 'reports/' . $build->id . '/owaka/buildlog.html')) {
+        $file = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $build->id . DIRECTORY_SEPARATOR . 'owaka' . DIRECTORY_SEPARATOR . 'buildlog.html';
+        if (!file_exists($file)) {
             $this->content = 'No data';
         } else {
             $this->widgetLinks[] = array(
@@ -59,7 +60,7 @@ class Controller_Widget_Log extends Controller_Widget_BaseRaw
                 "id"   => $build->id
             );
 
-            $this->content = file_get_contents(APPPATH . 'reports/' . $build->id . '/owaka/buildlog.html');
+            $this->content = file_get_contents($file);
         }
     }
 }

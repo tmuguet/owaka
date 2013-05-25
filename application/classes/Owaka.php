@@ -20,6 +20,7 @@ class Owaka
     const ICON_CLOCK       = 'clock';
     const ICON_DOC         = 'doc';
     const ICON_FLAG        = 'flag';
+    const ICON_METER       = 'meter';
     const ICON_PAD         = 'pad';
     const ICON_PIC         = 'pic';
     const ICON_SECURITY    = 'security';
@@ -29,7 +30,7 @@ class Owaka
     {
         $processorClass = 'Controller_Processors_' . $processor;
         $reports        = $processorClass::getInputReports();
-        $root           = APPPATH . '/reports/' . $buildId . '/' . $processor . '/';
+        $root           = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $processor . DIRECTORY_SEPARATOR;
         $uri            = 'reports/' . $buildId . '/' . $processor . '/';
         if ($type != NULL) {
             $path = realpath($root . $reports[$type]['keep-as']);

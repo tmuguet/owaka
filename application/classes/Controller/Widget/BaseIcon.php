@@ -71,7 +71,7 @@ abstract class Controller_Widget_BaseIcon extends Controller_Widget_Base
 
         parent::initViews();
 
-        $view = View::factory('widgets/BaseIcon')
+        $view = View::factory('widgets' . DIRECTORY_SEPARATOR . 'BaseIcon')
                 ->set('status', $this->status)
                 ->set('statusData', $this->statusData)
                 ->set('statusDataLabel', $this->statusDataLabel)

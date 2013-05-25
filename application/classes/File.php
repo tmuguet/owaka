@@ -4,11 +4,11 @@ class File extends Kohana_File
 {
 
     /**
-     * Finds all widgets in application
-     * @param string $path Absolute path where to search widgets
-     * @return string[] List of absolute paths to PHP files of widgets, unfiltered
+     * Finds all files in a path
+     * @param string $path Absolute path where to search for files
+     * @return string[] List of absolute paths to PHP files, unfiltered
      */
-    protected static function getFiles($path)
+    public static function getFiles($path)
     {
         $phpFiles = glob($path . '*.php');
 
@@ -30,11 +30,12 @@ class File extends Kohana_File
             $path .= DIRECTORY_SEPARATOR;
         }
 
-        $files   = self::getFiles(APPPATH . 'classes/' . $path);
+        $files   = self::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . $path);
         $classes = array();
         foreach ($files as $file) {
             $nameClass = str_replace(
-                    '/', '_', str_replace(APPPATH . 'classes/', '', substr($file, 0, -4))
+                    DIRECTORY_SEPARATOR, '_',
+                    str_replace(APPPATH . 'classes' . DIRECTORY_SEPARATOR, '', substr($file, 0, -4))
             );
             if (!class_exists($nameClass, FALSE)) {
                 include_once $file;
@@ -55,7 +56,7 @@ class File extends Kohana_File
      */
     public static function findWidgets($dashboard)
     {
-        $allWidgets = self::findClasses('Controller/Widget/');
+        $allWidgets = self::findClasses('Controller' . DIRECTORY_SEPARATOR . 'Widget' . DIRECTORY_SEPARATOR);
         $widgets    = array();
         foreach ($allWidgets as $widget) {
             $class = new ReflectionClass($widget);
@@ -72,7 +73,7 @@ class File extends Kohana_File
      */
     public static function findProcessors()
     {
-        return self::findClasses('Controller/Processors/');
+        return self::findClasses('Controller' . DIRECTORY_SEPARATOR . 'Processors' . DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -82,7 +83,7 @@ class File extends Kohana_File
     public static function findAnalyzers()
     {
         $allProcessors = self::findProcessors();
-        $analyzers    = array();
+        $analyzers     = array();
         foreach ($allProcessors as $processor) {
             $class = new ReflectionClass($processor);
             if ($class->hasMethod('analyze')) {

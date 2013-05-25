@@ -45,7 +45,7 @@ abstract class Controller_Widget_BaseTable extends Controller_Widget_Base
     protected function render()
     {
         parent::initViews();
-        $view = View::factory('widgets/BaseTable')
+        $view = View::factory('widgets' . DIRECTORY_SEPARATOR . 'BaseTable')
                 ->set('columns', $this->columnsHeaders)
                 ->set('rows', $this->rows);
 

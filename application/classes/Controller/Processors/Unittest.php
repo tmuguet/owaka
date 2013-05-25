@@ -19,7 +19,7 @@ class Controller_Processors_Unittest extends Controller_Processors_Base
                 'title'       => 'PHPUnit report',
                 'description' => 'PHPUnit HTML report directory',
                 'type'        => 'dir',
-                'keep-as'     => './'
+                'keep-as'     => '.'
             )
         );
     }

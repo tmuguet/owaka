@@ -18,8 +18,8 @@ class Controller_Report extends Controller
         $reportType = $this->request->param('type');
         $page       = $this->request->param('page');
 
-        $path = realpath(APPPATH . 'reports/' . $buildId . '/' . $reportType . '/' . $page);
-        if (empty($path) || strpos($path, APPPATH . 'reports/' . $buildId . '/' . $reportType . '/') !== 0) {
+        $path = realpath(APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $reportType . DIRECTORY_SEPARATOR . $page);
+        if (empty($path) || strpos($path, APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $reportType . DIRECTORY_SEPARATOR) !== 0) {
             throw new HTTP_Exception_404();
         }
         

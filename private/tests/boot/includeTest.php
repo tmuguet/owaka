@@ -7,32 +7,13 @@ defined('SYSPATH') or die('No direct access allowed!');
 class includeTest extends Kohana_UnitTest_TestCase
 {
 
-    private function find_all_files($dir)
-    {
-        $root = scandir($dir);
-        $result = array();
-        foreach ($root as $value) {
-            if ($value === '.' || $value === '..') {
-                continue;
-            }
-            if (is_file("$dir/$value")) {
-                $result[] = "$dir/$value";
-                continue;
-            }
-            foreach ($this->find_all_files("$dir/$value") as $value) {
-                $result[] = $value;
-            }
-        }
-        return $result;
-    }
-
     protected function _test($files)
     {
-        $pos = strlen(APPPATH . '/classes/');
+        $pos = strlen(APPPATH . 'classes' . DIRECTORY_SEPARATOR);
 
         foreach ($files as $file) {
             if (substr($file, -3) === 'php') {
-                $className = str_replace("/", "_", substr($file, $pos, -4));
+                $className = str_replace(DIRECTORY_SEPARATOR, "_", substr($file, $pos, -4));
                 if (!class_exists($className, FALSE) && !interface_exists($className, FALSE)) {
                     if ((include_once $file) !== 1) {
                         $this->assertFail('Could not include ' . $file);
@@ -51,7 +32,7 @@ class includeTest extends Kohana_UnitTest_TestCase
      */
     public function testControllers()
     {
-        $files = $this->find_all_files(APPPATH . '/classes/Controller');
+        $files = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Controller');
         $this->_test($files);
     }
 
@@ -60,16 +41,25 @@ class includeTest extends Kohana_UnitTest_TestCase
      */
     public function testModels()
     {
-        $files = $this->find_all_files(APPPATH . '/classes/Model');
+        $files = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Model');
         $this->_test($files);
     }
 
     /**
-     * Tests all the helper
+     * Tests all the helpers
      */
     public function testHelper()
     {
-        $files = $this->find_all_files(APPPATH . '/classes/Helper');
+        $files = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Helper');
+        $this->_test($files);
+    }
+
+    /**
+     * Tests all the loggers
+     */
+    public function testLoggers()
+    {
+        $files = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Log');
         $this->_test($files);
     }
 
@@ -79,9 +69,9 @@ class includeTest extends Kohana_UnitTest_TestCase
     public function testUtils()
     {
         $files = array(
-            APPPATH . '/classes/Date.php',
-            APPPATH . '/classes/File.php',
-            APPPATH . '/classes/Owaka.php',
+            APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Date.php',
+            APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'File.php',
+            APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Owaka.php',
         );
         $this->_test($files);
     }
