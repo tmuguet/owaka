@@ -6,6 +6,9 @@ class Controller_Api_buildTest extends TestCase
 
     protected $xmlDataSet = 'data';
 
+    /**
+     * @covers Controller_Api_build::action_list
+     */
     public function testActionList()
     {
         $expected = array(
@@ -21,6 +24,9 @@ class Controller_Api_buildTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * @covers Controller_Api_build::action_list
+     */
     public function testActionListEmpty()
     {
         $expected = array();
@@ -30,6 +36,9 @@ class Controller_Api_buildTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * @covers Controller_Api_build::action_list
+     */
     public function testActionListInactive()
     {
         $expected = array(
