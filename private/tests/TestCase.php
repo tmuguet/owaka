@@ -8,58 +8,92 @@ class TestCase extends Kohana_Unittest_Database_TestCase
 
     protected $useDatabase = TRUE;
     protected $xmlDataSet  = NULL;
-    protected static $_now        = NULL;
-    protected static $_yesterday  = NULL;
-    protected static $_tomorrow   = NULL;
-    protected static $_genNumbers = array();
+    protected $now         = NULL;
+    protected $yesterday   = NULL;
+    protected $tomorrow    = NULL;
+    protected $genNumbers  = array();
+
+    public function __construct()
+    {
+        Kohana_Kohana_Exception::$error_view = 'kohana/errorPlain';
+        Kohana_Kohana_Exception::$error_view_content_type = 'text/plain';
+    }
 
     public function getDataSet()
     {
         if ($this->useDatabase && !empty($this->xmlDataSet)) {
-            return $this->_getDataSet(dirname(__FILE__) . '/_files/' . $this->xmlDataSet . '.xml');
+            $callingClass = str_replace('_', DIRECTORY_SEPARATOR, get_called_class());
+            $callingDir   = substr($callingClass, 0, strrpos($callingClass, DIRECTORY_SEPARATOR));
+            return $this->_getDataSet(
+                            dirname(__FILE__) . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR
+                            . $callingDir . DIRECTORY_SEPARATOR
+                            . '_files' . DIRECTORY_SEPARATOR . $this->xmlDataSet . '.xml'
+            );
         } else {
             return new PHPUnit_Extensions_DataSet_EmptyDataSet();
         }
     }
 
+    private function _GenerateRandom($file)
+    {
+        $matches = array();
+        preg_match_all(
+                "/##RAND_([A-Za-z0-9]+)##/", file_get_contents($file), $matches
+        );
+        $names   = array_unique($matches[1]);
+
+        $genNumbers = array();
+        foreach ($names as $name) {
+            do {
+                $number = rand(1, 255);
+            } while (in_array($number, $genNumbers));
+            $genNumbers[]            = $number;
+            $this->genNumbers[$name] = $number;
+        }
+    }
+
+    private function _GenerateId($file)
+    {
+        $matches = array();
+        preg_match_all(
+                "/##ID_([A-Za-z0-9]+)##/", file_get_contents($file), $matches
+        );
+        $names   = array_unique($matches[1]);
+
+        $i = 1;
+        foreach ($names as $name) {
+            $this->genNumbers[$name] = $i;
+            $i++;
+        }
+    }
+
+    private $_dataset = NULL;
+
     protected function _getDataSet($file)
     {
         if ($this->useDatabase) {
-            if (self::$_now === NULL) {
-                self::$_now = Date::toMySql(time());
-                self::$_yesterday = Date::toMySql(time() - 3600 * 24);
-                self::$_tomorrow = Date::toMySql(time() + 3600 * 24);
+            if ($this->_dataset === NULL) {
+                $this->now       = Date::toMySql(time());
+                $this->yesterday = Date::toMySql(time() - 3600 * 24);
+                $this->tomorrow  = Date::toMySql(time() + 3600 * 24);
 
-                $matches = array();
-                preg_match_all(
-                        "/##RAND_([A-Za-z0-9]+)##/", file_get_contents($file), $matches
-                );
-                $names   = array_unique($matches[1]);
+                $this->genNumbers = array();
+                $this->_GenerateRandom($file);
+                $this->_GenerateId($file);
 
-                $genNumbers = array();
-                foreach ($names as $name) {
-                    do {
-                        $number = rand(1, 255);
-                    } while (in_array($number, $genNumbers));
-                    $genNumbers[] = $number;
-                    self::$_genNumbers[$name] = $number;
+                $ds             = $this->createFlatXmlDataSet($file);
+                $this->_dataset = new PHPUnit_Extensions_Database_DataSet_ReplacementDataSet($ds);
+                $this->_dataset->addFullReplacement('##NULL##', NULL);
+                $this->_dataset->addFullReplacement('##NOW##', $this->now);
+                $this->_dataset->addFullReplacement('##YESTERDAY##', $this->yesterday);
+                $this->_dataset->addFullReplacement('##TOMORROW##', $this->tomorrow);
+                foreach ($this->genNumbers as $key => $value) {
+                    $this->_dataset->addFullReplacement('##RAND_' . $key . '##', $value);
+                    $this->_dataset->addFullReplacement('##ID_' . $key . '##', $value);
                 }
             }
-
-
-            $ds  = $this->createFlatXmlDataSet($file);
-            $rds = new PHPUnit_Extensions_Database_DataSet_ReplacementDataSet($ds);
-            $rds->addFullReplacement('##NULL##', NULL);
-            $rds->addFullReplacement('##NOW##', self::$_now);
-            $rds->addFullReplacement('##YESTERDAY##', self::$_yesterday);
-            $rds->addFullReplacement('##TOMORROW##', self::$_tomorrow);
-            foreach (self::$_genNumbers as $key => $value) {
-                $rds->addFullReplacement('##RAND_' . $key . '##', $value);
-            }
-            return $rds;
-        } else {
-            return NULL;
         }
+        return $this->_dataset;
     }
 
     public function getSetUpOperation()
@@ -77,54 +111,25 @@ class TestCase extends Kohana_Unittest_Database_TestCase
     {
         parent::tearDown();
         if ($this->useDatabase) {
-            $connection = $this->getConnection()->getConnection();
-
-            $connection->query("SET @PHAKE_PREV_foreign_key_checks = @@foreign_key_checks");
-            $connection->query("SET foreign_key_checks = 0");
-            $result = $connection->query("show tables");
+            Database::instance()->query(Database::DELETE, "SET @PHAKE_PREV_foreign_key_checks = @@foreign_key_checks");
+            Database::instance()->query(Database::DELETE, "SET foreign_key_checks = 0");
+            $result = Database::instance()->list_tables();
             $tables = array();
-            while ($row    = $result->fetch(PDO::FETCH_NUM)) {
-                if (strtolower($row[0]) != "changelog") {
-                    $tables[] = $row[0];
+            foreach ($result as $row) {
+                if (strtolower($row) != "changelog") {
+                    $tables[] = $row;
                 }
             }
             foreach ($tables as $table) {
                 try {
-                    $connection->query("truncate table `$table`");
-                } catch (PDOException $e) {
+                    Database::instance()->query(Database::DELETE, "truncate table `$table`");
+                } catch (Database_Exception $e) {
                     // this is not a table, but a view. delete it
-                    $connection->query("drop view if exists `$table`");
+                    Database::instance()->query(Database::DELETE, "drop view if exists `$table`");
                 }
             }
-            $connection->query("SET foreign_key_checks = @PHAKE_PREV_foreign_key_checks");
-            Database::instance()->disconnect();
+            Database::instance()->query(Database::DELETE, "SET foreign_key_checks = @PHAKE_PREV_foreign_key_checks");
         }
-        self::$_now = NULL;
-    }
-
-    public function assertEquivalent(array $expected, array $actual)
-    {
-        $this->assertEquals(sizeof($expected), sizeof($actual), 'Sizes of the array differ');
-        foreach ($expected as $key => $value) {
-            if (!isset($actual[$key])) {
-                $this->fail(
-                        "Arrays are different at index $key : "
-                        . var_export($expected, TRUE) . " / "
-                        . var_export($actual, TRUE)
-                );
-            }
-            if (is_array($expected[$key])) {
-                if (!is_array($actual[$key])) {
-                    $this->fail(
-                            "Arrays are different at index $key : "
-                            . var_export($expected, TRUE) . " / "
-                            . var_export($actual, TRUE)
-                    );
-                }
-                $this->assertEquivalent($expected[$key], $actual[$key]);
-            } else {
-                $this->assertEquals($expected[$key], $actual[$key], "Arrays are different at key $key");
-            }
-        }
+        $this->_dataset = NULL;
     }
 }

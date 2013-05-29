@@ -18,7 +18,7 @@ class FileTest extends TestCase
         );
         sort($actual);
         sort($expected);
-        $this->assertEquivalent($expected, $actual);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -35,7 +35,7 @@ class FileTest extends TestCase
         );
         sort($actual);
         sort($expected);
-        $this->assertEquivalent($expected, $actual);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -50,7 +50,7 @@ class FileTest extends TestCase
         );
         sort($actual);
         sort($expected);
-        $this->assertEquivalent($expected, $actual);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -65,7 +65,7 @@ class FileTest extends TestCase
         );
         sort($actual);
         sort($expected);
-        $this->assertEquivalent($expected, $actual);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -80,7 +80,7 @@ class FileTest extends TestCase
         );
         sort($actual);
         sort($expected);
-        $this->assertEquivalent($expected, $actual);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -95,7 +95,7 @@ class FileTest extends TestCase
         );
         sort($actual);
         sort($expected);
-        $this->assertEquivalent($expected, $actual);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -110,7 +110,7 @@ class FileTest extends TestCase
         );
         sort($actual);
         sort($expected);
-        $this->assertEquivalent($expected, $actual);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -124,6 +124,6 @@ class FileTest extends TestCase
         );
         sort($actual);
         sort($expected);
-        $this->assertEquivalent($expected, $actual);
+        $this->assertEquals($expected, $actual);
     }
 }
