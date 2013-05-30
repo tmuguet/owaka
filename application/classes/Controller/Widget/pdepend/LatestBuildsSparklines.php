@@ -1,12 +1,16 @@
 <?php
 
 /**
- * Displays several metrics of the latest 50 builds:
- * - Cyclomatic Cycle Number (ccn)
- * - Extended Cyclomatic Cycle Number (ccn2)
- * - Comment Lines of code (cloc)
- * - Executable lines of code (eloc)
- * - Logical lines of code (lloc)
+ * Displays several metrics of the latest 50 builds.
+ * 
+ * Displays:
+ * * Cyclomatic Cycle Number (ccn)
+ * * Extended Cyclomatic Cycle Number (ccn2)
+ * * Comment Lines of code (cloc)
+ * * Executable lines of code (eloc)
+ * * Logical lines of code (lloc)
+ * 
+ * @package Widgets
  */
 class Controller_Widget_pdepend_LatestBuildsSparklines extends Controller_Widget_BaseSparklines
 {

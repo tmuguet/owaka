@@ -13,7 +13,7 @@ class Controller_Api_dashboard extends Controller
      * 
      * Returns "ok" if succeeded
      * 
-     * @url http://example.com/api/dashboard/delete/<dashboard>/<widget_id>
+     * @url http://example.com/api/dashboard/delete/&lt;dashboard&gt;/&lt;widget_id&gt;
      * @throws Exception Unsupported dashboard type (should never happen)
      */
     public function action_delete()
@@ -41,9 +41,9 @@ class Controller_Api_dashboard extends Controller
      * 
      * Returns "ok" if succeeded.
      * 
-     * @url http://example.com/api/dashboard/add/main/<dashboard_id>
-     * @url http://example.com/api/dashboard/add/project/<dashboard_id>/<project_id>
-     * @url http://example.com/api/dashboard/add/build/<dashboard_id>/<project_id>
+     * @url http://example.com/api/dashboard/add/main/&lt;dashboard_id&gt;
+     * @url http://example.com/api/dashboard/add/project/&lt;dashboard_id&gt;/&lt;project_id&gt;
+     * @url http://example.com/api/dashboard/add/build/&lt;dashboard_id&gt;/&lt;project_id&gt;
      * @postparameter project Project ID (optional or mandatory, depending on widget)
      * @postparameter id      Widget type (mandatory)
      * @postparameter width   Widget width (mandatory)
@@ -98,7 +98,7 @@ class Controller_Api_dashboard extends Controller
      * 
      * Returns "ok" if succeeded.
      * 
-     * @url http://example.com/api/dashboard/move/<dashboard>/<widget_id>
+     * @url http://example.com/api/dashboard/move/&lt;dashboard&gt;/&lt;widget_id&gt;
      * @postparameter column  Widget column (mandatory)
      * @postparameter row     Widget row (mandatory)
      * @throws Exception Unsupported dashboard type (should never happen)

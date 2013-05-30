@@ -2,6 +2,8 @@
 
 /**
  * Widget for displaying a background image depending on the build status
+ * 
+ * @package Widgets
  */
 class Controller_Widget_Background extends Controller_Widget_Base
 {

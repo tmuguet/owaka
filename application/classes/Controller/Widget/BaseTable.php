@@ -2,6 +2,8 @@
 
 /**
  * Base class for all widgets displaying tables
+ * 
+ * @package Widgets
  */
 abstract class Controller_Widget_BaseTable extends Controller_Widget_Base
 {

@@ -3,6 +3,8 @@ defined('SYSPATH') or die('No direct script access.');
 
 /**
  * Displays dashboard designers
+ * 
+ * @package Designer
  */
 class Controller_Designer extends Controller
 {
@@ -20,7 +22,7 @@ class Controller_Designer extends Controller
 
     /**
      * Designer for project dashboard
-     * @url http://example.com/designer/project/<project_id>
+     * @url http://example.com/designer/project/&lt;project_id&gt;
      */
     public function action_project()
     {
@@ -31,7 +33,7 @@ class Controller_Designer extends Controller
 
     /**
      * Designer for build dashboard
-     * @url http://example.com/designer/build/<project_id>
+     * @url http://example.com/designer/build/&lt;project_id&gt;
      */
     public function action_build()
     {

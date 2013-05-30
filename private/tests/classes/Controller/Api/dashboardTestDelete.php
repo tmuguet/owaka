@@ -12,10 +12,11 @@ class Controller_Api_dashboardTestDelete extends TestCase
     public function testActionDeleteMain()
     {
         $expected = array('res' => 'ok');
-        $actual   = json_decode(
-                Request::factory('api/dashboard/delete/main/' . $this->genNumbers['mainBackground'])->execute()->body(),
-                                 TRUE
-        );
+
+        $response = Request::factory('api/dashboard/delete/main/' . $this->genNumbers['mainBackground'])->execute();
+        $this->assertEquals(200, $response->status());
+
+        $actual = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual);
 
         $this->assertEquals(
@@ -33,10 +34,11 @@ class Controller_Api_dashboardTestDelete extends TestCase
     public function testActionDeleteProject()
     {
         $expected = array('res' => 'ok');
-        $actual   = json_decode(
-                Request::factory('api/dashboard/delete/project/' . $this->genNumbers['projectFooLog'])->execute()->body(),
-                                 TRUE
-        );
+
+        $response = Request::factory('api/dashboard/delete/project/' . $this->genNumbers['projectFooLog'])->execute();
+        $this->assertEquals(200, $response->status());
+
+        $actual = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual);
 
         $this->assertEquals(
@@ -54,10 +56,11 @@ class Controller_Api_dashboardTestDelete extends TestCase
     public function testActionDeleteBuild()
     {
         $expected = array('res' => 'ok');
-        $actual   = json_decode(
-                Request::factory('api/dashboard/delete/build/' . $this->genNumbers['buildFooBackground'])->execute()->body(),
-                                 TRUE
-        );
+
+        $response = Request::factory('api/dashboard/delete/build/' . $this->genNumbers['buildFooBackground'])->execute();
+        $this->assertEquals(200, $response->status());
+
+        $actual = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual);
 
         $this->assertEquals(

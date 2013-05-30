@@ -2,6 +2,8 @@
 
 /**
  * PHPDOC
+ * 
+ * @package Processors
  */
 class Controller_Processors_Phpdoc extends Controller_Processors_Base
 {

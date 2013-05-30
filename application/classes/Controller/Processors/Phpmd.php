@@ -2,6 +2,8 @@
 
 /**
  * PHPMD
+ * 
+ * @package Processors
  */
 class Controller_Processors_Phpmd extends Controller_Processors_Base
 {

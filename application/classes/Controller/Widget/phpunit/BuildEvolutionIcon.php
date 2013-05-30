@@ -2,6 +2,8 @@
 
 /**
  * Displays the evolution of the number of errors and failures with previous build.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_phpunit_BuildEvolutionIcon extends Controller_Widget_BaseIcon
 {

@@ -2,6 +2,8 @@
 
 /**
  * Displays the evolution of the number of errors with previous build.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseIcon
 {

@@ -2,6 +2,8 @@
 
 /**
  * Widget for display the latest build log file
+ * 
+ * @package Widgets
  */
 class Controller_Widget_Log extends Controller_Widget_BaseRaw
 {

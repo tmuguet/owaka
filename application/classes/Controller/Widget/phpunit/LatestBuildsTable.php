@@ -2,6 +2,8 @@
 
 /**
  * Displays the number of errors and failures of the latest 10 builds.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_BaseTable
 {

@@ -2,6 +2,8 @@
 
 /**
  * Gets details of a widget for the designer mode
+ * 
+ * @package Designer
  */
 class Controller_Designer_details extends Controller
 {

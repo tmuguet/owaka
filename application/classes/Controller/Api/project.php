@@ -14,7 +14,7 @@ class Controller_Api_project extends Controller
      * Returns an array of objects, orderered alphabetically by their name:
      * {id: int, name: string}
      * 
-     * @url http://example.com/api/project/list/<project_id>
+     * @url http://example.com/api/project/list/&lt;project_id&gt;
      */
     public function action_list()
     {

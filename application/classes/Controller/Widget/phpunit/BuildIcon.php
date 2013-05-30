@@ -2,6 +2,8 @@
 
 /**
  * Displays the number of errors and failures of a build.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_phpunit_BuildIcon extends Controller_Widget_BaseIcon
 {

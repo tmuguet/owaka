@@ -2,6 +2,8 @@
 
 /**
  * Displays the building queue.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_Queue extends Controller_Widget_BaseTable
 {

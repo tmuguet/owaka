@@ -2,6 +2,8 @@
 
 /**
  * Displays the number of errors of a build.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_phpmd_BuildIcon extends Controller_Widget_BaseIcon
 {

@@ -15,9 +15,10 @@ class Controller_Api_projectTest extends TestCase
             array('id'   => $this->genNumbers['ProjectBar'], 'name' => 'active-git'),
             array('id'   => $this->genNumbers['ProjectFoo'], 'name' => 'active-hg'),
         );
-        $actual   = json_decode(
-                Request::factory('api/project/list/')->execute()->body(), TRUE
-        );
+
+        $response = Request::factory('api/project/list/')->execute();
+        $this->assertEquals(200, $response->status());
+        $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual);
     }
 }

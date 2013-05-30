@@ -2,6 +2,8 @@
 
 /**
  * Base class for all widgets displaying text
+ * 
+ * @package Widgets
  */
 abstract class Controller_Widget_BaseRaw extends Controller_Widget_Base
 {

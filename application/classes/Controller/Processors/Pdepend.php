@@ -2,6 +2,8 @@
 
 /**
  * Pdepend
+ * 
+ * @package Processors
  */
 class Controller_Processors_Pdepend extends Controller_Processors_Base
 {

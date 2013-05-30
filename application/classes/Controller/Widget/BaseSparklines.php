@@ -2,6 +2,8 @@
 
 /**
  * Base class for all widgets displaying sparklines
+ * 
+ * @package Widgets
  */
 abstract class Controller_Widget_BaseSparklines extends Controller_Widget_BaseRaw
 {

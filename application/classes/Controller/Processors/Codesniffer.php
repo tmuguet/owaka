@@ -2,6 +2,8 @@
 
 /**
  * Codesniffer
+ * 
+ * @package Processors
  */
 class Controller_Processors_Codesniffer extends Controller_Processors_Base
 {

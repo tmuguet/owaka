@@ -12,10 +12,14 @@ class Controller_Api_dashboardTestMove extends TestCase
     public function testActionMoveMain()
     {
         $expected = array('res' => 'ok', 'id'  => $this->genNumbers['mainBackground']);
-        $request  = Request::factory('api/dashboard/move/main/' . $this->genNumbers['mainBackground'])
+
+        $response = Request::factory('api/dashboard/move/main/' . $this->genNumbers['mainBackground'])
                 ->post('column', '1')
-                ->post('row', '42');
-        $actual   = json_decode($request->execute()->body(), TRUE);
+                ->post('row', '42')
+                ->execute();
+        $this->assertEquals(200, $response->status());
+
+        $actual = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual);
 
         $result = Database::instance()->query(
@@ -32,10 +36,14 @@ class Controller_Api_dashboardTestMove extends TestCase
     public function testActionMoveProject()
     {
         $expected = array('res' => 'ok', 'id'  => $this->genNumbers['projectBarLog']);
-        $request  = Request::factory('api/dashboard/move/project/' . $this->genNumbers['projectBarLog'])
+
+        $response = Request::factory('api/dashboard/move/project/' . $this->genNumbers['projectBarLog'])
                 ->post('column', '42')
-                ->post('row', '5');
-        $actual   = json_decode($request->execute()->body(), TRUE);
+                ->post('row', '5')
+                ->execute();
+        $this->assertEquals(200, $response->status());
+
+        $actual = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual);
 
         $result = Database::instance()->query(
@@ -52,10 +60,14 @@ class Controller_Api_dashboardTestMove extends TestCase
     public function testActionMoveBuild()
     {
         $expected = array('res' => 'ok', 'id'  => $this->genNumbers['buildFooBackground']);
-        $request  = Request::factory('api/dashboard/move/build/' . $this->genNumbers['buildFooBackground'])
+
+        $response = Request::factory('api/dashboard/move/build/' . $this->genNumbers['buildFooBackground'])
                 ->post('column', '10')
-                ->post('row', '11');
-        $actual   = json_decode($request->execute()->body(), TRUE);
+                ->post('row', '11')
+                ->execute();
+        $this->assertEquals(200, $response->status());
+
+        $actual = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual);
 
         $result = Database::instance()->query(

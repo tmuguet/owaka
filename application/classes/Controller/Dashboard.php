@@ -3,6 +3,8 @@ defined('SYSPATH') or die('No direct script access.');
 
 /**
  * Displays dashboards
+ * 
+ * @package Main
  */
 class Controller_Dashboard extends Controller
 {
@@ -29,7 +31,7 @@ class Controller_Dashboard extends Controller
 
     /**
      * Displays project dashboard
-     * @url http://example.com/dashboard/project/<project_id>
+     * @url http://example.com/dashboard/project/&lt;project_id&gt;
      */
     public function action_project()
     {
@@ -53,7 +55,7 @@ class Controller_Dashboard extends Controller
 
     /**
      * Displays build dashboard
-     * @url http://example.com/dashboard/build/<build_id>
+     * @url http://example.com/dashboard/build/&lt;build_id&gt;
      */
     public function action_build()
     {

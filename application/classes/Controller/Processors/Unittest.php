@@ -2,6 +2,8 @@
 
 /**
  * Unittest (phpunit)
+ * 
+ * @package Processors
  */
 class Controller_Processors_Unittest extends Controller_Processors_Base
 {

@@ -2,6 +2,8 @@
 
 /**
  * Coverage
+ * 
+ * @package Processors
  */
 class Controller_Processors_Coverage extends Controller_Processors_Base
 {

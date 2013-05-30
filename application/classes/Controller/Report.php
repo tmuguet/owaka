@@ -3,13 +3,15 @@ defined('SYSPATH') or die('No direct script access.');
 
 /**
  * Accessor to reports
+ * 
+ * @package Reports
  */
 class Controller_Report extends Controller
 {
 
     /**
      * Accessor to reports
-     * @url http://example.com/reports/<build>/<type>/<page>
+     * @url http://example.com/reports/&lt;build&gt;/&lt;type&gt;/&lt;page&gt;
      * @throws HTTP_Exception_404 Report not found or out of reports' path
      */
     public function action_index()

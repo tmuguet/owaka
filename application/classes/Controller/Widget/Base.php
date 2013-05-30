@@ -2,6 +2,8 @@
 
 /**
  * Base class for all widgets
+ * 
+ * @package Widgets
  */
 abstract class Controller_Widget_Base extends Controller
 {
@@ -260,7 +262,7 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Displays a widget
-     * @url http://example.com/w/<dashboard>/<widget>/display
+     * @url http://example.com/w/&lt;dashboard&gt;/&lt;widget&gt;/display
      * @throws HTTP_Exception_500 Type of dashboard not supported for the widget
      */
     public final function action_display()
@@ -294,7 +296,7 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Displays a sample widget
-     * @url http://example.com/w/<dashboard>/<widget>/sample
+     * @url http://example.com/w/&lt;dashboard&gt;/&lt;widget&gt;/sample
      * @throws HTTP_Exception_500 Type of dashboard not supported for the widget
      */
     public final function action_sample()
@@ -332,7 +334,7 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Displays a virtual widget
-     * @url http://example.com/w/<dashboard>/<widget>/virtual
+     * @url http://example.com/w/&lt;dashboard&gt;/&lt;widget&gt;/virtual
      * @throws HTTP_Exception_500 Type of dashboard not supported for the widget
      */
     public static function action_virtual()

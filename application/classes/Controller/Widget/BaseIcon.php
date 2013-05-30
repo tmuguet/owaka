@@ -2,6 +2,8 @@
 
 /**
  * Base class for all widgets using icons
+ * 
+ * @package Widgets
  */
 abstract class Controller_Widget_BaseIcon extends Controller_Widget_Base
 {

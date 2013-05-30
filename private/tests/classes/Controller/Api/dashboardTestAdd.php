@@ -11,26 +11,30 @@ class Controller_Api_dashboardTestAdd extends TestCase
      */
     public function testActionAddMain()
     {
-        $post    = array(
+        $post     = array(
             "params" => array(
                 "foo"     => "bar",
                 "project" => $this->genNumbers['ProjectFoo'],
-                "bat" => ""
+                "bat"     => ""
             ),
             "width"  => 4,
             "height" => 2,
             "column" => 1,
             "row"    => 42
         );
-        $request = Request::factory('api/dashboard/add/main/Log')
-                ->post($post);
-        $actual  = json_decode($request->execute()->body(), TRUE);
+        
+        $response = Request::factory('api/dashboard/add/main/Log')
+                ->post($post)
+                ->execute();
+        $this->assertEquals(200, $response->status());
+        
+        $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals('ok', $actual['res']);
 
+        unset($post['params']['bat']);
         $result = Database::instance()->query(
                 Database::SELECT, "SELECT * FROM `widgets` WHERE `id`=" . $actual['id']
         );
-        unset($post['params']['bat']);
         $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE));
         $this->assertEquals($post['width'], $result->get('width'));
         $this->assertEquals($post['height'], $result->get('height'));
@@ -43,27 +47,31 @@ class Controller_Api_dashboardTestAdd extends TestCase
      */
     public function testActionAddProject1()
     {
-        $post    = array(
+        $post     = array(
             "params" => array(
                 "foo"     => "bar",
                 "project" => $this->genNumbers['ProjectFoo'],
-                "bat" => ""
+                "bat"     => ""
             ),
             "width"  => 4,
             "height" => 2,
             "column" => 1,
             "row"    => 42
         );
-        $request = Request::factory('api/dashboard/add/project/Log/' . $this->genNumbers['ProjectFoo'])
-                ->post($post);
-        $actual  = json_decode($request->execute()->body(), TRUE);
+        
+        $response = Request::factory('api/dashboard/add/project/Log/' . $this->genNumbers['ProjectFoo'])
+                ->post($post)
+                ->execute();
+        $this->assertEquals(200, $response->status());
+        
+        $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals('ok', $actual['res']);
 
+        unset($post['params']['bat']);
+        unset($post['params']['project']);
         $result = Database::instance()->query(
                 Database::SELECT, "SELECT * FROM `project_widgets` WHERE `id`=" . $actual['id']
         );
-        unset($post['params']['bat']);
-        unset($post['params']['project']);
         $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE));
         $this->assertEquals($post['width'], $result->get('width'));
         $this->assertEquals($post['height'], $result->get('height'));
@@ -76,26 +84,30 @@ class Controller_Api_dashboardTestAdd extends TestCase
      */
     public function testActionAddProject2()
     {
-        $post    = array(
+        $post     = array(
             "params" => array(
                 "foo"     => "bar",
                 "project" => $this->genNumbers['ProjectFoo'],
-                "bat" => ""
+                "bat"     => ""
             ),
             "width"  => 4,
             "height" => 2,
             "column" => 1,
             "row"    => 42
         );
-        $request = Request::factory('api/dashboard/add/project/Log/' . $this->genNumbers['ProjectBar'])
-                ->post($post);
-        $actual  = json_decode($request->execute()->body(), TRUE);
+        
+        $response = Request::factory('api/dashboard/add/project/Log/' . $this->genNumbers['ProjectBar'])
+                ->post($post)
+                ->execute();
+        $this->assertEquals(200, $response->status());
+        
+        $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals('ok', $actual['res']);
 
+        unset($post['params']['bat']);
         $result = Database::instance()->query(
                 Database::SELECT, "SELECT * FROM `project_widgets` WHERE `id`=" . $actual['id']
         );
-        unset($post['params']['bat']);
         $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE));
         $this->assertEquals($post['width'], $result->get('width'));
         $this->assertEquals($post['height'], $result->get('height'));
@@ -108,27 +120,31 @@ class Controller_Api_dashboardTestAdd extends TestCase
      */
     public function testActionAddBuild1()
     {
-        $post    = array(
+        $post     = array(
             "params" => array(
                 "foo"     => "bar",
                 "project" => $this->genNumbers['ProjectFoo'],
-                "bat" => ""
+                "bat"     => ""
             ),
             "width"  => 4,
             "height" => 2,
             "column" => 1,
             "row"    => 42
         );
-        $request = Request::factory('api/dashboard/add/build/Log/' . $this->genNumbers['ProjectFoo'])
-                ->post($post);
-        $actual  = json_decode($request->execute()->body(), TRUE);
+        
+        $response = Request::factory('api/dashboard/add/build/Log/' . $this->genNumbers['ProjectFoo'])
+                ->post($post)
+                ->execute();
+        $this->assertEquals(200, $response->status());
+        
+        $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals('ok', $actual['res']);
 
+        unset($post['params']['bat']);
+        unset($post['params']['project']);
         $result = Database::instance()->query(
                 Database::SELECT, "SELECT * FROM `build_widgets` WHERE `id`=" . $actual['id']
         );
-        unset($post['params']['bat']);
-        unset($post['params']['project']);
         $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE));
         $this->assertEquals($post['width'], $result->get('width'));
         $this->assertEquals($post['height'], $result->get('height'));
@@ -141,26 +157,30 @@ class Controller_Api_dashboardTestAdd extends TestCase
      */
     public function testActionAddBuild2()
     {
-        $post    = array(
+        $post     = array(
             "params" => array(
                 "foo"     => "bar",
                 "project" => $this->genNumbers['ProjectFoo'],
-                "bat" => ""
+                "bat"     => ""
             ),
             "width"  => 4,
             "height" => 2,
             "column" => 1,
             "row"    => 42
         );
-        $request = Request::factory('api/dashboard/add/build/Log/' . $this->genNumbers['ProjectBar'])
-                ->post($post);
-        $actual  = json_decode($request->execute()->body(), TRUE);
+        
+        $response = Request::factory('api/dashboard/add/build/Log/' . $this->genNumbers['ProjectBar'])
+                ->post($post)
+                ->execute();
+        $this->assertEquals(200, $response->status());
+        
+        $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals('ok', $actual['res']);
 
+        unset($post['params']['bat']);
         $result = Database::instance()->query(
                 Database::SELECT, "SELECT * FROM `build_widgets` WHERE `id`=" . $actual['id']
         );
-        unset($post['params']['bat']);
         $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE));
         $this->assertEquals($post['width'], $result->get('width'));
         $this->assertEquals($post['height'], $result->get('height'));

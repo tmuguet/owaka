@@ -14,7 +14,7 @@ class Controller_Api_build extends Controller
      * Returns an array of objects ordered from latest to oldest:
      * {id: int, revision: string, status:ok/unstable/error/building/queued}
      * 
-     * @url http://example.com/api/build/list/<project_id>
+     * @url http://example.com/api/build/list/&lt;project_id&gt;
      */
     public function action_list()
     {

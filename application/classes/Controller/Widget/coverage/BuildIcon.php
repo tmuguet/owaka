@@ -2,6 +2,8 @@
 
 /**
  * Displays the coverage status of a build.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
 {

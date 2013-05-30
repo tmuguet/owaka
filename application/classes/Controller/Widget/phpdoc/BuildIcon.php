@@ -2,6 +2,8 @@
 
 /**
  * Displays the status of Phpdoc.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_phpdoc_BuildIcon extends Controller_Widget_BaseIcon
 {

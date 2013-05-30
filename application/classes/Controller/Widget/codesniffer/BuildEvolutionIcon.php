@@ -2,6 +2,8 @@
 
 /**
  * Displays the evolution of the number of errors and warnings with previous build.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_codesniffer_BuildEvolutionIcon extends Controller_Widget_BaseIcon
 {

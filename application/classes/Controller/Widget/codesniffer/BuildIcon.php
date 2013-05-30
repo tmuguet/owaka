@@ -2,6 +2,8 @@
 
 /**
  * Displays the number of errors and warnings of a build.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_codesniffer_BuildIcon extends Controller_Widget_BaseIcon
 {

@@ -18,9 +18,11 @@ class Controller_Api_buildTest extends TestCase
             array('id'       => $this->genNumbers['build2'], 'revision' => 'r41', 'status'   => 'unstable'),
             array('id'       => $this->genNumbers['build1'], 'revision' => 'r40', 'status'   => 'ok'),
         );
-        $actual   = json_decode(
-                Request::factory('api/build/list/' . $this->genNumbers['ProjectFoo'])->execute()->body(), TRUE
-        );
+        
+        $response = Request::factory('api/build/list/' . $this->genNumbers['ProjectFoo'])->execute();
+        $this->assertEquals(200, $response->status());
+        
+        $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual);
     }
 
@@ -30,9 +32,11 @@ class Controller_Api_buildTest extends TestCase
     public function testActionListEmpty()
     {
         $expected = array();
-        $actual   = json_decode(
-                Request::factory('api/build/list/' . $this->genNumbers['ProjectBar'])->execute()->body(), TRUE
-        );
+        
+        $response = Request::factory('api/build/list/' . $this->genNumbers['ProjectBar'])->execute();
+        $this->assertEquals(200, $response->status());
+        
+        $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual);
     }
 
@@ -44,9 +48,11 @@ class Controller_Api_buildTest extends TestCase
         $expected = array(
             array('id'       => $this->genNumbers['buildBat1'], 'revision' => 'abcdefghij', 'status'   => 'ok'),
         );
-        $actual   = json_decode(
-                Request::factory('api/build/list/' . $this->genNumbers['ProjectBat'])->execute()->body(), TRUE
-        );
+        
+        $response = Request::factory('api/build/list/' . $this->genNumbers['ProjectBat'])->execute();
+        $this->assertEquals(200, $response->status());
+        
+        $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual);
     }
 }

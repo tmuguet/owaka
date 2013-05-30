@@ -2,6 +2,8 @@
 
 /**
  * Displays the number of errors and failures of the latest 50 builds.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget_BaseSparklines
 {

@@ -2,6 +2,8 @@
 
 /**
  * Displays the evolution of coverage with previous build.
+ * 
+ * @package Widgets
  */
 class Controller_Widget_coverage_BuildEvolutionIcon extends Controller_Widget_BaseIcon
 {
