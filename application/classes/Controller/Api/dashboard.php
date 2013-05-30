@@ -3,6 +3,7 @@ defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
  * API entry for managing dashboards
+ * @package    Api
  */
 class Controller_Api_dashboard extends Controller
 {
@@ -27,10 +28,12 @@ class Controller_Api_dashboard extends Controller
             case "build":
                 $widget = ORM::factory('Build_Widget', $this->request->param('id'));
                 break;
+            // @codeCoverageIgnoreStart
             default: throw new Exception("Unsupported dashboard type");
+            // @codeCoverageIgnoreEnd
         }
         $widget->delete();
-        $this->response->body(json_encode(array("ok")));
+        $this->response->body(json_encode(array("res" => "ok")));
     }
 
     /**
@@ -71,7 +74,9 @@ class Controller_Api_dashboard extends Controller
                     unset($params['project']);
                 }
                 break;
+            // @codeCoverageIgnoreStart
             default: throw new Exception("Unsupported dashboard type");
+            // @codeCoverageIgnoreEnd
         }
         foreach ($params as $key => $value) {
             if (empty($value)) {
@@ -112,7 +117,9 @@ class Controller_Api_dashboard extends Controller
             case "build":
                 $widget = ORM::factory('Build_Widget', $widgetId);
                 break;
+            // @codeCoverageIgnoreStart
             default: throw new Exception("Unsupported dashboard type");
+            // @codeCoverageIgnoreEnd
         }
 
         $widget->column = $this->request->post('column');

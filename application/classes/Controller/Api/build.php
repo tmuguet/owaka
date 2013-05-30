@@ -1,7 +1,9 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
+defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
  * API entry for managing builds
+ * @package    Api
  */
 class Controller_Api_build extends Controller
 {

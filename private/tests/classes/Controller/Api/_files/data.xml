@@ -12,4 +12,16 @@
     <builds id="##ID_build5##" project_id="##ID_ProjectFoo##" revision="44" message="The path of the righteous man is beset on all sides by the iniquities of the selfish and the tyranny of evil men. Blessed is he who, in the name of charity and good will, shepherds the weak through the valley of darkness, for he is truly his brother's keeper and the finder of lost children. And I will strike down upon thee with great vengeance and furious anger those who would attempt to poison and destroy My brothers. And you will know My name is the Lord when I lay My vengeance upon thee." status="queued" started="2010-10-05 21:15:23" eta="2010-10-05 21:16:30" finished="2010-10-05 21:16:23"/>
     
     <builds id="##ID_buildBat1##" project_id="##ID_ProjectBat##" revision="abcdefghijklmnopqrstuvwxyz" message="Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass." status="ok" started="2010-10-05 19:25:23" eta="2010-10-05 19:26:30" finished="2010-10-05 19:26:23"/>
+    
+    <widgets id="##ID_mainBackground##" type="Background" params="{&quot;theme&quot;: &quot;grunge&quot;}" width="1" height="1" column="15" row="1"/>
+    <widgets id="##ID_mainCoverage##" type="coverage_BuildIcon" params="{&quot;project&quot;: &quot;2&quot;, &quot;display&quot;: &quot;methods&quot;}" width="2" height="2" column="1" row="0"/>
+    
+    <project_widgets id="##ID_projectFooBackground##" project_id="##ID_ProjectFoo##" type="Background" params="{&quot;theme&quot;: &quot;grunge&quot;}" width="1" height="1" column="15" row="1"/>
+    <project_widgets id="##ID_projectFooLog##" project_id="##ID_ProjectFoo##" type="Log" params="{}" width="2" height="4" column="1" row="0"/>
+    
+    <project_widgets id="##ID_projectBarBackground##" project_id="##ID_ProjectBar##" type="Background" params="{&quot;theme&quot;: &quot;grunge&quot;}" width="1" height="1" column="15" row="1"/>
+    <project_widgets id="##ID_projectBarLog##" project_id="##ID_ProjectBar##" type="Log" params="{}" width="2" height="4" column="1" row="0"/>
+    
+    <build_widgets id="##ID_buildFooBackground##" project_id="##ID_ProjectFoo##" type="Background" params="{&quot;theme&quot;: &quot;grunge&quot;}" width="1" height="1" column="15" row="1"/>
+    <build_widgets id="##ID_buildFooLog##" project_id="##ID_ProjectFoo##" type="Log" params="{}" width="2" height="4" column="1" row="0"/>
 </dataset>
