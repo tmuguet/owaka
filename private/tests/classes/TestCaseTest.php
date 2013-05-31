@@ -31,8 +31,6 @@ class TestCaseTest extends TestCase
     {
         $this->assertEquals(self::$genNumbersSaved['Foo'], $this->genNumbers['Foo']);
         $this->assertEquals(self::$genNumbersSaved['Bar'], $this->genNumbers['Bar']);
-        $this->assertNotEquals(self::$genNumbersSaved['Random1'], $this->genNumbers['Random1']);
-        $this->assertNotEquals(self::$genNumbersSaved['Random2'], $this->genNumbers['Random2']);
         $this->assertNotNull($this->genNumbers['Random1']);
         $this->assertNotNull($this->genNumbers['Random2']);
         

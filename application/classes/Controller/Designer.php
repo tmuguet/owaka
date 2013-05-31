@@ -51,14 +51,7 @@ class Controller_Designer extends Controller
     {
         $controllers = array();
         foreach (File::findWidgets($this->request->action()) as $controller) {
-            $name           = $controller;
-            $size           = $name::getPreferredSize();
-            $availableSizes = $name::getOptimizedSizes();
-            $controllers[]  = array(
-                "widget"         => str_replace("Controller_Widget_", "", $controller),
-                "size"           => $size,
-                "availableSizes" => $availableSizes
-            );
+            $controllers[]  = str_replace("Controller_Widget_", "", $controller);
         }
 
         $view = View::factory('designer')

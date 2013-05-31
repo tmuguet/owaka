@@ -33,7 +33,7 @@
         <div id="list_widgets">
             <ul>
                 <?php foreach ($controllers as $_controller): ?>
-                <li class="widget-elt"><a href="javascript:void(0)" data-widget="<?php echo $_controller['widget']; ?>" data-width="<?php echo $_controller['size'][0]; ?>" data-height="<?php echo $_controller['size'][1]; ?>"><?php echo str_replace("_", "/", $_controller['widget']); ?></a></li>
+                <li class="widget-elt"><a href="javascript:void(0)" data-widget="<?php echo $_controller; ?>"><?php echo str_replace("_", "/", $_controller); ?></a></li>
 
 <?php endforeach; ?>
             </ul>
