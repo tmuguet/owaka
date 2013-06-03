@@ -1,6 +1,11 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * PHPUnit data model
+ * 
+ * @package Model
+ */
 class Model_phpunit_globaldata extends ORM
 {
 

@@ -1,6 +1,11 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * Coverage data model
+ * 
+ * @package Model
+ */
 class Model_coverage_globaldata extends ORM
 {
 

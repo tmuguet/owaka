@@ -1,5 +1,11 @@
 <?php
+defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * File helper class
+ * 
+ * @package Core
+ */
 class File extends Kohana_File
 {
 

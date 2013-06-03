@@ -1,6 +1,11 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * PHP Depend data model
+ * 
+ * @package Model
+ */
 class Model_pdepend_globaldata extends ORM
 {
 

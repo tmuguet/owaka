@@ -20,10 +20,10 @@ class Controller_Api_buildTest extends TestCase
         );
         
         $response = Request::factory('api/build/list/' . $this->genNumbers['ProjectFoo'])->execute();
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status(), "Request failed");
         
         $actual   = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, "Incorrect API result");
     }
 
     /**
@@ -34,10 +34,10 @@ class Controller_Api_buildTest extends TestCase
         $expected = array();
         
         $response = Request::factory('api/build/list/' . $this->genNumbers['ProjectBar'])->execute();
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status(), "Request failed");
         
         $actual   = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, "Incorrect API result");
     }
 
     /**
@@ -50,9 +50,9 @@ class Controller_Api_buildTest extends TestCase
         );
         
         $response = Request::factory('api/build/list/' . $this->genNumbers['ProjectBat'])->execute();
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status(), "Request failed");
         
         $actual   = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, "Incorrect API result");
     }
 }

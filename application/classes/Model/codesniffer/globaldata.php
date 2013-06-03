@@ -1,6 +1,11 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * Codesniffer data model
+ * 
+ * @package Model
+ */
 class Model_codesniffer_globaldata extends ORM
 {
 

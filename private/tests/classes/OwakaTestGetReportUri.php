@@ -16,7 +16,8 @@ class OwakaTestGetReportUri extends TestCase
 
         $this->_buildId   = '42';
         $this->_processor = 'Coverage';
-        $this->_basePath  = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->_buildId . DIRECTORY_SEPARATOR . $this->_processor . DIRECTORY_SEPARATOR;
+        $this->_basePath  = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->_buildId
+                . DIRECTORY_SEPARATOR . $this->_processor . DIRECTORY_SEPARATOR;
         $this->_baseUri   = 'reports/' . $this->_buildId . '/' . $this->_processor . '/';
 
         if (!file_exists($this->_basePath)) {
@@ -37,9 +38,23 @@ class OwakaTestGetReportUri extends TestCase
      */
     public function testGetReportUri()
     {
-        $this->assertEquals($this->_baseUri . '.', Owaka::getReportUri($this->_buildId, $this->_processor, 'dir'));
-        $this->assertEquals(NULL, Owaka::getReportUri($this->_buildId, $this->_processor, 'raw'));
-        $this->assertEquals($this->_baseUri . '.', Owaka::getReportUri($this->_buildId, $this->_processor));
+        $this->assertEquals(
+                $this->_baseUri . '.',
+                Owaka::getReportUri(
+                        $this->_buildId, $this->_processor, 'dir'
+                ), "Report not found for '{$this->_buildId}', '{$this->_processor}', 'dir'"
+        );
+        $this->assertNull(
+                Owaka::getReportUri(
+                        $this->_buildId, $this->_processor, 'raw'
+                ), "Report found for '{$this->_buildId}', '{$this->_processor}', 'raw'"
+        );
+        $this->assertEquals(
+                $this->_baseUri . '.',
+                Owaka::getReportUri(
+                        $this->_buildId, $this->_processor
+                ), "Report not found for '{$this->_buildId}', '{$this->_processor}'"
+        );
     }
 
     /**

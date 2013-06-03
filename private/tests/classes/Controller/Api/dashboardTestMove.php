@@ -17,17 +17,17 @@ class Controller_Api_dashboardTestMove extends TestCase
                 ->post('column', '1')
                 ->post('row', '42')
                 ->execute();
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status(), "Request failed");
 
         $actual = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, "Incorrect API result");
 
         $result = Database::instance()->query(
                 Database::SELECT,
                 "SELECT `column`,`row` FROM `widgets` WHERE `id`=" . $this->genNumbers['mainBackground']
         );
-        $this->assertEquals(1, $result->get('column'));
-        $this->assertEquals(42, $result->get('row'));
+        $this->assertEquals(1, $result->get('column'), "Widget.column incorrect");
+        $this->assertEquals(42, $result->get('row'), "Widget.row incorrect");
     }
 
     /**
@@ -41,17 +41,17 @@ class Controller_Api_dashboardTestMove extends TestCase
                 ->post('column', '42')
                 ->post('row', '5')
                 ->execute();
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status(), "Request failed");
 
         $actual = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, "Incorrect API result");
 
         $result = Database::instance()->query(
                 Database::SELECT,
                 "SELECT `column`,`row` FROM `project_widgets` WHERE `id`=" . $this->genNumbers['projectBarLog']
         );
-        $this->assertEquals(42, $result->get('column'));
-        $this->assertEquals(5, $result->get('row'));
+        $this->assertEquals(42, $result->get('column'), "Project_Widget.column incorrect");
+        $this->assertEquals(5, $result->get('row'), "Project°Widget.row incorrect");
     }
 
     /**
@@ -65,16 +65,16 @@ class Controller_Api_dashboardTestMove extends TestCase
                 ->post('column', '10')
                 ->post('row', '11')
                 ->execute();
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status(), "Request failed");
 
         $actual = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, "Incorrect API result");
 
         $result = Database::instance()->query(
                 Database::SELECT,
                 "SELECT `column`,`row` FROM `build_widgets` WHERE `id`=" . $this->genNumbers['buildFooBackground']
         );
-        $this->assertEquals(10, $result->get('column'));
-        $this->assertEquals(11, $result->get('row'));
+        $this->assertEquals(10, $result->get('column'), "Build_Widget.column incorrect");
+        $this->assertEquals(11, $result->get('row'), "Build_Widget.row incorrect");
     }
 }

@@ -5,42 +5,45 @@ class TestCaseTest extends TestCase
 {
 
     protected static $genNumbersSaved = NULL;
-    
-    protected $xmlDataSet = 'testcase';
+    protected $xmlDataSet      = 'testcase';
 
     public function test1()
     {
         self::$genNumbersSaved = $this->genNumbers;
-        
-        $this->assertEquals(1, $this->genNumbers['Foo']);
-        $this->assertEquals(2, $this->genNumbers['Bar']);
-        $this->assertNotNull($this->genNumbers['Random1']);
-        $this->assertNotNull($this->genNumbers['Random2']);
-        
+
+        $this->assertEquals(1, $this->genNumbers['Foo'], "Sequence #1 incorrect in structure");
+        $this->assertEquals(2, $this->genNumbers['Bar'], "Sequence #2 incorrect in structure");
+        $this->assertNotNull($this->genNumbers['Random1'], "Random #1 incorrect in structure");
+        $this->assertNotNull($this->genNumbers['Random2'], "Random #2 incorrect in structure");
+
         $db = DB::select('id', 'name')
-                ->from('ut')
-                ->order_by('id', 'ASC')
-                ->execute()->as_array();
-        $this->assertEquals($this->genNumbers['Foo'], $db[0]['id']);
-        $this->assertEquals($this->genNumbers['Bar'], $db[1]['id']);
-        $this->assertEquals($this->genNumbers['Random1'], $db[0]['name']);
-        $this->assertEquals($this->genNumbers['Random2'], $db[1]['name']);
+                        ->from('ut')
+                        ->order_by('id', 'ASC')
+                        ->execute()->as_array();
+        $this->assertEquals($this->genNumbers['Foo'], $db[0]['id'], "Sequence #1 incorrect in DB");
+        $this->assertEquals($this->genNumbers['Bar'], $db[1]['id'], "Sequence #2 incorrect in DB");
+        $this->assertEquals($this->genNumbers['Random1'], $db[0]['name'], "Random #1 incorrect in DB");
+        $this->assertEquals($this->genNumbers['Random2'], $db[1]['name'], "Random #2 incorrect in DB");
     }
 
     public function test2()
     {
-        $this->assertEquals(self::$genNumbersSaved['Foo'], $this->genNumbers['Foo']);
-        $this->assertEquals(self::$genNumbersSaved['Bar'], $this->genNumbers['Bar']);
-        $this->assertNotNull($this->genNumbers['Random1']);
-        $this->assertNotNull($this->genNumbers['Random2']);
-        
+        $this->assertEquals(
+                self::$genNumbersSaved['Foo'], $this->genNumbers['Foo'], "Sequence #1 incorrect in structure"
+        );
+        $this->assertEquals(
+                self::$genNumbersSaved['Bar'], $this->genNumbers['Bar'], "Sequence #2 incorrect in structure"
+        );
+        $this->assertNotNull($this->genNumbers['Random1'], "Random #1 incorrect in structure");
+        $this->assertNotNull($this->genNumbers['Random2'], "Random #2 incorrect in structure");
+
         $db = DB::select('id', 'name')
-                ->from('ut')
-                ->order_by('id', 'ASC')
-                ->execute()->as_array();
-        $this->assertEquals($this->genNumbers['Foo'], $db[0]['id']);
-        $this->assertEquals($this->genNumbers['Bar'], $db[1]['id']);
-        $this->assertEquals($this->genNumbers['Random1'], $db[0]['name']);
-        $this->assertEquals($this->genNumbers['Random2'], $db[1]['name']);
+                        ->from('ut')
+                        ->order_by('id', 'ASC')
+                        ->execute()->as_array();
+        $this->assertEquals($this->genNumbers['Foo'], $db[0]['id'], "Sequence #1 incorrect in DB");
+        $this->assertEquals($this->genNumbers['Bar'], $db[1]['id'], "Sequence #2 incorrect in DB");
+        $this->assertEquals($this->genNumbers['Random1'], $db[0]['name'], "Random #1 incorrect in DB");
+        $this->assertEquals($this->genNumbers['Random2'], $db[1]['name'], "Random #2 incorrect in DB");
     }
 }

@@ -11,7 +11,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
      */
     public function testActionAddMain()
     {
-        $post     = array(
+        $post = array(
             "params" => array(
                 "foo"     => "bar",
                 "project" => $this->genNumbers['ProjectFoo'],
@@ -22,24 +22,24 @@ class Controller_Api_dashboardTestAdd extends TestCase
             "column" => 1,
             "row"    => 42
         );
-        
+
         $response = Request::factory('api/dashboard/add/main/Log')
                 ->post($post)
                 ->execute();
-        $this->assertEquals(200, $response->status());
-        
-        $actual   = json_decode($response->body(), TRUE);
-        $this->assertEquals('ok', $actual['res']);
+        $this->assertEquals(200, $response->status(), "Request failed");
+
+        $actual = json_decode($response->body(), TRUE);
+        $this->assertEquals('ok', $actual['res'], "Incorrect API result");
 
         unset($post['params']['bat']);
         $result = Database::instance()->query(
                 Database::SELECT, "SELECT * FROM `widgets` WHERE `id`=" . $actual['id']
         );
-        $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE));
-        $this->assertEquals($post['width'], $result->get('width'));
-        $this->assertEquals($post['height'], $result->get('height'));
-        $this->assertEquals($post['column'], $result->get('column'));
-        $this->assertEquals($post['row'], $result->get('row'));
+        $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE), "Widget.params incorrect");
+        $this->assertEquals($post['width'], $result->get('width'), "Widget.width incorrect");
+        $this->assertEquals($post['height'], $result->get('height'), "Widget.height incorrect");
+        $this->assertEquals($post['column'], $result->get('column'), "Widget.column incorrect");
+        $this->assertEquals($post['row'], $result->get('row'), "Widget.row incorrect");
     }
 
     /**
@@ -47,7 +47,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
      */
     public function testActionAddProject1()
     {
-        $post     = array(
+        $post = array(
             "params" => array(
                 "foo"     => "bar",
                 "project" => $this->genNumbers['ProjectFoo'],
@@ -58,25 +58,27 @@ class Controller_Api_dashboardTestAdd extends TestCase
             "column" => 1,
             "row"    => 42
         );
-        
+
         $response = Request::factory('api/dashboard/add/project/Log/' . $this->genNumbers['ProjectFoo'])
                 ->post($post)
                 ->execute();
-        $this->assertEquals(200, $response->status());
-        
-        $actual   = json_decode($response->body(), TRUE);
-        $this->assertEquals('ok', $actual['res']);
+        $this->assertEquals(200, $response->status(), "Request failed");
+
+        $actual = json_decode($response->body(), TRUE);
+        $this->assertEquals('ok', $actual['res'], "Incorrect API result");
 
         unset($post['params']['bat']);
         unset($post['params']['project']);
         $result = Database::instance()->query(
                 Database::SELECT, "SELECT * FROM `project_widgets` WHERE `id`=" . $actual['id']
         );
-        $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE));
-        $this->assertEquals($post['width'], $result->get('width'));
-        $this->assertEquals($post['height'], $result->get('height'));
-        $this->assertEquals($post['column'], $result->get('column'));
-        $this->assertEquals($post['row'], $result->get('row'));
+        $this->assertEquals(
+                $post['params'], json_decode($result->get('params'), TRUE), "Project_Widget.params incorrect"
+        );
+        $this->assertEquals($post['width'], $result->get('width'), "Project_Widget.width incorrect");
+        $this->assertEquals($post['height'], $result->get('height'), "Project_Widget.height incorrect");
+        $this->assertEquals($post['column'], $result->get('column'), "Project_Widget.column incorrect");
+        $this->assertEquals($post['row'], $result->get('row'), "Project_Widget.row incorrect");
     }
 
     /**
@@ -84,7 +86,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
      */
     public function testActionAddProject2()
     {
-        $post     = array(
+        $post = array(
             "params" => array(
                 "foo"     => "bar",
                 "project" => $this->genNumbers['ProjectFoo'],
@@ -95,24 +97,26 @@ class Controller_Api_dashboardTestAdd extends TestCase
             "column" => 1,
             "row"    => 42
         );
-        
+
         $response = Request::factory('api/dashboard/add/project/Log/' . $this->genNumbers['ProjectBar'])
                 ->post($post)
                 ->execute();
-        $this->assertEquals(200, $response->status());
-        
-        $actual   = json_decode($response->body(), TRUE);
-        $this->assertEquals('ok', $actual['res']);
+        $this->assertEquals(200, $response->status(), "Request failed");
+
+        $actual = json_decode($response->body(), TRUE);
+        $this->assertEquals('ok', $actual['res'], "Incorrect AI result");
 
         unset($post['params']['bat']);
         $result = Database::instance()->query(
                 Database::SELECT, "SELECT * FROM `project_widgets` WHERE `id`=" . $actual['id']
         );
-        $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE));
-        $this->assertEquals($post['width'], $result->get('width'));
-        $this->assertEquals($post['height'], $result->get('height'));
-        $this->assertEquals($post['column'], $result->get('column'));
-        $this->assertEquals($post['row'], $result->get('row'));
+        $this->assertEquals(
+                $post['params'], json_decode($result->get('params'), TRUE), "Project_Widget.params incorrect"
+        );
+        $this->assertEquals($post['width'], $result->get('width'), "Project_Widget.width incorrect");
+        $this->assertEquals($post['height'], $result->get('height'), "Project_Widget.height incorrect");
+        $this->assertEquals($post['column'], $result->get('column'), "Project_Widget.column incorrect");
+        $this->assertEquals($post['row'], $result->get('row'), "Project_Widget.row incorrect");
     }
 
     /**
@@ -120,7 +124,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
      */
     public function testActionAddBuild1()
     {
-        $post     = array(
+        $post = array(
             "params" => array(
                 "foo"     => "bar",
                 "project" => $this->genNumbers['ProjectFoo'],
@@ -131,25 +135,27 @@ class Controller_Api_dashboardTestAdd extends TestCase
             "column" => 1,
             "row"    => 42
         );
-        
+
         $response = Request::factory('api/dashboard/add/build/Log/' . $this->genNumbers['ProjectFoo'])
                 ->post($post)
                 ->execute();
-        $this->assertEquals(200, $response->status());
-        
-        $actual   = json_decode($response->body(), TRUE);
-        $this->assertEquals('ok', $actual['res']);
+        $this->assertEquals(200, $response->status(), "Request failed");
+
+        $actual = json_decode($response->body(), TRUE);
+        $this->assertEquals('ok', $actual['res'], "Incorrect API result");
 
         unset($post['params']['bat']);
         unset($post['params']['project']);
         $result = Database::instance()->query(
                 Database::SELECT, "SELECT * FROM `build_widgets` WHERE `id`=" . $actual['id']
         );
-        $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE));
-        $this->assertEquals($post['width'], $result->get('width'));
-        $this->assertEquals($post['height'], $result->get('height'));
-        $this->assertEquals($post['column'], $result->get('column'));
-        $this->assertEquals($post['row'], $result->get('row'));
+        $this->assertEquals(
+                $post['params'], json_decode($result->get('params'), TRUE), "Build_Widget.params incorrect"
+        );
+        $this->assertEquals($post['width'], $result->get('width'), "Build_Widget.width incorrect");
+        $this->assertEquals($post['height'], $result->get('height'), "Build_Widget.height incorrect");
+        $this->assertEquals($post['column'], $result->get('column'), "Build_Widget.column incorrect");
+        $this->assertEquals($post['row'], $result->get('row'), "Build_Widget.row incorrect");
     }
 
     /**
@@ -157,7 +163,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
      */
     public function testActionAddBuild2()
     {
-        $post     = array(
+        $post = array(
             "params" => array(
                 "foo"     => "bar",
                 "project" => $this->genNumbers['ProjectFoo'],
@@ -168,23 +174,25 @@ class Controller_Api_dashboardTestAdd extends TestCase
             "column" => 1,
             "row"    => 42
         );
-        
+
         $response = Request::factory('api/dashboard/add/build/Log/' . $this->genNumbers['ProjectBar'])
                 ->post($post)
                 ->execute();
-        $this->assertEquals(200, $response->status());
-        
-        $actual   = json_decode($response->body(), TRUE);
-        $this->assertEquals('ok', $actual['res']);
+        $this->assertEquals(200, $response->status(), "Request failed");
+
+        $actual = json_decode($response->body(), TRUE);
+        $this->assertEquals('ok', $actual['res'], "Incorrect API result");
 
         unset($post['params']['bat']);
         $result = Database::instance()->query(
                 Database::SELECT, "SELECT * FROM `build_widgets` WHERE `id`=" . $actual['id']
         );
-        $this->assertEquals($post['params'], json_decode($result->get('params'), TRUE));
-        $this->assertEquals($post['width'], $result->get('width'));
-        $this->assertEquals($post['height'], $result->get('height'));
-        $this->assertEquals($post['column'], $result->get('column'));
-        $this->assertEquals($post['row'], $result->get('row'));
+        $this->assertEquals(
+                $post['params'], json_decode($result->get('params'), TRUE), "Build_Widget.params incorrect"
+        );
+        $this->assertEquals($post['width'], $result->get('width'), "Build_Widget.width incorrect");
+        $this->assertEquals($post['height'], $result->get('height'), "Build_Widget.height incorrect");
+        $this->assertEquals($post['column'], $result->get('column'), "Build_Widget.column incorrect");
+        $this->assertEquals($post['row'], $result->get('row'), "Build_Widget.row incorrect");
     }
 }

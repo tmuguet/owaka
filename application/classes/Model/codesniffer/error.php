@@ -1,6 +1,11 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * Code sniffer errors model
+ * 
+ * @package Model
+ */
 class Model_codesniffer_error extends ORM
 {
 

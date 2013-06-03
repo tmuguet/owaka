@@ -1,6 +1,11 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * PHPMD data model
+ * 
+ * @package Model
+ */
 class Model_phpmd_globaldata extends ORM
 {
 

@@ -17,8 +17,8 @@ class Controller_Api_projectTest extends TestCase
         );
 
         $response = Request::factory('api/project/list/')->execute();
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status(), "Request failed");
         $actual   = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $actual, "Incorrect API result");
     }
 }

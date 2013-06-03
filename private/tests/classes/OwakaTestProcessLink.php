@@ -85,19 +85,11 @@ class OwakaTestProcessLink extends TestCase
         );
 
 
-        $this->assertEquals(
-                NULL, Owaka::processLink('project', $link)
-        );
-        $this->assertEquals(
-                NULL, Owaka::processLink('project', $link, 'js')
-        );
+        $this->assertNull(Owaka::processLink('project', $link));
+        $this->assertNull(Owaka::processLink('project', $link, 'js'));
 
-        $this->assertEquals(
-                NULL, Owaka::processLink('build', $link)
-        );
-        $this->assertEquals(
-                NULL, Owaka::processLink('build', $link, 'js')
-        );
+        $this->assertNull(Owaka::processLink('build', $link));
+        $this->assertNull(Owaka::processLink('build', $link, 'js'));
     }
 
     /**
@@ -126,11 +118,7 @@ class OwakaTestProcessLink extends TestCase
                 'document.location.href=\'dashboard/build/42\';', Owaka::processLink('project', $link, 'js')
         );
 
-        $this->assertEquals(
-                NULL, Owaka::processLink('build', $link)
-        );
-        $this->assertEquals(
-                NULL, Owaka::processLink('build', $link, 'js')
-        );
+        $this->assertNull(Owaka::processLink('build', $link));
+        $this->assertNull(Owaka::processLink('build', $link, 'js'));
     }
 }

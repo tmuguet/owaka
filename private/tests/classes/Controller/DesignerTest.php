@@ -13,7 +13,7 @@ class Controller_DesignerTest extends TestCase
     public function testActionMain()
     {
         $response = Request::factory('designer/main')->execute();
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status(), "Request failed");
 
         $expectedWidgets = array(
             ORM::factory('Widget', $this->genNumbers['mainBackground']),
@@ -23,7 +23,7 @@ class Controller_DesignerTest extends TestCase
                 ->set('from', 'main')
                 ->set('widgets', $expectedWidgets)
                 ->set('controllers', array('widget1', 'widget2'));
-        $this->assertEquals($expected->render(), $response->body());
+        $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
 
     /**
@@ -33,7 +33,7 @@ class Controller_DesignerTest extends TestCase
     public function testActionProject()
     {
         $response = Request::factory('designer/project/' . $this->genNumbers['ProjectFoo'])->execute();
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status(), "Request failed");
 
         $expectedWidgets = array(
             ORM::factory('Project_Widget', $this->genNumbers['projectFooBackground']),
@@ -44,7 +44,7 @@ class Controller_DesignerTest extends TestCase
                 ->set('projectId', $this->genNumbers['ProjectFoo'])
                 ->set('widgets', $expectedWidgets)
                 ->set('controllers', array('widget1', 'widget3'));
-        $this->assertEquals($expected->render(), $response->body());
+        $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
 
     /**
@@ -54,7 +54,7 @@ class Controller_DesignerTest extends TestCase
     public function testActionBuild()
     {
         $response = Request::factory('designer/build/' . $this->genNumbers['ProjectFoo'])->execute();
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $response->status(), "Request failed");
 
         $expectedWidgets = array(
             ORM::factory('Build_Widget', $this->genNumbers['buildFooBackground']),
@@ -65,6 +65,6 @@ class Controller_DesignerTest extends TestCase
                 ->set('projectId', $this->genNumbers['ProjectFoo'])
                 ->set('widgets', $expectedWidgets)
                 ->set('controllers', array('widget1', 'widget4'));
-        $this->assertEquals($expected->render(), $response->body());
+        $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
 }

@@ -1,6 +1,11 @@
 <?php
 defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * PHPUnit error model
+ * 
+ * @package Model
+ */
 class Model_phpunit_error extends ORM
 {
 

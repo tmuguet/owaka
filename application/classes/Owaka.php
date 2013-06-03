@@ -1,6 +1,11 @@
 <?php
 defined('SYSPATH') OR die('No direct access allowed.');
 
+/**
+ * Owaka helper class
+ * 
+ * @package Core
+ */
 class Owaka
 {
 
@@ -64,6 +69,13 @@ class Owaka
         return NULL;
     }
 
+    /**
+     * Processes and formats a link
+     * @param string $from Source dashboard (main, project or build)
+     * @param array $link Link information
+     * @param string $outputAs Output format (html or js)
+     * @return string Formatted link
+     */
     static public function processLink($from, $link, $outputAs = 'html')
     {
         $url     = '';
