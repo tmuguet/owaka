@@ -29,7 +29,7 @@ class Controller_Processors_Phpmd extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = $this->_getReportCompletePath($buildId, 'html');
+        $report = $this->getReportCompletePath($buildId, 'html');
 
         if (file_get_contents($report) != "") {
             $content          = file_get_contents($report);

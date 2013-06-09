@@ -75,18 +75,18 @@ class Controller_Processors_BaseTest extends TestCase
         $target = new Controller_Processors_BaseStub();
         $this->assertEquals(
                 $this->_basePathReports . 'foo.html',
-                $target->_getReportCompletePath($this->genNumbers['build1'], 'file'), "Nominal case"
+                $target->getReportCompletePath($this->genNumbers['build1'], 'file'), "Nominal case"
         );
         $this->assertEquals(
                 substr($this->_basePathReports, 0, -1),
-                       $target->_getReportCompletePath($this->genNumbers['build1'], 'dir'),
+                       $target->getReportCompletePath($this->genNumbers['build1'], 'dir'),
                                                        "Nominal case with directory"
         );
         $this->assertNull(
-                $target->_getReportCompletePath($this->genNumbers['build1'], 'file2', "Should not exist in FS")
+                $target->getReportCompletePath($this->genNumbers['build1'], 'file2', "Should not exist in FS")
         );
         $this->assertNull(
-                $target->_getReportCompletePath($this->genNumbers['build1'], 'foo', "Should not exist in DB")
+                $target->getReportCompletePath($this->genNumbers['build1'], 'foo', "Should not exist in DB")
         );
     }
 }

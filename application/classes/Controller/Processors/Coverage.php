@@ -35,7 +35,7 @@ class Controller_Processors_Coverage extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = $this->_getReportCompletePath($buildId, 'raw');
+        $report = $this->getReportCompletePath($buildId, 'raw');
 
         if (file_get_contents($report) != "") {
             $global           = ORM::factory('coverage_globaldata');

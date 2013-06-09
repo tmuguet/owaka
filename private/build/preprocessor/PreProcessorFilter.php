@@ -144,6 +144,13 @@ class PreProcessorFilter extends BaseParamFilterReader
                 $content = preg_replace("|/\*\s?private\s?\*/|", "private", $content);
             }
         }
+        if (preg_match("|/\*\s?protected\s?\*/|", $content) !== 0) {
+            if ($this->getContext()->hasDefinition('TESTING')) {
+                $content = preg_replace("|/\*\s?protected\s?\*/|", "public", $content);
+            } else {
+                $content = preg_replace("|/\*\s?protected\s?\*/|", "protected", $content);
+            }
+        }
         
         if (preg_match("/#(if|call|code)/", $content) === 0) {
             // No directives found, do not treat file

@@ -35,7 +35,7 @@ class Controller_Processors_Unittest extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = $this->_getReportCompletePath($buildId, 'xml');
+        $report = $this->getReportCompletePath($buildId, 'xml');
 
         if (file_get_contents($report) != "") {
             $global           = ORM::factory('phpunit_globaldata');

@@ -117,7 +117,7 @@ abstract class Controller_Processors_Base extends Controller
      * @return string|null
      * @see getInputReports() for report types
      */
-    /* private */ final function _getReportCompletePath($buildId, $type)
+    /* protected */ final function getReportCompletePath($buildId, $type)
     {
         $destination = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR
                 . $this->_getName() . DIRECTORY_SEPARATOR;
