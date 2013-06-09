@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'BaseStub.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'BaseStub2.php';
 
 class Controller_Processors_BaseTest extends TestCase
 {
@@ -29,6 +30,16 @@ class Controller_Processors_BaseTest extends TestCase
 
         File::rrmdir($this->genNumbers['PathFoo']);
         File::rrmdir(APPPATH . 'reports');
+    }
+
+    /**
+     * @covers Controller_Processors_Base::getInputReports
+     * @expectedException Exception
+     * @expectedExceptionMessage Not implemented
+     */
+    public function testGetInputReports()
+    {
+        Controller_Processors_Base::getInputReports();
     }
 
     /**
@@ -68,7 +79,7 @@ class Controller_Processors_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Processors_Base::_getReportCompletePath
+     * @covers Controller_Processors_Base::getReportCompletePath
      */
     public function testGetReportCompletePath()
     {
@@ -79,8 +90,7 @@ class Controller_Processors_BaseTest extends TestCase
         );
         $this->assertEquals(
                 substr($this->_basePathReports, 0, -1),
-                       $target->getReportCompletePath($this->genNumbers['build1'], 'dir'),
-                                                       "Nominal case with directory"
+                       $target->getReportCompletePath($this->genNumbers['build1'], 'dir'), "Nominal case with directory"
         );
         $this->assertNull(
                 $target->getReportCompletePath($this->genNumbers['build1'], 'file2', "Should not exist in FS")
@@ -88,5 +98,46 @@ class Controller_Processors_BaseTest extends TestCase
         $this->assertNull(
                 $target->getReportCompletePath($this->genNumbers['build1'], 'foo', "Should not exist in DB")
         );
+    }
+
+    /**
+     * @covers Controller_Processors_Base::action_process
+     */
+    public function testActionProcess()
+    {
+        $target1                = new Controller_Processors_BaseStub();
+        $target1->request->setParam('id', $this->genNumbers['build1']);
+        $target1->processResult = TRUE;
+        $target1->action_process();
+        $this->assertEquals('true', $target1->response->body());
+
+        $target2                = new Controller_Processors_BaseStub();
+        $target2->request->setParam('id', $this->genNumbers['build1']);
+        $target2->processResult = FALSE;
+        $target2->action_process();
+        $this->assertEquals('false', $target2->response->body());
+    }
+
+    /**
+     * @covers Controller_Processors_Base::action_analyze
+     */
+    public function testActionAnalyze()
+    {
+        $target1 = new Controller_Processors_BaseStub();
+        $target1->request->setParam('id', $this->genNumbers['build1']);
+        $target1->action_analyze();
+        $this->assertEquals('null', $target1->response->body());
+
+        $target2                = new Controller_Processors_BaseStub2();
+        $target2->request->setParam('id', $this->genNumbers['build1']);
+        $target2->analyzeResult = TRUE;
+        $target2->action_analyze();
+        $this->assertEquals('true', $target2->response->body());
+
+        $target3                = new Controller_Processors_BaseStub2();
+        $target3->request->setParam('id', $this->genNumbers['build1']);
+        $target3->analyzeResult = FALSE;
+        $target3->action_analyze();
+        $this->assertEquals('false', $target3->response->body());
     }
 }

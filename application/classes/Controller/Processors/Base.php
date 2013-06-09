@@ -12,7 +12,6 @@ abstract class Controller_Processors_Base extends Controller
      * Gets the input reports
      * @throws Exception
      * @todo Document this
-     * @codeCoverageIgnore
      */
     static public function getInputReports()
     {
@@ -141,6 +140,7 @@ abstract class Controller_Processors_Base extends Controller
     {
         $buildId = $this->request->param('id');
         $result  = $this->process($buildId);
+        // TODO: proper error management
         if ($result) {
             $this->response->body("true");
         } else {
@@ -161,6 +161,12 @@ abstract class Controller_Processors_Base extends Controller
             $result = $this->analyze($build);
         }
 
-        $this->response->body($result);
+        if ($result === NULL) {
+            $this->response->body("null");
+        } else if ($result) {
+            $this->response->body("true");
+        } else {
+            $this->response->body("false");
+        }
     }
 }
