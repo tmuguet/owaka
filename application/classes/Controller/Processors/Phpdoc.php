@@ -8,6 +8,7 @@
 class Controller_Processors_Phpdoc extends Controller_Processors_Base
 {
 
+    // @codingStandardsIgnoreStart
     static public function getInputReports()
     {
         return array(
@@ -19,6 +20,7 @@ class Controller_Processors_Phpdoc extends Controller_Processors_Base
             )
         );
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Processes a PHPDoc report

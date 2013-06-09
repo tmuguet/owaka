@@ -12,6 +12,7 @@ abstract class Controller_Processors_Base extends Controller
      * Gets the input reports
      * @throws Exception
      * @todo Document this
+     * @codeCoverageIgnore
      */
     static public function getInputReports()
     {
@@ -32,17 +33,18 @@ abstract class Controller_Processors_Base extends Controller
     public final function action_copy()
     {
         $buildId              = $this->request->param('id');    // TODO: validate
-        $destinationDirectory = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $this->getName() . DIRECTORY_SEPARATOR;
+        $destinationDirectory = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId
+                . DIRECTORY_SEPARATOR . $this->_getName() . DIRECTORY_SEPARATOR;
 
         foreach (static::getInputReports() as $type => $info) {
-            $source      = $this->getInputReportCompletePath($buildId, $type);
+            $source      = $this->_getInputReportCompletePath($buildId, $type);
             $destination = $destinationDirectory . $info['keep-as'];    // TODO: this can get messy if mis-used !
 
             if (!empty($source) && !empty($destination)) {
                 Kohana::$log->add(Log::DEBUG, "Copying $source to $destination");
                 if (!file_exists($destinationDirectory)) {
                     // Create the directory only if at least one report is available
-                    mkdir($destinationDirectory, 0700);
+                    mkdir($destinationDirectory, 0700, true);
                 }
 
                 // TODO: this won't work if $destination has several levels
@@ -63,7 +65,7 @@ abstract class Controller_Processors_Base extends Controller
      * Gets the name of the processor being called
      * @return string
      */
-    protected final function getName()
+    /* private */ final function _getName()
     {
         return strtolower(str_replace("Controller_Processors_", "", get_called_class()));
     }
@@ -74,9 +76,9 @@ abstract class Controller_Processors_Base extends Controller
      * @return string
      * @see getInputReports() for report types
      */
-    protected final function getReportName($type)
+    /* private */ final function _getReportName($type)
     {
-        return $this->getName() . '_' . $type;
+        return $this->_getName() . '_' . $type;
     }
 
     /**
@@ -86,10 +88,10 @@ abstract class Controller_Processors_Base extends Controller
      * @return string|null
      * @see getInputReports() for report types
      */
-    protected final function getInputReportCompletePath($buildId, $type)
+    /* private */ final function _getInputReportCompletePath($buildId, $type)
     {
         $build = ORM::factory('Build', $buildId);
-        $name  = ORM::factory('Project_Report')->search($build->project_id, $this->getReportName($type));
+        $name  = ORM::factory('Project_Report')->search($build->project_id, $this->_getReportName($type));
         if (empty($name)) {
             return NULL;
         }
@@ -115,11 +117,15 @@ abstract class Controller_Processors_Base extends Controller
      * @return string|null
      * @see getInputReports() for report types
      */
-    protected final function getReportCompletePath($buildId, $type)
+    /* private */ final function _getReportCompletePath($buildId, $type)
     {
-        $destination = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $this->getName() . DIRECTORY_SEPARATOR;
+        $destination = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR
+                . $this->_getName() . DIRECTORY_SEPARATOR;
         $reports     = static::getInputReports();
-        $path        = realpath($destination . $reports[$type]['keep-as']);
+        if (!isset($reports[$type]) || !isset($reports[$type]['keep-as'])) {
+            return NULL;
+        }
+        $path = realpath($destination . $reports[$type]['keep-as']);
         if (!empty($path)) {
             return $path;
         } else {

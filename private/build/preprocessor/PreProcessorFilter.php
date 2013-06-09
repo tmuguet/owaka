@@ -54,7 +54,7 @@ class PreProcessorFilter extends BaseParamFilterReader
      * @var PreProcessorContext
      */
     private $context = NULL;
-    
+
     private $isInCode = FALSE;
 
     /**
@@ -137,6 +137,14 @@ class PreProcessorFilter extends BaseParamFilterReader
      */
     protected function process($content)
     {
+        if (preg_match("|/\*\s?private\s?\*/|", $content) !== 0) {
+            if ($this->getContext()->hasDefinition('TESTING')) {
+                $content = preg_replace("|/\*\s?private\s?\*/|", "public", $content);
+            } else {
+                $content = preg_replace("|/\*\s?private\s?\*/|", "private", $content);
+            }
+        }
+        
         if (preg_match("/#(if|call|code)/", $content) === 0) {
             // No directives found, do not treat file
             return $content;
@@ -147,7 +155,7 @@ class PreProcessorFilter extends BaseParamFilterReader
         $blockStack = array($root);
         $definitionsRegexp = "[A-Z-a-z0-9_]+";
 
-        for ($i = 0; $i < sizeof($lines); $i++) {            
+        for ($i = 0; $i < sizeof($lines); $i++) {
             if (preg_match("/#if\s+($definitionsRegexp)/", $lines[$i], $matches) === 1) {
                 // start new block
                 $newBlock = new PreProcessorDirectiveIf($blockStack[0], $matches[1]);

@@ -8,6 +8,7 @@
 class Controller_Processors_Coverage extends Controller_Processors_Base
 {
 
+    // @codingStandardsIgnoreStart
     static public function getInputReports()
     {
         return array(
@@ -25,6 +26,7 @@ class Controller_Processors_Coverage extends Controller_Processors_Base
             )
         );
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Processes a coverage XML report
@@ -33,7 +35,7 @@ class Controller_Processors_Coverage extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = $this->getReportCompletePath($buildId, 'raw');
+        $report = $this->_getReportCompletePath($buildId, 'raw');
 
         if (file_get_contents($report) != "") {
             $global           = ORM::factory('coverage_globaldata');

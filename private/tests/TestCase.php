@@ -67,6 +67,22 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         }
     }
 
+    private function _GenerateTmpPath($file)
+    {
+        $matches = array();
+        preg_match_all(
+                "/##PATH_([A-Za-z0-9]+)##/", file_get_contents($file), $matches
+        );
+        $names   = array_unique($matches[1]);
+
+        foreach ($names as $name) {
+            $this->genNumbers[$name] = tempnam(sys_get_temp_dir(), 'owaka');
+        }
+        foreach ($names as $name) {
+            unlink($this->genNumbers[$name]);
+        }
+    }
+
     private $_dataset = NULL;
 
     protected function _getDataSet($file)
@@ -80,6 +96,7 @@ class TestCase extends Kohana_Unittest_Database_TestCase
                 $this->genNumbers = array();
                 $this->_GenerateRandom($file);
                 $this->_GenerateId($file);
+                $this->_GenerateTmpPath($file);
 
                 $ds             = $this->createFlatXmlDataSet($file);
                 $this->_dataset = new PHPUnit_Extensions_Database_DataSet_ReplacementDataSet($ds);
@@ -90,6 +107,7 @@ class TestCase extends Kohana_Unittest_Database_TestCase
                 foreach ($this->genNumbers as $key => $value) {
                     $this->_dataset->addFullReplacement('##RAND_' . $key . '##', $value);
                     $this->_dataset->addFullReplacement('##ID_' . $key . '##', $value);
+                    $this->_dataset->addFullReplacement('##PATH_' . $key . '##', $value);
                 }
             }
         }

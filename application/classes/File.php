@@ -9,6 +9,25 @@ defined('SYSPATH') or die('No direct script access.');
 class File extends Kohana_File
 {
 
+    public static function rrmdir($path)
+    {
+        // @codeCoverageIgnoreStart
+        if (empty($path) || $path == DIRECTORY_SEPARATOR) {
+            // Avoid deleting root
+            return;
+        }
+        // @codeCoverageIgnoreEnd
+
+        foreach (glob($path . '/*') as $file) {
+            if (is_dir($file)) {
+                self::rrmdir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($path);
+    }
+
     /**
      * Finds all files in a path
      * @param string $path Absolute path where to search for files

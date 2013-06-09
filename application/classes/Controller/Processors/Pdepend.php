@@ -8,6 +8,7 @@
 class Controller_Processors_Pdepend extends Controller_Processors_Base
 {
 
+    // @codingStandardsIgnoreStart
     static public function getInputReports()
     {
         return array(
@@ -43,6 +44,7 @@ class Controller_Processors_Pdepend extends Controller_Processors_Base
             )
         );
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Processes a PHPdepend XML report
@@ -51,7 +53,7 @@ class Controller_Processors_Pdepend extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = $this->getReportCompletePath($buildId, 'summary');
+        $report = $this->_getReportCompletePath($buildId, 'summary');
 
         if (file_get_contents($report) != "") {
             $global           = ORM::factory('pdepend_globaldata');

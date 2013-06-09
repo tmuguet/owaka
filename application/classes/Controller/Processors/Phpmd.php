@@ -8,6 +8,7 @@
 class Controller_Processors_Phpmd extends Controller_Processors_Base
 {
 
+    // @codingStandardsIgnoreStart
     static public function getInputReports()
     {
         return array(
@@ -19,6 +20,7 @@ class Controller_Processors_Phpmd extends Controller_Processors_Base
             )
         );
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Processes a PHPMD HTML report
@@ -27,7 +29,7 @@ class Controller_Processors_Phpmd extends Controller_Processors_Base
      */
     public function process($buildId)
     {
-        $report = $this->getReportCompletePath($buildId, 'html');
+        $report = $this->_getReportCompletePath($buildId, 'html');
 
         if (file_get_contents($report) != "") {
             $content          = file_get_contents($report);

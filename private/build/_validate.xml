@@ -98,6 +98,7 @@
                 <fileset dir="${build.deploydir}/private/tests/classes">
                     <include name="**/*.php"/>
                     <exclude name="**/_mocks"/>
+                    <exclude name="**/_stubs"/>
                 </fileset>
             </batchtest>
         </phpunit>
@@ -127,6 +128,7 @@
                 <fileset dir="${build.deploydir}/private/tests/classes">
                     <include name="**/${testname}.php"/>
                     <exclude name="**/_mocks"/>
+                    <exclude name="**/_stubs"/>
                 </fileset>
             </batchtest>
         </phpunit>
