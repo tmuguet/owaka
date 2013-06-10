@@ -28,6 +28,33 @@ class File extends Kohana_File
         rmdir($path);
     }
 
+    public static function rcopy($source, $dest)
+    {
+        if (is_dir($source)) {
+            if (!file_exists($dest)) {
+                mkdir($dest, 0700);
+            }
+            $objects = scandir($source);
+            $result  = true;
+            foreach ($objects as $file) {
+                if ($file == "." || $file == "..") {
+                    continue;
+                }
+
+                if (is_dir($source . DIRECTORY_SEPARATOR . $file)) {
+                    $result &= self::rcopy($source . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
+                } else {
+                    $result &= copy($source . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
+                }
+            }
+            return $result;
+        } elseif (is_file($source)) {
+            return copy($source, $dest);
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Finds all files in a path
      * @param string $path Absolute path where to search for files

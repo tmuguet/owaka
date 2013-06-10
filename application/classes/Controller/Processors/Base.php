@@ -40,22 +40,21 @@ abstract class Controller_Processors_Base extends Controller
             $destination = $destinationDirectory . $info['keep-as'];    // TODO: this can get messy if mis-used !
 
             if (!empty($source) && !empty($destination)) {
+                if ($info['type'] == "dir" && !is_dir($source)) {
+                    Kohana::$log->add(Log::INFO, "Source $source is not a directory");
+                    continue;
+                } else if ($info['type'] == "file" && !is_file($source)) {
+                    Kohana::$log->add(Log::INFO, "Source $source is not a file");
+                    continue;
+                }
+
                 Kohana::$log->add(Log::DEBUG, "Copying $source to $destination");
                 if (!file_exists($destinationDirectory)) {
                     // Create the directory only if at least one report is available
                     mkdir($destinationDirectory, 0700, true);
                 }
 
-                // TODO: this won't work if $destination has several levels
-                if ($info['type'] == 'dir') {
-                    if (!file_exists($destination)) {
-                        exec('cp -R ' . $source . ' ' . $destination);    // TODO: use PHP functions
-                    } else {
-                        exec('cp -R ' . $source . DIRECTORY_SEPARATOR . '* ' . $destination);    // TODO: use PHP functions
-                    }
-                } else {
-                    exec('cp ' . $source . ' ' . $destination); // TODO: use PHP functions
-                }
+                File::rcopy($source, $destination);
             }
         }
     }
