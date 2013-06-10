@@ -11,10 +11,20 @@ class Controller_Processors_BaseTestCopy extends TestCase
         parent::setUp();
 
         mkdir($this->genNumbers['PathFoo']);
-        file_put_contents($this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'bar', 'hello-world');
+        file_put_contents(
+                $this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'bar', 'hello-world'
+        );
         mkdir($this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'baz');
-        file_put_contents($this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'baz' . DIRECTORY_SEPARATOR . 'hello',
-                          'hello-world2');
+        file_put_contents(
+                $this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'baz' . DIRECTORY_SEPARATOR . 'hello',
+                'hello-world2'
+        );
+
+        mkdir($this->genNumbers['PathBar']);
+        file_put_contents(
+                $this->genNumbers['PathBar'] . DIRECTORY_SEPARATOR . 'file', 'hello-world'
+        );
+        mkdir($this->genNumbers['PathBar'] . DIRECTORY_SEPARATOR . 'dir');
     }
 
     public function tearDown()
@@ -22,7 +32,10 @@ class Controller_Processors_BaseTestCopy extends TestCase
         parent::tearDown();
 
         File::rrmdir($this->genNumbers['PathFoo']);
-        File::rrmdir(APPPATH . 'reports');
+        File::rrmdir($this->genNumbers['PathBar']);
+        if (is_dir(APPPATH . 'reports')) {
+            File::rrmdir(APPPATH . 'reports');
+        }
     }
 
     /**
@@ -51,5 +64,20 @@ class Controller_Processors_BaseTestCopy extends TestCase
         $this->assertTrue(is_dir($basedir . 'subdir'));
         $this->assertTrue(is_readable($basedir . 'subdir' . DIRECTORY_SEPARATOR . 'hello'));
         $this->assertEquals('hello-world2', file_get_contents($basedir . 'subdir' . DIRECTORY_SEPARATOR . 'hello'));
+    }
+
+    /**
+     * @covers Controller_Processors_Base::action_copy
+     */
+    public function testCopyFail()
+    {
+        $target = new Controller_Processors_BaseStub();
+        $target->request->setParam('id', $this->genNumbers['build2']);
+
+        $target->action_copy();
+
+        $basedir = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build2']
+                . DIRECTORY_SEPARATOR . 'basestub' . DIRECTORY_SEPARATOR;
+        $this->assertFalse(is_dir($basedir));
     }
 }
