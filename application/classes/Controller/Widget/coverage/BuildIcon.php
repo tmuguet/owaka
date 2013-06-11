@@ -148,6 +148,8 @@ class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
 
                     if ($this->status == 'ok' && $this->substatus == 'ok') {
                         $this->widgetStatus = 'ok';
+                    } else if ($this->status == 'error' || $this->substatus == 'error') {
+                        $this->widgetStatus = 'error';
                     } else {
                         $this->widgetStatus = 'unstable';
                     }

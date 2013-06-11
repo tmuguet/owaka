@@ -50,7 +50,6 @@ $.owaka = {
             );
         });
 
-        $(".build-ok").addClass('ui-state-focus');
         $(".build-unstable").addClass('ui-state-highlight');
         $(".build-error").addClass('ui-state-error');
         $(".build-building").addClass('ui-state-active');
