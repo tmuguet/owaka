@@ -3,19 +3,12 @@
 class Controller_Processors_CodesnifferTest extends TestCase_Processors
 {
 
-    protected $xmlDataSet = 'codesniffer';
-
     public function setUp()
     {
         parent::setUp();
 
         $this->buildId = $this->genNumbers['build1'];
         $this->target->request->setParam('id', $this->buildId);
-
-        $this->CopyReport(
-                'xml',
-                dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'codesniffer-report.xml'
-        );
     }
 
     public function tearDown()
@@ -28,6 +21,11 @@ class Controller_Processors_CodesnifferTest extends TestCase_Processors
      */
     public function testProcess()
     {
+        $this->CopyReport(
+                'xml',
+                dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'codesniffer-report.xml'
+        );
+
         $this->target->process($this->buildId);
 
         $globaldataExpected = array(array('warnings' => 1, 'errors'   => 3));
@@ -54,7 +52,7 @@ class Controller_Processors_CodesnifferTest extends TestCase_Processors
      */
     public function testProcessEmpty()
     {
-        $this->target->process($this->buildId + 1);
+        $this->target->process($this->buildId);
         $globaldata = DB::select('warnings', 'errors')
                         ->from('codesniffer_globaldatas')
                         ->execute()->as_array();

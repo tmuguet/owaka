@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<snapshot methodcount="11" methodscovered="7" statementcount="142" statementscovered="119" totalcount="153" totalcovered="126">
+    <package name="Api" methodcount="6" methodscovered="4" statementcount="92" statementscovered="77" totalcount="98" totalcovered="81">
+        <class name="Controller_Api_build" methodcount="2" methodscovered="1" statementcount="28" statementscovered="14" totalcount="30" totalcovered="15">
+            <sourcefile name="build.php" sourcefile="file1">
+                <sourceline coveredcount="0">&lt;?php</sourceline>
+            </sourcefile>
+        </class>
+        <class name="Controller_Api_dashboard" methodcount="4" methodscovered="3" statementcount="64" statementscovered="63" totalcount="68" totalcovered="66">
+            <sourcefile name="dashboard.php" sourcefile="file2">
+                <sourceline coveredcount="0">&lt;?php</sourceline>
+            </sourcefile>
+        </class>
+    </package>
+    <package name="Main" methodcount="5" methodscovered="3" statementcount="50" statementscovered="42" totalcount="55" totalcovered="45">
+        <class name="Controller_Dashboard" methodcount="5" methodscovered="3" statementcount="50" statementscovered="42" totalcount="55" totalcovered="45">
+            <sourcefile name="Dashboard.php" sourcefile="file3">
+                <sourceline coveredcount="0">&lt;?php</sourceline>
+            </sourcefile>
+        </class>
+    </package>
+</snapshot>

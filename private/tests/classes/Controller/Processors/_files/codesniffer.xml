@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<dataset>
-    <projects id="##ID_ProjectFoo##" name="active-hg" is_active="1" scm="mercurial" has_parent="0" path="/tmp" phing_path="/tmp" phing_target_validate="validate" phing_target_nightly="nightly" reports_path="##PATH_PathFoo##" lastrevision="42"/>
-    
-    <builds id="##ID_build1##" project_id="##ID_ProjectFoo##" revision="40" message="My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You listen: we go in there, and that nigga Winston or anybody else is in there, you the first motherfucker to get shot. You understand?" status="ok" started="2010-10-05 17:15:23" eta="2010-10-05 17:16:30" finished="2010-10-05 17:16:23"/>
-    
-    <project_reports id="##ID_Report1##" project_id="##ID_ProjectFoo##" type="codesniffer_xml" value="codesniffer.xml"/>
-</dataset>

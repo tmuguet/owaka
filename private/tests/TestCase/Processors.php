@@ -5,14 +5,14 @@ abstract class TestCase_Processors extends TestCase
 
     protected $target;
     protected $buildId;
-    
+    protected $xmlDataSet = 'base';
+
     public function setUp()
     {
         parent::setUp();
-        
-        $class = substr(get_called_class(), 0, -4); // remove Test at the end
+
+        $class        = substr(get_called_class(), 0, -4); // remove Test at the end
         $this->target = new $class();
-        
     }
 
     public function tearDown()
@@ -23,7 +23,7 @@ abstract class TestCase_Processors extends TestCase
         }
         parent::tearDown();
     }
-    
+
     public function testGetInputReports()
     {
         // Code coverage purpose only
@@ -41,7 +41,7 @@ abstract class TestCase_Processors extends TestCase
         }
 
         $destination = $destinationDir . $reports[$type]['keep-as'];
-        
+
         if (!file_exists(dirname($destination))) {
             mkdir(dirname($destination), 0700, true);
         }
