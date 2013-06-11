@@ -8,7 +8,6 @@
 class Controller_Processors_Unittest extends Controller_Processors_Base
 {
 
-    // @codingStandardsIgnoreStart
     static public function getInputReports()
     {
         return array(
@@ -26,7 +25,6 @@ class Controller_Processors_Unittest extends Controller_Processors_Base
             )
         );
     }
-    // @codingStandardsIgnoreEnd
 
     /**
      * Processes a PHPUnit XML report
@@ -37,7 +35,7 @@ class Controller_Processors_Unittest extends Controller_Processors_Base
     {
         $report = $this->getReportCompletePath($buildId, 'xml');
 
-        if (file_get_contents($report) != "") {
+        if (!empty($report) && file_get_contents($report) != "") {
             $global           = ORM::factory('phpunit_globaldata');
             $global->build_id = $buildId;
             $global->tests    = 0;
@@ -76,8 +74,10 @@ class Controller_Processors_Unittest extends Controller_Processors_Base
     {
         if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {
             return 'ok';
-        } else {
+        } else if ($build->phpunit_globaldata->failures == 0) {
             return 'unstable';
+        } else {
+            return 'error';
         }
     }
 }

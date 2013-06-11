@@ -8,7 +8,6 @@
 class Controller_Processors_Phpmd extends Controller_Processors_Base
 {
 
-    // @codingStandardsIgnoreStart
     static public function getInputReports()
     {
         return array(
@@ -20,7 +19,6 @@ class Controller_Processors_Phpmd extends Controller_Processors_Base
             )
         );
     }
-    // @codingStandardsIgnoreEnd
 
     /**
      * Processes a PHPMD HTML report
@@ -31,11 +29,12 @@ class Controller_Processors_Phpmd extends Controller_Processors_Base
     {
         $report = $this->getReportCompletePath($buildId, 'html');
 
-        if (file_get_contents($report) != "") {
+        if (!empty($report) && file_get_contents($report) != "") {
             $content          = file_get_contents($report);
             $global           = ORM::factory('phpmd_globaldata');
             $global->build_id = $buildId;
-            $global->errors   = substr_count($content, '</tr>') - 1;
+            $global->errors   = substr_count($content, '</tr>'); // - 1;
+            // bug in phpmd: header row not terminated with </tr>
 
             $global->create();
             return true;

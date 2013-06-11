@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metrics generated="2013-06-11T02:42:55" pdepend="1.1.0" ahh="2.6" andc="0.8392" calls="525" ccn="402" ccn2="444" cloc="1143" clsa="8" clsc="44" eloc="2623" fanout="75" leafs="40" lloc="1283" loc="4194" maxDIT="6" ncloc="3051" noc="52" nof="0" noi="1" nom="168" nop="9" roots="4">
+    <files>
+        <file name="file1" cloc="0" eloc="15" lloc="7" loc="18" ncloc="18"/>
+        <file name="file2" cloc="12" eloc="22" lloc="7" loc="37" ncloc="25"/>
+        <file name="file3" cloc="44" eloc="79" lloc="65" loc="130" ncloc="86"/>
+    </files>
+    <package name="+global" cr="1.150875" noc="1" nof="0" noi="0" nom="1" rcr="0.15">
+        <class name="class1" ca="0" cbo="3" ce="3" cis="1" cloc="0" cr="3.735395625" csz="1" dit="2" eloc="9" impl="0" lloc="5" loc="15" ncloc="15" noam="1" nocc="9" nom="1" noom="0" npm="1" rcr="0.2775" vars="0" varsi="0" varsnp="0" wmc="3" wmci="3" wmcnp="3">
+            <file name="file4"/>
+            <method name="__construct" ccn="3" ccn2="3" cloc="0" eloc="9" lloc="5" loc="11" ncloc="11" npath="4"/>
+        </class>
+    </package>
+    <package name="package1" cr="0.15" noc="3" nof="0" noi="0" nom="5" rcr="0.181875">
+        <class name="class2" ca="0" cbo="1" ce="1" cis="1" cloc="8" cr="0.15" csz="1" dit="3" eloc="16" impl="0" lloc="5" loc="30" ncloc="22" noam="1" nocc="0" nom="1" noom="0" npm="1" rcr="0.17620833333333" vars="0" varsi="0" varsnp="0" wmc="2" wmci="5" wmcnp="2">
+            <file name="file5"/>
+            <method name="action_list" ccn="2" ccn2="2" cloc="0" eloc="16" lloc="5" loc="18" ncloc="18" npath="2"/>
+        </class>
+        <class name="class3" ca="0" cbo="2" ce="2" cis="3" cloc="40" cr="0.15" csz="3" dit="3" eloc="71" impl="0" lloc="61" loc="123" ncloc="83" noam="3" nocc="0" nom="3" noom="0" npm="3" rcr="0.17620833333333" vars="0" varsi="0" varsnp="0" wmc="18" wmci="21" wmcnp="18">
+            <file name="file6"/>
+            <method name="action_delete" ccn="4" ccn2="4" cloc="2" eloc="16" lloc="14" loc="19" ncloc="17" npath="4"/>
+            <method name="action_add" ccn="8" ccn2="10" cloc="2" eloc="36" lloc="30" loc="40" ncloc="38" npath="24"/>
+            <method name="action_move" ccn="4" ccn2="4" cloc="2" eloc="19" lloc="17" loc="24" ncloc="22" npath="4"/>
+        </class>
+        <class name="class4" ca="0" cbo="1" ce="1" cis="1" cloc="8" cr="0.15" csz="1" dit="3" eloc="14" impl="0" lloc="5" loc="28" ncloc="20" noam="1" nocc="0" nom="1" noom="0" npm="1" rcr="0.17620833333333" vars="0" varsi="0" varsnp="0" wmc="2" wmci="5" wmcnp="2">
+            <file name="file7"/>
+            <method name="action_list" ccn="2" ccn2="2" cloc="0" eloc="14" lloc="5" loc="16" ncloc="16" npath="2"/>
+        </class>
+    </package>
+</metrics>
