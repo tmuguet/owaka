@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Unittest (phpunit)
+ * phpunit
  * 
  * @package Processors
  */
-class Controller_Processors_Unittest extends Controller_Processors_Base
+class Controller_Processors_Phpunit extends Controller_Processors_Base
 {
 
     static public function getInputReports()
@@ -74,7 +74,7 @@ class Controller_Processors_Unittest extends Controller_Processors_Base
     {
         if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {
             return 'ok';
-        } else if ($build->phpunit_globaldata->failures == 0) {
+        } else if ($build->phpunit_globaldata->errors == 0) {
             return 'unstable';
         } else {
             return 'error';
