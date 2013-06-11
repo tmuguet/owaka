@@ -3,8 +3,6 @@
 class Controller_Processors_BaseStub extends Controller_Processors_Base
 {
 
-    public $request  = NULL;
-    public $response = NULL;
     public $processResult = TRUE;
 
     static public function getInputReports()
@@ -28,21 +26,13 @@ class Controller_Processors_BaseStub extends Controller_Processors_Base
                 'type'        => 'file',
                 'keep-as'     => 'bar.html'
             ),
-            'dir2'   => array(
+            'dir2'  => array(
                 'title'       => 'Directory report',
                 'description' => 'Directory report',
                 'type'        => 'dir',
                 'keep-as'     => 'subdir'
             ),
         );
-    }
-
-    public function __construct()
-    {
-        $this->request  = new RequestStub('fake');
-        $this->response = new Response();
-
-        parent::__construct($this->request, $this->response);
     }
 
     public function process($buildId)

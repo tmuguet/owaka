@@ -8,7 +8,6 @@
 class Controller_Processors_Codesniffer extends Controller_Processors_Base
 {
 
-    // @codingStandardsIgnoreStart
     static public function getInputReports()
     {
         return array(
@@ -20,7 +19,6 @@ class Controller_Processors_Codesniffer extends Controller_Processors_Base
             )
         );
     }
-    // @codingStandardsIgnoreEnd
 
     /**
      * Processes a Codesniffer XML report
@@ -31,7 +29,7 @@ class Controller_Processors_Codesniffer extends Controller_Processors_Base
     {
         $report = $this->getReportCompletePath($buildId, 'xml');
 
-        if (file_get_contents($report) != "") {
+        if (!empty($report) && file_get_contents($report) != "") {
             $global           = ORM::factory('codesniffer_globaldata');
             $global->build_id = $buildId;
             $global->warnings = 0;
@@ -56,11 +54,13 @@ class Controller_Processors_Codesniffer extends Controller_Processors_Base
                             $global->errors++;
                             $error->severity = 'error';
                             break;
+
+                        default:
+                            // ignore
+                            continue 2;
                     }
 
-                    if (!empty($error->severity)) {
-                        $error->create();
-                    }
+                    $error->create();
                 }
             }
 

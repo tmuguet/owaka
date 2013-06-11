@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="1.4.5">
+    <file name="file1">
+        <error line="6" column="10" severity="error" message="message1"/>
+        <error line="42" column="5" severity="error" message="message2"/>
+        <error line="8" column="29" severity="error" message="message3"/>
+    </file>
+    <file name="file2">
+        <error line="10" column="10" severity="unknown" message="message"/>
+        <error line="1" column="6" severity="warning" message="message4"/>
+    </file>
+</checkstyle>
