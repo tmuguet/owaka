@@ -72,17 +72,12 @@ abstract class Controller_Widget_Base extends Controller
      * Gets the ORM model of the widget, based on the context
      * @return Model_Widget|Model_Project_Widget|Model_Build_Widget
      */
-    protected final function getModelWidget()
+    /* protected */ final function getModelWidget()
     {
         if ($this->_model === NULL) {
             $widgetId = $this->request->param('id');
 
-            if ($this->request->action() == Owaka::WIDGET_VIRTUAL) {
-                $action = Owaka::WIDGET_SAMPLE;
-            } else {
-                $action = $this->request->param('dashboard');
-            }
-            switch ($action) {
+            switch ($this->request->param('dashboard')) {
                 case Owaka::WIDGET_MAIN:
                     $this->_model = ORM::factory('Widget', $widgetId);
                     break;
@@ -95,17 +90,8 @@ abstract class Controller_Widget_Base extends Controller
                     $this->_model = ORM::factory('Build_Widget', $widgetId);
                     break;
 
-                case Owaka::WIDGET_SAMPLE:
-                    $post = $this->request->post();
-
-                    $this->_model         = ORM::factory('Widget');
-                    $this->_model->width  = $post['width'];
-                    $this->_model->height = $post['height'];
-                    $this->_model->column = $post['column'];
-                    $this->_model->row    = $post['row'];
-                    $this->_model->id     = $widgetId;
-                    $this->_model->params = json_encode($post['params']);
-                    $this->_model->type   = get_called_class();
+                default:
+                    throw new Exception("Unexpected type of dashboard");
                     break;
             }
         }
@@ -117,7 +103,7 @@ abstract class Controller_Widget_Base extends Controller
      * @return Model_Project|null
      * @throws Exception Unexpected type of widget (should NEVER happen)
      */
-    protected final function getProject()
+    /* protected */ final function getProject()
     {
         if ($this->_project === NULL) {
             $projectId = $this->getParameter('project');
@@ -134,9 +120,11 @@ abstract class Controller_Widget_Base extends Controller
                 } else if ($model instanceof Model_Build_Widget) {
                     // Get the project via the build
                     $this->_project = $this->getBuild()->project;
+                    // @codeCoverageIgnoreStart
                 } else {
                     throw new Exception("Unexpected type of widget");
                 }
+                // @codeCoverageIgnoreEnd
             }
         }
         return $this->_project;
@@ -147,7 +135,7 @@ abstract class Controller_Widget_Base extends Controller
      * @return Model_Build|null
      * @throws Exception Unexpected type of widget (should NEVER happen)
      */
-    protected final function getBuild()
+    /* protected */ final function getBuild()
     {
         if ($this->_build === NULL) {
             $buildId = $this->getParameter('build');
@@ -161,9 +149,11 @@ abstract class Controller_Widget_Base extends Controller
                     // Build ID is available via URI parameters
                     $buildId      = $this->request->param('data');
                     $this->_build = ORM::factory("Build", $buildId);
+                    // @codeCoverageIgnoreStart
                 } else {
                     throw new Exception("Unexpected type of widget");
                 }
+                // @codeCoverageIgnoreEnd
             }
         }
         return $this->_build;
@@ -173,7 +163,7 @@ abstract class Controller_Widget_Base extends Controller
      * Gets all the widget parameter values.
      * @return array
      */
-    protected final function getParameters()
+    /* protected */ final function getParameters()
     {
         if (!empty($this->getModelWidget()->params)) {
             return json_decode($this->getModelWidget()->params, TRUE);
@@ -187,7 +177,7 @@ abstract class Controller_Widget_Base extends Controller
      * @param string $name
      * @return string
      */
-    protected final function getParameter($name)
+    /* protected */ final function getParameter($name)
     {
         $params = $this->getParameters();
         if (isset($params[$name]) && !empty($params[$name])) {
@@ -202,24 +192,6 @@ abstract class Controller_Widget_Base extends Controller
                 return NULL;
             }
         }
-    }
-
-    /**
-     * Gets the width of the widget
-     * @return int
-     */
-    protected final function getWidth()
-    {
-        return $this->getModelWidget()->width;
-    }
-
-    /**
-     * Gets the height of the widget
-     * @return int
-     */
-    protected final function getHeight()
-    {
-        return $this->getModelWidget()->height;
     }
 
     /**
@@ -242,14 +214,14 @@ abstract class Controller_Widget_Base extends Controller
     /**
      * Initializes the views by setting all needed variables
      */
-    protected final function initViews()
+    /* protected */ final function initViews()
     {
         View::set_global('from', $this->request->param('dashboard'));
         View::set_global('widgetType',
                          str_replace("_", "/", str_replace("Controller_Widget_", "", $this->getModelWidget()->type)));
         View::set_global('id', $this->getModelWidget()->id);
-        View::set_global('width', $this->getWidth());
-        View::set_global('height', $this->getHeight());
+        View::set_global('width', $this->getModelWidget()->width);
+        View::set_global('height', $this->getModelWidget()->height);
         View::set_global('column', $this->getModelWidget()->column);
         View::set_global('row', $this->getModelWidget()->row);
         View::set_global('widgetIcon', $this->getWidgetIcon());
@@ -268,9 +240,9 @@ abstract class Controller_Widget_Base extends Controller
     public final function action_display()
     {
         $name = "display_" . $this->request->param('dashboard');
-        if (method_exists($this, $name)) {
+        if (is_callable(array($this, $name))) {
             $this->$name();
-        } else if (method_exists($this, "display_all")) {
+        } else if (is_callable(array($this, "display_all"))) {
             $this->display_all();
         } else {
             throw new HTTP_Exception_500("Widget " . get_called_class() . " does not support dashboard " . $this->request->param('dashboard'));
@@ -303,13 +275,13 @@ abstract class Controller_Widget_Base extends Controller
     {
         $name  = "sample_" . $this->request->param('dashboard');
         $name2 = "display_" . $this->request->param('dashboard');
-        if (method_exists($this, $name)) {
+        if (is_callable(array($this, $name))) {
             $this->$name();
-        } else if (method_exists($this, "sample_all")) {
+        } else if (is_callable(array($this, "sample_all"))) {
             $this->sample_all();
-        } else if (method_exists($this, $name2)) {
+        } else if (is_callable(array($this, $name2))) {
             $this->$name2();
-        } else if (method_exists($this, "display_all")) {
+        } else if (is_callable(array($this, "display_all"))) {
             $this->display_all();
         } else {
             throw new HTTP_Exception_500("Widget " . get_called_class() . " does not support dashboard preview " . $this->request->param('dashboard'));
@@ -325,20 +297,10 @@ abstract class Controller_Widget_Base extends Controller
             array(
                 "title" => 'move',
                 "url"   => 'javascript:void(0)',
-                "class"    => 'widget-move'
+                "class" => 'widget-move'
             )
         );
 
         $this->render();
-    }
-
-    /**
-     * Displays a virtual widget
-     * @url http://example.com/w/&lt;dashboard&gt;/&lt;widget&gt;/virtual
-     * @throws HTTP_Exception_500 Type of dashboard not supported for the widget
-     */
-    public static function action_virtual()
-    {
-        $this->action_sample();
     }
 }

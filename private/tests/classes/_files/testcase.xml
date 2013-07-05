@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <dataset>
-    <ut id="##ID_Foo##" name="##RAND_Random1##" date_created="2010-10-05 17:15:23"/>
-    <ut id="##ID_Bar##" name="##RAND_Random2##" date_created="2010-10-05 17:15:23"/>
+    <ut id="##ID_Foo##" name="hello##RAND_Random1##end" date_created="2010-10-05 17:15:23"/>
+    <ut id="##ID_Bar##" name="hello2##RAND_Random2##" date_created="2010-10-05 17:15:23"/>
     <ut id="##ID_Baz##" name="##PATH_TmpPath1##" date_created="2010-10-05 17:15:23"/>
 </dataset>

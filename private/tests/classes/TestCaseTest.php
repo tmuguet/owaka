@@ -24,8 +24,8 @@ class TestCaseTest extends TestCase
                         ->execute()->as_array();
         $this->assertEquals($this->genNumbers['Foo'], $db[0]['id'], "Sequence #1 incorrect in DB");
         $this->assertEquals($this->genNumbers['Bar'], $db[1]['id'], "Sequence #2 incorrect in DB");
-        $this->assertEquals($this->genNumbers['Random1'], $db[0]['name'], "Random #1 incorrect in DB");
-        $this->assertEquals($this->genNumbers['Random2'], $db[1]['name'], "Random #2 incorrect in DB");
+        $this->assertEquals('hello' . $this->genNumbers['Random1'] . 'end', $db[0]['name'], "Random #1 incorrect in DB");
+        $this->assertEquals('hello2' . $this->genNumbers['Random2'], $db[1]['name'], "Random #2 incorrect in DB");
         $this->assertEquals($this->genNumbers['TmpPath1'], $db[2]['name'], "Tmp path #1 incorrect in DB");
     }
 
@@ -48,8 +48,8 @@ class TestCaseTest extends TestCase
                         ->execute()->as_array();
         $this->assertEquals($this->genNumbers['Foo'], $db[0]['id'], "Sequence #1 incorrect in DB");
         $this->assertEquals($this->genNumbers['Bar'], $db[1]['id'], "Sequence #2 incorrect in DB");
-        $this->assertEquals($this->genNumbers['Random1'], $db[0]['name'], "Random #1 incorrect in DB");
-        $this->assertEquals($this->genNumbers['Random2'], $db[1]['name'], "Random #2 incorrect in DB");
+        $this->assertEquals('hello' . $this->genNumbers['Random1'] . 'end', $db[0]['name'], "Random #1 incorrect in DB");
+        $this->assertEquals('hello2' . $this->genNumbers['Random2'], $db[1]['name'], "Random #2 incorrect in DB");
         $this->assertEquals($this->genNumbers['TmpPath1'], $db[2]['name'], "Tmp path #1 incorrect in DB");
     }
 }

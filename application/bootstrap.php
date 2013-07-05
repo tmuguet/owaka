@@ -124,7 +124,7 @@ Kohana::modules(array(
 Route::set('widget', 'w/<dashboard>/<controller>/<action>/<id>(/<data>)',
            array(
             'dashboard' => '(main|project|build)',
-            'action'    => '(display|sample|virtual)'
+            'action'    => '(display|sample)'
         ))
         ->defaults(array(
             'directory' => 'Widget'

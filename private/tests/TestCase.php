@@ -105,9 +105,9 @@ class TestCase extends Kohana_Unittest_Database_TestCase
                 $this->_dataset->addFullReplacement('##YESTERDAY##', $this->yesterday);
                 $this->_dataset->addFullReplacement('##TOMORROW##', $this->tomorrow);
                 foreach ($this->genNumbers as $key => $value) {
-                    $this->_dataset->addFullReplacement('##RAND_' . $key . '##', $value);
-                    $this->_dataset->addFullReplacement('##ID_' . $key . '##', $value);
-                    $this->_dataset->addFullReplacement('##PATH_' . $key . '##', $value);
+                    $this->_dataset->addSubStrReplacement('##RAND_' . $key . '##', $value);
+                    $this->_dataset->addSubStrReplacement('##ID_' . $key . '##', $value);
+                    $this->_dataset->addSubStrReplacement('##PATH_' . $key . '##', $value);
                 }
             }
         }

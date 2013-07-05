@@ -41,7 +41,7 @@ abstract class Controller_Widget_BaseSparklines extends Controller_Widget_BaseRa
     {
         if (!empty($this->sparklines)) {
             $this->content = '<table width="100%" style="margin-top: 30px"><tbody>';
-            $width         = ($this->getWidth() - 1) * Owaka::GRIDCELL_SIZE - 2 * Owaka::GRIDCELL_SPACE;
+            $width         = ($this->getModelWidget()->width - 1) * Owaka::GRIDCELL_SIZE - 2 * Owaka::GRIDCELL_SPACE;
 
             $i      = 0;
             $script = '';
