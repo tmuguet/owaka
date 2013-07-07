@@ -92,7 +92,7 @@ class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_Base
             );
             $this->widgetLinks[] = array(
                 "title" => 'report',
-                "url"   => Owaka::getReportUri($builds[0]->id, 'unittest', 'report')
+                "url"   => Owaka::getReportUri($builds[0]->id, 'phpunit', 'report')
             );
         }
 
