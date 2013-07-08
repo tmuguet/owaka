@@ -176,7 +176,7 @@ EOT;
     {
         $this->display_project();
 
-        $this->_additionalContent = View::factory('widgets ' . DIRECTORY_SEPARATOR . 'BaseIcon')
+        $this->_additionalContent = View::factory('widgets' . DIRECTORY_SEPARATOR . 'BaseIcon')
                 ->set('status', $this->_status);
     }
 
