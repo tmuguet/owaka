@@ -43,6 +43,7 @@ if ($buildId !== NULL) {
         <div id="left-panel">
             <div id="owaka"><h1>owaka</h1></div>
             <div id="menu">
+                <a href="manager/add" title="Add a new project"><img src="img/freepik/plus3.png" width="32" alt="Add a new project"/></a>
                 <a href="designer/<?php echo $from; ?>/<?php if ($from != "main") {echo $projectId;} ?>" title="Go to designer mode"><img src="img/freepik/layout3.png" width="32" alt="Designer mode"/></a>
                 <a href="javascript:void(0)" onclick="$('.grid-elt').toggle()" title="Toggle widgets"><img src="img/freepik/layout7.png" width="32" alt="Toggle widgets"/></a>
 
