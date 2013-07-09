@@ -115,7 +115,7 @@
         <fail unless="testname" msg="testname is not set"/>
     
         <pdosqlexec 
-            url="mysql:host=${build.db.host};dbname=${build.db.name}" 
+            url="mysql:host=${build.db.host};dbname=${db.name}" 
             userid="${build.db.user}" 
             password="${build.db.pass}">
             <transaction src="${build.fulldir}/data/_db/unittest-init.sql"/>
