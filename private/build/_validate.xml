@@ -145,9 +145,9 @@
     
     <target name="validate" hidden="true">
         <phingcall target="_prepare"/>
+        <phingcall target="_unit_test"/>
         <phingcall target="_analysis"/>
         <phingcall target="_doc"/>
-        <phingcall target="_unit_test"/>
     </target>
     
     <target name="doc" hidden="true">

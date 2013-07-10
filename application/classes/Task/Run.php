@@ -95,12 +95,14 @@ class Task_Run extends Minion_Task
 
     protected function copyReports(Model_Build &$build)
     {
+        Auth::instance()->force_login('owaka');
         foreach (File::findProcessors() as $processor) {
             $name    = str_replace("Controller_", "", $processor);
             Kohana::$log->add(Log::INFO, "Copying reports for $name...");
             $request = Request::factory($name . '/copy/' . $build->id)
                     ->execute();
         }
+        Auth::instance()->logout();
     }
 
     protected function nightly(Model_Build &$build)
@@ -132,12 +134,14 @@ class Task_Run extends Minion_Task
 
     protected function parseReports(Model_Build &$build)
     {
+        Auth::instance()->force_login('owaka');
         foreach (File::findProcessors() as $processor) {
             $name    = str_replace("Controller_", "", $processor);
             Kohana::$log->add(Log::INFO, "Processing reports for $name...");
             $request = Request::factory($name . '/process/' . $build->id)
                     ->execute();
         }
+        Auth::instance()->logout();
     }
 
     protected function analyzeReports(Model_Build &$build)
@@ -145,6 +149,8 @@ class Task_Run extends Minion_Task
         // Do not update if status is already set (-> error)
         if ($build->status == 'building') {
             $build->status = 'ok';
+            Auth::instance()->force_login('owaka');
+            
             foreach (File::findAnalyzers() as $processor) {
                 $name   = str_replace("Controller_", "", $processor);
                 Kohana::$log->add(Log::INFO, "Analyzing reports for $name...");
@@ -160,6 +166,7 @@ class Task_Run extends Minion_Task
             }
             $build->finished = DB::expr('NOW()');
             $build->update();
+            Auth::instance()->logout();
         } else {
             Kohana::$log->add(Log::INFO, "Skipping analyze of reports: status already set to " . $build->status);
         }
