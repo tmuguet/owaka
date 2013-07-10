@@ -9,6 +9,9 @@ defined('SYSPATH') OR die('No direct access allowed.');
 class Owaka
 {
 
+    const AUTH_ROLE_NONE   = 'none';
+    const AUTH_ROLE_LOGIN  = 'login';
+    const AUTH_ROLE_ADMIN  = 'admin';
     const WIDGET_MAIN      = 'main';
     const WIDGET_PROJECT   = 'project';
     const WIDGET_BUILD     = 'build';

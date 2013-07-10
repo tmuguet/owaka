@@ -1,16 +1,22 @@
 <?php
-#ifdef TESTING
-require_once DOCROOT . 'private' . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'RequestStub.php';
-#endif
 
 abstract class Controller extends Kohana_Controller
 {
+
+    protected $requiredRole = Owaka::AUTH_ROLE_LOGIN;
 #ifdef TESTING
 
+    /**
+     * Constructor for tests.
+     * 
+     * Initialises Request and Response if not provided
+     * 
+     * @codeCoverageIgnore
+     */
     public function __construct(Request $request = NULL, Response $response = NULL)
     {
         if ($request === NULL) {
-            $request = new RequestStub('fake');
+            $request = new Request('fake');
         }
         if ($response === NULL) {
             $response = new Response();
@@ -19,4 +25,17 @@ abstract class Controller extends Kohana_Controller
         parent::__construct($request, $response);
     }
 #endif
+
+    /**
+     * Checks credentials according to requiredRole
+     */
+    public function before()
+    {
+        if ($this->requiredRole != Owaka::AUTH_ROLE_NONE) {
+            if (!Auth::instance()->logged_in($this->requiredRole)) {
+                Session::instance()->set("requested_url", $this->request->uri());
+                $this->redirect('login');
+            }
+        }
+    }
 }

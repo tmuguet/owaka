@@ -12,7 +12,7 @@ class Controller_DesignerTest extends TestCase
      */
     public function testActionMain()
     {
-        $response = Request::factory('designer/main')->execute();
+        $response = Request::factory('designer/main')->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $expectedWidgets = array(
@@ -32,7 +32,7 @@ class Controller_DesignerTest extends TestCase
      */
     public function testActionProject()
     {
-        $response = Request::factory('designer/project/' . $this->genNumbers['ProjectFoo'])->execute();
+        $response = Request::factory('designer/project/' . $this->genNumbers['ProjectFoo'])->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $expectedWidgets = array(
@@ -53,7 +53,7 @@ class Controller_DesignerTest extends TestCase
      */
     public function testActionBuild()
     {
-        $response = Request::factory('designer/build/' . $this->genNumbers['ProjectFoo'])->execute();
+        $response = Request::factory('designer/build/' . $this->genNumbers['ProjectFoo'])->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $expectedWidgets = array(

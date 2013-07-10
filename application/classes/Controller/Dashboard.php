@@ -14,7 +14,7 @@ class Controller_Dashboard extends Controller
      * @url http://example.com/dashboard/main
      */
     public function action_main()
-    {
+    {       
         $widgets     = ORM::factory('Widget')
                 ->find_all();
         $widgetsView = array();

@@ -24,6 +24,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
         );
 
         $response = Request::factory('api/dashboard/add/main/Log')
+                ->login()
                 ->post($post)
                 ->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
@@ -60,6 +61,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
         );
 
         $response = Request::factory('api/dashboard/add/project/Log/' . $this->genNumbers['ProjectFoo'])
+                ->login()
                 ->post($post)
                 ->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
@@ -99,6 +101,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
         );
 
         $response = Request::factory('api/dashboard/add/project/Log/' . $this->genNumbers['ProjectBar'])
+                ->login()
                 ->post($post)
                 ->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
@@ -137,6 +140,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
         );
 
         $response = Request::factory('api/dashboard/add/build/Log/' . $this->genNumbers['ProjectFoo'])
+                ->login()
                 ->post($post)
                 ->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
@@ -176,6 +180,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
         );
 
         $response = Request::factory('api/dashboard/add/build/Log/' . $this->genNumbers['ProjectBar'])
+                ->login()
                 ->post($post)
                 ->execute();
         $this->assertEquals(200, $response->status(), "Request failed");

@@ -115,4 +115,3 @@ Kohana::modules(Kohana::modules() + array('unittest' => MODPATH . 'unittest'));
 
 Session::$default = 'cookie';
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TestCase.php';
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'RequestStub.php';

@@ -125,9 +125,20 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         ));
     }
 
+    public function setUp()
+    {
+        $res = parent::setUp();
+        foreach (ORM::factory('User')->find_all() as $user) {
+            $user->password = $user->password;  // hash password
+            $user->update();
+        }
+        Session::instance()->restart();
+        return $res;
+    }
+
     public function tearDown()
     {
-        parent::tearDown();
+        $res = parent::tearDown();
         if ($this->useDatabase) {
             Database::instance()->query(Database::DELETE, "SET @PHAKE_PREV_foreign_key_checks = @@foreign_key_checks");
             Database::instance()->query(Database::DELETE, "SET foreign_key_checks = 0");
@@ -149,6 +160,23 @@ class TestCase extends Kohana_Unittest_Database_TestCase
             Database::instance()->query(Database::DELETE, "SET foreign_key_checks = @PHAKE_PREV_foreign_key_checks");
         }
         $this->_dataset = NULL;
+        Auth::instance()->logout();
+        Session::instance()->destroy();
+        return $res;
+    }
+
+    public function assertResponseStatusEquals($expectedStatus, Kohana_Response &$response, $message = "Request failed")
+    {
+        $this->assertEquals(
+                $expectedStatus, $response->status(), $message . ': ' . var_export($response->body(), true)
+        );
+    }
+    public function assertResponseOK(Kohana_Response &$response) {
+        $this->assertResponseStatusEquals(200, $response);
+    }
+    public function assertResponseRedirected(Kohana_Response &$response, $uri, $code = 302) {
+        $this->assertResponseStatusEquals($code, $response);
+        $this->assertEquals($uri, $response->headers('location'));
     }
 }
 

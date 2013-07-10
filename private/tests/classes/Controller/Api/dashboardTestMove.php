@@ -14,6 +14,7 @@ class Controller_Api_dashboardTestMove extends TestCase
         $expected = array('res' => 'ok', 'id'  => $this->genNumbers['mainBackground']);
 
         $response = Request::factory('api/dashboard/move/main/' . $this->genNumbers['mainBackground'])
+                ->login()
                 ->post('column', '1')
                 ->post('row', '42')
                 ->execute();
@@ -38,6 +39,7 @@ class Controller_Api_dashboardTestMove extends TestCase
         $expected = array('res' => 'ok', 'id'  => $this->genNumbers['projectBarLog']);
 
         $response = Request::factory('api/dashboard/move/project/' . $this->genNumbers['projectBarLog'])
+                ->login()
                 ->post('column', '42')
                 ->post('row', '5')
                 ->execute();
@@ -62,6 +64,7 @@ class Controller_Api_dashboardTestMove extends TestCase
         $expected = array('res' => 'ok', 'id'  => $this->genNumbers['buildFooBackground']);
 
         $response = Request::factory('api/dashboard/move/build/' . $this->genNumbers['buildFooBackground'])
+                ->login()
                 ->post('column', '10')
                 ->post('row', '11')
                 ->execute();

@@ -37,20 +37,20 @@ class Controller_ReportTest extends TestCase
      */
     public function testActionIndex()
     {
-        $responseHtml = Request::factory('reports/42/myreport')->execute();
+        $responseHtml = Request::factory('reports/42/myreport')->login()->execute();
         $this->assertEquals(200, $responseHtml->status(), "Request for HTML failed");
         $this->assertEquals('text/html', $responseHtml->headers('Content-Type'), 'Incorrect content-type for HTML');
         $this->assertEquals('hello HTML world', $responseHtml->body(), "Incorrect HTML body");
 
-        $responseXml = Request::factory('reports/42/myreport/index.xml')->execute();
+        $responseXml = Request::factory('reports/42/myreport/index.xml')->login()->execute();
         $this->assertEquals(200, $responseXml->status(), "Request for XML failed");
         $this->assertEquals('text/xml', $responseXml->headers('Content-Type'), 'Incorrect content-type for HTML');
         $this->assertEquals('hello XML world', $responseXml->body(), "Incorrect XML body");
 
-        $responseNotFound = Request::factory('reports/42/myreport/non-existing')->execute();
+        $responseNotFound = Request::factory('reports/42/myreport/non-existing')->login()->execute();
         $this->assertEquals(404, $responseNotFound->status(), "Request failed, found something");
 
-        $responseOut = Request::factory('reports/42/myreport/../')->execute();
+        $responseOut = Request::factory('reports/42/myreport/../')->login()->execute();
         $this->assertEquals(404, $responseOut->status(), "Request failed, found something outside directory");
     }
 }

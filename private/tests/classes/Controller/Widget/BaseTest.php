@@ -311,6 +311,7 @@ class Controller_Widget_BaseTest extends TestCase
     public function testInitViews()
     {
         $target = new Controller_Widget_BaseStub();
+        $target->request->login();
         $target->request->setParam('id', $this->genNumbers['widget3']);
         $target->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target->request->action(Owaka::WIDGET_MAIN);

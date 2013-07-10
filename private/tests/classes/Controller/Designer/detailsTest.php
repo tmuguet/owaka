@@ -13,6 +13,7 @@ class Controller_Designer_detailsTest extends TestCase
     public function testActionMain()
     {
         $response = Request::factory('designer_details/main/Log')
+                ->login()
                 ->post('projectId', 1)
                 ->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
@@ -35,6 +36,7 @@ class Controller_Designer_detailsTest extends TestCase
     public function testActionMain2()
     {
         $response = Request::factory('designer_details/main/Background')
+                ->login()
                 ->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
@@ -54,6 +56,7 @@ class Controller_Designer_detailsTest extends TestCase
     public function testActionProject()
     {
         $response = Request::factory('designer_details/project/Log')
+                ->login()
                 ->post('projectId', 1)
                 ->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
@@ -76,6 +79,7 @@ class Controller_Designer_detailsTest extends TestCase
     public function testActionProject2()
     {
         $response = Request::factory('designer_details/project/Background')
+                ->login()
                 ->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
@@ -95,6 +99,7 @@ class Controller_Designer_detailsTest extends TestCase
     public function testActionBuild()
     {
         $response = Request::factory('designer_details/build/Log')
+                ->login()
                 ->post('projectId', 1)
                 ->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
@@ -116,8 +121,7 @@ class Controller_Designer_detailsTest extends TestCase
      */
     public function testActionBuild2()
     {
-        $response = Request::factory('designer_details/build/Background')
-                ->execute();
+        $response = Request::factory('designer_details/build/Background')->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $expected = View::factory('designer_widgetdetails')

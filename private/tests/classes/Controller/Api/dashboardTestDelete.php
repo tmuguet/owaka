@@ -13,7 +13,7 @@ class Controller_Api_dashboardTestDelete extends TestCase
     {
         $expected = array('res' => 'ok');
 
-        $response = Request::factory('api/dashboard/delete/main/' . $this->genNumbers['mainBackground'])->execute();
+        $response = Request::factory('api/dashboard/delete/main/' . $this->genNumbers['mainBackground'])->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $actual = json_decode($response->body(), TRUE);
@@ -35,7 +35,7 @@ class Controller_Api_dashboardTestDelete extends TestCase
     {
         $expected = array('res' => 'ok');
 
-        $response = Request::factory('api/dashboard/delete/project/' . $this->genNumbers['projectFooLog'])->execute();
+        $response = Request::factory('api/dashboard/delete/project/' . $this->genNumbers['projectFooLog'])->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $actual = json_decode($response->body(), TRUE);
@@ -57,7 +57,7 @@ class Controller_Api_dashboardTestDelete extends TestCase
     {
         $expected = array('res' => 'ok');
 
-        $response = Request::factory('api/dashboard/delete/build/' . $this->genNumbers['buildFooBackground'])->execute();
+        $response = Request::factory('api/dashboard/delete/build/' . $this->genNumbers['buildFooBackground'])->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $actual = json_decode($response->body(), TRUE);

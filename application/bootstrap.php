@@ -62,6 +62,7 @@ I18n::lang('#LANG#');
 
 
 Cookie::$salt = '##COOKIESALT##';
+Session::$default = 'cookie';
 
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
@@ -90,6 +91,7 @@ if (isset($_SERVER['KOHANA_ENV'])) {
  */
 Kohana::init(array(
     'base_url' => '/##REWRITEBASE##/',
+    'index_file' => FALSE
 ));
 
 /**
@@ -147,6 +149,13 @@ Route::set('api', 'api/<controller>/<action>(/<dashboard>)(/<id>(/<data>))',
         ))
         ->defaults(array(
             'directory' => 'api',
+        ));
+
+Route::set('auth', '<action>', array(
+            'action' => '(login|logout)'
+        ))
+        ->defaults(array(
+            'controller' => 'auth',
         ));
 
 Route::set('default', '(<controller>(/<action>(/<id>)))')

@@ -11,11 +11,6 @@ class Controller_Processors_CodesnifferTest extends TestCase_Processors
         $this->target->request->setParam('id', $this->buildId);
     }
 
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     /**
      * @covers Controller_Processors_Codesniffer::process
      */

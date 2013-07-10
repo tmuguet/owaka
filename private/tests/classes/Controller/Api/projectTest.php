@@ -16,7 +16,7 @@ class Controller_Api_projectTest extends TestCase
             array('id'   => $this->genNumbers['ProjectFoo'], 'name' => 'active-hg'),
         );
 
-        $response = Request::factory('api/project/list/')->execute();
+        $response = Request::factory('api/project/list/')->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
         $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual, "Incorrect API result");
@@ -42,7 +42,7 @@ class Controller_Api_projectTest extends TestCase
         $expected2->type  = 'processor1_xml';
         $expected2->value = 'result.xml';
 
-        $request  = Request::factory('api/project/add');
+        $request  = Request::factory('api/project/add')->login();
         $request->method(Request::POST);
         $request->post('name', $expected->name);
         $request->post('is_active', $expected->is_active);
@@ -101,7 +101,7 @@ class Controller_Api_projectTest extends TestCase
         $expected2->type       = 'processor1_xml';
         $expected2->value      = 'result.xml';
 
-        $request  = Request::factory('api/project/edit/' . $this->genNumbers['ProjectFoo']);
+        $request  = Request::factory('api/project/edit/' . $this->genNumbers['ProjectFoo'])->login();
         $request->method(Request::POST);
         $request->post('name', $expected->name);
         $request->post('is_active', $expected->is_active);

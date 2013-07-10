@@ -11,7 +11,7 @@ class Controller_ManagerTest extends TestCase
      */
     public function testActionAdd()
     {
-        $response = Request::factory('manager/add')->execute();
+        $response = Request::factory('manager/add')->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $reports               = array();
@@ -29,7 +29,7 @@ class Controller_ManagerTest extends TestCase
      */
     public function testActionEdit()
     {
-        $response = Request::factory('manager/edit/' . $this->genNumbers['ProjectFoo'])->execute();
+        $response = Request::factory('manager/edit/' . $this->genNumbers['ProjectFoo'])->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $reports               = array();

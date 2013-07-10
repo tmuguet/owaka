@@ -11,7 +11,7 @@ class Controller_DashboardTest extends TestCase
      */
     public function testActionMain()
     {
-        $response = Request::factory('dashboard/')->execute();
+        $response = Request::factory('dashboard/')->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $expectedWidgets = array(
@@ -29,7 +29,7 @@ class Controller_DashboardTest extends TestCase
      */
     public function testActionProject()
     {
-        $response = Request::factory('dashboard/project/' . $this->genNumbers['ProjectFoo'])->execute();
+        $response = Request::factory('dashboard/project/' . $this->genNumbers['ProjectFoo'])->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $expectedWidgets = array(
@@ -54,7 +54,7 @@ class Controller_DashboardTest extends TestCase
      */
     public function testActionBuild()
     {
-        $response = Request::factory('dashboard/build/' . $this->genNumbers['build1'])->execute();
+        $response = Request::factory('dashboard/build/' . $this->genNumbers['build1'])->login()->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
 
         $expectedWidgets = array(

@@ -15,19 +15,19 @@ class Controller_Widget_GenericTest extends TestCase
         if ($reflectionClass->hasMethod('display_main') || $reflectionClass->hasMethod('display_all')) {
             $nameClass::getExpectedParameters('main');
 
-            $response = RequestStub::factory('w/main/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->execute();
+            $response = Request::factory('w/main/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->login()->execute();
             $this->assertEquals(200, $response->status(), "Request failed for $nameClass : 'w/main/$nameClass2/display/" . $this->genNumbers['widget3']."': " . var_export($response->body(), true));
         }
         if ($reflectionClass->hasMethod('display_project') || $reflectionClass->hasMethod('display_all')) {
             $nameClass::getExpectedParameters('project');
 
-            $response = RequestStub::factory('w/project/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->execute();
+            $response = Request::factory('w/project/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->login()->execute();
             $this->assertEquals(200, $response->status(), "Request failed for $nameClass : 'w/project/$nameClass2/display/" . $this->genNumbers['widget3']."': " . var_export($response->body(), true));
         }
         if ($reflectionClass->hasMethod('display_build') || $reflectionClass->hasMethod('display_all')) {
             $nameClass::getExpectedParameters('build');
 
-            $response = RequestStub::factory('w/build/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->execute();
+            $response = Request::factory('w/build/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->login()->execute();
             $this->assertEquals(200, $response->status(), "Request failed for $nameClass : 'w/build/$nameClass2/display/" . $this->genNumbers['widget3']."': " . var_export($response->body(), true));
         }
     }
