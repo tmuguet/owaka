@@ -13,6 +13,9 @@ abstract class Controller_Widget_BaseSparklines extends Controller_Widget_BaseRa
      * @var array
      */
     protected $sparklines = array();
+    
+    
+    protected $extensible = FALSE;
 
     /**
      * Gets the preferred size (width, height)
@@ -49,13 +52,12 @@ abstract class Controller_Widget_BaseSparklines extends Controller_Widget_BaseRa
                 $this->content .= '<tr><td style="text-align: right; font-size: 60%;">' . $sparkline['title'] . '</td>';
                 if (!empty($sparkline['data'])) {
                     $this->content .= '<td width="' . $width . '"><span id="sparkline_' . $this->getModelWidget()->id . '_' . $i . '" class="sparkline"></span></td>';
-                    $this->content .= '<td class="widget-detailed" style="text-align: left">';
+                    $this->content .= '<td style="text-align: left">';
                     $this->content .= $sparkline['data'][sizeof($sparkline['data']) - 1];
                     $this->content .= '</td>';
                     $script .= '$(\'#sparkline_' . $this->getModelWidget()->id . '_' . $i . '\').sparkline(' . json_encode($sparkline['data']) . ', {width: \'100%\'});';
                 } else {
                     $this->content .= '<td width="' . $width . '">No data</td>';
-                    $this->content .= '<td class="widget-detailed" style="text-align: left">No data</td>';
                 }
 
                 $this->content .= '</tr>';

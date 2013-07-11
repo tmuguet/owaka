@@ -1,4 +1,7 @@
 <div id="widget_<?php echo $id; ?>" class="grid-elt<?php
+if (!$extensible) {
+    echo ' static';
+}
 if (!empty($widgetStatus)) {
     echo ' build-' . $widgetStatus;
 }
