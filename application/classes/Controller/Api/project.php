@@ -94,8 +94,8 @@ class Controller_Api_project extends Controller
      */
     public function action_edit()
     {
-        $projectId                      = ORM::factory('Project', $this->request->param('id'));
-        $project                        = $projectId;
+        $projectId                      = $this->request->param('id');
+        $project                        = ORM::factory('Project', $projectId);
         $project->name                  = $this->request->post('name');
         $project->is_active             = $this->request->post('is_active');
         $project->scm                   = $this->request->post('scm');

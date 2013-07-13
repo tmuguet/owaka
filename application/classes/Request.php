@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @codeCoverageIgnore
- */
 class Request extends Kohana_Request
 {
 #ifdef TESTING

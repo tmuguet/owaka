@@ -10,8 +10,6 @@ abstract class Controller extends Kohana_Controller
      * Constructor for tests.
      * 
      * Initialises Request and Response if not provided
-     * 
-     * @codeCoverageIgnore
      */
     public function __construct(Request $request = NULL, Response $response = NULL)
     {
@@ -35,7 +33,9 @@ abstract class Controller extends Kohana_Controller
             if (!Auth::instance()->logged_in($this->requiredRole)) {
                 Session::instance()->set("requested_url", $this->request->uri());
                 $this->redirect('login');
+                // @codeCoverageIgnoreStart
             }
+            // @codeCoverageIgnoreEnd
         }
     }
 }

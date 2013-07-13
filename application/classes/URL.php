@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @codeCoverageIgnore
- */
 class URL extends Kohana_URL
 {
 #ifdef TESTING
