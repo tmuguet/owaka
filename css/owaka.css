@@ -92,7 +92,7 @@ body.grunge.build-error {
 }
 
 .grid-elt h1, .grid-elt h2, .grid-elt h3 {
-    color: #3383bb;
+    color: #33bb83;
     text-decoration: none;
     text-align: right;
     padding-left: 5px;
@@ -147,7 +147,13 @@ tr.build td img {
 #left-panel a, #left-panel a:visited,
 #list_widgets a, #list_widgets a:visited,
 #widget_details a, #widget_details a:visited {
-    color: #000000;
+    color: #000099;
+}
+
+#left-panel a:hover,
+#list_widgets a:hover,
+#widget_details a:hover {
+    color: #003399;
 }
 
 #owaka {
