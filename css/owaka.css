@@ -171,6 +171,21 @@ tr.build td img {
     position: absolute;
     top: 140px;
     left: 0px;
+    right: 0px;
+    margin: 10px;
+}
+
+#menu-bottom {
+    position: absolute;
+    bottom: 10px;
+    left: 0px;
+    right: 0px;
+    margin: 10px;
+    font-size: 70%;
+}
+
+#menu-bottom img {
+    vertical-align: text-top;
 }
 
 #top-panel {
