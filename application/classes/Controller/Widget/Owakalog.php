@@ -5,7 +5,7 @@
  * 
  * @package Widgets
  */
-class Controller_Widget_Owakaog extends Controller_Widget_Baseraw
+class Controller_Widget_Owakalog extends Controller_Widget_Baseraw
 {
 
     /**
