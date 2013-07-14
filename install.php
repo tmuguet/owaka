@@ -17,7 +17,7 @@ $failed = FALSE;
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
-        <base href="/##REWRITEBASE##/">
+        <base href="/##REWRITEBASE##">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>owaka Installation</title>
         <link rel="stylesheet" type="text/css" media="screen" href="css/all-min.css" />
