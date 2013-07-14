@@ -110,7 +110,7 @@ echo View::factory('baseMenu')
             <div class="grid-elt-content">
                 <img src="img/freepik/warningsign.png" width="128" class="ico"/><br>
                 No widget in this dashboard<br>
-                <a href="designer/$from/$projectId">Go in designer mode</a>
+                <a href="designer/<?php echo $from; ?>/<?php echo $projectId; ?>">Go in designer mode</a>
             </div>
         </div>
         <?php
