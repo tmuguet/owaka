@@ -2,14 +2,17 @@
 
 class URL extends Kohana_URL
 {
-#ifdef TESTING
 
     /**
-     * Stub (not supported in unit tests)
+     * Stub for CLI
      */
     public static function base($protocol = NULL, $index = FALSE)
     {
-        return '/';
+        if (!isset($_SERVER['HTTP_HOST']) && !isset($_SERVER['SERVER_NAME'])) {
+            // CLI
+            return '/';
+        } else {
+            return Kohana_URL::base($protocol, $indx);
+        }
     }
-#endif
 }
