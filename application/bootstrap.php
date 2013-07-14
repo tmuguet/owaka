@@ -58,7 +58,7 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
 /**
  * Set the default language
  */
-I18n::lang('#LANG#');
+I18n::lang('##LANG##');
 
 
 Cookie::$salt = '##COOKIESALT##';
