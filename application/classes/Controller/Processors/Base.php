@@ -8,6 +8,8 @@
 abstract class Controller_Processors_Base extends Controller
 {
 
+    protected $requiredRole = Owaka::AUTH_ROLE_INTERNAL;
+
     /**
      * Gets the input reports
      * @throws Exception

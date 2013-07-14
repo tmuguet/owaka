@@ -101,8 +101,8 @@ class Task_Run extends Minion_Task
             Kohana::$log->add(Log::INFO, "Copying reports for $name...");
             $response = Request::factory($name . '/copy/' . $build->id)
                     ->execute();
-            Kohana::$log->add(Log::INFO, "Status: " . $response->status());
             if ($response->status() != 200) {
+                Kohana::$log->add(Log::INFO, "Status: " . $response->status());
                 Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
             }
         }
@@ -144,8 +144,8 @@ class Task_Run extends Minion_Task
             Kohana::$log->add(Log::INFO, "Processing reports for $name...");
             $response = Request::factory($name . '/process/' . $build->id)
                     ->execute();
-            Kohana::$log->add(Log::INFO, "Status: " . $response->status());
             if ($response->status() != 200) {
+                Kohana::$log->add(Log::INFO, "Status: " . $response->status());
                 Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
             }
         }
@@ -164,8 +164,8 @@ class Task_Run extends Minion_Task
                 Kohana::$log->add(Log::INFO, "Analyzing reports for $name...");
                 $response = Request::factory($name . '/analyze/' . $build->id)
                         ->execute();
-                Kohana::$log->add(Log::INFO, "Status: " . $response->status());
                 if ($response->status() != 200) {
+                    Kohana::$log->add(Log::INFO, "Status: " . $response->status());
                     Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
                 }
 

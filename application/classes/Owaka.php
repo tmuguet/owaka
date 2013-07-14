@@ -9,30 +9,31 @@ defined('SYSPATH') OR die('No direct access allowed.');
 class Owaka
 {
 
-    const AUTH_ROLE_NONE   = 'none';
-    const AUTH_ROLE_LOGIN  = 'login';
-    const AUTH_ROLE_ADMIN  = 'admin';
-    const WIDGET_MAIN      = 'main';
-    const WIDGET_PROJECT   = 'project';
-    const WIDGET_BUILD     = 'build';
-    const WIDGET_SAMPLE    = 'sample';
-    const WIDGET_VIRTUAL   = 'virtual';
-    const GRIDCELL_SIZE    = 80;
-    const GRIDCELL_SPACE   = 20;
-    const ICON_ADDRESSBOOK = 'addressbook';
-    const ICON_AEROPLANE   = 'aeroplane';
-    const ICON_ALARM       = 'alarm';
-    const ICON_ANCHOR      = 'anchor';
-    const ICON_ANNOUNCER   = 'announcer';
-    const ICON_BOOK4       = 'book4';
-    const ICON_CLOCK       = 'clock';
-    const ICON_DOC         = 'doc';
-    const ICON_FLAG        = 'flag';
-    const ICON_METER       = 'meter';
-    const ICON_PAD         = 'pad';
-    const ICON_PIC         = 'pic';
-    const ICON_SECURITY    = 'security';
-    const ICON_TARGET      = 'target';
+    const AUTH_ROLE_NONE     = 'none';
+    const AUTH_ROLE_LOGIN    = 'login';
+    const AUTH_ROLE_ADMIN    = 'admin';
+    const AUTH_ROLE_INTERNAL = 'internal';
+    const WIDGET_MAIN        = 'main';
+    const WIDGET_PROJECT     = 'project';
+    const WIDGET_BUILD       = 'build';
+    const WIDGET_SAMPLE      = 'sample';
+    const WIDGET_VIRTUAL     = 'virtual';
+    const GRIDCELL_SIZE      = 80;
+    const GRIDCELL_SPACE     = 20;
+    const ICON_ADDRESSBOOK   = 'addressbook';
+    const ICON_AEROPLANE     = 'aeroplane';
+    const ICON_ALARM         = 'alarm';
+    const ICON_ANCHOR        = 'anchor';
+    const ICON_ANNOUNCER     = 'announcer';
+    const ICON_BOOK4         = 'book4';
+    const ICON_CLOCK         = 'clock';
+    const ICON_DOC           = 'doc';
+    const ICON_FLAG          = 'flag';
+    const ICON_METER         = 'meter';
+    const ICON_PAD           = 'pad';
+    const ICON_PIC           = 'pic';
+    const ICON_SECURITY      = 'security';
+    const ICON_TARGET        = 'target';
 
     /**
      * Gets the URI to a report
