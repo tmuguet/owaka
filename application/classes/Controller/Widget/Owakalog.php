@@ -62,7 +62,7 @@ class Controller_Widget_Owakalog extends Controller_Widget_Baseraw
                 "id"   => $build->id
             );
 
-            $this->content = n2br(file_get_contents($file));
+            $this->content = nl2br(file_get_contents($file));
         }
     }
 }
