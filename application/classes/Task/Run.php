@@ -82,10 +82,10 @@ class Task_Run extends Minion_Task
             Kohana::$log->add(Log::INFO, "Build successful");
             //$build->status = 'ok';    // Do not update yet
         } else if ($buildResult == 1) {
-            Kohana::$log->add(Log::INFO, "Build failed with errors");
+            Kohana::$log->add(Log::ERROR, "Build failed with errors");
             $build->status = 'error';
         } else {
-            Kohana::$log->add(Log::INFO, "Build unproperly configured");
+            Kohana::$log->add(Log::CRITICAL, "Build unproperly configured");
             $build->status = 'error';   // Build unproperly configured
         }
 
@@ -102,7 +102,7 @@ class Task_Run extends Minion_Task
             $response = Request::factory($name . '/copy/' . $build->id)
                     ->execute();
             if ($response->status() != 200) {
-                Kohana::$log->add(Log::INFO, "Status: " . $response->status());
+                Kohana::$log->add(Log::ERROR, "Status: " . $response->status());
                 Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
             }
         }
@@ -129,9 +129,9 @@ class Task_Run extends Minion_Task
             if ($updateResult == 0) {
                 Kohana::$log->add(Log::INFO, "Update successful");
             } else if ($updateResult == 1) {
-                Kohana::$log->add(Log::INFO, "Update failed with errors");
+                Kohana::$log->add(Log::ERROR, "Update failed with errors");
             } else {
-                Kohana::$log->add(Log::INFO, "Update unproperly configured");
+                Kohana::$log->add(Log::CRITICAL, "Update unproperly configured");
             }
         }
     }
@@ -145,7 +145,7 @@ class Task_Run extends Minion_Task
             $response = Request::factory($name . '/process/' . $build->id)
                     ->execute();
             if ($response->status() != 200) {
-                Kohana::$log->add(Log::INFO, "Status: " . $response->status());
+                Kohana::$log->add(Log::ERROR, "Status: " . $response->status());
                 Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
             }
         }
@@ -165,7 +165,7 @@ class Task_Run extends Minion_Task
                 $response = Request::factory($name . '/analyze/' . $build->id)
                         ->execute();
                 if ($response->status() != 200) {
-                    Kohana::$log->add(Log::INFO, "Status: " . $response->status());
+                    Kohana::$log->add(Log::ERROR, "Status: " . $response->status());
                     Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
                 }
 

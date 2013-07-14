@@ -42,7 +42,7 @@ abstract class Controller_Processors_Base extends Controller
             $source      = $this->_getInputReportCompletePath($buildId, $type);
             $destination = $destinationDirectory . $info['keep-as'];    // TODO: this can get messy if mis-used !
 
-            Kohana::$log->add(Log::INFO, "Trying to copy $source to $destination");
+            Kohana::$log->add(Log::DEBUG, "Trying to copy $source to $destination");
 
             if (!empty($source) && !empty($destination)) {
                 if ($info['type'] == "dir" && !is_dir($source)) {
