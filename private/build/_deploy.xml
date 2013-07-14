@@ -161,14 +161,6 @@
                 </replacetokens>
             </filterchain>
         </copy>
-        
-        <if>
-            <isset property="build.owner"/>
-            <then>
-                <echo msg="Setting owner to ${build.owner}..."/>
-                <exec command="chown -R ${build.owner} ${build.deploydir}"/>
-            </then>
-        </if>
     </target>
     
     <target name="_config" description="Creates config" hidden="true">
@@ -193,6 +185,16 @@
         </copy>
     </target>
     
+    <target name="_setowner" description="Set proper owner" hidden="true">
+        <if>
+            <isset property="build.owner"/>
+            <then>
+                <echo msg="Setting owner to ${build.owner}..."/>
+                <exec command="chown -R ${build.owner} ${build.deploydir}"/>
+            </then>
+        </if>
+    </target>
+    
     <target name="_remove" description="Removes sources" hidden="true">
         <delete dir="${build.deploydir}" includeemptydirs="true" quiet="true"/>
     </target>
@@ -208,6 +210,7 @@
                 </replacetokens>
             </filterchain>
         </copy>
+        <phingcall target="_setowner"/>
     </target>
     
     <target name="reinstall" description="Reinstall files" hidden="true">
@@ -218,6 +221,7 @@
     <target name="update" description="Update files" hidden="true">
         <phingcall target="_sources"/>
         <phingcall target="_config"/>
+        <phingcall target="_setowner"/>
     </target>
     
     <target name="uninstall" description="Uninstall files" hidden="true">
