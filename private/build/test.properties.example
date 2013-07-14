@@ -1,7 +1,7 @@
 # Properties for test deployment
 build.deploydir=/www/root/owaka-test
 build.env=TESTING
-build.owner=www-data.www-data
+build.owner=www-data:www-data
 config.rewritebase=owaka-test/
 db.host=localhost
 db.user=owakatest
