@@ -132,33 +132,58 @@ class TestCase extends Kohana_Unittest_Database_TestCase
             $user->password = $user->password;  // hash password
             $user->update();
         }
+
+        // 005-auth
+        Database::instance()->query(
+                Database::INSERT,
+                "INSERT INTO `roles` (`id`, `name`, `description`) VALUES(1, 'login', 'Login privileges')"
+        );
+        Database::instance()->query(
+                Database::INSERT,
+                "INSERT INTO `roles` (`id`, `name`, `description`) VALUES(2, 'admin', 'Administrative user, has access to everything.')"
+        );
+
+        // 006-auth-build
+        Database::instance()->query(
+                Database::INSERT,
+                "INSERT INTO `roles` (`id`, `name`, `description`) VALUES(3, 'internal', 'Internal user')"
+        );
+        Database::instance()->query(
+                Database::INSERT,
+                "INSERT INTO `users` (`id`, `email`, `username`, `password`) VALUES (1, 'owaka-builder@thomasmuguet.info', 'owaka', 'NULL')"
+        );
+        Database::instance()->query(
+                Database::INSERT, "INSERT INTO `roles_users` (`user_id`, `role_id`) VALUES ('1', '3')"
+        );
+
+
         Session::instance()->restart();
         return $res;
     }
 
     public function tearDown()
     {
-        $res = parent::tearDown();
-        if ($this->useDatabase) {
-            Database::instance()->query(Database::DELETE, "SET @PHAKE_PREV_foreign_key_checks = @@foreign_key_checks");
-            Database::instance()->query(Database::DELETE, "SET foreign_key_checks = 0");
-            $result = Database::instance()->list_tables();
-            $tables = array();
-            foreach ($result as $row) {
-                if (strtolower($row) != "changelog") {
-                    $tables[] = $row;
-                }
+        $res    = parent::tearDown();
+        
+        Database::instance()->query(Database::DELETE, "SET @PHAKE_PREV_foreign_key_checks = @@foreign_key_checks");
+        Database::instance()->query(Database::DELETE, "SET foreign_key_checks = 0");
+        $result = Database::instance()->list_tables();
+        $tables = array();
+        foreach ($result as $row) {
+            if (strtolower($row) != "changelog") {
+                $tables[] = $row;
             }
-            foreach ($tables as $table) {
-                try {
-                    Database::instance()->query(Database::DELETE, "truncate table `$table`");
-                } catch (Database_Exception $e) {
-                    // this is not a table, but a view. delete it
-                    Database::instance()->query(Database::DELETE, "drop view if exists `$table`");
-                }
-            }
-            Database::instance()->query(Database::DELETE, "SET foreign_key_checks = @PHAKE_PREV_foreign_key_checks");
         }
+        foreach ($tables as $table) {
+            try {
+                Database::instance()->query(Database::DELETE, "truncate table `$table`");
+            } catch (Database_Exception $e) {
+                // this is not a table, but a view. delete it
+                Database::instance()->query(Database::DELETE, "drop view if exists `$table`");
+            }
+        }
+        Database::instance()->query(Database::DELETE, "SET foreign_key_checks = @PHAKE_PREV_foreign_key_checks");
+
         $this->_dataset = NULL;
         Auth::instance()->logout();
         Session::instance()->destroy();
@@ -171,10 +196,14 @@ class TestCase extends Kohana_Unittest_Database_TestCase
                 $expectedStatus, $response->status(), $message . ': ' . var_export($response->body(), true)
         );
     }
-    public function assertResponseOK(Kohana_Response &$response) {
+
+    public function assertResponseOK(Kohana_Response &$response)
+    {
         $this->assertResponseStatusEquals(200, $response);
     }
-    public function assertResponseRedirected(Kohana_Response &$response, $uri, $code = 302) {
+
+    public function assertResponseRedirected(Kohana_Response &$response, $uri, $code = 302)
+    {
         $this->assertResponseStatusEquals($code, $response);
         $this->assertEquals($uri, $response->headers('location'));
     }

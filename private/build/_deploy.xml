@@ -165,12 +165,8 @@
         <if>
             <isset property="build.owner"/>
             <then>
-                <chown user="${build.owner}" failonerror="false" >
-                    <fileset dir="${build.deploydir}">
-                        <include name="application/cache"/>
-                        <include name="application/logs"/>
-                    </fileset>
-                </chown>
+                <echo msg="Setting owner to ${build.owner}..."/>
+                <exec command="chown -R ${build.owner} ${build.deploydir}"/>
             </then>
         </if>
     </target>
@@ -204,6 +200,14 @@
     <target name="install" description="Install files" hidden="true">
         <phingcall target="_sources"/>
         <phingcall target="_config"/>
+        
+        <copy file="${build.srcdir}/install.php" tofile="${build.deploydir}/install.php" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="REWRITEBASE" value="${config.rewritebase}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
     </target>
     
     <target name="reinstall" description="Reinstall files" hidden="true">

@@ -21,6 +21,7 @@ class Controller_Api_user extends Controller
     public function action_list()
     {
         $users = ORM::factory('User')
+                ->where('id', '!=', 1)
                 ->order_by('username', 'ASC')
                 ->find_all();
 

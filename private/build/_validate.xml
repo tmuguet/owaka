@@ -37,6 +37,7 @@
             </else>
         </if>
         
+        <delete file="${build.deploydir}/install.php" quiet="true"/>
         
         <delete dir="tmp/coverage_db" includeemptydirs="true" quiet="true"/>
         <delete dir="tmp/coverage_result" includeemptydirs="true" quiet="true"/>
