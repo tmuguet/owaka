@@ -97,10 +97,14 @@ class Task_Run extends Minion_Task
     {
         Auth::instance()->force_login('owaka');
         foreach (File::findProcessors() as $processor) {
-            $name    = str_replace("Controller_", "", $processor);
+            $name     = str_replace("Controller_", "", $processor);
             Kohana::$log->add(Log::INFO, "Copying reports for $name...");
-            $request = Request::factory($name . '/copy/' . $build->id)
+            $response = Request::factory($name . '/copy/' . $build->id)
                     ->execute();
+            Kohana::$log->add(Log::INFO, "Status: " . $response->status());
+            if ($response->status() != 200) {
+                Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
+            }
         }
         Auth::instance()->logout();
     }
@@ -136,10 +140,14 @@ class Task_Run extends Minion_Task
     {
         Auth::instance()->force_login('owaka');
         foreach (File::findProcessors() as $processor) {
-            $name    = str_replace("Controller_", "", $processor);
+            $name     = str_replace("Controller_", "", $processor);
             Kohana::$log->add(Log::INFO, "Processing reports for $name...");
-            $request = Request::factory($name . '/process/' . $build->id)
+            $response = Request::factory($name . '/process/' . $build->id)
                     ->execute();
+            Kohana::$log->add(Log::INFO, "Status: " . $response->status());
+            if ($response->status() != 200) {
+                Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
+            }
         }
         Auth::instance()->logout();
     }
@@ -150,17 +158,21 @@ class Task_Run extends Minion_Task
         if ($build->status == 'building') {
             $build->status = 'ok';
             Auth::instance()->force_login('owaka');
-            
-            foreach (File::findAnalyzers() as $processor) {
-                $name   = str_replace("Controller_", "", $processor);
-                Kohana::$log->add(Log::INFO, "Analyzing reports for $name...");
-                $result = Request::factory($name . '/analyze/' . $build->id)
-                                ->execute()->body();
 
-                if ($result == 'error') {
+            foreach (File::findAnalyzers() as $processor) {
+                $name     = str_replace("Controller_", "", $processor);
+                Kohana::$log->add(Log::INFO, "Analyzing reports for $name...");
+                $response = Request::factory($name . '/analyze/' . $build->id)
+                        ->execute();
+                Kohana::$log->add(Log::INFO, "Status: " . $response->status());
+                if ($response->status() != 200) {
+                    Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
+                }
+
+                if ($response->body() == 'error') {
                     $build->status = 'error';
                     break;
-                } else if ($result == 'unstable') {
+                } else if ($response->body() == 'unstable') {
                     $build->status = 'unstable';
                 }
             }
