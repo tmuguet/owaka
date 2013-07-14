@@ -44,7 +44,7 @@ class Owaka
      */
     static public function getReportUri($buildId, $processor, $type = NULL)
     {
-        $processorClass = 'Controller_Processors_' . $processor;
+        $processorClass = 'Controller_Processors_' . ucfirst($processor);
         if (!class_exists($processorClass)) {
             throw new Exception("Cannot find processor $processor");
         }
