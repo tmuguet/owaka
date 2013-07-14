@@ -12,7 +12,7 @@ class URL extends Kohana_URL
             // CLI
             return '/';
         } else {
-            return Kohana_URL::base($protocol, $indx);
+            return Kohana_URL::base($protocol, $index);
         }
     }
 }
