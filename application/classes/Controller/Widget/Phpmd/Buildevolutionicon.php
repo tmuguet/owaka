@@ -5,7 +5,7 @@
  * 
  * @package Widgets
  */
-class Controller_Widget_phpmd_BuildEvolutionIcon extends Controller_Widget_BaseIcon
+class Controller_Widget_Phpmd_Buildevolutionicon extends Controller_Widget_Baseicon
 {
 
     /**

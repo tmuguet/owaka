@@ -12,7 +12,7 @@
  * 
  * @package Widgets
  */
-class Controller_Widget_pdepend_LatestBuildsSparklines extends Controller_Widget_BaseSparklines
+class Controller_Widget_Pdepend_Latestbuildssparklines extends Controller_Widget_Basesparklines
 {
 
     /**

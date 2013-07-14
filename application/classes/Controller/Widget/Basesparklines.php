@@ -5,7 +5,7 @@
  * 
  * @package Widgets
  */
-abstract class Controller_Widget_BaseSparklines extends Controller_Widget_BaseRaw
+abstract class Controller_Widget_Basesparklines extends Controller_Widget_BaseRaw
 {
 
     /**

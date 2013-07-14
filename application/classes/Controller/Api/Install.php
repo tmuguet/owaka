@@ -4,7 +4,7 @@
  * API entry for managing installs and updates
  * @package    Api
  */
-class Controller_Api_install extends Controller
+class Controller_Api_Install extends Controller
 {
 
     protected $requiredRole = Owaka::AUTH_ROLE_NONE;

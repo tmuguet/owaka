@@ -1,13 +1,13 @@
 <?php
 defined('SYSPATH') or die('No direct access allowed!');
 
-class Controller_Api_dashboardTestDelete extends TestCase
+class Controller_Api_DashboardTestDelete extends TestCase
 {
 
     protected $xmlDataSet = 'data';
 
     /**
-     * @covers Controller_Api_dashboard::action_delete
+     * @covers Controller_Api_Dashboard::action_delete
      */
     public function testActionDeleteMain()
     {
@@ -29,7 +29,7 @@ class Controller_Api_dashboardTestDelete extends TestCase
     }
 
     /**
-     * @covers Controller_Api_dashboard::action_delete
+     * @covers Controller_Api_Dashboard::action_delete
      */
     public function testActionDeleteProject()
     {
@@ -51,7 +51,7 @@ class Controller_Api_dashboardTestDelete extends TestCase
     }
 
     /**
-     * @covers Controller_Api_dashboard::action_delete
+     * @covers Controller_Api_Dashboard::action_delete
      */
     public function testActionDeleteBuild()
     {

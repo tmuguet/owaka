@@ -4,7 +4,7 @@
  * API entry for managing authentication
  * @package    Api
  */
-class Controller_Api_auth extends Controller
+class Controller_Api_Auth extends Controller
 {
 
     protected $requiredRole = Owaka::AUTH_ROLE_NONE;

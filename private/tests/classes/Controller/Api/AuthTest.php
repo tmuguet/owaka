@@ -1,13 +1,13 @@
 <?php
 defined('SYSPATH') or die('No direct access allowed!');
 
-class Controller_Api_authTest extends TestCase
+class Controller_Api_AuthTest extends TestCase
 {
 
     protected $xmlDataSet = 'data';
 
     /**
-     * @covers Controller_Api_auth::action_login
+     * @covers Controller_Api_Auth::action_login
      */
     public function testActionLoginJson()
     {
@@ -47,7 +47,7 @@ class Controller_Api_authTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_auth::action_login
+     * @covers Controller_Api_Auth::action_login
      */
     public function testActionLoginPlain()
     {
@@ -79,7 +79,7 @@ class Controller_Api_authTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_auth::action_logout
+     * @covers Controller_Api_Auth::action_logout
      */
     public function testActionLogout()
     {
@@ -93,7 +93,7 @@ class Controller_Api_authTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_auth::action_loggedin
+     * @covers Controller_Api_Auth::action_loggedin
      */
     public function testActionLoggedin()
     {

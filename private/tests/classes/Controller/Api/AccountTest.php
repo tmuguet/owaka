@@ -1,13 +1,13 @@
 <?php
 defined('SYSPATH') or die('No direct access allowed!');
 
-class Controller_Api_accountTest extends TestCase
+class Controller_Api_AccountTest extends TestCase
 {
 
     protected $xmlDataSet = 'data';
 
     /**
-     * @covers Controller_Api_account::action_edit
+     * @covers Controller_Api_Account::action_edit
      */
     public function testActionEdit()
     {
@@ -34,7 +34,7 @@ class Controller_Api_accountTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_account::action_delete
+     * @covers Controller_Api_Account::action_delete
      */
     public function testActionDelete()
     {

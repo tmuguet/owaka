@@ -5,7 +5,7 @@
  * 
  * @package Widgets
  */
-class Controller_Widget_Log extends Controller_Widget_BaseRaw
+class Controller_Widget_Log extends Controller_Widget_Baseraw
 {
 
     /**

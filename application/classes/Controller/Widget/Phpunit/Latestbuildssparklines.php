@@ -5,7 +5,7 @@
  * 
  * @package Widgets
  */
-class Controller_Widget_phpunit_LatestBuildsSparklines extends Controller_Widget_BaseSparklines
+class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget_Basesparklines
 {
 
     /**

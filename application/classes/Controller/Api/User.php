@@ -5,7 +5,7 @@ defined('SYSPATH') OR die('No direct access allowed.');
  * API entry for managing users
  * @package    Api
  */
-class Controller_Api_user extends Controller
+class Controller_Api_User extends Controller
 {
 
     protected $requiredRole = Owaka::AUTH_ROLE_ADMIN;

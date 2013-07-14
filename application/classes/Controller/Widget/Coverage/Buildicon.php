@@ -5,7 +5,7 @@
  * 
  * @package Widgets
  */
-class Controller_Widget_coverage_BuildIcon extends Controller_Widget_BaseIcon
+class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
 {
 
     /**

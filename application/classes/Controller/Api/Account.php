@@ -5,7 +5,7 @@ defined('SYSPATH') OR die('No direct access allowed.');
  * API entry for managing a user's own account
  * @package    Api
  */
-class Controller_Api_account extends Controller
+class Controller_Api_Account extends Controller
 {
 
     /**

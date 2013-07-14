@@ -5,7 +5,7 @@
  * 
  * @package Widgets
  */
-class Controller_Widget_phpunit_LatestBuildsTable extends Controller_Widget_BaseTable
+class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Basetable
 {
 
     /**

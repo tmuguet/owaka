@@ -5,7 +5,7 @@
  * 
  * @package Widgets
  */
-abstract class Controller_Widget_BaseRaw extends Controller_Widget_Base
+abstract class Controller_Widget_Baseraw extends Controller_Widget_Base
 {
 
     /**

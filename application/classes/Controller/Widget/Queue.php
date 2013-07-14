@@ -5,7 +5,7 @@
  * 
  * @package Widgets
  */
-class Controller_Widget_Queue extends Controller_Widget_BaseTable
+class Controller_Widget_Queue extends Controller_Widget_Basetable
 {
 
     /**

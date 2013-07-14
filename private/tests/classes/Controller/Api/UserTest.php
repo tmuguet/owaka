@@ -1,13 +1,13 @@
 <?php
 defined('SYSPATH') or die('No direct access allowed!');
 
-class Controller_Api_userTest extends TestCase
+class Controller_Api_UserTest extends TestCase
 {
 
     protected $xmlDataSet = 'data';
 
     /**
-     * @covers Controller_Api_user::action_list
+     * @covers Controller_Api_User::action_list
      */
     public function testActionList()
     {
@@ -40,7 +40,7 @@ class Controller_Api_userTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_user::action_add
+     * @covers Controller_Api_User::action_add
      */
     public function testActionAdd()
     {
@@ -72,7 +72,7 @@ class Controller_Api_userTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_user::action_add
+     * @covers Controller_Api_User::action_add
      */
     public function testActionAddAdmin()
     {
@@ -106,7 +106,7 @@ class Controller_Api_userTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_user::action_add
+     * @covers Controller_Api_User::action_add
      */
     public function testActionAddFail()
     {
@@ -129,7 +129,7 @@ class Controller_Api_userTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_user::action_add
+     * @covers Controller_Api_User::action_add
      */
     public function testActionAddExists()
     {
@@ -152,7 +152,7 @@ class Controller_Api_userTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_user::action_edit
+     * @covers Controller_Api_User::action_edit
      */
     public function testActionEdit()
     {
@@ -177,7 +177,7 @@ class Controller_Api_userTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_user::action_enable
+     * @covers Controller_Api_User::action_enable
      */
     public function testActionEnable()
     {
@@ -197,7 +197,7 @@ class Controller_Api_userTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_user::action_disable
+     * @covers Controller_Api_User::action_disable
      */
     public function testActionDisable()
     {
@@ -217,7 +217,7 @@ class Controller_Api_userTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_user::action_delete
+     * @covers Controller_Api_User::action_delete
      */
     public function testActionDelete()
     {

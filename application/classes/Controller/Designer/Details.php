@@ -5,7 +5,7 @@
  * 
  * @package Designer
  */
-class Controller_Designer_details extends Controller
+class Controller_Designer_Details extends Controller
 {
 
     /**

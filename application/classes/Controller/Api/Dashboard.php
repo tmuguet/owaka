@@ -5,7 +5,7 @@ defined('SYSPATH') OR die('No direct access allowed.');
  * API entry for managing dashboards
  * @package    Api
  */
-class Controller_Api_dashboard extends Controller
+class Controller_Api_Dashboard extends Controller
 {
 
     /**

@@ -1,13 +1,13 @@
 <?php
 defined('SYSPATH') or die('No direct access allowed!');
 
-class Controller_Api_installTest extends TestCase
+class Controller_Api_InstallTest extends TestCase
 {
 
     protected $xmlDataSet = 'install';
 
     /**
-     * @covers Controller_Api_install::action_do
+     * @covers Controller_Api_Install::action_do
      */
     public function testActionDo()
     {
@@ -41,7 +41,7 @@ class Controller_Api_installTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_install::action_do
+     * @covers Controller_Api_Install::action_do
      */
     public function testActionDoFailInstalled()
     {
@@ -62,7 +62,7 @@ class Controller_Api_installTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_install::action_do
+     * @covers Controller_Api_Install::action_do
      */
     public function testActionDoFail()
     {

@@ -1,13 +1,13 @@
 <?php
 defined('SYSPATH') or die('No direct access allowed!');
 
-class Controller_Api_dashboardTestAdd extends TestCase
+class Controller_Api_DashboardTestAdd extends TestCase
 {
 
     protected $xmlDataSet = 'data';
 
     /**
-     * @covers Controller_Api_dashboard::action_add
+     * @covers Controller_Api_Dashboard::action_add
      */
     public function testActionAddMain()
     {
@@ -44,7 +44,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
     }
 
     /**
-     * @covers Controller_Api_dashboard::action_add
+     * @covers Controller_Api_Dashboard::action_add
      */
     public function testActionAddProject1()
     {
@@ -84,7 +84,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
     }
 
     /**
-     * @covers Controller_Api_dashboard::action_add
+     * @covers Controller_Api_Dashboard::action_add
      */
     public function testActionAddProject2()
     {
@@ -123,7 +123,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
     }
 
     /**
-     * @covers Controller_Api_dashboard::action_add
+     * @covers Controller_Api_Dashboard::action_add
      */
     public function testActionAddBuild1()
     {
@@ -163,7 +163,7 @@ class Controller_Api_dashboardTestAdd extends TestCase
     }
 
     /**
-     * @covers Controller_Api_dashboard::action_add
+     * @covers Controller_Api_Dashboard::action_add
      */
     public function testActionAddBuild2()
     {

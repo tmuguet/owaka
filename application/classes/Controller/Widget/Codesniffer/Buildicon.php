@@ -5,7 +5,7 @@
  * 
  * @package Widgets
  */
-class Controller_Widget_codesniffer_BuildIcon extends Controller_Widget_BaseIcon
+class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
 {
 
     /**

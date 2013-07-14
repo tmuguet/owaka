@@ -5,7 +5,7 @@ defined('SYSPATH') OR die('No direct access allowed.');
  * API entry for managing projects
  * @package    Api
  */
-class Controller_Api_project extends Controller
+class Controller_Api_Project extends Controller
 {
 
     /**
