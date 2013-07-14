@@ -6,7 +6,7 @@ defined('SYSPATH') or die('No direct script access.');
  * 
  * @package Model
  */
-class Model_phpunit_globaldata extends ORM
+class Model_Phpunit_Globaldata extends ORM
 {
 
     // @codingStandardsIgnoreStart

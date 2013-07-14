@@ -36,7 +36,7 @@ class Controller_Processors_Phpunit extends Controller_Processors_Base
         $report = $this->getReportCompletePath($buildId, 'xml');
 
         if (!empty($report) && file_get_contents($report) != "") {
-            $global           = ORM::factory('phpunit_globaldata');
+            $global           = ORM::factory('Phpunit_Globaldata');
             $global->build_id = $buildId;
             $global->tests    = 0;
             $global->failures = 0;
@@ -53,7 +53,7 @@ class Controller_Processors_Phpunit extends Controller_Processors_Base
                 foreach ($testsuite->children() as $subtestsuite) {
                     foreach ($subtestsuite->children() as $testcase) {
                         if ($testcase->count() > 0) {
-                            $error            = ORM::factory('phpunit_error');
+                            $error            = ORM::factory('Phpunit_Error');
                             $error->build_id  = $buildId;
                             $error->testsuite = (string) $subtestsuite['name'];
                             $error->testcase  = (string) $testcase['name'];

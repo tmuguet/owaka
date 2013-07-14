@@ -6,7 +6,7 @@ defined('SYSPATH') or die('No direct script access.');
  * 
  * @package Model
  */
-class Model_codesniffer_globaldata extends ORM
+class Model_Codesniffer_Globaldata extends ORM
 {
 
     // @codingStandardsIgnoreStart

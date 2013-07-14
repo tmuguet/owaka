@@ -27,23 +27,23 @@ class Model_Build extends ORM
      */
     protected $_has_one    = array(
         'codesniffer_globaldata' => array(
-            'model'       => 'codesniffer_globaldata',
+            'model'       => 'Codesniffer_Globaldata',
             'foreign_key' => 'build_id'
         ),
         'coverage_globaldata'    => array(
-            'model'       => 'coverage_globaldata',
+            'model'       => 'Coverage_Globaldata',
             'foreign_key' => 'build_id'
         ),
         'phpmd_globaldata'       => array(
-            'model'       => 'phpmd_globaldata',
+            'model'       => 'Phpmd_Globaldata',
             'foreign_key' => 'build_id'
         ),
         'phpunit_globaldata'     => array(
-            'model'       => 'phpunit_globaldata',
+            'model'       => 'Phpunit_Globaldata',
             'foreign_key' => 'build_id'
         ),
         'pdepend_globaldata'     => array(
-            'model'       => 'pdepend_globaldata',
+            'model'       => 'Pdepend_Globaldata',
             'foreign_key' => 'build_id'
         ),
     );

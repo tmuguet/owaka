@@ -6,7 +6,7 @@ defined('SYSPATH') or die('No direct script access.');
  * 
  * @package Model
  */
-class Model_coverage_globaldata extends ORM
+class Model_Coverage_Globaldata extends ORM
 {
 
     // @codingStandardsIgnoreStart

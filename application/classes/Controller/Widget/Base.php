@@ -114,7 +114,7 @@ abstract class Controller_Widget_Base extends Controller
         if ($this->_project === NULL) {
             $projectId = $this->getParameter('project');
             if (!empty($projectId)) {
-                $this->_project = ORM::factory('project', $projectId);
+                $this->_project = ORM::factory('Project', $projectId);
             } else {
                 $model = $this->getModelWidget();
                 if ($model instanceof Model_Widget) {
@@ -146,7 +146,7 @@ abstract class Controller_Widget_Base extends Controller
         if ($this->_build === NULL) {
             $buildId = $this->getParameter('build');
             if (!empty($buildId)) {
-                $this->_build = ORM::factory('build', $buildId);
+                $this->_build = ORM::factory('Build', $buildId);
             } else {
                 $model = $this->getModelWidget();
                 if ($model instanceof Model_Widget || $model instanceof Model_Project_Widget) {

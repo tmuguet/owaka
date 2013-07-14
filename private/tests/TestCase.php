@@ -12,6 +12,36 @@ class TestCase extends Kohana_Unittest_Database_TestCase
     protected $yesterday   = NULL;
     protected $tomorrow    = NULL;
     protected $genNumbers  = array();
+    
+    /**
+	 * Creates a connection to the unittesting database
+     * 
+     * Fixed bug in Kohana when $config['type'] is not in lower-case.
+	 *
+	 * @return PDO
+	 */
+	public function getConnection()
+	{
+		// Get the unittesting db connection
+		$config = Kohana::$config->load('database.'.$this->_database_connection);
+
+		if($config['type'] !== 'pdo')
+		{
+			$config['connection']['dsn'] = strtolower($config['type']).':'.
+			'host='.$config['connection']['hostname'].';'.
+			'dbname='.$config['connection']['database'];
+		}
+
+		$pdo = new PDO(
+			$config['connection']['dsn'], 
+			$config['connection']['username'], 
+			$config['connection']['password']
+		);
+
+		return $this->createDefaultDBConnection($pdo, $config['connection']['database']);
+	}
+
+    
 
     public function __construct()
     {

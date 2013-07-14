@@ -30,7 +30,7 @@ class Controller_Processors_Codesniffer extends Controller_Processors_Base
         $report = $this->getReportCompletePath($buildId, 'xml');
 
         if (!empty($report) && file_get_contents($report) != "") {
-            $global           = ORM::factory('codesniffer_globaldata');
+            $global           = ORM::factory('Codesniffer_Globaldata');
             $global->build_id = $buildId;
             $global->warnings = 0;
             $global->errors   = 0;
@@ -38,7 +38,7 @@ class Controller_Processors_Codesniffer extends Controller_Processors_Base
             $xml = simplexml_load_file($report);
             foreach ($xml->children() as $file) {
                 foreach ($file->children() as $item) {
-                    $error           = ORM::factory('codesniffer_error');
+                    $error           = ORM::factory('Codesniffer_Error');
                     $error->build_id = $buildId;
                     $error->file     = (string) $file['name'];
                     $error->message  = (string) $item['message'];

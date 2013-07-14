@@ -31,7 +31,7 @@ class Controller_Processors_Phpmd extends Controller_Processors_Base
 
         if (!empty($report) && file_get_contents($report) != "") {
             $content          = file_get_contents($report);
-            $global           = ORM::factory('phpmd_globaldata');
+            $global           = ORM::factory('Phpmd_Globaldata');
             $global->build_id = $buildId;
             $global->errors   = substr_count($content, '</tr>'); // - 1;
             // bug in phpmd: header row not terminated with </tr>
