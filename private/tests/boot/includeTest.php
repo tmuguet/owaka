@@ -4,8 +4,10 @@ defined('SYSPATH') or die('No direct access allowed!');
 /**
  * Static test of including all files
  */
-class includeTest extends Kohana_UnitTest_TestCase
+class includeTest extends TestCase
 {
+
+    protected $useDatabase = FALSE;
 
     protected function _test($files)
     {

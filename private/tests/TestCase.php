@@ -166,24 +166,24 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         // 005-auth
         Database::instance()->query(
                 Database::INSERT,
-                "INSERT INTO `roles` (`id`, `name`, `description`) VALUES(1, 'login', 'Login privileges')"
+                "INSERT INTO `roles` (`id`, `name`, `description`) VALUES(1, 'login', 'Login privileges') ON DUPLICATE KEY UPDATE description=description"
         );
         Database::instance()->query(
                 Database::INSERT,
-                "INSERT INTO `roles` (`id`, `name`, `description`) VALUES(2, 'admin', 'Administrative user, has access to everything.')"
+                "INSERT INTO `roles` (`id`, `name`, `description`) VALUES(2, 'admin', 'Administrative user, has access to everything.') ON DUPLICATE KEY UPDATE description=description"
         );
 
         // 006-auth-build
         Database::instance()->query(
                 Database::INSERT,
-                "INSERT INTO `roles` (`id`, `name`, `description`) VALUES(3, 'internal', 'Internal user')"
+                "INSERT INTO `roles` (`id`, `name`, `description`) VALUES(3, 'internal', 'Internal user') ON DUPLICATE KEY UPDATE description=description"
         );
         Database::instance()->query(
                 Database::INSERT,
-                "INSERT INTO `users` (`id`, `email`, `username`, `password`) VALUES (1, 'owaka-builder@thomasmuguet.info', 'owaka', 'NULL')"
+                "INSERT INTO `users` (`id`, `email`, `username`, `password`) VALUES (1, 'owaka-builder@thomasmuguet.info', 'owaka', 'NULL') ON DUPLICATE KEY UPDATE username=username"
         );
         Database::instance()->query(
-                Database::INSERT, "INSERT INTO `roles_users` (`user_id`, `role_id`) VALUES ('1', '3')"
+                Database::INSERT, "INSERT INTO `roles_users` (`user_id`, `role_id`) VALUES ('1', '3') ON DUPLICATE KEY UPDATE role_id=role_id"
         );
 
 
