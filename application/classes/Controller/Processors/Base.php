@@ -165,12 +165,6 @@ abstract class Controller_Processors_Base extends Controller
             $result = $this->analyze($build);
         }
 
-        if ($result === NULL) {
-            $this->response->body("null");
-        } else if ($result) {
-            $this->response->body("true");
-        } else {
-            $this->response->body("false");
-        }
+        $this->response->body($result);
     }
 }
