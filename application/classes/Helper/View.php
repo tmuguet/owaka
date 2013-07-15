@@ -13,10 +13,11 @@ class Helper_View
             }
             $res .= '>' . $_entry['title'];
             if (isset($_entry['img'])) {
-                $res .= ' <img src="img/' . $_entry['img'] . '.png" width="32" alt="' . $_entry['alt'] . '"/>';
+                $size = (isset($_entry['img-size']) ? $_entry['img-size'] : 32);
+                $res .= ' <img src="img/' . $_entry['img'] . '.png" width="' . $size . '" alt="' . $_entry['alt'] . '"/>';
             }
             $res .= '</a>';
-            
+
             if (isset($_entry['submenu'])) {
                 $res .= self::treatMenu($_entry['submenu']);
             }

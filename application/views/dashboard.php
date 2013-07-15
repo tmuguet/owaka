@@ -44,10 +44,16 @@ $menu[] = array(
 );
 
 foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $_project) {
+    $_lastBuild = $_project->lastBuild()->find();
+    $_status    = ($_lastBuild->loaded() ? $_lastBuild->getIcon() : 'blocked');
+
     $res = array(
         'title'    => $_project->name,
         'href'     => 'dashboard/project/' . $_project->id,
-        'selected' => ($from == 'project' || $from == 'build') && $projectId == $_project->id
+        'selected' => ($from == 'project' || $from == 'build') && $projectId == $_project->id,
+        'img'      => 'freepik/' . $_status,
+        'alt'      => $_lastBuild->status,
+        'img-size' => 16
     );
 
     if (($from == 'project' || $from == 'build') && $projectId == $_project->id) {
@@ -62,7 +68,10 @@ foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $_proje
             $res['submenu'][] = array(
                 'title'    => $_build->getRevision(),
                 'href'     => 'dashboard/build/' . $_build->id,
-                'selected' => $buildId == $_build->id
+                'selected' => $buildId == $_build->id,
+                'img'      => 'freepik/' . $_build->getIcon(),
+                'alt'      => $_build->status,
+                'img-size' => 16
             );
         }
     }

@@ -89,4 +89,33 @@ class Model_BuildTest extends TestCase
         $this->assertEquals('r43', $target1->getRevision(), "Wrong revision for numeric types");
         $this->assertEquals('abcdefghij', $target2->getRevision(), "Wrong revision for non-numeric types");
     }
+
+    /**
+     * @covers Model_Build::getIcon
+     */
+    public function testGetIcon()
+    {
+        $target1 = ORM::factory('Build', $this->genNumbers['build1']);
+        $this->assertTrue($target1->loaded(), "Target not loaded");
+        $this->assertEquals('right', $target1->getIcon(), "Wrong icon for status ok");
+        
+        $target2 = ORM::factory('Build', $this->genNumbers['build2']);
+        $this->assertTrue($target2->loaded(), "Target not loaded");
+        $this->assertEquals('warning', $target2->getIcon(), "Wrong icon for status unstable");
+        
+        $target3 = ORM::factory('Build', $this->genNumbers['build3']);
+        $this->assertTrue($target3->loaded(), "Target not loaded");
+        $this->assertEquals('radiation', $target3->getIcon(), "Wrong icon for status error");
+        
+        $target4 = ORM::factory('Build', $this->genNumbers['build4']);
+        $this->assertTrue($target4->loaded(), "Target not loaded");
+        $this->assertEquals('beaker', $target4->getIcon(), "Wrong icon for status building");
+        
+        $target5 = ORM::factory('Build', $this->genNumbers['build5']);
+        $this->assertTrue($target5->loaded(), "Target not loaded");
+        $this->assertEquals('sandclock', $target5->getIcon(), "Wrong icon for status queued");
+        
+        $target6 = ORM::factory('Build');
+        $this->assertEquals('blocked', $target6->getIcon(), "Wrong icon for unknown status");
+    }
 }

@@ -25,7 +25,7 @@ class Model_Build extends ORM
      * "Has one" relationships
      * @var array
      */
-    protected $_has_one    = array(
+    protected $_has_one = array(
         'codesniffer_globaldata' => array(
             'model'       => 'Codesniffer_Globaldata',
             'foreign_key' => 'build_id'
@@ -109,6 +109,35 @@ class Model_Build extends ORM
             return 'r' . $this->revision;
         } else {
             return substr($this->revision, 0, 10);
+        }
+    }
+
+    public function getIcon()
+    {
+        switch ($this->status) {
+            case 'ok':
+                return 'right';
+                break;
+
+            case 'unstable':
+                return 'warning';
+                break;
+
+            case 'error':
+                return 'radiation';
+                break;
+
+            case 'building':
+                return 'beaker';
+                break;
+
+            case 'queued':
+                return 'sandclock';
+                break;
+
+            case 'nodata':
+            default:
+                return 'blocked';
         }
     }
 }
