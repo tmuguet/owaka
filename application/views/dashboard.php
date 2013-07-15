@@ -27,10 +27,10 @@ switch ($from) {
         $title = 'main';
         break;
     case "project" :
-        $title = $project->name . ' - latest: ' . ($lastBuild === NULL ? 'none' : $lastBuild->getRevision());
+        $title = $project->name . ' - latest: ' . ($lastBuild === NULL ? 'none' : $lastBuild->getRevision() . ' from ' . Date::loose_span(strtotime($lastBuild->finished)));
         break;
     case "build":
-        $title = $project->name . ' - ' . $build->getRevision();
+        $title = $project->name . ' - ' . $build->getRevision() . ' from ' . Date::loose_span(strtotime($build->finished));
         break;
     default:
         $title = '';
