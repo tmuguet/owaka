@@ -91,8 +91,7 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Basetable
         }
 
         foreach ($builds as $build) {
-            $status = $build->status;
-
+            $date         = ($build->status == 'building' || $build->status == 'queued') ? $build->started : $build->finished;
             $this->rows[] = array(
                 "link"    => array(
                     "type" => 'build',
@@ -101,9 +100,9 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Basetable
                 "class"   => 'clickable build build-' . $build->status,
                 "columns" => array(
                     $build->project->name,
-                    Date::loose_span(strtotime($build->finished)),
-                    $build->finished,
-                    $status
+                    Date::loose_span(strtotime($date)),
+                    $date,
+                    View::factory('icon')->set('status', $build->status)->set('size', 16)->render()
                 ),
             );
         }

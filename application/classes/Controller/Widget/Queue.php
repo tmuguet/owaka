@@ -72,7 +72,11 @@ class Controller_Widget_Queue extends Controller_Widget_Basetable
         );
         foreach ($builds as $build) {
             if ($build->status == "building") {
-                $status = Date::loose_span(strtotime($build->eta));
+                if (strtotime($build->eta) < time()) {
+                    $status = 'unknown';
+                } else {
+                    $status = Date::loose_span(strtotime($build->eta));
+                }
                 $date = $build->eta;
             } else {
                 $status = '';

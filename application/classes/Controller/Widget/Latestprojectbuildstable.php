@@ -65,8 +65,8 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Baset
 
         foreach ($builds as $build) {
             if ($build->loaded()) {
-                $status = $build->status;
-
+                $date = ($build->status == 'building' || $build->status == 'queued') ? $build->started : $build->finished;
+            
                 $this->rows[] = array(
                     "link"    => array(
                         "type" => 'build',
@@ -75,9 +75,9 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Baset
                     "class"   => 'clickable build build-' . $build->status,
                     "columns" => array(
                         $build->project->name,
-                        Date::loose_span(strtotime($build->finished)),
-                        $build->finished,
-                        $status
+                        Date::loose_span(strtotime($date)),
+                        $date,
+                        View::factory('icon')->set('status', $build->status)->set('size', 16)->render()
                     ),
                 );
             }
