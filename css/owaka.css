@@ -1,5 +1,5 @@
 body {
-    background-color: #ffffff;
+    background-color: #f0f0f0;
     background-size: cover;
     background-attachment: fixed;
 }
@@ -81,7 +81,7 @@ body.grunge.build-error {
 
 .grid-elt-content {
     position: absolute;
-    top: 0px;
+    top: 30px;
     right: 0px;
     bottom: 0px;
     left: 0px;

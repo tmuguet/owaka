@@ -68,20 +68,23 @@ class Controller_Widget_Queue extends Controller_Widget_Basetable
     {
 
         $this->columnsHeaders = array(
-            "Project", "Status"
+            "Project", "Status", "_Date"
         );
         foreach ($builds as $build) {
             if ($build->status == "building") {
-                $status = 'ETA ' . date("H:i", strtotime($build->eta));
+                $status = Date::loose_span(strtotime($build->eta));
+                $date = $build->eta;
             } else {
                 $status = '';
+                $date = $build->started;
             }
 
             $this->rows[] = array(
                 "url"     => "",
                 "columns" => array(
                     $build->project->name,
-                    $status
+                    $status,
+                    $date
                 ),
             );
         }

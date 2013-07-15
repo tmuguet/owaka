@@ -4,9 +4,9 @@ echo View::factory('widgets/BaseStart')->render();
 <table width="100%" style="font-size: 60%">
     <thead>
         <tr>
-            <?php foreach ($columns as $_column): ?>
-                <th><?php echo $_column; ?></th>
-            <?php endforeach; ?>
+            <?php for ($i=0; $i < sizeof($columns); $i++): ?>
+                <th<?php echo ($columns[$i][0] == '_' ? ' class="widget-detailed"' : ''); ?>><?php echo ($columns[$i][0] == '_' ? substr($columns[$i], 1) : $columns[$i]); ?></th>
+            <?php endfor; ?>
         </tr>
     </thead>
     <tbody>
@@ -25,9 +25,9 @@ echo View::factory('widgets/BaseStart')->render();
                     echo ' onclick="' . Owaka::processLink($from, $_row['link'], 'js') . '"';
                 }
                 ?>>
-                        <?php foreach ($_row['columns'] as $_column): ?>
-                        <td><?php echo $_column; ?></td>
-                    <?php endforeach; ?>
+                        <?php for ($i=0; $i < sizeof($_row['columns']); $i++): ?>
+                        <td<?php echo ($columns[$i][0] == '_' ? ' class="widget-detailed"' : ''); ?>><?php echo $_row['columns'][$i]; ?></td>
+                    <?php endfor; ?>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>

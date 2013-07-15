@@ -33,7 +33,7 @@ class Controller_Widget_Phpunit_Buildevolutionicon extends Controller_Widget_Bas
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_PAD;
+        return Owaka::ICON_RIGHT2;
     }
 
     /**

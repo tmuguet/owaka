@@ -29,7 +29,7 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_PAD;
+        return Owaka::ICON_RIGHT2;
     }
 
     /**

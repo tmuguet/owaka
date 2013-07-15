@@ -55,6 +55,9 @@ class Controller_Api_Dashboard extends Controller
     public function action_add()
     {
         $params = $this->request->post('params');
+        if (!is_array($params)) {
+            $params = array();
+        }
 
         switch ($this->request->param('dashboard')) {
             case "main":

@@ -33,6 +33,8 @@ class Owaka
     const ICON_PAD           = 'pad';
     const ICON_PIC           = 'pic';
     const ICON_SECURITY      = 'security';
+    const ICON_STACK         = 'stack';
+    const ICON_RIGHT2        = 'right2';
     const ICON_TARGET        = 'target';
 
     /**

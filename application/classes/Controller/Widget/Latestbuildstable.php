@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Displays the number of errors and failures of the latest 50 builds.
+ * Displays the status of the latest 10 builds.
  * 
  * @package Widgets
  */
-class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget_Basesparklines
+class Controller_Widget_Latestbuildstable extends Controller_Widget_Basetable
 {
 
     /**
@@ -18,7 +18,7 @@ class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget
         return array(
             'project' => array(
                 'type'     => 'project',
-                'required' => ($dashboard == 'main')
+                'required' => false
             ),
         );
     }
@@ -29,7 +29,7 @@ class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_RIGHT2;
+        return Owaka::ICON_STACK;
     }
 
     /**
@@ -38,7 +38,7 @@ class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget
      */
     protected function getWidgetTitle()
     {
-        return 'phpunit';
+        return 'builds';
     }
 
     /**
@@ -46,7 +46,17 @@ class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget
      */
     public function display_main()
     {
-        return $this->display_project();
+        if ($this->getProject() === NULL) {
+            $builds = ORM::factory('Build')
+                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->order_by('id', 'DESC')
+                    ->limit(10)
+                    ->find_all();
+
+            $this->process($builds);
+        } else {
+            $this->display_project();
+        }
     }
 
     /**
@@ -57,8 +67,7 @@ class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget
         $builds = $this->getProject()->builds
                 ->where('status', 'NOT IN', array('building', 'queued'))
                 ->order_by('id', 'DESC')
-                ->with('phpunit_globaldata')
-                ->limit(50)
+                ->limit(10)
                 ->find_all();
 
         $this->process($builds);
@@ -70,31 +79,33 @@ class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget
      */
     protected function process($builds)
     {
+        $this->columnsHeaders = array(
+            "Project", "Date", "_Date", "Status"
+        );
+
         if (sizeof($builds) > 0) {
             $this->widgetLinks[] = array(
                 "type" => 'build',
                 "id"   => $builds[0]->id
             );
-            $this->widgetLinks[] = array(
-                "title" => 'latest report',
-                "url"   => Owaka::getReportUri($builds[0]->id, 'phpunit', 'report')
-            );
         }
-
-        $tests    = array();
-        $failures = array();
-        $errors   = array();
 
         foreach ($builds as $build) {
-            if ($build->phpunit_globaldata->loaded()) {
-                $tests[]    = $build->phpunit_globaldata->tests;
-                $failures[] = $build->phpunit_globaldata->failures;
-                $errors[]   = $build->phpunit_globaldata->errors;
-            }
-        }
+            $status = $build->status;
 
-        $this->sparklines[] = array("title" => "Tests", "data"  => array_reverse($tests));
-        $this->sparklines[] = array("title" => "Failures", "data"  => array_reverse($failures));
-        $this->sparklines[] = array("title" => "Errors", "data"  => array_reverse($errors));
+            $this->rows[] = array(
+                "link"    => array(
+                    "type" => 'build',
+                    "id"   => $build->id
+                ),
+                "class"   => 'clickable build build-' . $build->status,
+                "columns" => array(
+                    $build->project->name,
+                    Date::loose_span(strtotime($build->finished)),
+                    $build->finished,
+                    $status
+                ),
+            );
+        }
     }
 }

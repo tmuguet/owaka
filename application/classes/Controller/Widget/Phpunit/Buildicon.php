@@ -33,7 +33,7 @@ class Controller_Widget_phpunit_Buildicon extends Controller_Widget_Baseicon
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_PAD;
+        return Owaka::ICON_RIGHT2;
     }
 
     /**
