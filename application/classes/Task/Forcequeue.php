@@ -1,6 +1,6 @@
 <?php
 
-class Task_ForceQueue extends Minion_Task
+class Task_Forcequeue extends Minion_Task
 {
 
     protected $_options = array(
