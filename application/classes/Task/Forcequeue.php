@@ -9,8 +9,7 @@ class Task_Forcequeue extends Minion_Task
 
     public function build_validation(Validation $validation)
     {
-        return parent::build_validation($validation)
-                        ->rule('id', 'Model_Project::exists');
+        return parent::build_validation($validation);
     }
 
     protected function _execute(array $params)
