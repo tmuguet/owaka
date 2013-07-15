@@ -89,6 +89,7 @@ class Task_Run extends Minion_Task
             $build->status = 'error';   // Build unproperly configured
         }
 
+        $build->update();
         $build->project->lastrevision = $build->revision;
         $build->project->update();
     }
