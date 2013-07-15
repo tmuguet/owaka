@@ -46,7 +46,7 @@ $menu[] = array(
 foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $_project) {
     $res = array(
         'title'    => $_project->name,
-        'href'     => 'dashboard/project/ ' . $_project->id,
+        'href'     => 'dashboard/project/' . $_project->id,
         'selected' => ($from == 'project' || $from == 'build') && $projectId == $_project->id
     );
 
