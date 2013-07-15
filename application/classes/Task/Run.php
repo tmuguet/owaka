@@ -156,9 +156,9 @@ class Task_Run extends Minion_Task
     protected function analyzeReports(Model_Build &$build)
     {
         // Do not update if status is already set (-> error)
+        Auth::instance()->force_login('owaka');
         if ($build->status == 'building') {
             $build->status = 'ok';
-            Auth::instance()->force_login('owaka');
 
             foreach (File::findAnalyzers() as $processor) {
                 $name     = str_replace("Controller_", "", $processor);
@@ -177,11 +177,11 @@ class Task_Run extends Minion_Task
                     $build->status = 'unstable';
                 }
             }
-            $build->finished = DB::expr('NOW()');
-            $build->update();
-            Auth::instance()->logout();
         } else {
             Kohana::$log->add(Log::INFO, "Skipping analyze of reports: status already set to " . $build->status);
         }
+        $build->finished = DB::expr('NOW()');
+        $build->update();
+        Auth::instance()->logout();
     }
 }
