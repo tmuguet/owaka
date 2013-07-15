@@ -153,7 +153,7 @@ tr.build td img {
 #left-panel a:hover,
 #list_widgets a:hover,
 #widget_details a:hover {
-    color: #003399;
+    color: #3333CC;
 }
 
 #owaka {
@@ -165,7 +165,7 @@ tr.build td img {
 #owaka h1 {
     font-size: 36px;
     font-weight: bolder;
-    
+
     -webkit-transform:rotate(-90deg);
     -moz-transform:rotate(-90deg);
     -o-transform:rotate(-90deg);
@@ -231,4 +231,27 @@ tr.build td img {
     padding-top: 20px;
     padding-bottom: 20px;
     background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+.ui-widget-content a:hover {
+    color: #555555;
+}
+.ui-widget-header a:hover {
+    color: #555555;
+}
+
+.ui-state-default a:hover {
+    color: #888888;
+}
+.ui-state-active a:hover {
+    color: #545454;
+}
+.ui-state-highlight a:hover, .ui-widget-content .ui-state-highlight a:hover, .ui-widget-header .ui-state-highlight a:hover {
+    color: #696969;
+}
+
+
+.ui-state-error a:hover, .ui-widget-content .ui-state-error a:hover, .ui-widget-header .ui-state-error a:hover {
+    color: #FF3D3D;
 }
