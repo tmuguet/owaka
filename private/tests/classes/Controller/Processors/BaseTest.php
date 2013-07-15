@@ -126,18 +126,18 @@ class Controller_Processors_BaseTest extends TestCase
         $target1 = new Controller_Processors_BaseStub();
         $target1->request->setParam('id', $this->genNumbers['build1']);
         $target1->action_analyze();
-        $this->assertEquals('null', $target1->response->body());
+        $this->assertEquals('', $target1->response->body());
 
         $target2                = new Controller_Processors_BaseStub2();
         $target2->request->setParam('id', $this->genNumbers['build1']);
-        $target2->analyzeResult = TRUE;
+        $target2->analyzeResult = 'ok';
         $target2->action_analyze();
-        $this->assertEquals('true', $target2->response->body());
+        $this->assertEquals('ok', $target2->response->body());
 
         $target3                = new Controller_Processors_BaseStub2();
         $target3->request->setParam('id', $this->genNumbers['build1']);
-        $target3->analyzeResult = FALSE;
+        $target3->analyzeResult = 'unstable';
         $target3->action_analyze();
-        $this->assertEquals('false', $target3->response->body());
+        $this->assertEquals('unstable', $target3->response->body());
     }
 }
