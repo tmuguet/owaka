@@ -32,7 +32,7 @@ class Controller_Widget_Background extends Controller_Widget_Base
      */
     static public function getPreferredSize()
     {
-        return array(0, 0);
+        return array(1, 1);
     }
 
     /**
@@ -41,7 +41,7 @@ class Controller_Widget_Background extends Controller_Widget_Base
      */
     static public function getOptimizedSizes()
     {
-        return array(array(0, 0));
+        return array(array(1, 1));
     }
 
     /**
