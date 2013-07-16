@@ -5,15 +5,15 @@ body {
 }
 
 body.splotchy.build-ok {
-    background-image: url('../img/LT_SplotchyDuotone_04.jpg');
+    background-image: url('../img/LT_SplotchyDuotone_04.JPG');
 }
 
 body.splotchy.build-unstable {
-    background-image: url('../img/LT_SplotchyDuotone_01.jpg');
+    background-image: url('../img/LT_SplotchyDuotone_01.JPG');
 }
 
 body.splotchy.build-error {
-    background-image: url('../img/LT_SplotchyDuotone_05.jpg');
+    background-image: url('../img/LT_SplotchyDuotone_05.JPG');
 }
 
 body.grunge.build-ok {
