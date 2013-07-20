@@ -25,9 +25,7 @@ class Task_Queue extends Minion_Task
 
             switch ($project->scm) {
                 case 'mercurial':
-                    if ($project->has_parent) {
-                        passthru('hg pull', $result);
-                    }
+                    passthru('hg pull', $result);
                     passthru('hg update', $result);
                     break;
 

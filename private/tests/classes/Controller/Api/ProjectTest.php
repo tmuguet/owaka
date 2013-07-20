@@ -31,7 +31,6 @@ class Controller_Api_ProjectTest extends TestCase
         $expected->name                  = 'foo';
         $expected->is_active             = 1;
         $expected->scm                   = 'mercurial';
-        $expected->has_parent            = '0';
         $expected->path                  = '/path';
         $expected->phing_path            = '/phing/path';
         $expected->phing_target_validate = 'target_validate';
@@ -88,7 +87,6 @@ class Controller_Api_ProjectTest extends TestCase
         $expected->name                  = 'foo';
         $expected->is_active             = 1;
         $expected->scm                   = 'mercurial';
-        $expected->has_parent            = '0';
         $expected->path                  = '/path';
         $expected->phing_path            = '/phing/path';
         $expected->phing_target_validate = 'target_validate';
