@@ -1,0 +1,116 @@
+<?xml version="1.0" ?>
+<project name="phing-validate-sample" basedir="." default="validate">
+
+    <!-- Sets the DSTAMP, TSTAMP and TODAY properties -->
+    <tstamp/>
+
+    <resolvepath propertyName="build.fulldir" file="${project.basedir}"/>
+    <property file="${build.fulldir}/build.properties" override="true" />
+    
+    <!-- Directory of source files -->
+    <resolvepath propertyName="build.srcdir" file="/path/to/my/project"/>
+    
+    <!-- Fileset for code coverage -->
+    <fileset dir="${build.srcdir}/application" id="app-php-test">
+        <include name="classes/Controller/**/*.php" />
+        <include name="classes/Model/**/*.php" />
+        <include name="classes/Helper/**/*.php" />
+        <include name="classes/*.php" />
+    </fileset>
+    
+    <target name="validate" description="Validate project">
+        <phingcall target="_prepare"/>
+        <phingcall target="_unit_test"/>
+        <phingcall target="_analysis"/>
+        <phingcall target="_doc"/>
+    </target>
+    
+    <target name="doc" description="Generate PHPdoc">
+        <phingcall target="_prepare"/>
+        <phingcall target="_doc"/>
+    </target>
+    
+    <target name="analysis" description="Execute code analysis">
+        <phingcall target="_prepare"/>
+        <phingcall target="_analysis"/>
+    </target>
+    
+    <target name="test" description="Execute unit tests">
+        <phingcall target="_prepare"/>
+        <phingcall target="_unit_test"/>
+    </target>
+    
+    <target name="_prepare" hidden="true" description="Prepares reports folder">
+        <delete dir="tmp/coverage_db" includeemptydirs="true" quiet="true"/>
+        <delete dir="tmp/coverage_result" includeemptydirs="true" quiet="true"/>
+        <delete dir="tmp/reports" includeemptydirs="true" quiet="true"/>
+
+        <mkdir dir="tmp/coverage_db"/>
+        <mkdir dir="tmp/coverage_result"/>
+        <mkdir dir="tmp/reports"/>
+        <mkdir dir="tmp/reports/tests"/>
+        <mkdir dir="tmp/reports/coverage"/>
+        <mkdir dir="tmp/reports/apidocs"/>
+    </target>
+    
+    <target name="_doc" hidden="true" description="Generate PHPdoc">
+        <phpdoc2 title="my-project" destdir="tmp/reports/apidocs" template="responsive">
+            <fileset refid="app-php-test"/>
+        </phpdoc2>
+    </target>
+    
+    <target name="_analysis" hidden="true" description="Execute code analysis">
+        <!-- Generate report for "PhpDepend report" -->
+        <phpdepend>
+            <fileset refid="app-php-test"/>
+            <logger type="summary-xml" outfile="tmp/reports/metrics.xml"/>
+            <logger type="jdepend-chart" outfile="tmp/reports/jdepend.svg"/>
+            <logger type="overview-pyramid" outfile="tmp/reports/pyramid.svg"/>
+        </phpdepend>
+        
+        <!-- Generate report for "PHPMD HTML report" -->
+        <phpmd>
+            <fileset refid="app-php-test"/>
+            <formatter type="html" outfile="tmp/reports/phpmd.html"/>
+        </phpmd>
+        
+        <!-- Generate report for "Code Sniffer report" -->
+        <phpcodesniffer standard="PEAR" docGenerator="HTML" docFile="tmp/reports/codesniffer-doc.html">
+            <fileset refid="app-php-test"/>
+            <formatter type="checkstyle" usefile="true" outfile="tmp/reports/codesniffer.xml"/>
+        </phpcodesniffer>
+    </target>
+    
+    <target name="_unit_test" hidden="true" description="Execute unit tests">
+        <!-- Generate report for "Coverage raw report" -->
+        <coverage-setup database="tmp/coverage_db/coverage.db">
+            <fileset refid="app-php-test"/>
+        </coverage-setup>
+    
+        <echo msg="Executing all tests"/>
+        <phpunit codecoverage="true" printsummary="true" bootstrap="${build.srcdir}/private/tests/bootstrap.php">
+            <!-- Generate report for "PHPUnit XML report" -->
+            <formatter type="xml" todir="tmp/reports"/>
+            <batchtest>
+                <fileset dir="${build.srcdir}/private/tests/boot">
+                    <include name="**/*.php"/>
+                </fileset>
+            </batchtest>
+            <batchtest>
+                <fileset dir="${build.srcdir}/private/tests/classes">
+                    <include name="**/*.php"/>
+                    <exclude name="**/_mocks"/>
+                    <exclude name="**/_stubs"/>
+                </fileset>
+            </batchtest>
+        </phpunit>
+        
+        <!-- Generate report for "PHPUnit report" -->
+        <phpunitreport infile="tmp/reports/testsuites.xml" format="frames" todir="tmp/reports/tests"/>
+        
+        <!-- Generate report for "Coverage report directory" -->
+        <coverage-report outfile="tmp/reports/coverage.xml">
+            <report todir="tmp/reports/coverage"/>
+        </coverage-report>
+    </target>
+</project>
