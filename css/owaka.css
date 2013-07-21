@@ -171,6 +171,10 @@ tr.build td img {
     font-size: 70%;
 }
 
+#menu-bottom-advanced {
+    display: none;
+}
+
 #menu-bottom img {
     vertical-align: text-top;
 }

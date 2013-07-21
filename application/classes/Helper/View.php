@@ -7,7 +7,12 @@ class Helper_View
     {
         $res = '<ul>';
         foreach ($menu as $_entry) {
-            $res .= '<li><a href="' . $_entry['href'] . '" title="' . $_entry['title'] . '"';
+            $res .= '<li>';
+            if (isset($_entry['href'])) {
+                $res .= '<a href="' . $_entry['href'] . '" title="' . $_entry['title'] . '"';
+            } else {
+                $res .= '<span';
+            }
             if (isset($_entry['selected']) && $_entry['selected']) {
                 $res .= ' style="font-weight: bold"';
             }
@@ -16,7 +21,11 @@ class Helper_View
                 $size = (isset($_entry['img-size']) ? $_entry['img-size'] : 32);
                 $res .= ' <img src="img/' . $_entry['img'] . '.png" width="' . $size . '" alt="' . $_entry['alt'] . '"/>';
             }
-            $res .= '</a>';
+            if (isset($_entry['href'])) {
+                $res .= '</a>';
+            } else {
+                $res .= '</span>';
+            }
 
             if (isset($_entry['submenu'])) {
                 $res .= self::treatMenu($_entry['submenu']);

@@ -98,9 +98,9 @@ echo View::factory('baseMenu')
                 ?>/>
                 <div class="details">Project will not be built in owaka if inactive.</div>
         </fieldset>
-        <input type="submit" value="<?php
-        echo ($project->loaded() ? 'Edit project ' . $project->name : 'Add new project');
-        ?>"/>
+        <button type="submit"><?php
+            echo ($project->loaded() ? 'Edit project ' . $project->name : 'Add new project');
+            ?></button>
     </form>
 </div>
 <script type="text/javascript">
