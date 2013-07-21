@@ -54,8 +54,21 @@ $.owaka = {
         $(".build-error").addClass('ui-state-error');
         $(".build-building").addClass('ui-state-active');
         $(".build-queued").addClass('ui-state-active');
+    },
+    renderForms: function() {
+        if ($(".ui-form").size() > 0) {
+            var max = 0;
+            $.each($(".ui-form label"), function() {
+                if ($(this).width() > max) {
+                    max = $(this).width();
+                }
+            })
+            $(".ui-form label").width(max);
+            $(".ui-form div.details").css('margin-left', max / 2);
+        }
     }
 };
 $(document).ready(function() {
     $.owaka.computeElements();
+    $.owaka.renderForms();
 });

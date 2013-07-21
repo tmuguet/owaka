@@ -55,7 +55,6 @@ class Controller_Api_ProjectTest extends TestCase
         $response = $request->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
 
         $actual       = ORM::factory('Project')->where('name', '=', 'foo')->find();
         $this->assertTrue($actual->loaded());
@@ -65,6 +64,7 @@ class Controller_Api_ProjectTest extends TestCase
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of Project does not match'
             );
         }
+        $this->assertEquals(array("res" => "ok", "project" => $actual->id), $apiCall, "Incorrect API result");
 
         $actual2               = ORM::factory('Project_Report')->where('project_id', '=', $expected->id)->find_all();
         $this->assertEquals(1, sizeof($actual2));
@@ -113,7 +113,7 @@ class Controller_Api_ProjectTest extends TestCase
         $response = $request->execute();
         $this->assertEquals(200, $response->status(), "Request failed");
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
+        $this->assertEquals(array("res" => "ok", "project" => $this->genNumbers['ProjectFoo']), $apiCall, "Incorrect API result");
 
         $actual = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $this->assertTrue($actual->loaded());

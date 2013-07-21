@@ -75,7 +75,7 @@ class Controller_Api_Project extends Controller
             }
         }
 
-        $this->response->body(json_encode(array("res" => "ok")));
+        $this->response->body(json_encode(array("res" => "ok", "project" => $project->id)));
     }
 
     /**
@@ -126,6 +126,6 @@ class Controller_Api_Project extends Controller
             }
         }
 
-        $this->response->body(json_encode(array("res" => "ok")));
+        $this->response->body(json_encode(array("res" => "ok", "project" => $project->id)));
     }
 }
