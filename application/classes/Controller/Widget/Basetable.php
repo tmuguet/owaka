@@ -9,7 +9,7 @@ abstract class Controller_Widget_Basetable extends Controller_Widget_Base
 {
 
     /**
-     * Name of the columns
+     * Name of the columns. Columns prefixed by `_` are shown only when the widget is hovered
      * @var array
      */
     protected $columnsHeaders = array();
