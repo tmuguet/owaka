@@ -59,11 +59,11 @@ class Controller_Api_UserTest extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
 
         $actual       = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
         $expected->id = $actual->id;
+        $this->assertEquals(array("user" => $actual->id), $apiCall, "Incorrect API result");
         foreach ($actual->list_columns() as $column => $info) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'
@@ -92,11 +92,11 @@ class Controller_Api_UserTest extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
 
         $actual       = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
         $expected->id = $actual->id;
+        $this->assertEquals(array("user" => $actual->id), $apiCall, "Incorrect API result");
         foreach ($actual->list_columns() as $column => $info) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'
@@ -120,11 +120,11 @@ class Controller_Api_UserTest extends TestCase
         $request->post('username', $expected->username);
         $request->post('password', 'test');
         $response = $request->execute();
-        $this->assertResponseOK($response);
+        $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(
-                array("res"    => "ko", "errors" => array('email' => array('email', array($expected->email)))),
-                $apiCall, "Incorrect API result"
+                array("errors" => array('email' => array('email', array($expected->email)))), $apiCall,
+                "Incorrect API result"
         );
     }
 
@@ -143,11 +143,11 @@ class Controller_Api_UserTest extends TestCase
         $request->post('username', $expected->username);
         $request->post('password', 'test');
         $response = $request->execute();
-        $this->assertResponseOK($response);
+        $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(
-                array("res"    => "ko", "errors" => array('email' => array('unique', array('email', $expected->email)))),
-                $apiCall, "Incorrect API result"
+                array("errors" => array('email' => array('unique', array('email', $expected->email)))), $apiCall,
+                "Incorrect API result"
         );
     }
 
@@ -165,7 +165,7 @@ class Controller_Api_UserTest extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
+        $this->assertEquals(array("user" => $this->genNumbers['userFoo']), $apiCall, "Incorrect API result");
 
         $actual = ORM::factory('User', $this->genNumbers['userFoo']);
         $this->assertTrue($actual->loaded());
@@ -174,6 +174,35 @@ class Controller_Api_UserTest extends TestCase
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'
             );
         }
+    }
+
+    /**
+     * @covers Controller_Api_User::action_edit
+     */
+    public function testActionEditFail()
+    {
+        $request  = Request::factory('api/user/edit/' . $this->genNumbers['userFoo'])->login(Owaka::AUTH_ROLE_ADMIN);
+        $request->method(Request::POST);
+        $request->post('password', '');
+        $response = $request->execute();
+        $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
+        $apiCall  = json_decode($response->body(), TRUE);
+        $this->assertEquals(
+                array("errors" => array('password' => array('not_empty', array('password', '')))), $apiCall,
+                "Incorrect API result"
+        ); 
+    }
+
+    /**
+     * @covers Controller_Api_User::action_edit
+     */
+    public function testActionEditNotFound()
+    {
+        $request  = Request::factory('api/user/edit/99999')->login(Owaka::AUTH_ROLE_ADMIN);
+        $request->method(Request::POST);
+        $request->post('password', 'new-password');
+        $response = $request->execute();
+        $this->assertResponseStatusEquals(Response::NOTFOUND, $response);
     }
 
     /**
@@ -190,10 +219,21 @@ class Controller_Api_UserTest extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
+        $this->assertEquals(array("user" => $this->genNumbers['userBar']), $apiCall, "Incorrect API result");
 
         $expected->reload();
         $this->assertTrue($expected->has('roles', $role));
+    }
+
+    /**
+     * @covers Controller_Api_User::action_enable
+     */
+    public function testActionEnableNotFound()
+    {
+        $request  = Request::factory('api/user/enable/99999')->login(Owaka::AUTH_ROLE_ADMIN);
+        $request->method(Request::POST);
+        $response = $request->execute();
+        $this->assertResponseStatusEquals(Response::NOTFOUND, $response);
     }
 
     /**
@@ -210,10 +250,21 @@ class Controller_Api_UserTest extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
+        $this->assertEquals(array("user" => $this->genNumbers['userFoo']), $apiCall, "Incorrect API result");
 
         $expected->reload();
         $this->assertFalse($expected->has('roles', $role));
+    }
+
+    /**
+     * @covers Controller_Api_User::action_disable
+     */
+    public function testActionDisableNotFound()
+    {
+        $request  = Request::factory('api/user/disable/99999')->login(Owaka::AUTH_ROLE_ADMIN);
+        $request->method(Request::POST);
+        $response = $request->execute();
+        $this->assertResponseStatusEquals(Response::NOTFOUND, $response);
     }
 
     /**
@@ -226,9 +277,20 @@ class Controller_Api_UserTest extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
+        $this->assertEquals(array("user" => $this->genNumbers['userBar']), $apiCall, "Incorrect API result");
 
         $actual = ORM::factory('User', $this->genNumbers['userBar']);
         $this->assertFalse($actual->loaded());
+    }
+
+    /**
+     * @covers Controller_Api_User::action_delete
+     */
+    public function testActionDeleteNotFound()
+    {
+        $request  = Request::factory('api/user/delete/99999')->login(Owaka::AUTH_ROLE_ADMIN);
+        $request->method(Request::POST);
+        $response = $request->execute();
+        $this->assertResponseStatusEquals(Response::NOTFOUND, $response);
     }
 }

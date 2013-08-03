@@ -50,6 +50,34 @@ class Model_Build extends ORM
     // @codingStandardsIgnoreEnd
 
     /**
+     * Rule definitions for validation
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $rules = array(
+            'revision' => array(
+                array('not_empty'),
+            ),
+            'status'   => array(
+                array('not_empty'),
+            ),
+            'started'  => array(
+                array('not_empty'),
+                array('date'),
+            ),
+            'eta'      => array(
+                array('date'),
+            ),
+            'finished' => array(
+                array('date'),
+            ),
+        );
+        return $rules;
+    }
+
+    /**
      * Gets the previous build. Must be loaded with find()
      * 
      * @return Model_Build

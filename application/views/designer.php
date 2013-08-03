@@ -56,17 +56,6 @@ if (isset($projectId)) {
 
             $("#widget_details").load('designer_details/<?php echo $from; ?>/' + $(this).attr("data-widget"), postData);
         });
-
-        $(".widget-move").draggable({
-            appendTo: "body",
-            helper: "clone",
-            start: function(event, ui) {
-                $.owaka.designer.widget.prepareToMove($(this).closest('.grid-elt'));
-            },
-            stop: function(event, ui) {
-                $.owaka.designer.slots.hide();
-            }
-        });
     });
 </script>
 <?php

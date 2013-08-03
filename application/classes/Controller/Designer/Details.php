@@ -1,4 +1,5 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
+defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
  * Gets details of a widget for the designer mode
@@ -40,7 +41,10 @@ class Controller_Designer_Details extends Controller
      */
     protected function process()
     {
-        $name           = "Controller_Widget_" . $this->request->param('id');
+        $name = "Controller_Widget_" . $this->request->param('id');
+        if (!class_exists($name)) {
+            throw new HTTP_Exception_404();
+        }
         $size           = $name::getPreferredSize();
         $availableSizes = $name::getOptimizedSizes();
         $params         = $name::getExpectedParameters($this->request->action());

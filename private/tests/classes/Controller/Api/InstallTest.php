@@ -26,7 +26,7 @@ class Controller_Api_InstallTest extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
+        $this->assertEquals(array(), $apiCall, "Incorrect API result");
 
         $actual       = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
@@ -56,9 +56,9 @@ class Controller_Api_InstallTest extends TestCase
         $request  = Request::factory('api/install/do');
         $request->method(Request::POST);
         $response = $request->execute();
-        $this->assertResponseOK($response);
+        $this->assertResponseStatusEquals(Response::GONE, $response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ko"), $apiCall, "Incorrect API result");
+        $this->assertEquals(array("error" => "Already installed"), $apiCall, "Incorrect API result");
     }
 
     /**
@@ -76,11 +76,11 @@ class Controller_Api_InstallTest extends TestCase
         $request->post('username', $expected->username);
         $request->post('password', 'test');
         $response = $request->execute();
-        $this->assertResponseOK($response);
+        $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(
-                array("res"    => "ko", "errors" => array('email' => array('email', array($expected->email)))),
-                $apiCall, "Incorrect API result"
+                array("errors" => array('email' => array('email', array($expected->email)))), $apiCall,
+                "Incorrect API result"
         );
     }
 }

@@ -14,7 +14,6 @@ echo View::factory('baseMenu')
 ?>
 <div id="grid">
     <form action="api/auth/login" method="post" class="ui-form">
-        <input type="hidden" name="plain" value="1"/>
         <fieldset>
             <div class="field">
                 <label for="user">User:</label>
@@ -36,6 +35,9 @@ echo View::factory('baseMenu')
                 primary: "ui-icon-unlocked"
             }
         });
+    });
+    $.owaka.formapi($('.ui-form'), function(data) {
+        document.location = data.goto;
     });
 </script>
 <?php

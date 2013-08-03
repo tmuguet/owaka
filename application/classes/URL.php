@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * URL helper class.
+ *
+ * @package    Core
+ */
 class URL extends Kohana_URL
 {
 

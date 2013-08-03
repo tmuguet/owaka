@@ -31,6 +31,10 @@ echo View::factory('baseMenu')
             }
         });
     });
+    $.owaka.formapi($('.ui-form'), function(data) {
+        alert('Account deleted');
+        document.location = 'dashboard/main';
+    });
 </script>
 <?php
 echo View::factory('baseEnd')

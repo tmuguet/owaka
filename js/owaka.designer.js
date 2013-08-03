@@ -94,15 +94,16 @@ $.owaka.designer = {
                         height: height,
                         params: $("#widget_drag").data("params")
                     };
-                    $.post('api/dashboard/add/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + $.owaka.designer.data, postData, function(info) {
-                        $.post('w/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + '/sample/' + info.id, {}, function(data) {
+                    $.owaka.api('api/dashboard/add/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + $.owaka.designer.data, postData, function(info) {
+                        $.owaka.api('w/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + '/sample/' + info.widget, {}, function(data) {
                             var o = $(data);
                             $.owaka.designer.slots.take(row, column, height, width);
                             $('#grid').append(o);
                             $.owaka.computeElements();
                             $("#placeholder-adding").remove();
+                            $.owaka.designer.widget._draggable(o.find(".widget-move"));
                         });
-                    }, "json");
+                    });
                 }
             });
         },
@@ -136,14 +137,14 @@ $.owaka.designer = {
                         row: row,
                         column: column
                     };
-                    $.post('api/dashboard/move/' + $.owaka.designer.from + '/' + o.attr("data-widget-id"), postData, function(info) {
+                    $.owaka.api('api/dashboard/move/' + $.owaka.designer.from + '/' + o.attr("data-widget-id"), postData, function(info) {
                         $.owaka.designer.slots.free(oldRow, oldColumn, height, width);
                         $.owaka.designer.slots.take(row, column, height, width);
                         o.attr("data-grid-row", row);
                         o.attr("data-grid-column", column);
                         $("#placeholder-moving").remove();
                         $.owaka.computeElement(o);
-                    }, "json");
+                    });
                 }
             });
         },
@@ -158,7 +159,7 @@ $.owaka.designer = {
             $.owaka.designer.widget._generatePlaceholder('deleting', row, column, height, width);
             $.owaka.designer.slots.free(row, column, height, width);
 
-            $.post('api/dashboard/delete/' + $.owaka.designer.from + '/' + widget.attr("data-widget-id"), function() {
+            $.owaka.api('api/dashboard/delete/' + $.owaka.designer.from + '/' + widget.attr("data-widget-id"), function() {
                 widget.remove();
                 $("#placeholder-deleting").remove();
             });
@@ -173,7 +174,19 @@ $.owaka.designer = {
                 $("#list_widgets").show('slide', {direction: 'left'}, 500);
                 $("#widget_details").fadeOut(500);
             }
-        }
+        },
+        _draggable: function(o) {
+            o.draggable({
+                appendTo: "body",
+                helper: "clone",
+                start: function(event, ui) {
+                    $.owaka.designer.widget.prepareToMove($(this).closest('.grid-elt'));
+                },
+                stop: function(event, ui) {
+                    $.owaka.designer.slots.hide();
+                }
+            });
+        },
     },
     max_row: 8,
     max_column: 16,
@@ -181,3 +194,7 @@ $.owaka.designer = {
     data: '',
 };
 
+
+$(document).ready(function() {
+    $.owaka.designer.widget._draggable($(".widget-move"));
+});

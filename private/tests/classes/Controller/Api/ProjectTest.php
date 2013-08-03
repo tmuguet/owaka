@@ -17,7 +17,7 @@ class Controller_Api_ProjectTest extends TestCase
         );
 
         $response = Request::factory('api/project/list/')->login()->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
         $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual, "Incorrect API result");
     }
@@ -31,8 +31,8 @@ class Controller_Api_ProjectTest extends TestCase
         $expected->name                  = 'foo';
         $expected->is_active             = 1;
         $expected->scm                   = 'mercurial';
-        $expected->path                  = '/path';
-        $expected->phing_path            = '/phing/path';
+        $expected->path                  = '/usr';
+        $expected->phing_path            = '/usr/lib';
         $expected->phing_target_validate = 'target_validate';
         $expected->phing_target_nightly  = 'target_nightly';
         $expected->reports_path          = '/reports/path';
@@ -53,7 +53,7 @@ class Controller_Api_ProjectTest extends TestCase
         $request->post('reports_path', $expected->reports_path);
         $request->post($expected2->type, $expected2->value);
         $response = $request->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
 
         $actual       = ORM::factory('Project')->where('name', '=', 'foo')->find();
@@ -64,7 +64,7 @@ class Controller_Api_ProjectTest extends TestCase
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of Project does not match'
             );
         }
-        $this->assertEquals(array("res" => "ok", "project" => $actual->id), $apiCall, "Incorrect API result");
+        $this->assertEquals(array("project" => $actual->id), $apiCall, "Incorrect API result");
 
         $actual2               = ORM::factory('Project_Report')->where('project_id', '=', $expected->id)->find_all();
         $this->assertEquals(1, sizeof($actual2));
@@ -78,6 +78,17 @@ class Controller_Api_ProjectTest extends TestCase
     }
 
     /**
+     * @covers Controller_Api_Project::action_add
+     */
+    public function testActionAddFail()
+    {
+        $request  = Request::factory('api/project/add')->login();
+        $request->method(Request::POST);
+        $response = $request->execute();
+        $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
+    }
+
+    /**
      * @covers Controller_Api_Project::action_edit
      */
     public function testActionEdit()
@@ -87,8 +98,8 @@ class Controller_Api_ProjectTest extends TestCase
         $expected->name                  = 'foo';
         $expected->is_active             = 1;
         $expected->scm                   = 'mercurial';
-        $expected->path                  = '/path';
-        $expected->phing_path            = '/phing/path';
+        $expected->path                  = '/usr';
+        $expected->phing_path            = '/usr/lib';
         $expected->phing_target_validate = 'target_validate';
         $expected->phing_target_nightly  = 'target_nightly';
         $expected->reports_path          = '/reports/path';
@@ -111,9 +122,9 @@ class Controller_Api_ProjectTest extends TestCase
         $request->post('reports_path', $expected->reports_path);
         $request->post($expected2->type, $expected2->value);
         $response = $request->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok", "project" => $this->genNumbers['ProjectFoo']), $apiCall, "Incorrect API result");
+        $this->assertEquals(array("project" => $this->genNumbers['ProjectFoo']), $apiCall, "Incorrect API result");
 
         $actual = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $this->assertTrue($actual->loaded());
@@ -131,5 +142,27 @@ class Controller_Api_ProjectTest extends TestCase
                     $expected2->$column, $actual2->$column, 'Column ' . $column . ' of Project_Report does not match'
             );
         }
+    }
+
+    /**
+     * @covers Controller_Api_Project::action_edit
+     */
+    public function testActionEditFail()
+    {
+        $request  = Request::factory('api/project/edit/' . $this->genNumbers['ProjectFoo'])->login();
+        $request->method(Request::POST);
+        $response = $request->execute();
+        $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
+    }
+
+    /**
+     * @covers Controller_Api_Project::action_edit
+     */
+    public function testActionEditNotFound()
+    {
+        $request  = Request::factory('api/project/edit/99999')->login();
+        $request->method(Request::POST);
+        $response = $request->execute();
+        $this->assertResponseStatusEquals(Response::NOTFOUND, $response);
     }
 }

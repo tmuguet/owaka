@@ -37,6 +37,10 @@ echo View::factory('baseMenu')
             }
         });
     });
+    $.owaka.formapi($('.ui-form'), function(data) {
+        alert('Account edited');
+        document.location = 'dashboard/main';
+    });
 </script>
 <?php
 echo View::factory('baseEnd')

@@ -12,7 +12,7 @@ class Controller_ManagerTest extends TestCase
     public function testActionAdd()
     {
         $response = Request::factory('manager/add')->login()->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
 
         $reports               = array();
         $reports['processor1'] = Controller_Processors_processor1::getInputReports();
@@ -30,7 +30,7 @@ class Controller_ManagerTest extends TestCase
     public function testActionEdit()
     {
         $response = Request::factory('manager/edit/' . $this->genNumbers['ProjectFoo'])->login()->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
 
         $reports               = array();
         $reports['processor1'] = Controller_Processors_processor1::getInputReports();

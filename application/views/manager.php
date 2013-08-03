@@ -111,18 +111,9 @@ echo View::factory('baseMenu')
             }
         });
     });
-    $(".ui-form").submit(function() {
-        var form = $('.ui-form');
-        var submit = $('.ui-form :submit');
-        submit.button('disable');
-        $.post(form.attr('action'), form.serialize(), function(data) {
-            if (data.res === 'ok') {
-                document.location = 'dashboard/project/' + data.project;
-            } else {
-                alert('An error occured');
-            }
-        }, "json");
-        return false;
+    $.owaka.formapi($('.ui-form'), function(data) {
+        alert('Project updated');
+        document.location = 'dashboard/project/' + data.project;
     });
 </script>
 <?php

@@ -4,7 +4,7 @@
  * API entry for managing authentication
  * @package    Api
  */
-class Controller_Api_Auth extends Controller
+class Controller_Api_Auth extends Controller_Api
 {
 
     protected $requiredRole = Owaka::AUTH_ROLE_NONE;
@@ -23,21 +23,9 @@ class Controller_Api_Auth extends Controller
 
         if ($success) {
             $goto = Session::instance()->get('requested_url', 'dashboard/main');
-            if (isset($post['plain'])) {
-                $this->redirect($goto);
-                // @codeCoverageIgnoreStart
-            } else {
-                // @codeCoverageIgnoreEnd
-                $this->response->body(json_encode(array("res"  => "ok", "goto" => $goto)));
-            }
+            $this->respondOk(array('goto' => $goto));
         } else {
-            if (isset($post['plain'])) {
-                $this->redirect('login');
-                // @codeCoverageIgnoreStart
-            } else {
-                // @codeCoverageIgnoreEnd
-                $this->response->body(json_encode(array("res" => "ko")));
-            }
+            $this->respondError(Response::UNPROCESSABLE, array('error' => 'Bad credentials'));
         }
     }
 
@@ -53,9 +41,9 @@ class Controller_Api_Auth extends Controller
         // @codeCoverageIgnoreStart
         // Can't reproduce !$success
         if ($success) {
-            $this->response->body(json_encode(array("res" => "ok")));
+            $this->respondOk();
         } else {
-            $this->response->body(json_encode(array("res" => "ko")));
+            $this->respondError(Response::ERROR);
         }
         // @codeCoverageIgnoreEnd
     }
@@ -68,11 +56,6 @@ class Controller_Api_Auth extends Controller
     public function action_loggedin()
     {
         $success = Auth::instance()->logged_in();
-
-        if ($success) {
-            $this->response->body(json_encode(array("res" => "ok")));
-        } else {
-            $this->response->body(json_encode(array("res" => "ko")));
-        }
+        $this->respondOk(array('loggedin' => ($success ? 'ok' : 'ko')));
     }
 }

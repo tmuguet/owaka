@@ -4,7 +4,7 @@
  * API entry for managing installs and updates
  * @package    Api
  */
-class Controller_Api_Install extends Controller
+class Controller_Api_Install extends Controller_Api
 {
 
     protected $requiredRole = Owaka::AUTH_ROLE_NONE;
@@ -23,7 +23,7 @@ class Controller_Api_Install extends Controller
     {
         $usersCount = ORM::factory('User')->count_all();
         if ($usersCount > 1) {
-            $this->response->body(json_encode(array("res" => "ko")));
+            $this->respondError(Response::GONE, array('error' => 'Already installed'));
             return;
         }
 
@@ -42,9 +42,9 @@ class Controller_Api_Install extends Controller
 
             @unlink(DOCROOT . 'install.php');
 
-            $this->response->body(json_encode(array("res" => "ok")));
+            $this->respondOk();
         } catch (ORM_Validation_Exception $e) {
-            $this->response->body(json_encode(array("res"    => "ko", "errors" => $e->errors())));
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors()));
         }
     }
 }

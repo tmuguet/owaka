@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Request
+ * 
+ * @package Core
+ */
 class Request extends Kohana_Request
 {
 #ifdef TESTING

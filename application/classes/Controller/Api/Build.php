@@ -5,7 +5,7 @@ defined('SYSPATH') OR die('No direct access allowed.');
  * API entry for managing builds
  * @package    Api
  */
-class Controller_Api_Build extends Controller
+class Controller_Api_Build extends Controller_Api
 {
 
     /**
@@ -32,6 +32,6 @@ class Controller_Api_Build extends Controller
                 "status"   => $build->status,
             );
         }
-        $this->response->body(json_encode($output));
+        $this->respondOk($output);
     }
 }

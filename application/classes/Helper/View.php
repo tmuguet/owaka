@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Helper for views
+ *
+ * @package Helpers
+ */
 class Helper_View
 {
 
