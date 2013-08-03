@@ -239,4 +239,4 @@ class TestCase extends Kohana_Unittest_Database_TestCase
     }
 }
 
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "TestCase" . DIRECTORY_SEPARATOR . "Processors.php";
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "TestCase" . DIRECTORY_SEPARATOR . "Processor.php";

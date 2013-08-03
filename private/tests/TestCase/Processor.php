@@ -1,6 +1,6 @@
 <?php
 
-abstract class TestCase_Processors extends TestCase
+abstract class TestCase_Processor extends TestCase
 {
 
     protected $target;

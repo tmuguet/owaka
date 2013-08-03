@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processor_PhpunitTest extends TestCase_Processors
+class Controller_Processor_PhpunitTest extends TestCase_Processor
 {
 
     public function setUp()
@@ -34,8 +34,8 @@ class Controller_Processor_PhpunitTest extends TestCase_Processors
         $this->assertEquals($globaldataExpected, $globaldata, 'Bad data inserted');
 
         $dataExpected = array(
-            array("testsuite" => "Controller_Processors_PhpunitTest", "testcase"  => "testProcess"),
-            array("testsuite" => "Controller_Processors_PhpunitTest", "testcase"  => "testProcessEmpty"),
+            array("testsuite" => "Controller_Processor_PhpunitTest", "testcase"  => "testProcess"),
+            array("testsuite" => "Controller_Processor_PhpunitTest", "testcase"  => "testProcessEmpty"),
             array("testsuite" => "Controller_ReportTest", "testcase"  => "testActionIndex")
         );
         $data         = DB::select('testsuite', 'testcase')

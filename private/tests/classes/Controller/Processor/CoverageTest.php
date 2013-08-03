@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processor_CoverageTest extends TestCase_Processors
+class Controller_Processor_CoverageTest extends TestCase_Processor
 {
 
     public function setUp()

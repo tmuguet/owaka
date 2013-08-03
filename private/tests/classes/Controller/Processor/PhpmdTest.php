@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processor_PhpmdTest extends TestCase_Processors
+class Controller_Processor_PhpmdTest extends TestCase_Processor
 {
 
     public function setUp()
