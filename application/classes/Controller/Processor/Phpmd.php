@@ -5,7 +5,7 @@
  * 
  * @package Processors
  */
-class Controller_Processors_Phpmd extends Controller_Processors_Base
+class Controller_Processor_Phpmd extends Controller_Processor
 {
 
     static public function getInputReports()
@@ -42,4 +42,13 @@ class Controller_Processors_Phpmd extends Controller_Processors_Base
 
         return false;
     }
+
+    /*public function analyze(Model_Build &$build)
+    {
+        if ($build->phpmd_globaldata->errors == 0) {
+            return 'ok';
+        } else {
+            return 'error';
+        }
+    }*/
 }

@@ -15,8 +15,8 @@ class Controller_ManagerTest extends TestCase
         $this->assertResponseOK($response);
 
         $reports               = array();
-        $reports['processor1'] = Controller_Processors_processor1::getInputReports();
-        $reports['processor2'] = Controller_Processors_processor2::getInputReports();
+        $reports['processor1'] = Controller_Processor_processor1::getInputReports();
+        $reports['processor2'] = Controller_Processor_processor2::getInputReports();
 
         $expected = View::factory('manager')
                 ->set('project', ORM::factory('Project'))
@@ -33,8 +33,8 @@ class Controller_ManagerTest extends TestCase
         $this->assertResponseOK($response);
 
         $reports               = array();
-        $reports['processor1'] = Controller_Processors_processor1::getInputReports();
-        $reports['processor2'] = Controller_Processors_processor2::getInputReports();
+        $reports['processor1'] = Controller_Processor_processor1::getInputReports();
+        $reports['processor2'] = Controller_Processor_processor2::getInputReports();
 
         $expected = View::factory('manager')
                 ->set('project', ORM::factory('Project', $this->genNumbers['ProjectFoo']))

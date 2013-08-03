@@ -1,10 +1,10 @@
 <?php
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'BaseStub.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'ProcessorStub.php';
 
-class Controller_Processors_BaseTestCopy extends TestCase
+class Controller_ProcessorTestCopy extends TestCase
 {
 
-    protected $xmlDataSet = 'base-copy';
+    protected $xmlDataSet = 'processor-copy';
 
     public function setUp()
     {
@@ -39,17 +39,17 @@ class Controller_Processors_BaseTestCopy extends TestCase
     }
 
     /**
-     * @covers Controller_Processors_Base::action_copy
+     * @covers Controller_Processor::action_copy
      */
     public function testCopy()
     {
-        $target = new Controller_Processors_BaseStub();
+        $target = new Controller_Processor_ProcessorStub();
         $target->request->setParam('id', $this->genNumbers['build1']);
 
         $target->action_copy();
 
         $basedir = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build1']
-                . DIRECTORY_SEPARATOR . 'basestub' . DIRECTORY_SEPARATOR;
+                . DIRECTORY_SEPARATOR . 'processorstub' . DIRECTORY_SEPARATOR;
         $this->assertTrue(is_dir($basedir));
 
         // file
@@ -67,17 +67,17 @@ class Controller_Processors_BaseTestCopy extends TestCase
     }
 
     /**
-     * @covers Controller_Processors_Base::action_copy
+     * @covers Controller_Processor::action_copy
      */
     public function testCopyFail()
     {
-        $target = new Controller_Processors_BaseStub();
+        $target = new Controller_Processor_ProcessorStub();
         $target->request->setParam('id', $this->genNumbers['build2']);
 
         $target->action_copy();
 
         $basedir = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build2']
-                . DIRECTORY_SEPARATOR . 'basestub' . DIRECTORY_SEPARATOR;
+                . DIRECTORY_SEPARATOR . 'processorstub' . DIRECTORY_SEPARATOR;
         $this->assertFalse(is_dir($basedir));
     }
 }

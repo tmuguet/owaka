@@ -5,7 +5,7 @@
  * 
  * @package Processors
  */
-abstract class Controller_Processors_Base extends Controller
+abstract class Controller_Processor extends Controller
 {
 
     protected $requiredRole = Owaka::AUTH_ROLE_INTERNAL;
@@ -70,7 +70,7 @@ abstract class Controller_Processors_Base extends Controller
      */
     /* private */ final function _getName()
     {
-        return strtolower(str_replace("Controller_Processors_", "", get_called_class()));
+        return strtolower(str_replace("Controller_Processor_", "", get_called_class()));
     }
 
     /**
@@ -138,7 +138,7 @@ abstract class Controller_Processors_Base extends Controller
 
     /**
      * Processes the reports
-     * @url http://example.com/processors_&lt;processor&gt;/process/&lt;build_id&gt;
+     * @url http://example.com/processor_&lt;processor&gt;/process/&lt;build_id&gt;
      */
     public final function action_process()
     {
@@ -154,7 +154,7 @@ abstract class Controller_Processors_Base extends Controller
 
     /**
      * Analyzes the reports to determine the build status
-     * @url http://example.com/processors_&lt;processor&gt;/analyze/&lt;build_id&gt;
+     * @url http://example.com/processor_&lt;processor&gt;/analyze/&lt;build_id&gt;
      */
     public final function action_analyze()
     {

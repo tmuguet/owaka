@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processors_BaseStub extends Controller_Processors_Base
+class Controller_Processor_ProcessorStub extends Controller_Processor
 {
 
     public $processResult = TRUE;

@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processors_PdependTest extends TestCase_Processors
+class Controller_Processor_PdependTest extends TestCase_Processors
 {
 
     public function setUp()
@@ -17,7 +17,7 @@ class Controller_Processors_PdependTest extends TestCase_Processors
     }
 
     /**
-     * @covers Controller_Processors_Pdepend::process
+     * @covers Controller_Processor_Pdepend::process
      */
     public function testProcess()
     {
@@ -63,7 +63,7 @@ class Controller_Processors_PdependTest extends TestCase_Processors
     }
 
     /**
-     * @covers Controller_Processors_Pdepend::process
+     * @covers Controller_Processor_Pdepend::process
      */
     public function testProcessEmpty()
     {

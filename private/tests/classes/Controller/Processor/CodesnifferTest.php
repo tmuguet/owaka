@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processors_CodesnifferTest extends TestCase_Processors
+class Controller_Processor_CodesnifferTest extends TestCase_Processors
 {
 
     public function setUp()
@@ -12,7 +12,7 @@ class Controller_Processors_CodesnifferTest extends TestCase_Processors
     }
 
     /**
-     * @covers Controller_Processors_Codesniffer::process
+     * @covers Controller_Processor_Codesniffer::process
      */
     public function testProcess()
     {
@@ -43,7 +43,7 @@ class Controller_Processors_CodesnifferTest extends TestCase_Processors
     }
 
     /**
-     * @covers Controller_Processors_Codesniffer::process
+     * @covers Controller_Processor_Codesniffer::process
      */
     public function testProcessEmpty()
     {

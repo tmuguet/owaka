@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processors_processor2
+class Controller_Processor_processor2
 {
 
     static public function getInputReports()

@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processors_CoverageTest extends TestCase_Processors
+class Controller_Processor_CoverageTest extends TestCase_Processors
 {
 
     public function setUp()
@@ -17,7 +17,7 @@ class Controller_Processors_CoverageTest extends TestCase_Processors
     }
 
     /**
-     * @covers Controller_Processors_Coverage::process
+     * @covers Controller_Processor_Coverage::process
      */
     public function testProcess()
     {
@@ -44,7 +44,7 @@ class Controller_Processors_CoverageTest extends TestCase_Processors
     }
 
     /**
-     * @covers Controller_Processors_Coverage::process
+     * @covers Controller_Processor_Coverage::process
      */
     public function testProcessEmpty()
     {

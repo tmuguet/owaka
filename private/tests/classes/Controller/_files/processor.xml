@@ -7,6 +7,6 @@
     
     <builds id="##ID_build1##" project_id="##ID_ProjectFoo##" revision="40" message="My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You listen: we go in there, and that nigga Winston or anybody else is in there, you the first motherfucker to get shot. You understand?" status="ok" started="2010-10-05 17:15:23" eta="2010-10-05 17:16:30" finished="2010-10-05 17:16:23"/>
     
-    <project_reports id="##ID_Report1##" project_id="##ID_ProjectFoo##" type="basestub_foo" value="bar"/>
-    <project_reports id="##ID_Report2##" project_id="##ID_ProjectFoo##" type="basestub_bat" value="baz"/>
+    <project_reports id="##ID_Report1##" project_id="##ID_ProjectFoo##" type="processorstub_foo" value="bar"/>
+    <project_reports id="##ID_Report2##" project_id="##ID_ProjectFoo##" type="processorstub_bat" value="baz"/>
 </dataset>

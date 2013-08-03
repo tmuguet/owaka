@@ -5,7 +5,7 @@
  * 
  * @package Processors
  */
-class Controller_Processors_Pdepend extends Controller_Processors_Base
+class Controller_Processor_Pdepend extends Controller_Processor
 {
 
     static public function getInputReports()

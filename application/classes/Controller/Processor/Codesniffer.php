@@ -5,7 +5,7 @@
  * 
  * @package Processors
  */
-class Controller_Processors_Codesniffer extends Controller_Processors_Base
+class Controller_Processor_Codesniffer extends Controller_Processor
 {
 
     static public function getInputReports()
@@ -70,4 +70,15 @@ class Controller_Processors_Codesniffer extends Controller_Processors_Base
 
         return false;
     }
+
+    /*public function analyze(Model_Build &$build)
+    {
+        if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors == 0) {
+            return 'ok';
+        } else if ($build->codesniffer_globaldata->errors == 0) {
+            return 'unstable';
+        } else {
+            return 'error';
+        }
+    }*/
 }

@@ -1,11 +1,11 @@
 <?php
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'BaseStub.php';
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'BaseStub2.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'ProcessorStub.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'ProcessorStub2.php';
 
-class Controller_Processors_BaseTest extends TestCase
+class Controller_ProcessorTest extends TestCase
 {
 
-    protected $xmlDataSet = 'base';
+    protected $xmlDataSet = 'processor';
     private $_basePathReports;
 
     public function setUp()
@@ -16,7 +16,7 @@ class Controller_Processors_BaseTest extends TestCase
         file_put_contents($this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'bar', 'hello-world');
 
         $this->_basePathReports = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build1']
-                . DIRECTORY_SEPARATOR . 'basestub' . DIRECTORY_SEPARATOR;
+                . DIRECTORY_SEPARATOR . 'processorstub' . DIRECTORY_SEPARATOR;
 
         if (!file_exists($this->_basePathReports)) {
             mkdir($this->_basePathReports, 0700, true);
@@ -33,39 +33,39 @@ class Controller_Processors_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Processors_Base::getInputReports
+     * @covers Controller_Processor::getInputReports
      * @expectedException Exception
      * @expectedExceptionMessage Not implemented
      */
     public function testGetInputReports()
     {
-        Controller_Processors_Base::getInputReports();
+        Controller_Processor::getInputReports();
     }
 
     /**
-     * @covers Controller_Processors_Base::_getName
+     * @covers Controller_Processor::_getName
      */
     public function testGetName()
     {
-        $target = new Controller_Processors_BaseStub();
-        $this->assertEquals('basestub', $target->_getName());
+        $target = new Controller_Processor_ProcessorStub();
+        $this->assertEquals('processorstub', $target->_getName());
     }
 
     /**
-     * @covers Controller_Processors_Base::_getReportName
+     * @covers Controller_Processor::_getReportName
      */
     public function testGetReportName()
     {
-        $target = new Controller_Processors_BaseStub();
-        $this->assertEquals('basestub_hello', $target->_getReportName('hello'));
+        $target = new Controller_Processor_ProcessorStub();
+        $this->assertEquals('processorstub_hello', $target->_getReportName('hello'));
     }
 
     /**
-     * @covers Controller_Processors_Base::_getInputReportCompletePath
+     * @covers Controller_Processor::_getInputReportCompletePath
      */
     public function testGetInputReportCompletePath()
     {
-        $target = new Controller_Processors_BaseStub();
+        $target = new Controller_Processor_ProcessorStub();
         $this->assertEquals(
                 $this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'bar',
                 $target->_getInputReportCompletePath($this->genNumbers['build1'], 'foo'), "Nominal case"
@@ -79,11 +79,11 @@ class Controller_Processors_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Processors_Base::getReportCompletePath
+     * @covers Controller_Processor::getReportCompletePath
      */
     public function testGetReportCompletePath()
     {
-        $target = new Controller_Processors_BaseStub();
+        $target = new Controller_Processor_ProcessorStub();
         $this->assertEquals(
                 $this->_basePathReports . 'foo.html',
                 $target->getReportCompletePath($this->genNumbers['build1'], 'file'), "Nominal case"
@@ -101,17 +101,17 @@ class Controller_Processors_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Processors_Base::action_process
+     * @covers Controller_Processor::action_process
      */
     public function testActionProcess()
     {
-        $target1                = new Controller_Processors_BaseStub();
+        $target1                = new Controller_Processor_ProcessorStub();
         $target1->request->setParam('id', $this->genNumbers['build1']);
         $target1->processResult = TRUE;
         $target1->action_process();
         $this->assertEquals('true', $target1->response->body());
 
-        $target2                = new Controller_Processors_BaseStub();
+        $target2                = new Controller_Processor_ProcessorStub();
         $target2->request->setParam('id', $this->genNumbers['build1']);
         $target2->processResult = FALSE;
         $target2->action_process();
@@ -119,22 +119,22 @@ class Controller_Processors_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Processors_Base::action_analyze
+     * @covers Controller_Processor::action_analyze
      */
     public function testActionAnalyze()
     {
-        $target1 = new Controller_Processors_BaseStub();
+        $target1 = new Controller_Processor_ProcessorStub();
         $target1->request->setParam('id', $this->genNumbers['build1']);
         $target1->action_analyze();
         $this->assertEquals('', $target1->response->body());
 
-        $target2                = new Controller_Processors_BaseStub2();
+        $target2                = new Controller_Processor_ProcessorStub2();
         $target2->request->setParam('id', $this->genNumbers['build1']);
         $target2->analyzeResult = 'ok';
         $target2->action_analyze();
         $this->assertEquals('ok', $target2->response->body());
 
-        $target3                = new Controller_Processors_BaseStub2();
+        $target3                = new Controller_Processor_ProcessorStub2();
         $target3->request->setParam('id', $this->genNumbers['build1']);
         $target3->analyzeResult = 'unstable';
         $target3->action_analyze();

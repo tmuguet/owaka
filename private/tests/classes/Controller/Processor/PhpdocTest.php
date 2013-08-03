@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processors_PhpdocTest extends TestCase_Processors
+class Controller_Processor_PhpdocTest extends TestCase_Processors
 {
 
     public function setUp()
@@ -17,7 +17,7 @@ class Controller_Processors_PhpdocTest extends TestCase_Processors
     }
 
     /**
-     * @covers Controller_Processors_Phpdoc::process
+     * @covers Controller_Processor_Phpdoc::process
      */
     public function testProcess()
     {

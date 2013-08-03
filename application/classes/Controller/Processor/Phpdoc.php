@@ -5,7 +5,7 @@
  * 
  * @package Processors
  */
-class Controller_Processors_Phpdoc extends Controller_Processors_Base
+class Controller_Processor_Phpdoc extends Controller_Processor
 {
 
     static public function getInputReports()

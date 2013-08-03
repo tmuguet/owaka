@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processors_PhpunitTest extends TestCase_Processors
+class Controller_Processor_PhpunitTest extends TestCase_Processors
 {
 
     public function setUp()
@@ -17,7 +17,7 @@ class Controller_Processors_PhpunitTest extends TestCase_Processors
     }
 
     /**
-     * @covers Controller_Processors_Phpunit::process
+     * @covers Controller_Processor_Phpunit::process
      */
     public function testProcess()
     {
@@ -46,7 +46,7 @@ class Controller_Processors_PhpunitTest extends TestCase_Processors
     }
 
     /**
-     * @covers Controller_Processors_Phpunit::process
+     * @covers Controller_Processor_Phpunit::process
      */
     public function testProcessEmpty()
     {
@@ -63,7 +63,7 @@ class Controller_Processors_PhpunitTest extends TestCase_Processors
     }
 
     /**
-     * @covers Controller_Processors_Phpunit::analyze
+     * @covers Controller_Processor_Phpunit::analyze
      */
     public function testAnalyze()
     {

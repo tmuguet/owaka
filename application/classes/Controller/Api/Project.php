@@ -64,7 +64,7 @@ class Controller_Api_Project extends Controller_Api
             $processors = File::findProcessors();
             $reports    = array();
             foreach ($processors as $processor) {
-                $name = str_replace("Controller_Processors_", "", $processor);
+                $name = str_replace("Controller_Processor_", "", $processor);
                 foreach ($processor::getInputReports() as $key => $reports) {
                     $report             = ORM::factory('Project_Report');
                     $report->project_id = $project->id;
@@ -122,7 +122,7 @@ class Controller_Api_Project extends Controller_Api
             }
 
             foreach ($processors as $processor) {
-                $name = str_replace("Controller_Processors_", "", $processor);
+                $name = str_replace("Controller_Processor_", "", $processor);
                 foreach ($processor::getInputReports() as $key => $reports) {
                     $report             = ORM::factory('Project_Report');
                     $report->project_id = $project->id;

@@ -5,7 +5,7 @@ abstract class TestCase_Processors extends TestCase
 
     protected $target;
     protected $buildId;
-    protected $xmlDataSet = 'base';
+    protected $xmlDataSet = '../../_files/processor';
 
     public function setUp()
     {
