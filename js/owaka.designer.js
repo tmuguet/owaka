@@ -9,10 +9,11 @@ $.owaka.designer = {
             if (slotHeight == 0) {
                 slotHeight = 1;
             }
+            $("#grid .grid-elt").addClass('ui-state-disabled');
             for (var _row = 0; _row < $.owaka.designer.max_row; _row += slotHeight) {
                 for (var _column = 0; _column < $.owaka.designer.max_column; _column += slotWidth) {
                     if ($.owaka.designer.slots.isAvailable(_row, _column, slotWidth, slotHeight)) {
-                        var content = '<div id="placeholder_' + _row + '_' + _column + '" style="display: none" class="grid-elt grid-placeholder" data-grid-width="' + slotWidth + '" data-grid-height="' + slotHeight + '" data-grid-column="' + _column + '" data-grid-row="' + _row + '"></div>';
+                        var content = '<div id="placeholder_' + _row + '_' + _column + '" style="display: none" class="grid-elt grid-placeholder static" data-grid-width="' + slotWidth + '" data-grid-height="' + slotHeight + '" data-grid-column="' + _column + '" data-grid-row="' + _row + '"></div>';
                         $("#grid").append(content);
                         $.owaka.computeElements();
                         $("#grid .grid-placeholder").fadeIn(500);
@@ -24,6 +25,7 @@ $.owaka.designer = {
             $("#grid .grid-placeholder").fadeOut(200, function() {
                 $(this).remove();
             });
+            $("#grid .grid-elt").removeClass('ui-state-disabled');
         },
         take: function(row, column, height, width) {
             $.owaka.designer.slots._change(row, column, height, width, false);
@@ -65,8 +67,27 @@ $.owaka.designer = {
             }
         },
         _available: {
+        },
+        deleteRow: function() {
+            $.owaka.designer.max_row -= 2;
+            $.owaka.designer.slots._resize();
+            $.owaka.designer.widget.prepareToAdd();
+        },
+        addRow: function() {
+            $.owaka.designer.max_row += 2;
+            $.owaka.designer.slots._resize();
+            $.owaka.designer.widget.prepareToAdd();
+        },
+        deleteColumn: function() {
+            $.owaka.designer.max_column -= 2;
+            $.owaka.designer.slots._resize();
+            $.owaka.designer.widget.prepareToAdd();
+        },
+        addColumn: function() {
+            $.owaka.designer.max_column += 2;
+            $.owaka.designer.slots._resize();
+            $.owaka.designer.widget.prepareToAdd();
         }
-        ,
     },
     widget: {
         prepareToAdd: function() {
@@ -95,7 +116,7 @@ $.owaka.designer = {
                         params: $("#widget_drag").data("params")
                     };
                     $.owaka.api('api/dashboard/add/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + $.owaka.designer.data, postData, function(info) {
-                        $.owaka.api('w/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + '/sample/' + info.widget, {}, function(data) {
+                        $.post('w/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + '/sample/' + info.widget, {}, function(data) {
                             var o = $(data);
                             $.owaka.designer.slots.take(row, column, height, width);
                             $('#grid').append(o);
@@ -165,7 +186,7 @@ $.owaka.designer = {
             });
         },
         _generatePlaceholder: function(id, row, column, height, width) {
-            var placeholder = '<div id="placeholder-' + id + '" class="widget-placeholder" data-grid-width=' + width + ' data-grid-height="' + height + '" data-grid-column="' + column + '" data-grid-row="' + row + '">Loading widget...</div>';
+            var placeholder = '<div id="placeholder-' + id + '" class="widget-placeholder static" data-grid-width=' + width + ' data-grid-height="' + height + '" data-grid-column="' + column + '" data-grid-row="' + row + '">Loading widget...</div>';
             $("#grid").append(placeholder);
             $.owaka.computeElement($('#placeholder-' + id));
         },
