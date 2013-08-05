@@ -65,13 +65,10 @@ class Model_Build extends ORM
             ),
             'started'  => array(
                 array('not_empty'),
-                array('date'),
             ),
             'eta'      => array(
-                array('date'),
             ),
             'finished' => array(
-                array('date'),
             ),
         );
         return $rules;
