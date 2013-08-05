@@ -28,7 +28,9 @@ class Controller_Processor_Coverage extends Controller_Processor
 
     /**
      * Processes a coverage XML report
+     * 
      * @param int $buildId Build ID
+     * 
      * @return bool true if report successfully treated; false if no report available or if empty report
      */
     public function process($buildId)

@@ -11,7 +11,10 @@ class Request extends Kohana_Request
 
     /**
      * Short-hand method for loggin in with a certain role.
-     * @param $role string Role
+     * 
+     * @param string $role Role
+     * 
+     * @return self
      */
     public function login($role = Owaka::AUTH_ROLE_LOGIN)
     {
@@ -30,8 +33,9 @@ class Request extends Kohana_Request
 
     /**
      * Sets a parameter of the request
-     * @param $key string Key
-     * @param $value string Value
+     * 
+     * @param string $key   Key
+     * @param string $value Value
      */
     public function setParam($key, $value)
     {

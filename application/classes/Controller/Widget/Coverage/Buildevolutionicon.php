@@ -10,7 +10,9 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
 
     /**
      * Gets the expected parameters
+     * 
      * @param string $dashboard Type of dashboard
+     * 
      * @return array
      */
     static public function getExpectedParameters($dashboard)
@@ -36,6 +38,7 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
 
     /**
      * Gets the widget icon
+     * 
      * @return string
      */
     protected function getWidgetIcon()
@@ -45,6 +48,7 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
 
     /**
      * Gets the widget title
+     * 
      * @return string
      */
     protected function getWidgetTitle()
@@ -75,8 +79,9 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
 
     /**
      * Processes the widget
-     * @param Model_Build $build     Current build to process
-     * @param Model_Build $prevBuild Previous build to process
+     * 
+     * @param Model_Build &$build     Current build to process
+     * @param Model_Build &$prevBuild Previous build to process
      */
     protected function process(Model_Build &$build, Model_Build &$prevBuild)
     {

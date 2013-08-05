@@ -19,6 +19,7 @@ abstract class Controller_Widget_Basesparklines extends Controller_Widget_Basera
 
     /**
      * Gets the preferred size (width, height)
+     * 
      * @return int[]
      */
     static public function getPreferredSize()
@@ -28,6 +29,7 @@ abstract class Controller_Widget_Basesparklines extends Controller_Widget_Basera
 
     /**
      * Gets the expected parameters
+     * 
      * @return int[][]
      */
     static public function getOptimizedSizes()

@@ -28,6 +28,7 @@ class Controller_Widget_Background extends Controller_Widget_Base
 
     /**
      * Gets the preferred size (width, height)
+     * 
      * @return int[]
      */
     static public function getPreferredSize()
@@ -37,6 +38,7 @@ class Controller_Widget_Background extends Controller_Widget_Base
 
     /**
      * Gets the sizes (width, height) which this widget is optimized for
+     * 
      * @return int[][]
      */
     static public function getOptimizedSizes()
@@ -46,7 +48,9 @@ class Controller_Widget_Background extends Controller_Widget_Base
 
     /**
      * Gets the expected parameters
+     * 
      * @param string $dashboard Type of dashboard
+     * 
      * @return array
      */
     static public function getExpectedParameters($dashboard)
@@ -64,6 +68,7 @@ class Controller_Widget_Background extends Controller_Widget_Base
 
     /**
      * Gets the widget icon
+     * 
      * @return string
      */
     protected function getWidgetIcon()
@@ -73,6 +78,7 @@ class Controller_Widget_Background extends Controller_Widget_Base
 
     /**
      * Gets the widget title
+     * 
      * @return string
      */
     protected function getWidgetTitle()
@@ -103,6 +109,7 @@ EOT;
 
     /**
      * Displays for main dashboard.
+     * 
      * Fetches the latest builds of each projects; widget status is the more severe status found.
      */
     public function display_main()
@@ -134,6 +141,7 @@ EOT;
 
     /**
      * Displays for project dashboard.
+     * 
      * Widget status is the status of latest build.
      */
     public function display_project()
@@ -150,6 +158,7 @@ EOT;
 
     /**
      * Displays for project build.
+     * 
      * Widget status is the status of the build.
      */
     public function display_build()

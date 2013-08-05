@@ -2,7 +2,8 @@
 
 /**
  * API entry for managing authentication
- * @package    Api
+ * 
+ * @package Api
  */
 class Controller_Api_Auth extends Controller_Api
 {

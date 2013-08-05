@@ -4,7 +4,7 @@ defined('SYSPATH') OR die('No direct script access.');
 /**
  * Validation rules.
  *
- * @package    Core
+ * @package Core
  */
 class Valid extends Kohana_Valid
 {

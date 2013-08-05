@@ -22,7 +22,9 @@ class Controller_Processor_Phpdoc extends Controller_Processor
 
     /**
      * Processes a PHPDoc report
+     * 
      * @param int $buildId Build ID
+     * 
      * @return bool true if report successfully treated; false if no report available
      */
     public function process($buildId)

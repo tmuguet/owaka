@@ -11,6 +11,7 @@ class Controller_Designer_Details extends Controller
 
     /**
      * Displays details for a main dashboard widget
+     * 
      * @see process()
      */
     public function action_main()
@@ -20,6 +21,7 @@ class Controller_Designer_Details extends Controller
 
     /**
      * Displays details for a project dashboard widget
+     * 
      * @see process()
      */
     public function action_project()
@@ -29,6 +31,7 @@ class Controller_Designer_Details extends Controller
 
     /**
      * Displays details for a build dashboard widget
+     * 
      * @see process()
      */
     public function action_build()

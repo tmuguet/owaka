@@ -11,7 +11,9 @@ class Date extends Kohana_Date
 
     /**
      * Formats a date to MySQL format
+     * 
      * @param DateTime|int $date Date to format
+     * 
      * @return int
      */
     public static function toMySql($date)
@@ -33,9 +35,10 @@ class Date extends Kohana_Date
      * however this parameter shouldn't be needed in normal usage and is only
      * included for unit tests
      *
-     * @param   integer $timestamp          "remote" timestamp
-     * @param   integer $local_timestamp    "local" timestamp, defaults to time()
-     * @return  string
+     * @param integer $timestamp       "remote" timestamp
+     * @param integer $local_timestamp "local" timestamp, defaults to time()
+     * 
+     * @return string
      */
     public static function loose_span($timestamp, $local_timestamp = NULL)
     {

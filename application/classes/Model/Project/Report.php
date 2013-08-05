@@ -42,8 +42,9 @@ class Model_Project_Report extends ORM
     /**
      * Searches for a report.
      * 
-     * @param int $projectId Project ID
-     * @param string $type Type of report
+     * @param int    $projectId Project ID
+     * @param string $type      Type of report
+     * 
      * @return string|null Value or NULL if not found
      */
     public function search($projectId, $type)

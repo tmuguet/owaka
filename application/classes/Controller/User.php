@@ -10,6 +10,7 @@ class Controller_User extends Controller
 
     /**
      * Displays the add user form
+     * 
      * @url http://example.com/user/add
      */
     public function action_add()
@@ -20,6 +21,7 @@ class Controller_User extends Controller
 
     /**
      * Displays the edit user form
+     * 
      * @url http://example.com/user/edit/&lt;user_id&gt;
      */
     public function action_edit()

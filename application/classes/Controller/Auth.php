@@ -12,6 +12,7 @@ class Controller_Auth extends Controller
 
     /**
      * Displays the login form
+     * 
      * @url http://example.com/login
      */
     public function action_login()
@@ -29,6 +30,7 @@ class Controller_Auth extends Controller
 
     /**
      * Logs out and redirects the user to the login page
+     * 
      * @url http://example.com/logout
      */
     public function action_logout()

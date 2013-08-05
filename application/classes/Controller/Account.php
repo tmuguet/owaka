@@ -10,6 +10,7 @@ class Controller_Account extends Controller
 
     /**
      * Displays the password edit form
+     * 
      * @url http://example.com/account/edit
      */
     public function action_edit()
@@ -20,6 +21,7 @@ class Controller_Account extends Controller
 
     /**
      * Displays the delete account form
+     * 
      * @url http://example.com/account/delete
      */
     public function action_delete()

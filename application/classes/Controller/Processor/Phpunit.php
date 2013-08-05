@@ -28,7 +28,9 @@ class Controller_Processor_Phpunit extends Controller_Processor
 
     /**
      * Processes a PHPUnit XML report
+     * 
      * @param int $buildId Build ID
+     * 
      * @return bool true if report successfully treated; false if no report available
      */
     public function process($buildId)

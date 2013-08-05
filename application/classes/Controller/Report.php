@@ -11,6 +11,7 @@ class Controller_Report extends Controller
 
     /**
      * Accessor to reports
+     * 
      * @url http://example.com/reports/&lt;build&gt;/&lt;type&gt;/&lt;page&gt;
      * @throws HTTP_Exception_404 Report not found or out of reports' path
      */

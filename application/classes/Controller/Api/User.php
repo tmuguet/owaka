@@ -3,7 +3,8 @@ defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
  * API entry for managing users
- * @package    Api
+ * 
+ * @package Api
  */
 class Controller_Api_User extends Controller_Api
 {

@@ -48,6 +48,7 @@ abstract class Controller_Widget_Baseicon extends Controller_Widget_Base
 
     /**
      * Gets the preferred size (width, height)
+     * 
      * @return int[]
      */
     static public function getPreferredSize()
@@ -57,6 +58,7 @@ abstract class Controller_Widget_Baseicon extends Controller_Widget_Base
 
     /**
      * Gets the sizes (width, height) which this widget is optimized for
+     * 
      * @return int[][]
      */
     static public function getOptimizedSizes()

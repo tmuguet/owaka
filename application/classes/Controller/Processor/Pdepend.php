@@ -46,7 +46,9 @@ class Controller_Processor_Pdepend extends Controller_Processor
 
     /**
      * Processes a PHPdepend XML report
+     * 
      * @param int $buildId Build ID
+     * 
      * @return bool true if report successfully treated; false if no report available
      */
     public function process($buildId)

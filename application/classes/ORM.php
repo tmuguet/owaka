@@ -14,7 +14,8 @@ abstract class ORM extends Kohana_ORM
      * 
      * Returns TRUE iff the object with the specified ID exists
      * 
-     * @param int $id Id of the object to test
+     * @param int    $id    Id of the object to test
+     * @param string $model Model to use. Tries to determine it automatically if NULL.
      * 
      * @return boolean
      */

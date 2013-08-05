@@ -10,6 +10,7 @@ class Controller_Manager extends Controller
 
     /**
      * Displays form for adding a new project
+     * 
      * @url http://example.com/manager/add
      */
     public function action_add()
@@ -29,6 +30,7 @@ class Controller_Manager extends Controller
     
     /**
      * Displays form for editing an existing project
+     * 
      * @url http://example.com/manager/edit/&lt;project_id&gt;
      */
     public function action_edit()

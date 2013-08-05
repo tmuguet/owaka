@@ -13,7 +13,7 @@ abstract class Controller_Widget_Base extends Controller
      * @var string
      */
     protected $widgetStatus = NULL;
-    
+
     /**
      * Determines whether the widgets extends on hover
      * @var bool
@@ -76,6 +76,7 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Gets the ORM model of the widget, based on the context
+     * 
      * @return Model_Widget|Model_Project_Widget|Model_Build_Widget
      */
     /* protected */ final function getModelWidget()
@@ -106,6 +107,7 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Gets the current project, based on the context (or NULL if no project associated)
+     * 
      * @return Model_Project|null
      * @throws Exception Unexpected type of widget (should NEVER happen)
      */
@@ -138,6 +140,7 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Gets the current build, based on the context (or NULL if no build associated)
+     * 
      * @return Model_Build|null
      * @throws Exception Unexpected type of widget (should NEVER happen)
      */
@@ -167,6 +170,7 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Gets all the widget parameter values.
+     * 
      * @return array
      */
     /* protected */ final function getParameters()
@@ -180,7 +184,9 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Gets a widget parameter value by its name, or its default value if not set in the parameters, or NULL if not found.
-     * @param string $name
+     * 
+     * @param string $name Name of the parameter
+     * 
      * @return string
      */
     /* protected */ final function getParameter($name)
@@ -207,12 +213,14 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Gets the widget title
+     * 
      * @return string
      */
     abstract protected function getWidgetTitle();
 
     /**
      * Gets the widget icon
+     * 
      * @return string
      */
     abstract protected function getWidgetIcon();
@@ -223,8 +231,10 @@ abstract class Controller_Widget_Base extends Controller
     /* protected */ final function initViews()
     {
         View::set_global('from', $this->request->param('dashboard'));
-        View::set_global('widgetType',
-                         str_replace("_", "/", str_replace("Controller_Widget_", "", $this->getModelWidget()->type)));
+        View::set_global(
+                'widgetType',
+                str_replace("_", "/", str_replace("Controller_Widget_", "", $this->getModelWidget()->type))
+        );
         View::set_global('id', $this->getModelWidget()->id);
         View::set_global('width', $this->getModelWidget()->width);
         View::set_global('height', $this->getModelWidget()->height);
@@ -241,6 +251,7 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Displays a widget
+     * 
      * @url http://example.com/w/&lt;dashboard&gt;/&lt;widget&gt;/display
      * @throws HTTP_Exception_500 Type of dashboard not supported for the widget
      */
@@ -256,18 +267,14 @@ abstract class Controller_Widget_Base extends Controller
         }
 
         if ($this->getProject() !== NULL) {
-            array_unshift($this->widgetLinks,
-                          array(
-                "type" => 'project',
-                "id"   => $this->getProject()->id
-            ));
+            array_unshift(
+                    $this->widgetLinks, array("type" => 'project', "id"   => $this->getProject()->id)
+            );
         }
         if ($this->getBuild() !== NULL) {
-            array_unshift($this->widgetLinks,
-                          array(
-                "type" => 'build',
-                "id"   => $this->getBuild()->id
-            ));
+            array_unshift(
+                    $this->widgetLinks, array("type" => 'build', "id"   => $this->getBuild()->id)
+            );
         }
 
         $this->render();
@@ -275,6 +282,7 @@ abstract class Controller_Widget_Base extends Controller
 
     /**
      * Displays a sample widget
+     * 
      * @url http://example.com/w/&lt;dashboard&gt;/&lt;widget&gt;/sample
      * @throws HTTP_Exception_500 Type of dashboard not supported for the widget
      */

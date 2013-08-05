@@ -11,6 +11,7 @@ class Controller_Designer extends Controller
 
     /**
      * Designer for main dashboard
+     * 
      * @url http://example.com/designer/main
      */
     public function action_main()
@@ -22,6 +23,7 @@ class Controller_Designer extends Controller
 
     /**
      * Designer for project dashboard
+     * 
      * @url http://example.com/designer/project/&lt;project_id&gt;
      */
     public function action_project()
@@ -33,6 +35,7 @@ class Controller_Designer extends Controller
 
     /**
      * Designer for build dashboard
+     * 
      * @url http://example.com/designer/build/&lt;project_id&gt;
      */
     public function action_build()
@@ -44,6 +47,7 @@ class Controller_Designer extends Controller
 
     /**
      * Renders designer
+     * 
      * @param (Model_Widget|Model_Project_Widget|Model_Build_Widget)[] $widgets   List of registered widgets
      * @param int|null                                                 $projectId Project ID
      */

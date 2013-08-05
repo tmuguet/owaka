@@ -12,6 +12,7 @@ abstract class Controller_Processor extends Controller
 
     /**
      * Gets the input reports
+     * 
      * @throws Exception
      * @todo Document this
      */
@@ -22,7 +23,9 @@ abstract class Controller_Processor extends Controller
 
     /**
      * Processes a report
+     * 
      * @param int $buildId Build ID
+     * 
      * @return bool true if report successfully treated; false if no report available
      * @throws Exception Broken report (unexpected format)
      */
@@ -66,6 +69,7 @@ abstract class Controller_Processor extends Controller
 
     /**
      * Gets the name of the processor being called
+     * 
      * @return string
      */
     /* private */ final function _getName()
@@ -75,7 +79,9 @@ abstract class Controller_Processor extends Controller
 
     /**
      * Gets the canonical report name for a report-type, as stored in the DB
+     * 
      * @param string $type Type of report to get
+     * 
      * @return string
      * @see getInputReports() for report types
      */
@@ -86,8 +92,10 @@ abstract class Controller_Processor extends Controller
 
     /**
      * Gets the path of an input report, or NULL if no report available
-     * @param int $buildId Build ID
-     * @param string $type Type of report to get
+     * 
+     * @param int    $buildId Build ID
+     * @param string $type    Type of report to get
+     * 
      * @return string|null
      * @see getInputReports() for report types
      */
@@ -115,8 +123,10 @@ abstract class Controller_Processor extends Controller
 
     /**
      * Gets the path of a report in owaka's data directory, or NULL if not available
-     * @param int $buildId Build ID
-     * @param string $type Type of report to get
+     * 
+     * @param int    $buildId Build ID
+     * @param string $type    Type of report to get
+     * 
      * @return string|null
      * @see getInputReports() for report types
      */
@@ -138,6 +148,7 @@ abstract class Controller_Processor extends Controller
 
     /**
      * Processes the reports
+     * 
      * @url http://example.com/processor_&lt;processor&gt;/process/&lt;build_id&gt;
      */
     public final function action_process()
@@ -154,6 +165,7 @@ abstract class Controller_Processor extends Controller
 
     /**
      * Analyzes the reports to determine the build status
+     * 
      * @url http://example.com/processor_&lt;processor&gt;/analyze/&lt;build_id&gt;
      */
     public final function action_analyze()

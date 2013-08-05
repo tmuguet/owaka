@@ -3,7 +3,7 @@
 /**
  * Response wrapper.
  *
- * @package    Core
+ * @package Core
  */
 class Response extends Kohana_Response
 {

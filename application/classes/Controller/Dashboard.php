@@ -11,6 +11,7 @@ class Controller_Dashboard extends Controller
 
     /**
      * Displays main dashboard
+     * 
      * @url http://example.com/dashboard/main
      */
     public function action_main()
@@ -31,6 +32,7 @@ class Controller_Dashboard extends Controller
 
     /**
      * Displays project dashboard
+     * 
      * @url http://example.com/dashboard/project/&lt;project_id&gt;
      */
     public function action_project()
@@ -55,6 +57,7 @@ class Controller_Dashboard extends Controller
 
     /**
      * Displays build dashboard
+     * 
      * @url http://example.com/dashboard/build/&lt;build_id&gt;
      */
     public function action_build()

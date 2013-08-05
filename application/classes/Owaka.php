@@ -39,9 +39,11 @@ class Owaka
 
     /**
      * Gets the URI to a report
-     * @param int $buildId Build ID
-     * @param string $processor Processor which generated the report
-     * @param string|null $type Type of report to find. If null, returns the first existing report.
+     * 
+     * @param int         $buildId   Build ID
+     * @param string      $processor Processor which generated the report
+     * @param string|null $type      Type of report to find. If null, returns the first existing report.
+     * 
      * @return string|null URI to report, or null if not found
      * @see Controller_Processor::getInputReports()
      */
@@ -77,9 +79,11 @@ class Owaka
 
     /**
      * Processes and formats a link
-     * @param string $from Source dashboard (main, project or build)
-     * @param array $link Link information
+     * 
+     * @param string $from     Source dashboard (main, project or build)
+     * @param array  $link     Link information
      * @param string $outputAs Output format (html or js)
+     * 
      * @return string Formatted link
      */
     static public function processLink($from, $link, $outputAs = 'html')

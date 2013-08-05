@@ -10,7 +10,9 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Baset
 
     /**
      * Gets the expected parameters
+     * 
      * @param string $dashboard Type of dashboard
+     * 
      * @return array
      */
     static public function getExpectedParameters($dashboard)
@@ -20,6 +22,7 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Baset
 
     /**
      * Gets the widget icon
+     * 
      * @return string
      */
     protected function getWidgetIcon()
@@ -29,6 +32,7 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Baset
 
     /**
      * Gets the widget title
+     * 
      * @return string
      */
     protected function getWidgetTitle()
@@ -55,7 +59,8 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Baset
 
     /**
      * Processes the widget
-     * @param Model_Build[] $builds    Builds to process, from latest to oldest
+     * 
+     * @param Model_Build[] $builds Builds to process, from latest to oldest
      */
     protected function process($builds)
     {

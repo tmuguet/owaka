@@ -22,7 +22,9 @@ class Controller_Processor_Phpmd extends Controller_Processor
 
     /**
      * Processes a PHPMD HTML report
+     * 
      * @param int $buildId Build ID
+     * 
      * @return bool true if report successfully treated; false if no report available
      */
     public function process($buildId)

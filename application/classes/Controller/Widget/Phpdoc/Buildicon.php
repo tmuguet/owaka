@@ -10,7 +10,9 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Baseicon
 
     /**
      * Gets the expected parameters
+     * 
      * @param string $dashboard Type of dashboard
+     * 
      * @return array
      */
     static public function getExpectedParameters($dashboard)
@@ -29,6 +31,7 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Baseicon
 
     /**
      * Gets the widget icon
+     * 
      * @return string
      */
     protected function getWidgetIcon()
@@ -38,6 +41,7 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Baseicon
 
     /**
      * Gets the widget title
+     * 
      * @return string
      */
     protected function getWidgetTitle()
@@ -62,7 +66,8 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Baseicon
 
     /**
      * Processes the widget
-     * @param Model_Build $build     Current build to process
+     * 
+     * @param Model_Build &$build Current build to process
      */
     protected function process(Model_Build &$build)
     {

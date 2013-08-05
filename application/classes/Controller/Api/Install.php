@@ -2,7 +2,8 @@
 
 /**
  * API entry for managing installs and updates
- * @package    Api
+ * 
+ * @package Api
  */
 class Controller_Api_Install extends Controller_Api
 {

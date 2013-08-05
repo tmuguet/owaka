@@ -3,7 +3,7 @@
 /**
  * Abstract controller class.
  *
- * @package    Core
+ * @package Core
  */
 abstract class Controller extends Kohana_Controller
 {
@@ -15,6 +15,9 @@ abstract class Controller extends Kohana_Controller
      * Constructor for tests.
      * 
      * Initialises Request and Response if not provided
+     * 
+     * @param Request  $request  Request
+     * @param Response $response Response
      */
     public function __construct(Request $request = NULL, Response $response = NULL)
     {

@@ -22,7 +22,9 @@ class Controller_Processor_Codesniffer extends Controller_Processor
 
     /**
      * Processes a Codesniffer XML report
+     * 
      * @param int $buildId Build ID
+     * 
      * @return bool true if report successfully treated; false if no report available
      */
     public function process($buildId)

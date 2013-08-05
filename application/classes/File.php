@@ -9,6 +9,11 @@ defined('SYSPATH') or die('No direct script access.');
 class File extends Kohana_File
 {
 
+    /**
+     * Recursively delete a directory
+     * 
+     * @param string $path Path to delete
+     */
     public static function rrmdir($path)
     {
         // @codeCoverageIgnoreStart
@@ -28,6 +33,14 @@ class File extends Kohana_File
         rmdir($path);
     }
 
+    /**
+     * Recursively copy a file/directory
+     * 
+     * @param string $source Source
+     * @param string $dest   Destination
+     * 
+     * @return boolean True if copy succeeds
+     */
     public static function rcopy($source, $dest)
     {
         if (is_dir($source)) {
@@ -57,7 +70,9 @@ class File extends Kohana_File
 
     /**
      * Finds all files in a path
+     * 
      * @param string $path Absolute path where to search for files
+     * 
      * @return string[] List of absolute paths to PHP files, unfiltered
      */
     public static function getFiles($path)
@@ -76,7 +91,9 @@ class File extends Kohana_File
 
     /**
      * Finds all files
+     * 
      * @param string $path Path to search
+     * 
      * @return string[] Classes found
      */
     public static function findClasses($path)
@@ -112,7 +129,9 @@ class File extends Kohana_File
 
     /**
      * Finds all widgets
+     * 
      * @param string $dashboard Type of dashboard
+     * 
      * @return string[] Name of widgets
      */
     public static function findWidgets($dashboard)
@@ -130,6 +149,7 @@ class File extends Kohana_File
 
     /**
      * Finds all processors
+     * 
      * @return string[] Name of processors
      */
     public static function findProcessors()
@@ -139,6 +159,7 @@ class File extends Kohana_File
 
     /**
      * Finds all processors
+     * 
      * @return string[] Name of processors
      */
     public static function findAnalyzers()

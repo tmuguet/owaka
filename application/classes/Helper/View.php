@@ -8,7 +8,14 @@
 class Helper_View
 {
 
-    static public function treatMenu(array $menu)
+    /**
+     * Processes menu
+     * 
+     * @param array $menu Menu
+     * 
+     * @return string HTML
+     */
+    static public function processMenu(array $menu)
     {
         $res = '<ul>';
         foreach ($menu as $_entry) {
@@ -42,7 +49,7 @@ class Helper_View
             }
 
             if (isset($_entry['submenu'])) {
-                $res .= self::treatMenu($_entry['submenu']);
+                $res .= self::processMenu($_entry['submenu']);
             }
             $res .= '</li>';
         }

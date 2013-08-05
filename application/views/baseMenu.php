@@ -44,13 +44,13 @@ if (Auth::instance()->logged_in()) {
 <div id="left-panel">
     <div id="owaka"><h1>owaka</h1></div>
     <div id="menu">
-        <?php echo Helper_View::treatMenu($menu) ?>
+        <?php echo Helper_View::processMenu($menu) ?>
     </div>
     <div id="menu-bottom">
-        <?php echo Helper_View::treatMenu($menu_bottom) ?>
+        <?php echo Helper_View::processMenu($menu_bottom) ?>
         <a href="javascript:void(0)" onclick="$('#menu-bottom-advanced').slideToggle();">more...</a>
         <div id="menu-bottom-advanced">
-            <?php echo Helper_View::treatMenu($menu_bottom_advanced) ?>
+            <?php echo Helper_View::processMenu($menu_bottom_advanced) ?>
         </div>
     </div>
 </div>

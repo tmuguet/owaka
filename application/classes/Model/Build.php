@@ -129,6 +129,7 @@ class Model_Build extends ORM
 
     /**
      * Gets the formatted revision
+     * 
      * @return string
      */
     public function getRevision()
@@ -140,6 +141,11 @@ class Model_Build extends ORM
         }
     }
 
+    /**
+     * Gets the icon corresponding to the build status
+     * 
+     * @return string
+     */
     public function getIcon()
     {
         switch ($this->status) {
