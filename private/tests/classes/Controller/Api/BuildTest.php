@@ -20,7 +20,7 @@ class Controller_Api_BuildTest extends TestCase
         );
         
         $response = Request::factory('api/build/list/' . $this->genNumbers['ProjectFoo'])->login()->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
         
         $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual, "Incorrect API result");
@@ -34,7 +34,7 @@ class Controller_Api_BuildTest extends TestCase
         $expected = array();
         
         $response = Request::factory('api/build/list/' . $this->genNumbers['ProjectBar'])->login()->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
         
         $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual, "Incorrect API result");
@@ -50,7 +50,7 @@ class Controller_Api_BuildTest extends TestCase
         );
         
         $response = Request::factory('api/build/list/' . $this->genNumbers['ProjectBat'])->login()->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
         
         $actual   = json_decode($response->body(), TRUE);
         $this->assertEquals($expected, $actual, "Incorrect API result");

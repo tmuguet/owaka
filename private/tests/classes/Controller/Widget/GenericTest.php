@@ -16,19 +16,22 @@ class Controller_Widget_GenericTest extends TestCase
             $nameClass::getExpectedParameters('main');
 
             $response = Request::factory('w/main/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->login()->execute();
-            $this->assertEquals(200, $response->status(), "Request failed for $nameClass : 'w/main/$nameClass2/display/" . $this->genNumbers['widget3']."': " . var_export($response->body(), true));
+            $this->assertResponseOK($response,
+                                    "Request failed for $nameClass : 'w/main/$nameClass2/display/" . $this->genNumbers['widget3'] . "'");
         }
         if ($reflectionClass->hasMethod('display_project') || $reflectionClass->hasMethod('display_all')) {
             $nameClass::getExpectedParameters('project');
 
             $response = Request::factory('w/project/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->login()->execute();
-            $this->assertEquals(200, $response->status(), "Request failed for $nameClass : 'w/project/$nameClass2/display/" . $this->genNumbers['widget3']."': " . var_export($response->body(), true));
+            $this->assertResponseOK($response,
+                                    "Request failed for $nameClass : 'w/project/$nameClass2/display/" . $this->genNumbers['widget3'] . "'");
         }
         if ($reflectionClass->hasMethod('display_build') || $reflectionClass->hasMethod('display_all')) {
             $nameClass::getExpectedParameters('build');
 
             $response = Request::factory('w/build/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->login()->execute();
-            $this->assertEquals(200, $response->status(), "Request failed for $nameClass : 'w/build/$nameClass2/display/" . $this->genNumbers['widget3']."': " . var_export($response->body(), true));
+            $this->assertResponseOK($response,
+                                    "Request failed for $nameClass : 'w/build/$nameClass2/display/" . $this->genNumbers['widget3'] . "'");
         }
     }
 

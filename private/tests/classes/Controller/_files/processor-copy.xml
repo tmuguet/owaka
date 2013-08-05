@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<dataset>
+    <projects id="##ID_ProjectFoo##" name="active-hg" is_active="1" scm="mercurial" path="/tmp" phing_path="/tmp" phing_target_validate="validate" phing_target_nightly="nightly" reports_path="##PATH_PathFoo##" lastrevision="42"/>
+    <projects id="##ID_ProjectBar##" name="active-git" is_active="1" scm="git" path="/tmp" phing_path="/tmp" phing_target_validate="validate" phing_target_nightly="nightly" reports_path="##PATH_PathBar##" lastrevision="##NULL##"/>
+    <projects id="##ID_ProjectBaz##" name="inactive-hg" is_active="O" scm="mercurial" path="/tmp" phing_path="/tmp" phing_target_validate="validate" phing_target_nightly="nightly" reports_path="##PATH_PathBaz##" lastrevision="##NULL##"/>
+    <projects id="##ID_ProjectBat##" name="inactive-git" is_active="O" scm="git" path="/tmp" phing_path="/tmp" phing_target_validate="validate" phing_target_nightly="nightly" reports_path="##PATH_PathBat##" lastrevision="abcdefghijklmnopqrstuvwxyz"/>
+    
+    <builds id="##ID_build1##" project_id="##ID_ProjectFoo##" revision="40" message="My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You listen: we go in there, and that nigga Winston or anybody else is in there, you the first motherfucker to get shot. You understand?" status="ok" started="2010-10-05 17:15:23" eta="2010-10-05 17:16:30" finished="2010-10-05 17:16:23"/>
+    
+    <project_reports id="##ID_Report1##" project_id="##ID_ProjectFoo##" type="processorstub_file" value="bar"/>
+    <project_reports id="##ID_Report2##" project_id="##ID_ProjectFoo##" type="processorstub_dir" value="baz"/>
+    <project_reports id="##ID_Report3##" project_id="##ID_ProjectFoo##" type="processorstub_file2" value="none"/>
+    <project_reports id="##ID_Report4##" project_id="##ID_ProjectFoo##" type="processorstub_dir2" value="baz"/>
+    
+    <builds id="##ID_build2##" project_id="##ID_ProjectBar##" revision="abcdefg" message="Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass." status="ok" started="2010-10-05 17:15:23" eta="2010-10-05 17:16:30" finished="2010-10-05 17:16:23"/>
+    
+    <project_reports id="##ID_Report5##" project_id="##ID_ProjectBar##" type="processorstub_file" value="dir"/>
+    <project_reports id="##ID_Report6##" project_id="##ID_ProjectBar##" type="processorstub_dir" value="file"/>
+</dataset>

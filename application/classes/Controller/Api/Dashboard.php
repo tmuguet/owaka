@@ -5,7 +5,7 @@ defined('SYSPATH') OR die('No direct access allowed.');
  * API entry for managing dashboards
  * @package    Api
  */
-class Controller_Api_Dashboard extends Controller
+class Controller_Api_Dashboard extends Controller_Api
 {
 
     /**
@@ -32,8 +32,13 @@ class Controller_Api_Dashboard extends Controller
             default: throw new Exception("Unsupported dashboard type");
             // @codeCoverageIgnoreEnd
         }
+        if (!$widget->loaded()) {
+            throw new HTTP_Exception_404();
+        }
+
+        $id = $widget->id;
         $widget->delete();
-        $this->response->body(json_encode(array("res" => "ok")));
+        $this->respondOk(array('widget' => $id));
     }
 
     /**
@@ -54,46 +59,50 @@ class Controller_Api_Dashboard extends Controller
      */
     public function action_add()
     {
-        $params = $this->request->post('params');
-        if (!is_array($params)) {
-            $params = array();
-        }
-
-        switch ($this->request->param('dashboard')) {
-            case "main":
-                $widget             = ORM::factory('Widget');
-                break;
-            case "project":
-                $widget             = ORM::factory('Project_Widget');
-                $widget->project_id = $this->request->param('data');
-                if (isset($params['project']) && $widget->project_id == $params['project']) {
-                    unset($params['project']);
-                }
-                break;
-            case "build":
-                $widget             = ORM::factory('Build_Widget');
-                $widget->project_id = $this->request->param('data');
-                if (isset($params['project']) && $widget->project_id == $params['project']) {
-                    unset($params['project']);
-                }
-                break;
-            // @codeCoverageIgnoreStart
-            default: throw new Exception("Unsupported dashboard type");
-            // @codeCoverageIgnoreEnd
-        }
-        foreach ($params as $key => $value) {
-            if (empty($value)) {
-                unset($params[$key]);
+        try {
+            $params = $this->request->post('params');
+            if (!is_array($params)) {
+                $params = array();
             }
+
+            switch ($this->request->param('dashboard')) {
+                case "main":
+                    $widget             = ORM::factory('Widget');
+                    break;
+                case "project":
+                    $widget             = ORM::factory('Project_Widget');
+                    $widget->project_id = $this->request->param('data');
+                    if (isset($params['project']) && $widget->project_id == $params['project']) {
+                        unset($params['project']);
+                    }
+                    break;
+                case "build":
+                    $widget             = ORM::factory('Build_Widget');
+                    $widget->project_id = $this->request->param('data');
+                    if (isset($params['project']) && $widget->project_id == $params['project']) {
+                        unset($params['project']);
+                    }
+                    break;
+                // @codeCoverageIgnoreStart
+                default: throw new Exception("Unsupported dashboard type");
+                // @codeCoverageIgnoreEnd
+            }
+            foreach ($params as $key => $value) {
+                if (empty($value)) {
+                    unset($params[$key]);
+                }
+            }
+            $widget->type   = $this->request->param('id');
+            $widget->params = json_encode($params);
+            $widget->width  = $this->request->post('width');
+            $widget->height = $this->request->post('height');
+            $widget->column = $this->request->post('column');
+            $widget->row    = $this->request->post('row');
+            $widget->create();
+            $this->respondOk(array('widget' => $widget->id));
+        } catch (ORM_Validation_Exception $e) {
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors()));
         }
-        $widget->type   = $this->request->param('id');
-        $widget->params = json_encode($params);
-        $widget->width  = $this->request->post('width');
-        $widget->height = $this->request->post('height');
-        $widget->column = $this->request->post('column');
-        $widget->row    = $this->request->post('row');
-        $widget->create();
-        $this->response->body(json_encode(array("res" => "ok", "id"  => $widget->id)));
     }
 
     /**
@@ -108,26 +117,33 @@ class Controller_Api_Dashboard extends Controller
      */
     public function action_move()
     {
-        $widgetId = $this->request->param('id');
+        try {
+            $widgetId = $this->request->param('id');
 
-        switch ($this->request->param('dashboard')) {
-            case "main":
-                $widget = ORM::factory('Widget', $widgetId);
-                break;
-            case "project":
-                $widget = ORM::factory('Project_Widget', $widgetId);
-                break;
-            case "build":
-                $widget = ORM::factory('Build_Widget', $widgetId);
-                break;
-            // @codeCoverageIgnoreStart
-            default: throw new Exception("Unsupported dashboard type");
-            // @codeCoverageIgnoreEnd
+            switch ($this->request->param('dashboard')) {
+                case "main":
+                    $widget = ORM::factory('Widget', $widgetId);
+                    break;
+                case "project":
+                    $widget = ORM::factory('Project_Widget', $widgetId);
+                    break;
+                case "build":
+                    $widget = ORM::factory('Build_Widget', $widgetId);
+                    break;
+                // @codeCoverageIgnoreStart
+                default: throw new Exception("Unsupported dashboard type");
+                // @codeCoverageIgnoreEnd
+            }
+            if (!$widget->loaded()) {
+                throw new HTTP_Exception_404();
+            }
+
+            $widget->column = $this->request->post('column');
+            $widget->row    = $this->request->post('row');
+            $widget->update();
+            $this->respondOk(array('widget' => $widget->id));
+        } catch (ORM_Validation_Exception $e) {
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors()));
         }
-
-        $widget->column = $this->request->post('column');
-        $widget->row    = $this->request->post('row');
-        $widget->update();
-        $this->response->body(json_encode(array("res" => "ok", "id"  => $widget->id)));
     }
 }

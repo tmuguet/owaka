@@ -9,10 +9,11 @@ $.owaka.designer = {
             if (slotHeight == 0) {
                 slotHeight = 1;
             }
+            $("#grid .grid-elt").addClass('ui-state-disabled');
             for (var _row = 0; _row < $.owaka.designer.max_row; _row += slotHeight) {
                 for (var _column = 0; _column < $.owaka.designer.max_column; _column += slotWidth) {
                     if ($.owaka.designer.slots.isAvailable(_row, _column, slotWidth, slotHeight)) {
-                        var content = '<div id="placeholder_' + _row + '_' + _column + '" style="display: none" class="grid-elt grid-placeholder" data-grid-width="' + slotWidth + '" data-grid-height="' + slotHeight + '" data-grid-column="' + _column + '" data-grid-row="' + _row + '"></div>';
+                        var content = '<div id="placeholder_' + _row + '_' + _column + '" style="display: none" class="grid-elt grid-placeholder static" data-grid-width="' + slotWidth + '" data-grid-height="' + slotHeight + '" data-grid-column="' + _column + '" data-grid-row="' + _row + '"></div>';
                         $("#grid").append(content);
                         $.owaka.computeElements();
                         $("#grid .grid-placeholder").fadeIn(500);
@@ -24,6 +25,7 @@ $.owaka.designer = {
             $("#grid .grid-placeholder").fadeOut(200, function() {
                 $(this).remove();
             });
+            $("#grid .grid-elt").removeClass('ui-state-disabled');
         },
         take: function(row, column, height, width) {
             $.owaka.designer.slots._change(row, column, height, width, false);
@@ -65,8 +67,27 @@ $.owaka.designer = {
             }
         },
         _available: {
+        },
+        deleteRow: function() {
+            $.owaka.designer.max_row -= 2;
+            $.owaka.designer.slots._resize();
+            $.owaka.designer.widget.prepareToAdd();
+        },
+        addRow: function() {
+            $.owaka.designer.max_row += 2;
+            $.owaka.designer.slots._resize();
+            $.owaka.designer.widget.prepareToAdd();
+        },
+        deleteColumn: function() {
+            $.owaka.designer.max_column -= 2;
+            $.owaka.designer.slots._resize();
+            $.owaka.designer.widget.prepareToAdd();
+        },
+        addColumn: function() {
+            $.owaka.designer.max_column += 2;
+            $.owaka.designer.slots._resize();
+            $.owaka.designer.widget.prepareToAdd();
         }
-        ,
     },
     widget: {
         prepareToAdd: function() {
@@ -94,15 +115,16 @@ $.owaka.designer = {
                         height: height,
                         params: $("#widget_drag").data("params")
                     };
-                    $.post('api/dashboard/add/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + $.owaka.designer.data, postData, function(info) {
-                        $.post('w/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + '/sample/' + info.id, {}, function(data) {
+                    $.owaka.api('api/dashboard/add/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + $.owaka.designer.data, postData, function(info) {
+                        $.post('w/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + '/sample/' + info.widget, {}, function(data) {
                             var o = $(data);
                             $.owaka.designer.slots.take(row, column, height, width);
                             $('#grid').append(o);
                             $.owaka.computeElements();
                             $("#placeholder-adding").remove();
+                            $.owaka.designer.widget._draggable(o.find(".widget-move"));
                         });
-                    }, "json");
+                    });
                 }
             });
         },
@@ -136,14 +158,14 @@ $.owaka.designer = {
                         row: row,
                         column: column
                     };
-                    $.post('api/dashboard/move/' + $.owaka.designer.from + '/' + o.attr("data-widget-id"), postData, function(info) {
+                    $.owaka.api('api/dashboard/move/' + $.owaka.designer.from + '/' + o.attr("data-widget-id"), postData, function(info) {
                         $.owaka.designer.slots.free(oldRow, oldColumn, height, width);
                         $.owaka.designer.slots.take(row, column, height, width);
                         o.attr("data-grid-row", row);
                         o.attr("data-grid-column", column);
                         $("#placeholder-moving").remove();
                         $.owaka.computeElement(o);
-                    }, "json");
+                    });
                 }
             });
         },
@@ -158,13 +180,13 @@ $.owaka.designer = {
             $.owaka.designer.widget._generatePlaceholder('deleting', row, column, height, width);
             $.owaka.designer.slots.free(row, column, height, width);
 
-            $.post('api/dashboard/delete/' + $.owaka.designer.from + '/' + widget.attr("data-widget-id"), function() {
+            $.owaka.api('api/dashboard/delete/' + $.owaka.designer.from + '/' + widget.attr("data-widget-id"), function() {
                 widget.remove();
                 $("#placeholder-deleting").remove();
             });
         },
         _generatePlaceholder: function(id, row, column, height, width) {
-            var placeholder = '<div id="placeholder-' + id + '" class="widget-placeholder" data-grid-width=' + width + ' data-grid-height="' + height + '" data-grid-column="' + column + '" data-grid-row="' + row + '">Loading widget...</div>';
+            var placeholder = '<div id="placeholder-' + id + '" class="widget-placeholder static" data-grid-width=' + width + ' data-grid-height="' + height + '" data-grid-column="' + column + '" data-grid-row="' + row + '">Loading widget...</div>';
             $("#grid").append(placeholder);
             $.owaka.computeElement($('#placeholder-' + id));
         },
@@ -173,7 +195,19 @@ $.owaka.designer = {
                 $("#list_widgets").show('slide', {direction: 'left'}, 500);
                 $("#widget_details").fadeOut(500);
             }
-        }
+        },
+        _draggable: function(o) {
+            o.draggable({
+                appendTo: "body",
+                helper: "clone",
+                start: function(event, ui) {
+                    $.owaka.designer.widget.prepareToMove($(this).closest('.grid-elt'));
+                },
+                stop: function(event, ui) {
+                    $.owaka.designer.slots.hide();
+                }
+            });
+        },
     },
     max_row: 8,
     max_column: 16,
@@ -181,3 +215,7 @@ $.owaka.designer = {
     data: '',
 };
 
+
+$(document).ready(function() {
+    $.owaka.designer.widget._draggable($(".widget-move"));
+});

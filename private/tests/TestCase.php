@@ -227,9 +227,9 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         );
     }
 
-    public function assertResponseOK(Kohana_Response &$response)
+    public function assertResponseOK(Kohana_Response &$response, $message = "Request failed")
     {
-        $this->assertResponseStatusEquals(200, $response);
+        $this->assertResponseStatusEquals(200, $response, $message);
     }
 
     public function assertResponseRedirected(Kohana_Response &$response, $uri, $code = 302)
@@ -239,4 +239,4 @@ class TestCase extends Kohana_Unittest_Database_TestCase
     }
 }
 
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "TestCase" . DIRECTORY_SEPARATOR . "Processors.php";
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "TestCase" . DIRECTORY_SEPARATOR . "Processor.php";

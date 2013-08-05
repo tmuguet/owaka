@@ -11,17 +11,16 @@ class Controller_Api_DashboardTestMove extends TestCase
      */
     public function testActionMoveMain()
     {
-        $expected = array('res' => 'ok', 'id'  => $this->genNumbers['mainBackground']);
-
         $response = Request::factory('api/dashboard/move/main/' . $this->genNumbers['mainBackground'])
                 ->login()
                 ->post('column', '1')
                 ->post('row', '42')
                 ->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
-
-        $actual = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual, "Incorrect API result");
+        $this->assertResponseOK($response);
+        $this->assertEquals(
+                array('widget' => $this->genNumbers['mainBackground']), json_decode($response->body(), TRUE),
+                                                                                    "Incorrect API result"
+        );
 
         $result = Database::instance()->query(
                 Database::SELECT,
@@ -36,17 +35,16 @@ class Controller_Api_DashboardTestMove extends TestCase
      */
     public function testActionMoveProject()
     {
-        $expected = array('res' => 'ok', 'id'  => $this->genNumbers['projectBarLog']);
-
         $response = Request::factory('api/dashboard/move/project/' . $this->genNumbers['projectBarLog'])
                 ->login()
                 ->post('column', '42')
                 ->post('row', '5')
                 ->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
-
-        $actual = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual, "Incorrect API result");
+        $this->assertResponseOK($response);
+        $this->assertEquals(
+                array('widget' => $this->genNumbers['projectBarLog']), json_decode($response->body(), TRUE),
+                                                                                   "Incorrect API result"
+        );
 
         $result = Database::instance()->query(
                 Database::SELECT,
@@ -61,17 +59,16 @@ class Controller_Api_DashboardTestMove extends TestCase
      */
     public function testActionMoveBuild()
     {
-        $expected = array('res' => 'ok', 'id'  => $this->genNumbers['buildFooBackground']);
-
         $response = Request::factory('api/dashboard/move/build/' . $this->genNumbers['buildFooBackground'])
                 ->login()
                 ->post('column', '10')
                 ->post('row', '11')
                 ->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
-
-        $actual = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual, "Incorrect API result");
+        $this->assertResponseOK($response);
+        $this->assertEquals(
+                array('widget' => $this->genNumbers['buildFooBackground']), json_decode($response->body(), TRUE),
+                                                                                        "Incorrect API result"
+        );
 
         $result = Database::instance()->query(
                 Database::SELECT,
@@ -79,5 +76,25 @@ class Controller_Api_DashboardTestMove extends TestCase
         );
         $this->assertEquals(10, $result->get('column'), "Build_Widget.column incorrect");
         $this->assertEquals(11, $result->get('row'), "Build_Widget.row incorrect");
+    }
+
+    /**
+     * @covers Controller_Api_Dashboard::action_move
+     */
+    public function testActionMoveFailed()
+    {
+        $response = Request::factory('api/dashboard/move/main/' . $this->genNumbers['mainBackground'])
+                ->login()
+                ->execute();
+        $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
+    }
+
+    /**
+     * @covers Controller_Api_Dashboard::action_move
+     */
+    public function testActionMoveNotFound()
+    {
+        $response = Request::factory('api/dashboard/move/main/99999')->login()->execute();
+        $this->assertResponseStatusEquals(Response::NOTFOUND, $response);
     }
 }

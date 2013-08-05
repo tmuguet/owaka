@@ -99,25 +99,6 @@ body.grunge.build-error {
     overflow: hidden;
 }
 
-p,
-dl,
-hr,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-ol,
-ul,
-pre,
-table,
-address,
-fieldset
-{
-    margin-bottom: 10%;
-}
-
 .clickable {
     cursor: pointer;
 }
@@ -190,6 +171,10 @@ tr.build td img {
     font-size: 70%;
 }
 
+#menu-bottom-advanced {
+    display: none;
+}
+
 #menu-bottom img {
     vertical-align: text-top;
 }
@@ -233,6 +218,27 @@ tr.build td img {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
+.ui-form fieldset {
+    border-bottom: 1px solid #999999;
+}
+
+.ui-form legend {
+    font-weight: bold;
+}
+
+.ui-form label {
+    display: inline-block;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.ui-form div.field {
+    margin-bottom: 10px;
+}
+
+.ui-form div.details {
+    font-size: 90%;
+}
 
 .ui-widget-content a:hover {
     color: #555555;

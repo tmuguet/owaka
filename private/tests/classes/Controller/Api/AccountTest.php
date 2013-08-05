@@ -22,7 +22,7 @@ class Controller_Api_AccountTest extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
+        $this->assertEquals(array(), $apiCall, "Incorrect API result");
 
         $actual = ORM::factory('User', $this->genNumbers['userFoo']);
         $this->assertTrue($actual->loaded());
@@ -31,6 +31,21 @@ class Controller_Api_AccountTest extends TestCase
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'
             );
         }
+    }
+
+    /**
+     * @covers Controller_Api_Account::action_edit
+     */
+    public function testActionEditFail()
+    {
+        $expected           = ORM::factory('User', $this->genNumbers['userFoo']);
+        Auth::instance()->force_login($expected);
+        
+        $request  = Request::factory('api/account/edit');
+        $request->method(Request::POST);
+        $request->post('password', '');
+        $response = $request->execute();
+        $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
     }
 
     /**
@@ -46,7 +61,7 @@ class Controller_Api_AccountTest extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
-        $this->assertEquals(array("res" => "ok"), $apiCall, "Incorrect API result");
+        $this->assertEquals(array(), $apiCall, "Incorrect API result");
 
         $actual = ORM::factory('User', $this->genNumbers['userFoo']);
         $this->assertFalse($actual->loaded());

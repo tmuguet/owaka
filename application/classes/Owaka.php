@@ -43,11 +43,11 @@ class Owaka
      * @param string $processor Processor which generated the report
      * @param string|null $type Type of report to find. If null, returns the first existing report.
      * @return string|null URI to report, or null if not found
-     * @see Controller_Processors_Base::getInputReports()
+     * @see Controller_Processor::getInputReports()
      */
     static public function getReportUri($buildId, $processor, $type = NULL)
     {
-        $processorClass = 'Controller_Processors_' . ucfirst($processor);
+        $processorClass = 'Controller_Processor_' . ucfirst($processor);
         if (!class_exists($processorClass)) {
             throw new Exception("Cannot find processor $processor");
         }

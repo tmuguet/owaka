@@ -5,7 +5,7 @@ defined('SYSPATH') OR die('No direct access allowed.');
  * API entry for managing users
  * @package    Api
  */
-class Controller_Api_User extends Controller
+class Controller_Api_User extends Controller_Api
 {
 
     protected $requiredRole = Owaka::AUTH_ROLE_ADMIN;
@@ -37,7 +37,7 @@ class Controller_Api_User extends Controller
                 "admin"    => $user->has('roles', $admin),
             );
         }
-        $this->response->body(json_encode($output));
+        $this->respondOk($output);
     }
 
     /**
@@ -65,9 +65,9 @@ class Controller_Api_User extends Controller
                 $rAdmin = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_ADMIN));
                 $user->add('roles', $rAdmin);
             }
-            $this->response->body(json_encode(array("res" => "ok")));
+            $this->respondOk(array('user' => $user->id));
         } catch (ORM_Validation_Exception $e) {
-            $this->response->body(json_encode(array("res"    => "ko", "errors" => $e->errors())));
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors()));
         }
     }
 
@@ -79,11 +79,18 @@ class Controller_Api_User extends Controller
      */
     public function action_edit()
     {
-        $user           = ORM::factory('User', $this->request->param('id'));
-        $user->password = $this->request->post('password');
-        $user->update();
+        try {
+            $user = ORM::factory('User', $this->request->param('id'));
+            if (!$user->loaded()) {
+                throw new HTTP_Exception_404();
+            }
+            $user->password = $this->request->post('password');
+            $user->update();
 
-        $this->response->body(json_encode(array("res" => "ok")));
+            $this->respondOk(array('user' => $user->id));
+        } catch (ORM_Validation_Exception $e) {
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors()));
+        }
     }
 
     /**
@@ -94,10 +101,13 @@ class Controller_Api_User extends Controller
     public function action_enable()
     {
         $user = ORM::factory('User', $this->request->param('id'));
-        $r    = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_LOGIN));
+        if (!$user->loaded()) {
+            throw new HTTP_Exception_404();
+        }
+        $r = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_LOGIN));
         $user->add('roles', $r);
 
-        $this->response->body(json_encode(array("res" => "ok")));
+        $this->respondOk(array('user' => $user->id));
     }
 
     /**
@@ -108,10 +118,13 @@ class Controller_Api_User extends Controller
     public function action_disable()
     {
         $user = ORM::factory('User', $this->request->param('id'));
-        $r    = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_LOGIN));
+        if (!$user->loaded()) {
+            throw new HTTP_Exception_404();
+        }
+        $r = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_LOGIN));
         $user->remove('roles', $r);
 
-        $this->response->body(json_encode(array("res" => "ok")));
+        $this->respondOk(array('user' => $user->id));
     }
 
     /**
@@ -122,9 +135,13 @@ class Controller_Api_User extends Controller
     public function action_delete()
     {
         $user = ORM::factory('User', $this->request->param('id'));
+        if (!$user->loaded()) {
+            throw new HTTP_Exception_404();
+        }
         $user->remove('roles');
+        $id = $user->id;
         $user->delete();
 
-        $this->response->body(json_encode(array("res" => "ok")));
+        $this->respondOk(array('user' => $id));
     }
 }

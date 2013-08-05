@@ -16,7 +16,7 @@ class Controller_Designer_detailsTest extends TestCase
                 ->login()
                 ->post('projectId', 1)
                 ->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
 
         $params                       = Controller_Widget_Log::getExpectedParameters('main');
         $params['project']['default'] = 1;
@@ -38,7 +38,7 @@ class Controller_Designer_detailsTest extends TestCase
         $response = Request::factory('designer_details/main/Background')
                 ->login()
                 ->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
 
         $expected = View::factory('designer_widgetdetails')
                 ->set('from', 'main')
@@ -59,7 +59,7 @@ class Controller_Designer_detailsTest extends TestCase
                 ->login()
                 ->post('projectId', 1)
                 ->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
 
         $params                       = Controller_Widget_Log::getExpectedParameters('project');
         $params['project']['default'] = 1;
@@ -81,7 +81,7 @@ class Controller_Designer_detailsTest extends TestCase
         $response = Request::factory('designer_details/project/Background')
                 ->login()
                 ->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
 
         $expected = View::factory('designer_widgetdetails')
                 ->set('from', 'project')
@@ -102,7 +102,7 @@ class Controller_Designer_detailsTest extends TestCase
                 ->login()
                 ->post('projectId', 1)
                 ->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
 
         $params                       = Controller_Widget_Log::getExpectedParameters('build');
         $params['project']['default'] = 1;
@@ -122,7 +122,7 @@ class Controller_Designer_detailsTest extends TestCase
     public function testActionBuild2()
     {
         $response = Request::factory('designer_details/build/Background')->login()->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
+        $this->assertResponseOK($response);
 
         $expected = View::factory('designer_widgetdetails')
                 ->set('from', 'build')
@@ -131,5 +131,14 @@ class Controller_Designer_detailsTest extends TestCase
                 ->set('availableSizes', Controller_Widget_Background::getOptimizedSizes())
                 ->set('params', Controller_Widget_Background::getExpectedParameters('build'));
         $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
+    }
+
+    /**
+     * @covers Controller_Designer_details::process
+     */
+    public function testActionNotFound()
+    {
+        $response = Request::factory('designer_details/build/NotFound')->login()->execute();
+        $this->assertResponseStatusEquals(Response::NOTFOUND, $response);
     }
 }

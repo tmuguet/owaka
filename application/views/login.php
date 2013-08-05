@@ -13,19 +13,33 @@ echo View::factory('baseMenu')
         ->render();
 ?>
 <div id="grid">
-    <form action="api/auth/login" method="post">
-        <input type="hidden" name="plain" value="1"/>
-        <dl>
-            <dt>User:</dt>
-            <dd><input type="text" name="user"/></dd>
+    <form action="api/auth/login" method="post" class="ui-form">
+        <fieldset>
+            <div class="field">
+                <label for="user">User:</label>
+                <input type="text" name="user" id="user"/>
+            </div>
 
-            <dt>Password:</dt>
-            <dd><input type="password" name="password"/></dd>
-        </dl>
-        <hr>
-        <input type="submit" value="Login"/>
+            <div class="field">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password"/>
+            </div>
+        </fieldset>
+        <button type="submit">Login</button>
     </form>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".ui-form :submit").button({
+            icons: {
+                primary: "ui-icon-unlocked"
+            }
+        });
+    });
+    $.owaka.formapi($('.ui-form'), function(data) {
+        document.location = data.goto;
+    });
+</script>
 <?php
 echo View::factory('baseEnd')
         ->set('title', $title)

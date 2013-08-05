@@ -9,10 +9,10 @@ class Controller_Api_AuthTest extends TestCase
     /**
      * @covers Controller_Api_Auth::action_login
      */
-    public function testActionLoginJson()
+    public function testActionLogin()
     {
         Session::instance()->set('requested_url', 'fooBar');
-        
+
         $response = Request::factory('api/auth/login/')
                 ->method(Request::POST)
                 ->post('user', 'userFoo')
@@ -20,8 +20,7 @@ class Controller_Api_AuthTest extends TestCase
                 ->execute();
         $this->assertResponseOK($response);
         $this->assertEquals(
-                array("res"  => "ok", "goto" => 'fooBar'), json_decode($response->body(), TRUE),
-                                                                                "Incorrect API result"
+                array("goto" => 'fooBar'), json_decode($response->body(), TRUE), "Incorrect API result"
         );
 
         $responseBadPassword = Request::factory('api/auth/login/')
@@ -29,9 +28,10 @@ class Controller_Api_AuthTest extends TestCase
                 ->post('user', 'userFoo')
                 ->post('password', 'bla')
                 ->execute();
-        $this->assertResponseOK($responseBadPassword);
+        $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $responseBadPassword);
         $this->assertEquals(
-                array("res" => "ko"), json_decode($responseBadPassword->body(), TRUE), "Incorrect API result"
+                array("error" => "Bad credentials"), json_decode($responseBadPassword->body(), TRUE),
+                                                                 "Incorrect API result"
         );
 
 
@@ -40,42 +40,10 @@ class Controller_Api_AuthTest extends TestCase
                 ->post('user', 'userBar')
                 ->post('password', 'test')
                 ->execute();
-        $this->assertResponseOK($responseRole);
+        $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $responseRole);
         $this->assertEquals(
-                array("res" => "ko"), json_decode($responseRole->body(), TRUE), "Incorrect API result"
+                array("error" => "Bad credentials"), json_decode($responseRole->body(), TRUE), "Incorrect API result"
         );
-    }
-
-    /**
-     * @covers Controller_Api_Auth::action_login
-     */
-    public function testActionLoginPlain()
-    {
-        Session::instance()->set('requested_url', 'fooBar');
-        
-        $response = Request::factory('api/auth/login/')
-                ->method(Request::POST)
-                ->post('user', 'userFoo')
-                ->post('password', 'test')
-                ->post('plain', '1')
-                ->execute();
-        $this->assertResponseRedirected($response, '/fooBar');
-
-        $responseBadPassword = Request::factory('api/auth/login/')
-                ->method(Request::POST)
-                ->post('user', 'userFoo')
-                ->post('password', 'bla')
-                ->post('plain', '1')
-                ->execute();
-        $this->assertResponseRedirected($responseBadPassword, '/login');
-
-        $responseRole = Request::factory('api/auth/login/')
-                ->method(Request::POST)
-                ->post('user', 'userBar')
-                ->post('password', 'test')
-                ->post('plain', '1')
-                ->execute();
-        $this->assertResponseRedirected($responseRole, '/login');
     }
 
     /**
@@ -88,7 +56,7 @@ class Controller_Api_AuthTest extends TestCase
                 ->execute();
         $this->assertResponseOK($response);
         $this->assertEquals(
-                array("res" => "ok"), json_decode($response->body(), TRUE), "Incorrect API result"
+                array(), json_decode($response->body(), TRUE), "Incorrect API result"
         );
     }
 
@@ -101,7 +69,7 @@ class Controller_Api_AuthTest extends TestCase
                 ->execute();
         $this->assertResponseOK($responseKo);
         $this->assertEquals(
-                array("res" => "ko"), json_decode($responseKo->body(), TRUE), "Incorrect API result"
+                array("loggedin" => "ko"), json_decode($responseKo->body(), TRUE), "Incorrect API result"
         );
 
         $responseOk = Request::factory('api/auth/loggedin/')
@@ -109,7 +77,7 @@ class Controller_Api_AuthTest extends TestCase
                 ->execute();
         $this->assertResponseOK($responseOk);
         $this->assertEquals(
-                array("res" => "ok"), json_decode($responseOk->body(), TRUE), "Incorrect API result"
+                array("loggedin" => "ok"), json_decode($responseOk->body(), TRUE), "Incorrect API result"
         );
     }
 }

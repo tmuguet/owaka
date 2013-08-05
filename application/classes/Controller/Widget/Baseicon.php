@@ -22,6 +22,7 @@ abstract class Controller_Widget_Baseicon extends Controller_Widget_Base
 
     /**
      * Main status label for data (optional; used only if statusData not empty)
+     * This is shown only when widget is hovered
      * @var string
      */
     protected $statusDataLabel = NULL;
@@ -40,6 +41,7 @@ abstract class Controller_Widget_Baseicon extends Controller_Widget_Base
 
     /**
      * Secondary status label for data (optional; used only if substatusData not empty)
+     * This is shown only when widget is hovered
      * @var string
      */
     protected $substatusDataLabel = NULL;

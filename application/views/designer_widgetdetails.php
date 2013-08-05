@@ -110,33 +110,10 @@ EOT;
 <hr/>
 <span id="widget_drag">Drag me!</span>
 <hr/>
-<a href="javascript:void(0)" id="widget_hide">Back</a><br/>
-Rows: <button id="rows_delete">-</button> <button id="rows_add">+</button><br/>
-Columns: <button id="columns_delete">-</button> <button id="columns_add">+</button>
+<button id="widget_hide">Back</button>
 
 <script type="text/javascript">
-    $("#rows_delete").button().click(function() {
-        $.owaka.designer.max_row--;
-        $.owaka.designer.slots._resize();
-        $.owaka.designer.widget.prepareToAdd();
-    });
-    $("#rows_add").button().click(function() {
-        $.owaka.designer.max_row++;
-        $.owaka.designer.slots._resize();
-        $.owaka.designer.widget.prepareToAdd();
-    });
-    $("#columns_delete").button().click(function() {
-        $.owaka.designer.max_column--;
-        $.owaka.designer.slots._resize();
-        $.owaka.designer.widget.prepareToAdd();
-    });
-    $("#columns_add").button().click(function() {
-        $.owaka.designer.max_column++;
-        $.owaka.designer.slots._resize();
-        $.owaka.designer.widget.prepareToAdd();
-    });
-
-    $("#widget_hide").click(function() {
+    $("#widget_hide").button().click(function() {
         $("#list_widgets").show('slide', {direction: 'left'}, 500);
         $("#widget_details").fadeOut(500);
         $.owaka.designer.slots.hide();

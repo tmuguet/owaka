@@ -5,7 +5,7 @@ defined('SYSPATH') OR die('No direct access allowed.');
  * API entry for managing a user's own account
  * @package    Api
  */
-class Controller_Api_Account extends Controller
+class Controller_Api_Account extends Controller_Api
 {
 
     /**
@@ -16,11 +16,15 @@ class Controller_Api_Account extends Controller
      */
     public function action_edit()
     {
-        $user           = Auth::instance()->get_user();
-        $user->password = $this->request->post('password');
-        $user->update();
+        try {
+            $user           = Auth::instance()->get_user();
+            $user->password = $this->request->post('password');
+            $user->update();
 
-        $this->response->body(json_encode(array("res" => "ok")));
+            $this->respondOk();
+        } catch (ORM_Validation_Exception $e) {
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors()));
+        }
     }
 
     /**
@@ -34,6 +38,6 @@ class Controller_Api_Account extends Controller
         $user->remove('roles');
         $user->delete();
 
-        $this->response->body(json_encode(array("res" => "ok")));
+        $this->respondOk();
     }
 }

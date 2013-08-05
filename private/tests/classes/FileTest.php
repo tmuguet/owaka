@@ -107,8 +107,8 @@ class FileTest extends TestCase
     {
         $actual   = File::findProcessors();
         $expected = array(
-            'Controller_Processors_processor1',
-            'Controller_Processors_processor2'
+            'Controller_Processor_processor1',
+            'Controller_Processor_processor2'
         );
         sort($actual);
         sort($expected);
@@ -122,7 +122,7 @@ class FileTest extends TestCase
     {
         $actual   = File::findAnalyzers();
         $expected = array(
-            'Controller_Processors_processor2'
+            'Controller_Processor_processor2'
         );
         sort($actual);
         sort($expected);

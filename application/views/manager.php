@@ -23,39 +23,57 @@ echo View::factory('baseMenu')
 <div id="grid">
     <form action="api/project/<?php
     echo ($project->loaded() ? 'edit/' . $project->id : 'add');
-    ?>" method="post">
-        <dl>
-            <dt>Name:</dt>
-            <dd><input type="text" name="name" value="<?php echo $project->name; ?>"/></dd>
+    ?>" method="post" class="ui-form"> 
+        <fieldset>
+            <legend>Project</legend>
 
-            <dt>SCM:</dt>
-            <dd><select name="scm">
+            <div class="field">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" value="<?php echo $project->name; ?>"/>
+                <div class="details">Name of your project, as it will appear in owaka</div>
+            </div>
+
+            <div class="field">
+                <label for="scm">SCM:</label>
+                <select name="scm" id="scm">
                     <option value="git"<?php
                     echo ($project->scm == "git" ? ' selected="selected"' : '')
                     ?>>GIT</option>
                     <option value="mercurial"<?php
                     echo ($project->scm == "mercurial" ? ' selected="selected"' : '')
                     ?>>Mercurial</option>
-                </select></dd>
+                </select>
+            </div>
 
-            <dt>Path:</dt>
-            <dd><input type="text" name="path" value="<?php echo $project->path; ?>"/></dd>
+            <div class="field"><label for="path">Path:</label>
+                <input type="text" name="path" id="path" value="<?php echo $project->path; ?>"/>
+                <div class="details">
+                    Path to your SCM repository.</div>
+            </div>
 
-            <dt>Path to phing:</dt>
-            <dd><input type="text" name="phing_path" value="<?php echo $project->phing_path; ?>"/></dd>
+            <div class="field"><label for="phing_path">Path to phing project:</label>
+                <input type="text" name="phing_path" id="phing_path" value="<?php echo $project->phing_path; ?>"/>
+                <div class="details">Path to your phing project. It can be part of your SCM repository or not.</div>
+            </div>
 
-            <dt>Phing target for validation:</dt>
-            <dd><input type="text" name="phing_target_validate" value="<?php echo $project->phing_target_validate; ?>"/></dd>
+            <div class="field"><label for="phing_target_validate">Phing target for validation:</label>
+                <input type="text" name="phing_target_validate" id="phing_target_validate" value="<?php echo $project->phing_target_validate; ?>"/>
+                <div class="details">Target for building your project and executing phpunit, phpdocumentor, ...</div>
+            </div>
 
-            <dt>Phing target for nightly:</dt>
-            <dd><input type="text" name="phing_target_nightly" value="<?php echo $project->phing_target_nightly; ?>"/></dd>
+            <div class="field"><label for="phing_target_nightly">Phing target for nightly:</label>
+                <input type="text" name="phing_target_nightly" id="phing_target_nightly" value="<?php echo $project->phing_target_nightly; ?>"/>
+                <div class="details">Target for deploying your build after validation. This is optional.</div>
+            </div>
 
-            <dt>Path of reports:</dt>
-            <dd><input type="text" name="reports_path" value="<?php echo $project->reports_path; ?>"/></dd>
-        </dl>
+            <div class="field"><label for="reports_path">Path of reports:</label>
+                <input type="text" name="reports_path" id="reports_path" value="<?php echo $project->reports_path; ?>"/>
+                <div class="details">Path which will contain all the reports of validation.</div>
+            </div>
+        </fieldset>
         <?php
         foreach ($reports as $_controller => $_reports) {
-            echo '<hr><h2>' . $_controller . '</h2><dl>';
+            echo '<fieldset><legend>' . $_controller . '</legend>';
             foreach ($_reports as $_key => $_report) {
                 if ($project->loaded()) {
                     $value = ORM::factory('Project_Report')
@@ -65,24 +83,39 @@ echo View::factory('baseMenu')
                 } else {
                     $value = '';
                 }
-                echo '<dt>' . $_report['title'] . '</dt>';
-                echo '<dd><input type="text" name="' . strtolower($_controller) . '_' . $_key . '" value="' . $value . '"/></dd>';
+                echo '<div class="field"><label for="' . strtolower($_controller) . '_' . $_key . '">' . $_report['title'] . ':</label>';
+                echo '<input type="text" name="' . strtolower($_controller) . '_' . $_key . '" id="' . strtolower($_controller) . '_' . $_key . '" value="' . $value . '"/>';
+                echo '<div class="details">' . $_report['description'] . '</div>';
+                echo '</div>';
             }
-            echo '</dl>';
+            echo '</fieldset>';
         }
         ?>
-        <hr>
-        <dl>
-            <dt>Active</dt>
-            <dd><input type="checkbox" name="is_active" value="1"<?php
+        <fieldset><legend>Misc</legend>
+            <div class="field"><label for="is_active">Active:</label>
+                <input type="checkbox" name="is_active" id="is_active" value="1"<?php
                 ($project->is_active ? ' checked="checked"' : '');
-                ?>/></dd>
-        </dl>
-        <input type="submit" value="<?php
-        echo ($project->loaded() ? 'Edit project ' . $project->name : 'Add a new project');
-        ?>"/>
+                ?>/>
+                <div class="details">Project will not be built in owaka if inactive.</div>
+        </fieldset>
+        <button type="submit"><?php
+            echo ($project->loaded() ? 'Edit project ' . $project->name : 'Add new project');
+            ?></button>
     </form>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".ui-form :submit").button({
+            icons: {
+                primary: "ui-icon-disk"
+            }
+        });
+    });
+    $.owaka.formapi($('.ui-form'), function(data) {
+        alert('Project updated');
+        document.location = 'dashboard/project/' + data.project;
+    });
+</script>
 <?php
 echo View::factory('baseEnd')
         ->set('title', $title)

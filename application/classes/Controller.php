@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Abstract controller class.
+ *
+ * @package    Core
+ */
 abstract class Controller extends Kohana_Controller
 {
 

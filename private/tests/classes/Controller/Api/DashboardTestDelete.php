@@ -11,13 +11,12 @@ class Controller_Api_DashboardTestDelete extends TestCase
      */
     public function testActionDeleteMain()
     {
-        $expected = array('res' => 'ok');
-
         $response = Request::factory('api/dashboard/delete/main/' . $this->genNumbers['mainBackground'])->login()->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
-
-        $actual = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual, "Incorrect API result");
+        $this->assertResponseOK($response);
+        $this->assertEquals(
+                array('widget' => $this->genNumbers['mainBackground']), json_decode($response->body(), TRUE),
+                                                                                    "Incorrect API result"
+        );
 
         $this->assertEquals(
                 0,
@@ -33,13 +32,12 @@ class Controller_Api_DashboardTestDelete extends TestCase
      */
     public function testActionDeleteProject()
     {
-        $expected = array('res' => 'ok');
-
         $response = Request::factory('api/dashboard/delete/project/' . $this->genNumbers['projectFooLog'])->login()->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
-
-        $actual = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual, "Incorrect API result");
+        $this->assertResponseOK($response);
+        $this->assertEquals(
+                array('widget' => $this->genNumbers['projectFooLog']), json_decode($response->body(), TRUE),
+                                                                                   "Incorrect API result"
+        );
 
         $this->assertEquals(
                 0,
@@ -55,13 +53,12 @@ class Controller_Api_DashboardTestDelete extends TestCase
      */
     public function testActionDeleteBuild()
     {
-        $expected = array('res' => 'ok');
-
         $response = Request::factory('api/dashboard/delete/build/' . $this->genNumbers['buildFooBackground'])->login()->execute();
-        $this->assertEquals(200, $response->status(), "Request failed");
-
-        $actual = json_decode($response->body(), TRUE);
-        $this->assertEquals($expected, $actual, "Incorrect API result");
+        $this->assertResponseOK($response);
+        $this->assertEquals(
+                array('widget' => $this->genNumbers['buildFooBackground']), json_decode($response->body(), TRUE),
+                                                                                        "Incorrect API result"
+        );
 
         $this->assertEquals(
                 0,
@@ -70,5 +67,14 @@ class Controller_Api_DashboardTestDelete extends TestCase
                         "SELECT COUNT(*) AS c FROM `widgets` WHERE `id`=" . $this->genNumbers['buildFooBackground']
                 )->get('c'), "Deletion not effective"
         );
+    }
+
+    /**
+     * @covers Controller_Api_Dashboard::action_delete
+     */
+    public function testActionDeleteNotFound()
+    {
+        $response = Request::factory('api/dashboard/delete/main/99999')->login()->execute();
+        $this->assertResponseStatusEquals(Response::NOTFOUND, $response);
     }
 }

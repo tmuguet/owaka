@@ -20,4 +20,20 @@ class Model_Phpmd_Globaldata extends ORM
             'foreign_key' => 'build_id'),
     );
     // @codingStandardsIgnoreEnd
+
+    /**
+     * Rule definitions for validation
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $rules = array(
+            'errors'  => array(
+                array('not_empty'),
+                array('integer'),
+            ),
+        );
+        return $rules;
+    }
 }

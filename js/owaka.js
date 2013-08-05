@@ -54,8 +54,67 @@ $.owaka = {
         $(".build-error").addClass('ui-state-error');
         $(".build-building").addClass('ui-state-active');
         $(".build-queued").addClass('ui-state-active');
+    },
+    renderForms: function() {
+        if ($(".ui-form").size() > 0) {
+            var max = 0;
+            $.each($(".ui-form label"), function() {
+                if ($(this).width() > max) {
+                    max = $(this).width();
+                }
+            })
+            $(".ui-form label").width(max);
+            $(".ui-form div.details").css('margin-left', max / 2);
+        }
+    },
+    api: function(url, sendData, callback) {
+        return $.post(url, sendData, callback, "json").fail(function(jqXHR, textStatus, errorThrown) {
+            switch (jqXHR.status) {
+                case 422:
+                    var res = $.parseJSON(jqXHR.responseText);
+                    $.each(res.errors, function(key, o) {
+                        $("#" + key).addClass('ui-state-error');
+                        $("label[for=" + key + "]").addClass('ui-state-error-text');
+                    });
+                    break;
+
+                default:
+                    alert('Fail ' + textStatus + ' / ' + errorThrown + ' @ ' + jqXHR.responseText);
+            }
+        });
+    },
+    formapi: function(form, callback) {
+        form.submit(function() {
+            form.find(':submit').button('disable');
+            $.each(form.serializeArray(), function(idx, o) {
+                $("#" + o.name).removeClass('ui-state-error');
+                $("label[for=" + o.name + "]").removeClass('ui-state-error-text');
+            });
+            $.post(form.attr('action'), form.serialize(), callback, "json").fail(function(jqXHR, textStatus, errorThrown) {
+                switch (jqXHR.status) {
+                    case 422:
+                        var res = $.parseJSON(jqXHR.responseText);
+                        if (res.errors) {
+                            $.each(res.errors, function(key, o) {
+                                $("#" + key).addClass('ui-state-error');
+                                $("label[for=" + key + "]").addClass('ui-state-error-text');
+                            });
+                        }
+                        if (res.error) {
+                            alert(res.error);
+                        }
+                        break;
+
+                    default:
+                        alert('Fail ' + textStatus + ' / ' + errorThrown + ' @ ' + jqXHR.responseText);
+                }
+                form.find(':submit').button('enable');
+            });
+            return false;
+        });
     }
 };
 $(document).ready(function() {
     $.owaka.computeElements();
+    $.owaka.renderForms();
 });

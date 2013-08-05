@@ -20,4 +20,22 @@ class Model_Phpunit_Error extends ORM
             'foreign_key' => 'build_id'),
     );
     // @codingStandardsIgnoreEnd
+
+    /**
+     * Rule definitions for validation
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $rules = array(
+            'testsuite' => array(
+                array('not_empty'),
+            ),
+            'testcase'  => array(
+                array('not_empty'),
+            ),
+        );
+        return $rules;
+    }
 }

@@ -4,6 +4,14 @@ $menu  = array();
 
 $menu_bottom   = array();
 $menu_bottom[] = array(
+    'title' => 'add a row',
+    'js'    => '$.owaka.designer.slots.addRow();',
+);
+$menu_bottom[] = array(
+    'title' => 'add a column',
+    'js'    => '$.owaka.designer.slots.addColumn();',
+);
+$menu_bottom[] = array(
     'title' => 'quit designer',
     'href'  => 'dashboard/' . ($from == 'main' ? $from : 'project') . '/' . ($from == "main" ? '' : $projectId),
     'img'   => 'freepik/layout3',
@@ -34,6 +42,20 @@ echo View::factory('baseStart')
 </div>
 
 <script type="text/javascript">
+<?php
+$maxwidth  = 0;
+$maxheight = 0;
+foreach ($widgets as $_widget) {
+    if ($_widget->row + $_widget->height > $maxheight) {
+        $maxheight = $_widget->row + $_widget->height;
+    }
+    if ($_widget->column + $_widget->width > $maxwidth) {
+        $maxwidth = $_widget->column + $_widget->width;
+    }
+}
+?>
+    $.owaka.designer.max_row = Math.max($.owaka.designer.max_row, <?php echo $maxheight; ?>);
+    $.owaka.designer.max_column = Math.max($.owaka.designer.max_column, <?php echo $maxwidth; ?>);
     $.owaka.designer.slots._resize();
 <?php
 foreach ($widgets as $_widget) {
@@ -55,17 +77,6 @@ if (isset($projectId)) {
 ?>
 
             $("#widget_details").load('designer_details/<?php echo $from; ?>/' + $(this).attr("data-widget"), postData);
-        });
-
-        $(".widget-move").draggable({
-            appendTo: "body",
-            helper: "clone",
-            start: function(event, ui) {
-                $.owaka.designer.widget.prepareToMove($(this).closest('.grid-elt'));
-            },
-            stop: function(event, ui) {
-                $.owaka.designer.slots.hide();
-            }
         });
     });
 </script>
