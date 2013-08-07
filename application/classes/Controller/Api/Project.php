@@ -43,8 +43,7 @@ class Controller_Api_Project extends Controller_Api
      * @postparam scm string SCM used
      * @postparam path string Path to the project (used for SCM polling)
      * @postparam phing_path string Path to the phing project (used for build)
-     * @postparam phing_target_validate string Target for validating
-     * @postparam phing_target_nightly string Target for installing nightly build (optional)
+     * @postparam phing_target_validate string Targets for validating
      * @postparam reports_path string Path to the folder containing the generated reports during build
      * @postparam &lt;report&gt; string Name of the generated report (optional)
      */
@@ -58,7 +57,6 @@ class Controller_Api_Project extends Controller_Api
             $project->path                  = $this->request->post('path');
             $project->phing_path            = $this->request->post('phing_path');
             $project->phing_target_validate = $this->request->post('phing_target_validate');
-            $project->phing_target_nightly  = $this->request->post('phing_target_nightly');
             $project->reports_path          = $this->request->post('reports_path');
             $project->create();
 
@@ -92,8 +90,7 @@ class Controller_Api_Project extends Controller_Api
      * @postparam scm string SCM used
      * @postparam path string Path to the project (used for SCM polling)
      * @postparam phing_path string Path to the phing project (used for build)
-     * @postparam phing_target_validate string Target for validating
-     * @postparam phing_target_nightly string Target for installing nightly build (optional)
+     * @postparam phing_target_validate string Targets for validating
      * @postparam reports_path string Path to the folder containing the generated reports during build
      * @postparam &lt;report&gt; string Name of the generated report (optional)
      */
@@ -111,7 +108,6 @@ class Controller_Api_Project extends Controller_Api
             $project->path                  = $this->request->post('path');
             $project->phing_path            = $this->request->post('phing_path');
             $project->phing_target_validate = $this->request->post('phing_target_validate');
-            $project->phing_target_nightly  = $this->request->post('phing_target_nightly');
             $project->reports_path          = $this->request->post('reports_path');
             $project->update();
 
