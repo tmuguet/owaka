@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <dataset>
-    <projects id="##ID_ProjectFoo##" name="active-hg" is_active="1" scm="mercurial" path="/tmp" phing_path="/tmp" phing_target_validate="validate"reports_path="##PATH_PathFoo##" lastrevision="42"/>
+    <projects id="##ID_ProjectFoo##" name="active-hg" is_active="1" scm="mercurial" path="/tmp" phing_path="/tmp" phing_target_validate="validate" reports_path="##PATH_PathFoo##" lastrevision="42"/>
     <projects id="##ID_ProjectBar##" name="active-git" is_active="1" scm="git" path="/tmp" phing_path="/tmp" phing_target_validate="validate" reports_path="##PATH_PathBar##" lastrevision="##NULL##"/>
     <projects id="##ID_ProjectBaz##" name="inactive-hg" is_active="O" scm="mercurial" path="/tmp" phing_path="/tmp" phing_target_validate="validate" reports_path="##PATH_PathBaz##" lastrevision="##NULL##"/>
     <projects id="##ID_ProjectBat##" name="inactive-git" is_active="O" scm="git" path="/tmp" phing_path="/tmp" phing_target_validate="validate" reports_path="##PATH_PathBat##" lastrevision="abcdefghijklmnopqrstuvwxyz"/>
