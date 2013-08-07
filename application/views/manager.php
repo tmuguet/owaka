@@ -56,14 +56,9 @@ echo View::factory('baseMenu')
                 <div class="details">Path to your phing project. It can be part of your SCM repository or not.</div>
             </div>
 
-            <div class="field"><label for="phing_target_validate">Phing target for validation:</label>
+            <div class="field"><label for="phing_target_validate">Phing target(s) for validation:</label>
                 <input type="text" name="phing_target_validate" id="phing_target_validate" value="<?php echo $project->phing_target_validate; ?>"/>
-                <div class="details">Target for building your project and executing phpunit, phpdocumentor, ...</div>
-            </div>
-
-            <div class="field"><label for="phing_target_nightly">Phing target for nightly:</label>
-                <input type="text" name="phing_target_nightly" id="phing_target_nightly" value="<?php echo $project->phing_target_nightly; ?>"/>
-                <div class="details">Target for deploying your build after validation. This is optional.</div>
+                <div class="details">Target(s) for building your project and executing phpunit, phpdocumentor, ... There can be several targets separated by commas.</div>
             </div>
 
             <div class="field"><label for="reports_path">Path of reports:</label>

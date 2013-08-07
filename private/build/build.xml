@@ -24,18 +24,22 @@
     </target>
     
     <target name="validate">
+        <property name="config" value="test"/>
         <phing phingfile="${build.fulldir}/_validate.xml" target="validate" haltonfailure="true"/>
     </target>
     
     <target name="doc">
+        <property name="config" value="test_public"/>
         <phing phingfile="${build.fulldir}/_validate.xml" target="doc" haltonfailure="true"/>
     </target>
     
     <target name="analysis">
+        <property name="config" value="test_public"/>
         <phing phingfile="${build.fulldir}/_validate.xml" target="analysis" haltonfailure="true"/>
     </target>
     
     <target name="test">
+        <property name="config" value="test"/>
         <phing phingfile="${build.fulldir}/_validate.xml" target="test" haltonfailure="true"/>
     </target>
     

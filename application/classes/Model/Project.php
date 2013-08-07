@@ -49,8 +49,6 @@ class Model_Project extends ORM
             'phing_target_validate' => array(
                 array('not_empty'),
             ),
-            'phing_target_nightly'  => array(
-            ),
             'reports_path'          => array(
                 array('not_empty'),
             ),

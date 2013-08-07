@@ -31,7 +31,6 @@ class Task_Run extends Minion_Task
 
         try {
             $this->validate($build);
-            $this->nightly($build);
             $this->parseReports($build);
             $this->analyzeReports($build);
         } catch (Exception $e) {
@@ -54,39 +53,57 @@ class Task_Run extends Minion_Task
         $lastFinished = new DateTime($lastBuild->finished);
         $lastDuration = $lastFinished->diff($lastStart, TRUE);
 
-        chdir((empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path));
-
         $build->status  = 'building';
         $build->started = DB::expr('NOW()');
         $build->eta     = DB::expr('ADDTIME(NOW(), \'' . $lastDuration->format('%H:%I:%S') . '\')');
         $build->update();
 
-        Kohana::$log->add(Log::INFO, "Starting validating...");
-        $buildLog = array();
-        exec(
-                'phing -logger phing.listener.HtmlColorLogger -logfile buildlog.html ' . $build->project->phing_target_validate . ' -Dowaka.build=' . $build->id,
-                $buildLog, $buildResult
-        );
-        if (!empty($buildLog)) {
-            Kohana::$log->add(Log::INFO, "Additional log: " . implode("\n", $buildLog));
+        $targets = array();
+        $_tok    = strtok(trim($build->project->phing_target_validate), " ,;");
+
+        while ($_tok !== false) {
+            $targets[] = $_tok;
+            $_tok      = strtok(" ,;");
         }
-        Kohana::$log->add(Log::INFO, "Finished validating with result $buildResult");
 
-        rename('buildlog.html', $this->_outdir_owaka . 'buildlog.html');
+        foreach ($targets as $target) {
+            chdir((empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path));
 
-        chdir(DOCROOT);
+            Kohana::$log->add(Log::INFO, "Starting $target...");
 
-        $this->copyReports($build);
+            $buildTargetLog = array();
+            exec(
+                    'phing -logger phing.listener.HtmlColorLogger -logfile buildlog.html ' . $target . ' -Dowaka.build=' . $build->id,
+                    $buildTargetLog, $buildTargetResult
+            );
+            if (!empty($buildTargetLog)) {
+                Kohana::$log->add(Log::INFO, "Additional log: " . implode("\n", $buildTargetLog));
+            }
+            Kohana::$log->add(Log::INFO, "Finished $target with result $buildTargetResult");
 
-        if ($buildResult == 0) {
-            Kohana::$log->add(Log::INFO, "Build successful");
-            //$build->status = 'ok';    // Do not update yet
-        } else if ($buildResult == 1) {
-            Kohana::$log->add(Log::ERROR, "Build failed with errors");
-            $build->status = 'error';
-        } else {
-            Kohana::$log->add(Log::CRITICAL, "Build unproperly configured");
-            $build->status = 'error';   // Build unproperly configured
+            file_put_contents($this->_outdir_owaka . 'buildlog.html', "<h1>Target $target</h1>", FILE_APPEND);
+            file_put_contents($this->_outdir_owaka . 'buildlog.html', file_get_contents('buildlog.html'), FILE_APPEND);
+            file_put_contents($this->_outdir_owaka . 'buildlog.html', "<h1>End of target $target with result $buildTargetResult</h1>", FILE_APPEND);
+            unlink('buildlog.html');
+            
+            if ($buildTargetResult == 0) {
+                Kohana::$log->add(Log::INFO, "Target $target successful");
+                //$build->status = 'ok';    // Do not update yet
+            } else if ($buildTargetResult == 1) {
+                Kohana::$log->add(Log::ERROR, "Target $target failed with errors");
+            } else {
+                Kohana::$log->add(Log::CRITICAL, "Target $target unproperly configured");
+            }
+
+            chdir(DOCROOT);
+
+            $this->copyReports($build);
+            
+            if ($buildTargetResult != 0) {
+                Kohana::$log->add(Log::INFO, "Stopping build");
+                $build->status = 'error';   // Build unproperly configured
+                break;
+            }
         }
 
         $build->update();
@@ -108,33 +125,6 @@ class Task_Run extends Minion_Task
             }
         }
         Auth::instance()->logout();
-    }
-
-    protected function nightly(Model_Build &$build)
-    {
-        if (!empty($build->project->phing_target_nightly)) {
-            chdir((empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path));
-
-            Kohana::$log->add(Log::INFO, "Starting deploying nightly...");
-            $updateLog = array();
-            exec(
-                    'phing -logger phing.listener.HtmlColorLogger -logfile nightlylog.html ' . $build->project->phing_target_nightly,
-                    $updateLog, $updateResult
-            );
-            if (!empty($updateLog)) {
-                Kohana::$log->add(Log::INFO, "Additional log: " . implode("\n", $updateLog));
-            }
-            Kohana::$log->add(Log::INFO, "Finished deploying nightly with result $updateResult");
-            rename('nightlylog.html', $this->_outdir_owaka . 'nightlylog.html');
-
-            if ($updateResult == 0) {
-                Kohana::$log->add(Log::INFO, "Update successful");
-            } else if ($updateResult == 1) {
-                Kohana::$log->add(Log::ERROR, "Update failed with errors");
-            } else {
-                Kohana::$log->add(Log::CRITICAL, "Update unproperly configured");
-            }
-        }
     }
 
     protected function parseReports(Model_Build &$build)

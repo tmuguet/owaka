@@ -1,0 +1,9 @@
+# Properties for test deployment with production code (not suitable for unit tests)
+build.deploydir=/www/root/owaka-test
+build.env=PRODUCTION
+build.owner=www-data:www-data
+config.rewritebase=owaka-test/
+db.host=localhost
+db.user=owakatest
+db.pass=owakatest
+db.name=owakatest
