@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <dataset>
-    <projects id="##ID_ProjectFoo##" name="active-hg" is_active="1" scm="mercurial" path="/null" phing_path="/null" phing_target_validate="validate" phing_target_nightly="nightly" lastrevision="42"/>
-    <projects id="##ID_ProjectBar##" name="active-git" is_active="1" scm="git" path="/null" phing_path="/null" phing_target_validate="validate" phing_target_nightly="nightly" lastrevision="##NULL##"/>
-    <projects id="##ID_ProjectBaz##" name="inactive-hg" is_active="O" scm="mercurial" path="/null" phing_path="/null" phing_target_validate="validate" phing_target_nightly="nightly" lastrevision="##NULL##"/>
-    <projects id="##ID_ProjectBat##" name="inactive-git" is_active="O" scm="git" path="/null" phing_path="/null" phing_target_validate="validate" phing_target_nightly="nightly" lastrevision="abcdefghijklmnopqrstuvwxyz"/>
+    <projects id="##ID_ProjectFoo##" name="active-hg" is_active="1" scm="mercurial" path="/null" phing_path="/null" phing_target_validate="validate" lastrevision="42"/>
+    <projects id="##ID_ProjectBar##" name="active-git" is_active="1" scm="git" path="/null" phing_path="/null" phing_target_validate="validate" lastrevision="##NULL##"/>
+    <projects id="##ID_ProjectBaz##" name="inactive-hg" is_active="O" scm="mercurial" path="/null" phing_path="/null" phing_target_validate="validate" lastrevision="##NULL##"/>
+    <projects id="##ID_ProjectBat##" name="inactive-git" is_active="O" scm="git" path="/null" phing_path="/null" phing_target_validate="validate" lastrevision="abcdefghijklmnopqrstuvwxyz"/>
 </dataset>

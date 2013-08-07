@@ -33,8 +33,7 @@ class Controller_Api_ProjectTest extends TestCase
         $expected->scm                   = 'mercurial';
         $expected->path                  = '/usr';
         $expected->phing_path            = '/usr/lib';
-        $expected->phing_target_validate = 'target_validate';
-        $expected->phing_target_nightly  = 'target_nightly';
+        $expected->phing_target_validate = 'target_validate target2';
         $expected->reports_path          = '/reports/path';
 
         $expected2        = ORM::factory('Project_Report');
@@ -49,7 +48,6 @@ class Controller_Api_ProjectTest extends TestCase
         $request->post('path', $expected->path);
         $request->post('phing_path', $expected->phing_path);
         $request->post('phing_target_validate', $expected->phing_target_validate);
-        $request->post('phing_target_nightly', $expected->phing_target_nightly);
         $request->post('reports_path', $expected->reports_path);
         $request->post($expected2->type, $expected2->value);
         $response = $request->execute();
@@ -100,8 +98,7 @@ class Controller_Api_ProjectTest extends TestCase
         $expected->scm                   = 'mercurial';
         $expected->path                  = '/usr';
         $expected->phing_path            = '/usr/lib';
-        $expected->phing_target_validate = 'target_validate';
-        $expected->phing_target_nightly  = 'target_nightly';
+        $expected->phing_target_validate = 'target_validate target2';
         $expected->reports_path          = '/reports/path';
         $expected->lastrevision          = 42;
 
@@ -118,7 +115,6 @@ class Controller_Api_ProjectTest extends TestCase
         $request->post('path', $expected->path);
         $request->post('phing_path', $expected->phing_path);
         $request->post('phing_target_validate', $expected->phing_target_validate);
-        $request->post('phing_target_nightly', $expected->phing_target_nightly);
         $request->post('reports_path', $expected->reports_path);
         $request->post($expected2->type, $expected2->value);
         $response = $request->execute();
