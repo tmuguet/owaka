@@ -62,8 +62,8 @@ $.owaka = {
                 if ($(this).width() > max) {
                     max = $(this).width();
                 }
-            })
-            $(".ui-form label").width(max);
+            });
+            $(".ui-form label").width(max * 1.1);
             $(".ui-form div.details").css('margin-left', max / 2);
         }
     },
@@ -89,6 +89,7 @@ $.owaka = {
             $.each(form.serializeArray(), function(idx, o) {
                 $("#" + o.name).removeClass('ui-state-error');
                 $("label[for=" + o.name + "]").removeClass('ui-state-error-text');
+                $("#error_" + o.name).remove();
             });
             $.post(form.attr('action'), form.serialize(), callback, "json").fail(function(jqXHR, textStatus, errorThrown) {
                 switch (jqXHR.status) {
@@ -98,6 +99,7 @@ $.owaka = {
                             $.each(res.errors, function(key, o) {
                                 $("#" + key).addClass('ui-state-error');
                                 $("label[for=" + key + "]").addClass('ui-state-error-text');
+                                $("#" + key).after('<span id="error_' + key + '" class="ui-state-error-text details">' + o + '</span>');
                             });
                         }
                         if (res.error) {
@@ -108,7 +110,7 @@ $.owaka = {
                     default:
                         alert('Fail ' + textStatus + ' / ' + errorThrown + ' @ ' + jqXHR.responseText);
                 }
-                form.find(':submit').button('enable');
+                form.find(':submit').button('enable').addClass('ui-state-error');
             });
             return false;
         });

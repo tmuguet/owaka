@@ -240,6 +240,11 @@ tr.build td img {
     font-size: 90%;
 }
 
+.ui-form span.details {
+    font-size: 90%;
+    padding-left: 10px;
+}
+
 .ui-widget-content a:hover {
     color: #555555;
 }

@@ -123,7 +123,7 @@ class Controller_Api_UserTest extends TestCase
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(
-                array("errors" => array('email' => array('email', array($expected->email)))), $apiCall,
+                array("errors" => array('email' => 'You must provide a valid email address.')), $apiCall,
                 "Incorrect API result"
         );
     }
@@ -146,7 +146,7 @@ class Controller_Api_UserTest extends TestCase
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(
-                array("errors" => array('email' => array('unique', array('email', $expected->email)))), $apiCall,
+                array("errors" => array('email' => 'This email address is already used.')), $apiCall,
                 "Incorrect API result"
         );
     }
@@ -188,7 +188,7 @@ class Controller_Api_UserTest extends TestCase
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(
-                array("errors" => array('password' => array('not_empty', array('password', '')))), $apiCall,
+                array("errors" => array('password' => 'You must provide a password.')), $apiCall,
                 "Incorrect API result"
         ); 
     }

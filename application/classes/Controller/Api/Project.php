@@ -77,7 +77,7 @@ class Controller_Api_Project extends Controller_Api
 
             $this->respondOk(array('project' => $project->id));
         } catch (ORM_Validation_Exception $e) {
-            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors()));
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors('models')));
         }
     }
 
@@ -133,7 +133,7 @@ class Controller_Api_Project extends Controller_Api
 
             $this->respondOk(array('project' => $project->id));
         } catch (ORM_Validation_Exception $e) {
-            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors()));
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors('models')));
         }
     }
 }

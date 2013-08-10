@@ -45,7 +45,7 @@ class Controller_Api_Install extends Controller_Api
 
             $this->respondOk();
         } catch (ORM_Validation_Exception $e) {
-            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors()));
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors('models')));
         }
     }
 }

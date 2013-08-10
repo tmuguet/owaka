@@ -80,6 +80,7 @@ echo View::factory('baseMenu')
                 }
                 echo '<div class="field"><label for="' . strtolower($_controller) . '_' . $_key . '">' . $_report['title'] . ':</label>';
                 echo '<input type="text" name="' . strtolower($_controller) . '_' . $_key . '" id="' . strtolower($_controller) . '_' . $_key . '" value="' . $value . '"/>';
+                echo '<div class="details">Optional</div>';
                 echo '<div class="details">' . $_report['description'] . '</div>';
                 echo '</div>';
             }

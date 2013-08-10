@@ -30,8 +30,8 @@ class Controller_Api_AuthTest extends TestCase
                 ->execute();
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $responseBadPassword);
         $this->assertEquals(
-                array("error" => "Bad credentials"), json_decode($responseBadPassword->body(), TRUE),
-                                                                 "Incorrect API result"
+                array('errors' => array('user'     => 'Bad credentials', 'password' => '')),
+                json_decode($responseBadPassword->body(), TRUE), "Incorrect API result"
         );
 
 
@@ -42,7 +42,8 @@ class Controller_Api_AuthTest extends TestCase
                 ->execute();
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $responseRole);
         $this->assertEquals(
-                array("error" => "Bad credentials"), json_decode($responseRole->body(), TRUE), "Incorrect API result"
+                array('errors' => array('user'     => 'Bad credentials', 'password' => '')),
+                json_decode($responseRole->body(), TRUE), "Incorrect API result"
         );
     }
 

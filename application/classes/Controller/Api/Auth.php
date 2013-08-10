@@ -26,7 +26,7 @@ class Controller_Api_Auth extends Controller_Api
             $goto = Session::instance()->get('requested_url', 'dashboard/main');
             $this->respondOk(array('goto' => $goto));
         } else {
-            $this->respondError(Response::UNPROCESSABLE, array('error' => 'Bad credentials'));
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => array('user' => 'Bad credentials', 'password' => '')));
         }
     }
 
