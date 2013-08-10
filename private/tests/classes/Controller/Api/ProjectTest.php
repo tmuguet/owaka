@@ -84,6 +84,18 @@ class Controller_Api_ProjectTest extends TestCase
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
+        $this->assertEquals(
+                array(
+            'errors' => array(
+                'name'                  => 'You must provide a name.',
+                'scm'                   => 'You must provide a SCM.',
+                'path'                  => 'You must provide a path.',
+                'phing_path'            => 'You must provide a path.',
+                'phing_target_validate' => 'You must provide at least one target.',
+                'reports_path'          => 'You must provide a path.',
+            )
+                ), json_decode($response->body(), TRUE), "Incorrect API result"
+        );
     }
 
     /**
@@ -149,6 +161,18 @@ class Controller_Api_ProjectTest extends TestCase
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
+        $this->assertEquals(
+                array(
+            'errors' => array(
+                'name'                  => 'You must provide a name.',
+                'scm'                   => 'You must provide a SCM.',
+                'path'                  => 'You must provide a path.',
+                'phing_path'            => 'You must provide a path.',
+                'phing_target_validate' => 'You must provide at least one target.',
+                'reports_path'          => 'You must provide a path.',
+            )
+                ), json_decode($response->body(), TRUE), "Incorrect API result"
+        );
     }
 
     /**

@@ -38,14 +38,18 @@ class Controller_Api_AccountTest extends TestCase
      */
     public function testActionEditFail()
     {
-        $expected           = ORM::factory('User', $this->genNumbers['userFoo']);
+        $expected = ORM::factory('User', $this->genNumbers['userFoo']);
         Auth::instance()->force_login($expected);
-        
+
         $request  = Request::factory('api/account/edit');
         $request->method(Request::POST);
         $request->post('password', '');
         $response = $request->execute();
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
+        $this->assertEquals(
+                array('errors' => array('password' => 'You must provide a password.')),
+                json_decode($response->body(), TRUE), "Incorrect API result"
+        );
     }
 
     /**

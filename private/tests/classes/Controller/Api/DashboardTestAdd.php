@@ -214,10 +214,20 @@ class Controller_Api_DashboardTestAdd extends TestCase
             )
         );
 
-        $response = Request::factory('api/dashboard/add/main/Log')
+        $response = Request::factory('api/dashboard/add/build/Log' . $this->genNumbers['ProjectBar'])
                 ->login()
                 ->post($post)
                 ->execute();
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
+        $this->assertEquals(
+                array(
+            'errors' => array(
+                'width'  => 'You must provide a width.',
+                'height' => 'You must provide a height.',
+                'column' => 'You must provide a column.',
+                'row'    => 'You must provide a row.'
+            )
+                ), json_decode($response->body(), TRUE), "Incorrect API result"
+        );
     }
 }

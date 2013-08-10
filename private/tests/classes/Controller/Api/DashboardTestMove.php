@@ -87,6 +87,14 @@ class Controller_Api_DashboardTestMove extends TestCase
                 ->login()
                 ->execute();
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
+        $this->assertEquals(
+                array(
+            'errors' => array(
+                'column' => 'You must provide a column.',
+                'row'    => 'You must provide a row.'
+            )
+                ), json_decode($response->body(), TRUE), "Incorrect API result"
+        );
     }
 
     /**
