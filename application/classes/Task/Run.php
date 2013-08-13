@@ -65,26 +65,26 @@ class Task_Run extends Minion_Task
             $targets[] = $_tok;
             $_tok      = strtok(" ,;");
         }
+        
+        $command = new Command($build->project);
 
         foreach ($targets as $target) {
-            chdir((empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path));
+            $path = (empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path);
+            $command->chdir($path);
 
             Kohana::$log->add(Log::INFO, "Starting $target...");
 
-            $buildTargetLog = array();
-            exec(
-                    'phing -logger phing.listener.HtmlColorLogger -logfile buildlog.html ' . $target . ' -Dowaka.build=' . $build->id,
-                    $buildTargetLog, $buildTargetResult
-            );
-            if (!empty($buildTargetLog)) {
-                Kohana::$log->add(Log::INFO, "Additional log: " . implode("\n", $buildTargetLog));
+            $buildTargetLog = $command->execute('cd ' . $path . ' && phing -logger phing.listener.HtmlColorLogger ' . $target . ' -Dowaka.build=' . $build->id);
+            if (strpos($buildTargetLog, 'BUILD FINISHED')) {
+                $buildTargetResult = 0;
+            } else {
+                $buildTargetResult = 1;
             }
             Kohana::$log->add(Log::INFO, "Finished $target with result $buildTargetResult");
 
             file_put_contents($this->_outdir_owaka . 'buildlog.html', "<h1>Target $target</h1>", FILE_APPEND);
-            file_put_contents($this->_outdir_owaka . 'buildlog.html', file_get_contents('buildlog.html'), FILE_APPEND);
+            file_put_contents($this->_outdir_owaka . 'buildlog.html', $buildTargetLog, FILE_APPEND);
             file_put_contents($this->_outdir_owaka . 'buildlog.html', "<h1>End of target $target with result $buildTargetResult</h1>", FILE_APPEND);
-            unlink('buildlog.html');
             
             if ($buildTargetResult == 0) {
                 Kohana::$log->add(Log::INFO, "Target $target successful");
@@ -94,8 +94,8 @@ class Task_Run extends Minion_Task
             } else {
                 Kohana::$log->add(Log::CRITICAL, "Target $target unproperly configured");
             }
-
-            chdir(DOCROOT);
+            
+            $command->chtobasedir();
 
             $this->copyReports($build);
             

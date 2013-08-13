@@ -40,11 +40,9 @@ class Model_Project extends ORM
             ),
             'path'                  => array(
                 array('not_empty'),
-                array('is_dir'),
             ),
             'phing_path'            => array(
                 array('not_empty'),
-                array('is_dir'),
             ),
             'phing_target_validate' => array(
                 array('not_empty'),

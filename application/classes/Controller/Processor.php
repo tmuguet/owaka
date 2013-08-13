@@ -37,10 +37,13 @@ abstract class Controller_Processor extends Controller
     public final function action_copy()
     {
         $buildId              = $this->request->param('id');    // TODO: validate
+        $build                = ORM::factory('Build', $buildId);
         $destinationDirectory = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId
                 . DIRECTORY_SEPARATOR . $this->_getName() . DIRECTORY_SEPARATOR;
 
 
+        $command = new Command($build->project);
+        
         foreach (static::getInputReports() as $type => $info) {
             $source      = $this->_getInputReportCompletePath($buildId, $type);
             $destination = $destinationDirectory . $info['keep-as'];    // TODO: this can get messy if mis-used !
@@ -48,10 +51,10 @@ abstract class Controller_Processor extends Controller
             Kohana::$log->add(Log::DEBUG, "Trying to copy $source to $destination");
 
             if (!empty($source) && !empty($destination)) {
-                if ($info['type'] == "dir" && !is_dir($source)) {
+                if ($info['type'] == "dir" && !$command->is_dir($source)) {
                     Kohana::$log->add(Log::INFO, "Source $source is not a directory");
                     continue;
-                } else if ($info['type'] == "file" && !is_file($source)) {
+                } else if ($info['type'] == "file" && !$command->is_file($source)) {
                     Kohana::$log->add(Log::INFO, "Source $source is not a file");
                     continue;
                 }
@@ -61,8 +64,8 @@ abstract class Controller_Processor extends Controller
                     // Create the directory only if at least one report is available
                     mkdir($destinationDirectory, 0700, true);
                 }
-
-                File::rcopy($source, $destination);
+                
+                $command->rcopy($source, $destination);
             }
         }
     }

@@ -54,11 +54,7 @@ class File extends Kohana_File
                     continue;
                 }
 
-                if (is_dir($source . DIRECTORY_SEPARATOR . $file)) {
-                    $result &= self::rcopy($source . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
-                } else {
-                    $result &= copy($source . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
-                }
+                $result &= self::rcopy($source . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
             }
             return $result;
         } elseif (is_file($source)) {
