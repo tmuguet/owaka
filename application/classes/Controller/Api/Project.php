@@ -65,7 +65,7 @@ class Controller_Api_Project extends Controller_Api
             $project->port                  = $this->request->post('port');
             $project->username              = $this->request->post('username');
             $project->privatekey_path       = $this->request->post('privatekey_path');
-            $project->public_host_key       = $this->request->post('public_host_key');
+            $project->public_host_key       = trim($this->request->post('public_host_key'));
             $project->path                  = $this->request->post('path');
             $project->phing_path            = $this->request->post('phing_path');
             $project->phing_target_validate = $this->request->post('phing_target_validate');
@@ -128,7 +128,7 @@ class Controller_Api_Project extends Controller_Api
             $project->port                  = $this->request->post('port');
             $project->username              = $this->request->post('username');
             $project->privatekey_path       = $this->request->post('privatekey_path');
-            $project->public_host_key       = $this->request->post('public_host_key');
+            $project->public_host_key       = trim($this->request->post('public_host_key'));
             $project->path                  = $this->request->post('path');
             $project->phing_path            = $this->request->post('phing_path');
             $project->phing_target_validate = $this->request->post('phing_target_validate');

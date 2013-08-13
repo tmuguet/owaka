@@ -78,7 +78,7 @@ echo View::factory('baseMenu')
             </div>
             <div class="field"><label for="port">Port:</label>
                 <input type="text" name="port" id="port" value="<?php echo $project->port; ?>"/>
-                <div class="details">SSH port of the remote server.</div>
+                <div class="details">SSH port of the remote server. Usually, 22.</div>
             </div>
             <div class="field"><label for="username">Username:</label>
                 <input type="text" name="username" id="username" value="<?php echo $project->username; ?>"/>
@@ -86,11 +86,12 @@ echo View::factory('baseMenu')
             </div>
             <div class="field"><label for="privatekey_path">Path to the private key:</label>
                 <input type="text" name="privatekey_path" id="privatekey_path" value="<?php echo $project->privatekey_path; ?>"/>
-                <div class="details">Path to the RSA private key for authentication.</div>
+                <div class="details">Path to the RSA private key for authentication. The corresponding RSA public key must be present in the autorized keys of the remote user.</div>
             </div>
             <div class="field"><label for="public_host_key">Public host key:</label>
                 <input type="text" name="public_host_key" id="public_host_key" value="<?php echo $project->public_host_key; ?>"/>
-                <div class="details">Public host key of the remote server. If the public host key does not match this value, builds will not be done.</div>
+                <div class="details">Public RSA host key of the remote server. If the public host key does not match this value, builds will not be done.</div>
+                <div class="details">On Linux/Unix, you can get this public key usually in <code>/etc/ssh_host_rsa_key.pub</code>.</div>
             </div>
         </fieldset>
         <?php

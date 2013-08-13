@@ -38,12 +38,21 @@ class Command
     {
         if ($project->is_remote) {
             $this->isRemote = TRUE;
+            if (!is_readable($project->privatekey_path)) {
+                throw new Exception('Could not read private key');
+            }
 
             $this->remoteConnection = new Net_SFTP($project->host, $project->port);
             $key                    = new Crypt_RSA();
             $key->loadKey(file_get_contents($project->privatekey_path));
             if (!$this->remoteConnection->login($project->username, $key)) {
                 throw new Exception('Could not login to ' . $project->host);
+            }
+            $remotekey = trim($this->remoteConnection->getServerPublicHostKey());
+            if ($remotekey != $project->public_host_key) {
+                throw new Exception(
+                'Server public host key has changed. Expected: ' . $project->public_host_key . '; Actual: ' . $remotekey
+                );
             }
         } else {
             $this->baseDir = $basedir;
