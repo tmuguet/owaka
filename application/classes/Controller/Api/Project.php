@@ -41,6 +41,12 @@ class Controller_Api_Project extends Controller_Api
      * @postparam name string Name of the project
      * @postparam is_active bool Indicates whether the project is active or not
      * @postparam scm string SCM used
+     * @postparam is_remote string SCM Indicates whether the project is build remotely or locally
+     * @postparam host string Host if built remotely
+     * @postparam port string SSH port if built remotely
+     * @postparam username string Username if built remotely
+     * @postparam privatekey_path string Path to the RSA private key if built remotely
+     * @postparam public_host_key string RSA public key of the remote host if built remotely
      * @postparam path string Path to the project (used for SCM polling)
      * @postparam phing_path string Path to the phing project (used for build)
      * @postparam phing_target_validate string Targets for validating
@@ -54,6 +60,12 @@ class Controller_Api_Project extends Controller_Api
             $project->name                  = $this->request->post('name');
             $project->is_active             = $this->request->post('is_active');
             $project->scm                   = $this->request->post('scm');
+            $project->is_remote             = $this->request->post('is_remote');
+            $project->host                  = $this->request->post('host');
+            $project->port                  = $this->request->post('port');
+            $project->username              = $this->request->post('username');
+            $project->privatekey_path       = $this->request->post('privatekey_path');
+            $project->public_host_key       = $this->request->post('public_host_key');
             $project->path                  = $this->request->post('path');
             $project->phing_path            = $this->request->post('phing_path');
             $project->phing_target_validate = $this->request->post('phing_target_validate');
@@ -88,6 +100,12 @@ class Controller_Api_Project extends Controller_Api
      * @postparam name string Name of the project
      * @postparam is_active bool Indicates whether the project is active or not
      * @postparam scm string SCM used
+     * @postparam is_remote string SCM Indicates whether the project is build remotely or locally
+     * @postparam host string Host if built remotely
+     * @postparam port string SSH port if built remotely
+     * @postparam username string Username if built remotely
+     * @postparam privatekey_path string Path to the RSA private key if built remotely
+     * @postparam public_host_key string RSA public key of the remote host if built remotely
      * @postparam path string Path to the project (used for SCM polling)
      * @postparam phing_path string Path to the phing project (used for build)
      * @postparam phing_target_validate string Targets for validating
@@ -105,6 +123,12 @@ class Controller_Api_Project extends Controller_Api
             $project->name                  = $this->request->post('name');
             $project->is_active             = $this->request->post('is_active');
             $project->scm                   = $this->request->post('scm');
+            $project->is_remote             = $this->request->post('is_remote');
+            $project->host                  = $this->request->post('host');
+            $project->port                  = $this->request->post('port');
+            $project->username              = $this->request->post('username');
+            $project->privatekey_path       = $this->request->post('privatekey_path');
+            $project->public_host_key       = $this->request->post('public_host_key');
             $project->path                  = $this->request->post('path');
             $project->phing_path            = $this->request->post('phing_path');
             $project->phing_target_validate = $this->request->post('phing_target_validate');

@@ -9,6 +9,9 @@ return array(
     'scm'                   => array(
         'not_empty' => 'You must provide a SCM.',
     ),
+    'is_remote'             => array(
+        'boolean' => 'You must set your project either local or remote.',
+    ),
     'path'                  => array(
         'not_empty' => 'You must provide a path.',
         'is_dir'    => 'You must provide an existing directory.',

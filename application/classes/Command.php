@@ -1,12 +1,39 @@
 <?php
 
+/**
+ * Executes commands remotely or locally.
+ *
+ * @package Core
+ */
 class Command
 {
 
-    protected $isRemote         = FALSE;
-    protected $remoteConnection = NULL;
-    protected $baseDir          = NULL;
+    /**
+     * Indicates if commands should be remote or locals
+     * @var bool
+     */
+    protected $isRemote = FALSE;
 
+    /**
+     * Remote connection
+     * @var Net_SFTP 
+     */
+    protected $remoteConnection = NULL;
+
+    /**
+     * Base dir for executing commands
+     * @var string
+     */
+    protected $baseDir = NULL;
+
+    /**
+     * Constructor
+     * 
+     * @param Model_Project $project Project
+     * @param string        $basedir Base dir
+     * 
+     * @throws Exception Remote and impossible to login
+     */
     public function __construct(Model_Project &$project, $basedir = DOCROOT)
     {
         if ($project->is_remote) {
@@ -23,16 +50,43 @@ class Command
         }
     }
 
-    public function chdir($dir)
+    /**
+     * Change directory
+     * 
+     * @param string $directory The new current directory
+     * 
+     * @return bool TRUE on success or FALSE on failure.
+     */
+    public function chdir($directory)
     {
         if ($this->isRemote) {
-            $this->remoteConnection->chdir($dir);
+            return $this->remoteConnection->chdir($directory);
         } else {
-            chdir($dir);
+            return chdir($directory);
         }
     }
-    
-    public function pwd() {
+
+    /**
+     * Change directory to base dir
+     * 
+     * @return bool TRUE on success or FALSE on failure.
+     */
+    public function chtobasedir()
+    {
+        if ($this->isRemote) {
+            return true;
+        } else {
+            return chdir($this->baseDir);
+        }
+    }
+
+    /**
+     * Gets the current working directory
+     * 
+     * @return string the current working directory on success, or FALSE on failure.
+     */
+    public function pwd()
+    {
         if ($this->isRemote) {
             return $this->remoteConnection->pwd();
         } else {
@@ -40,13 +94,13 @@ class Command
         }
     }
 
-    public function chtobasedir()
-    {
-        if (!$this->isRemote) {
-            chdir($this->baseDir);
-        }
-    }
-
+    /**
+     * Executes a command.
+     * 
+     * @param string $command Command is not escaped
+     * 
+     * @return string Output of the command
+     */
     public function execute($command)
     {
         if ($this->isRemote) {
@@ -54,19 +108,35 @@ class Command
         } else {
             $result = array();
             exec($command, $result);
-            return $result;
+            return implode("\n", $result);
         }
     }
 
+    /**
+     * Recursively copy a file/directory
+     * 
+     * @param string $source Source
+     * @param string $dest   Destination
+     * 
+     * @return boolean True if copy succeeds
+     */
     public function rcopy($source, $dest)
     {
         if ($this->isRemote) {
-            $this->_rcopy($source, $dest);
+            return $this->_rcopy($source, $dest);
         } else {
-            File::rcopy($source, $dest);
+            return File::rcopy($source, $dest);
         }
     }
 
+    /**
+     * Recursively copy a remote file/directory
+     * 
+     * @param string $source Source
+     * @param string $dest   Destination
+     * 
+     * @return boolean True if copy succeeds
+     */
     private function _rcopy($source, $dest)
     {
         if ($this->is_dir($source)) {
@@ -90,23 +160,37 @@ class Command
         }
     }
 
-    public function is_dir($dir)
+    /**
+     * Tells whether the filename is a directory
+     * 
+     * @param string $filename Path to the file.
+     * 
+     * @return bool TRUE if the filename exists and is a directory, FALSE otherwise.
+     */
+    public function is_dir($filename)
     {
         if ($this->isRemote) {
-            $stat = $this->remoteConnection->lstat($dir);
+            $stat = $this->remoteConnection->lstat($filename);
             return ($stat !== FALSE && $stat['type'] == NET_SFTP_TYPE_DIRECTORY);
         } else {
-            return is_dir($dir);
+            return is_dir($filename);
         }
     }
 
-    public function is_file($file)
+    /**
+     * Tells whether the filename is a regular file
+     * 
+     * @param string $filename Path to the file
+     *
+     * @return bool TRUE if the filename exists and is a regular file, FALSE otherwise.
+     */
+    public function is_file($filename)
     {
         if ($this->isRemote) {
-            $stat = $this->remoteConnection->lstat($file);
+            $stat = $this->remoteConnection->lstat($filename);
             return ($stat !== FALSE && $stat['type'] == NET_SFTP_TYPE_REGULAR);
         } else {
-            return is_file($file);
+            return is_file($filename);
         }
     }
 }
