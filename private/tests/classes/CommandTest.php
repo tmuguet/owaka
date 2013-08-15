@@ -7,7 +7,7 @@ class CommandTest extends TestCase
     protected $useDatabase     = FALSE;
     protected $privateKeyPaths = array(
         'thomasmuguet.local' => array('user'       => 'tmuguet', 'privatekey' => '/Users/tmuguet/.ssh/identity', 'key'        => 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArxgfZXjnmOonvyjrDNp64yPflACeeN7U35B2ZenURYHfjUAv0muMsgJK/lzG5CeyHtTzeVGxEUO5sqg5gf8kqGlZfXS5jPZomFFj2FihVV59LgL6bTCWpe85MAWDt6Or4M+UJvkZqspsiRMwe4lTJMFlJU/+T/WoGnyt1l9hNded2msKjgSy3b7eUVIosfk/3S6IJC26/qkyJStsk8Dw4TP3cTTrcDTLwXYKlnUY+6HBs7uisWIwsVgd7q0Tui5YvDKs8jkOaEP8jtD/gHL5VJX+IU1YtwpHiNbJa12F5mJ0qWblhxY4xXlYyiAN12drtXQkI6QwSIh/IsRxuuTBww=='),
-        'dev'                => array('user'       => 'tmuguet', 'privatekey' => '/home/owaka/.ssh/owaka', 'key'        => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMRSvI6VmOXHtENA0He6yHGpvBDKJolVuJmuENfOhK4tcpSxzHu31D7TzazyzP0ujFcaHI8Kfp+DaxSfkjTb0tA94CmbIrswT2lkq55S7iuXqjdobbpF+uIN3RNGypKyOs3t2hflMGyuDQk7EI5uPWObufHHx3RpoW7vl3+HC/MWbV8Sm6UfdSzIw9Npe9WU0B6crnhcWav43MBqUFjb8utD+dSjhMUt1LpDJWp2w/qFpRXrCWWbKTenH4pVmXPAk/9MWGxPQXvrfw9fffCNqStUHR8FpQP3IGo68iG8ikeMsbQ3rCBcdqz+9rfRalYTnq0aKKXA/ao6/+91ZNvRhZ')
+        'dev'                => array('user'       => 'tmuguet', 'privatekey' => '/home/owaka/owaka-key', 'key'        => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMRSvI6VmOXHtENA0He6yHGpvBDKJolVuJmuENfOhK4tcpSxzHu31D7TzazyzP0ujFcaHI8Kfp+DaxSfkjTb0tA94CmbIrswT2lkq55S7iuXqjdobbpF+uIN3RNGypKyOs3t2hflMGyuDQk7EI5uPWObufHHx3RpoW7vl3+HC/MWbV8Sm6UfdSzIw9Npe9WU0B6crnhcWav43MBqUFjb8utD+dSjhMUt1LpDJWp2w/qFpRXrCWWbKTenH4pVmXPAk/9MWGxPQXvrfw9fffCNqStUHR8FpQP3IGo68iG8ikeMsbQ3rCBcdqz+9rfRalYTnq0aKKXA/ao6/+91ZNvRhZ')
     );
 
     /**
