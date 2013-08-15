@@ -16,21 +16,21 @@ class File extends Kohana_File
      */
     public static function rrmdir($path)
     {
-        // @codeCoverageIgnoreStart
-        if (empty($path) || $path == DIRECTORY_SEPARATOR) {
+        $abspath = realpath($path);
+        if (empty($path) || $abspath === FALSE || $abspath == DIRECTORY_SEPARATOR) {
             // Avoid deleting root
-            return;
+            return false;
         }
-        // @codeCoverageIgnoreEnd
 
-        foreach (glob($path . '/*') as $file) {
+        $res = true;
+        foreach (glob($abspath . '/*') as $file) {
             if (is_dir($file)) {
-                self::rrmdir($file);
+                $res = $res && self::rrmdir($file);
             } else {
-                unlink($file);
+                $res = $res && unlink($file);
             }
         }
-        rmdir($path);
+        return $res && rmdir($path);
     }
 
     /**

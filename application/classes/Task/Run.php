@@ -74,7 +74,7 @@ class Task_Run extends Minion_Task
 
             Kohana::$log->add(Log::INFO, "Starting $target...");
 
-            $buildTargetLog = $command->execute('cd ' . $path . ' && phing -logger phing.listener.HtmlColorLogger ' . $target . ' -Dowaka.build=' . $build->id);
+            $buildTargetLog = $command->execute('phing -logger phing.listener.HtmlColorLogger ' . $target . ' -Dowaka.build=' . $build->id);
             if (strpos($buildTargetLog, 'BUILD FINISHED')) {
                 $buildTargetResult = 0;
             } else {

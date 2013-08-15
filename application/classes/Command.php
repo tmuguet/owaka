@@ -9,7 +9,7 @@ class Command
 {
 
     /**
-     * Indicates if commands should be remote or locals
+     * Indicates if commands should be remote or local
      * @var bool
      */
     protected $isRemote = FALSE;
@@ -113,7 +113,7 @@ class Command
     public function execute($command)
     {
         if ($this->isRemote) {
-            return $this->remoteConnection->exec($command);
+            return $this->remoteConnection->exec('cd ' . $this->pwd() .' && ' . $command);
         } else {
             $result = array();
             exec($command, $result);
