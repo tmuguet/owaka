@@ -7,6 +7,7 @@ return array(
     ),
     'password' => array(
         'not_empty' => 'You must provide a password.',
+        'different' => 'You must provide a password.',
     ),
     'email'    => array(
         'not_empty' => 'You must provide an email address.',

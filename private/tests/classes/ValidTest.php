@@ -7,6 +7,18 @@ class ValidTest extends TestCase
     protected $useDatabase = FALSE;
 
     /**
+     * @covers Valid::different
+     */
+    public function testDifferent()
+    {
+        $this->assertTrue(Valid::different('Foobar', 'foobar'));
+        $this->assertTrue(Valid::different('423,90', '423.90'));
+        $this->assertTrue(Valid::different('', 'NULL'));
+        $this->assertFalse(Valid::different('helloworld', 'helloworld'));
+        $this->assertFalse(Valid::different('54.000', 54));
+    }
+
+    /**
      * @covers Valid::decimal
      */
     public function testDecimal()
