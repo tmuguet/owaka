@@ -32,7 +32,7 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Basetable
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_STACK;
+        return 'list';
     }
 
     /**
@@ -107,7 +107,7 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Basetable
                     $build->project->name,
                     Date::loose_span(strtotime($date)),
                     $date,
-                    View::factory('icon')->set('status', $build->status)->set('size', 16)->render()
+                    View::factory('icon')->set('status', $build->status)->render()
                 ),
             );
         }

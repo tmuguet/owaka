@@ -32,7 +32,7 @@ class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_RIGHT2;
+        return 'check';
     }
 
     /**

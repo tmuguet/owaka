@@ -5,7 +5,7 @@ $menu_bottom   = array();
 $menu_bottom[] = array(
     'title' => 'cancel',
     'href'  => 'dashboard/main',
-    'img'   => 'freepik/powerbutton',
+    'img'   => 'off',
     'alt'   => 'Cancel'
 );
 
@@ -20,14 +20,14 @@ echo View::factory('baseMenu')
 ?>
 <div id="grid">
     <form action="api/account/delete" method="post" class="ui-form">
-        <button type="submit">Delete account</button>
+        <button type="submit" class="ui-button-primary">Delete account</button>
     </form>
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
         $(".ui-form :submit").button({
             icons: {
-                primary: "ui-icon-trash"
+                primary: "icon-trash"
             }
         });
     });

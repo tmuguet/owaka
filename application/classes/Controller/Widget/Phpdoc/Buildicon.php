@@ -36,7 +36,7 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Baseicon
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_BOOK4;
+        return 'book';
     }
 
     /**

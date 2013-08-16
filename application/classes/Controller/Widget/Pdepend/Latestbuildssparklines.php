@@ -39,7 +39,7 @@ class Controller_Widget_Pdepend_Latestbuildssparklines extends Controller_Widget
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_METER;
+        return 'certificate';
     }
 
     /**

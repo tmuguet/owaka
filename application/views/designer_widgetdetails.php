@@ -108,7 +108,7 @@ EOT;
     ?>
 </dl>
 <hr/>
-<span id="widget_drag">Drag me!</span>
+<span id="widget_drag" class="ui-button ui-button-primary">Drag me!</span>
 <hr/>
 <button id="widget_hide">Back</button>
 

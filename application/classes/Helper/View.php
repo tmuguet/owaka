@@ -31,6 +31,9 @@ class Helper_View
             } else {
                 $res .= '<span';
             }
+            if (isset($_entry['class'])) {
+                $res .= ' class="' . $_entry['class'] . '"';
+            }
             if (isset($_entry['id'])) {
                 $res .= ' id="' . $_entry['id'] . '"';
             }
@@ -39,8 +42,7 @@ class Helper_View
             }
             $res .= '>' . $_entry['title'];
             if (isset($_entry['img'])) {
-                $size = (isset($_entry['img-size']) ? $_entry['img-size'] : 32);
-                $res .= ' <img src="img/' . $_entry['img'] . '.png" width="' . $size . '" alt="' . $_entry['alt'] . '"/>';
+                $res .= ' <i class="icon-' . $_entry['img'] . '"></i>';
             }
             if (isset($_entry['href']) || isset($_entry['js'])) {
                 $res .= '</a>';

@@ -45,15 +45,15 @@ $menu[] = array(
 
 foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $_project) {
     $_lastBuild = $_project->lastBuild()->find();
-    $_status    = ($_lastBuild->loaded() ? $_lastBuild->getIcon() : 'blocked');
+    $_status    = ($_lastBuild->loaded() ? $_lastBuild->getIcon() : 'ban-circle');
 
     $res = array(
         'title'    => $_project->name,
         'href'     => 'dashboard/project/' . $_project->id,
         'selected' => ($from == 'project' || $from == 'build') && $projectId == $_project->id,
-        'img'      => 'freepik/' . $_status,
+        'img'      => $_status,
         'alt'      => $_lastBuild->status,
-        'img-size' => 16
+        'class'    => 'build-' . $_lastBuild->status,
     );
 
     if (($from == 'project' || $from == 'build') && $projectId == $_project->id) {
@@ -69,9 +69,9 @@ foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $_proje
                 'title'    => $_build->getRevision(),
                 'href'     => 'dashboard/build/' . $_build->id,
                 'selected' => $buildId == $_build->id,
-                'img'      => 'freepik/' . $_build->getIcon(),
+                'img'      => $_build->getIcon(),
                 'alt'      => $_build->status,
-                'img-size' => 16
+                'class'    => 'build-' . $_build->status,
             );
         }
     }
@@ -82,21 +82,21 @@ $menu_bottom   = array();
 $menu_bottom[] = array(
     'title' => 'new project',
     'href'  => 'manager/add',
-    'img'   => 'freepik/plus3',
+    'img'   => 'plus',
     'alt'   => 'Add a new project'
 );
 if ($from != 'main') {
     $menu_bottom[] = array(
         'title' => 'edit project',
         'href'  => 'manager/edit/' . $projectId,
-        'img'   => 'freepik/pencil',
+        'img'   => 'pencil',
         'alt'   => 'Edit project'
     );
 }
 $menu_bottom[] = array(
     'title' => 'designer',
     'href'  => 'designer/' . $from . ($from == 'main' ? '' : '/' . $projectId),
-    'img'   => 'freepik/layout3',
+    'img'   => 'th',
     'alt'   => 'Designer mode'
 );
 
@@ -113,11 +113,11 @@ echo View::factory('baseMenu')
     <?php if (empty($widgets)) : ?>
         <div id="widget_0" class="grid-elt build-error static" data-grid-width="6" data-grid-height="4" data-grid-column="0" data-grid-row="0">
             <div class="grid-elt-ico">
-                <img src="img/freepik/warningsign.png" width="32" height="32"/>
+                <i class="icon-dashboard"></i>
                 <span class="grid-elt-ico-label widget-detailed">owaka</span>
             </div>
             <div class="grid-elt-content">
-                <img src="img/freepik/warningsign.png" width="128" class="ico"/><br>
+                <i class="icon-dashboard ico" style="font-size: 52px"></i><br>
                 No widget in this dashboard<br>
                 <a href="designer/<?php echo $from; ?>/<?php echo $projectId; ?>">Go in designer mode</a>
             </div>

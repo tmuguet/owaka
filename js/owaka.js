@@ -50,10 +50,13 @@ $.owaka = {
             );
         });
 
-        $(".build-unstable").addClass('ui-state-highlight');
-        $(".build-error").addClass('ui-state-error');
-        $(".build-building").addClass('ui-state-active');
-        $(".build-queued").addClass('ui-state-active');
+        $(".build-unstable").not("a").not("body").addClass('ui-state-highlight');
+        $(".build-error").not("a").not("body").addClass('ui-state-error');
+        $(".build-building").not("a").not("body").addClass('ui-state-active');
+        $(".build-queued").not("a").not("body").addClass('ui-state-active');
+        
+        $("a.build-unstable").addClass('ui-state-highlight-text');
+        $("a.build-error").addClass('ui-state-error-text');
     },
     renderForms: function() {
         if ($(".ui-form").size() > 0) {

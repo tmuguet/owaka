@@ -35,7 +35,7 @@ class Controller_Widget_Queue extends Controller_Widget_Basetable
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_CLOCK;
+        return 'time';
     }
 
     /**

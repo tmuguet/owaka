@@ -32,7 +32,7 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_RIGHT2;
+        return 'check';
     }
 
     /**
@@ -107,21 +107,21 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
             if ($build->status == "building") {
                 $status = 'ETA ' . date("H:i", strtotime($build->eta));
             } else if (!$build->phpunit_globaldata->loaded()) {
-                $status .= View::factory('icon')->set('status', 'nodata')->set('size', 16)->render();
+                $status .= View::factory('icon')->set('status', 'nodata')->render();
             } else if ($build->phpunit_globaldata->failures > 0 || $build->phpunit_globaldata->errors > 0) {
                 if ($build->phpunit_globaldata->failures > 0) {
-                    $status .= View::factory('icon')->set('status', 'unstable')->set('size', 16)->render();
+                    $status .= View::factory('icon')->set('status', 'unstable')->render();
                     $status .= $build->phpunit_globaldata->failures;
                 }
                 if ($build->phpunit_globaldata->failures > 0 && $build->phpunit_globaldata->errors > 0) {
                     $status .= ' ';
                 }
                 if ($build->phpunit_globaldata->errors > 0) {
-                    $status .= View::factory('icon')->set('status', 'error')->set('size', 16)->render();
+                    $status .= View::factory('icon')->set('status', 'error')->render();
                     $status .= $build->phpunit_globaldata->errors;
                 }
             } else {
-                $status .= View::factory('icon')->set('status', 'ok')->set('size', 16)->render();
+                $status .= View::factory('icon')->set('status', 'ok')->render();
                 $status .= $build->phpunit_globaldata->tests;
             }
 

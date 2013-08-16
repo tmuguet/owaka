@@ -43,7 +43,7 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_TARGET;
+        return 'screenshot';
     }
 
     /**

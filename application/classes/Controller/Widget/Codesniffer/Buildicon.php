@@ -36,7 +36,7 @@ class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_SECURITY;
+        return 'shield';
     }
 
     /**

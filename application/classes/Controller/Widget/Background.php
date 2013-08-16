@@ -73,7 +73,7 @@ class Controller_Widget_Background extends Controller_Widget_Base
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_PIC;
+        return 'picture';
     }
 
     /**

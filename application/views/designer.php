@@ -6,15 +6,17 @@ $menu_bottom   = array();
 $menu_bottom[] = array(
     'title' => 'add a row',
     'js'    => '$.owaka.designer.slots.addRow();',
+    'img'   => 'ellipsis-horizontal',
 );
 $menu_bottom[] = array(
     'title' => 'add a column',
     'js'    => '$.owaka.designer.slots.addColumn();',
+    'img'   => 'ellipsis-vertical',
 );
 $menu_bottom[] = array(
     'title' => 'quit designer',
     'href'  => 'dashboard/' . ($from == 'main' ? $from : 'project') . '/' . ($from == "main" ? '' : $projectId),
-    'img'   => 'freepik/layout3',
+    'img'   => 'off',
     'alt'   => 'Quit designer mode'
 );
 
@@ -31,6 +33,7 @@ echo View::factory('baseStart')
 </div>
 <div id="widget_details"></div>
 <div id="list_widgets">
+    <label for="search">Search:</label> <input type="text" id="search"/>
     <ul>
         <?php foreach ($controllers as $_controller): ?>
             <li class="widget-elt"><a href="javascript:void(0)" data-widget="<?php echo $_controller; ?>">
@@ -77,6 +80,22 @@ if (isset($projectId)) {
 ?>
 
             $("#widget_details").load('designer_details/<?php echo $from; ?>/' + $(this).attr("data-widget"), postData);
+        });
+    });
+
+    $('#search').keyup(function() {
+        var value = $(this).val().toLowerCase().split(' ');
+        var count = value.length;
+        $.each($("#list_widgets .widget-elt"), function() {
+            var res = true;
+            for (var i = 0; i < count; i++) {
+                res &= $(this).text().toLowerCase().indexOf(value[i]) != -1;
+            }
+            if (res) {
+                $(this).slideDown(100);
+            } else {
+                $(this).slideUp(100);
+            }
         });
     });
 </script>

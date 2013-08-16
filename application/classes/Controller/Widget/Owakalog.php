@@ -32,7 +32,7 @@ class Controller_Widget_Owakalog extends Controller_Widget_Baseraw
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_DOC;
+        return 'file-text-alt';
     }
 
     /**

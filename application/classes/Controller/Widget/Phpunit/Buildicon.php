@@ -36,7 +36,7 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Baseicon
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_RIGHT2;
+        return 'check';
     }
 
     /**

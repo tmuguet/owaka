@@ -36,7 +36,7 @@ class Controller_Widget_Phpmd_Buildevolutionicon extends Controller_Widget_Basei
      */
     protected function getWidgetIcon()
     {
-        return Owaka::ICON_FLAG;
+        return 'flag-alt';
     }
 
     /**

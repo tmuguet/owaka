@@ -147,15 +147,15 @@ class Model_Build extends ORM
     {
         switch ($this->status) {
             case 'ok':
-                return 'right';
+                return 'ok';
                 break;
 
             case 'unstable':
-                return 'warning';
+                return 'warning-sign';
                 break;
 
             case 'error':
-                return 'radiation';
+                return 'bug';
                 break;
 
             case 'building':
@@ -163,12 +163,12 @@ class Model_Build extends ORM
                 break;
 
             case 'queued':
-                return 'sandclock';
+                return 'time';
                 break;
 
             case 'nodata':
             default:
-                return 'blocked';
+                return 'ban-circle';
         }
     }
 }

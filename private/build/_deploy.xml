@@ -38,7 +38,11 @@
     
     <fileset dir="${build.srcdir}/css" id="css-minimized-images">
         <include name="images/**" />
-        <include name="smoothness/images/**" />
+        <include name="jquery-ui-bootstrap/images/**" />
+    </fileset>
+    
+    <fileset dir="${build.srcdir}/css" id="css-minimized-fonts">
+        <include name="font/**" />
     </fileset>
     
     <fileset dir="${build.srcdir}/css" id="css-all">
@@ -78,6 +82,10 @@
                 
                 <copy todir="${build.deploydir}/js">
                     <fileset refid="js-minimized"/>
+                </copy>
+                <copy todir="${build.deploydir}/css/font">
+                    <mapper type="flatten"/>
+                    <fileset refid="css-minimized-fonts"/>
                 </copy>
                 <copy todir="${build.deploydir}/css/images">
                     <mapper type="flatten"/>

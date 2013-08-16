@@ -32,6 +32,11 @@ body.grunge.build-error {
     z-index: 9999;
 }
 
+.ui-icon[class^="icon-"],.ui-icon[class*=" icon-"] {
+    text-indent: 0px;
+    width: 32px;
+}
+
 .grid-elt {
     text-align: center;
     overflow: hidden;
@@ -60,8 +65,8 @@ body.grunge.build-error {
     width: 23%;
 }
 
-.grid-elt-ico img {
-    float: left;
+.grid-elt-ico .ico {
+    font-size: 20px;
 }
 
 .grid-elt-ico-label {
@@ -125,15 +130,11 @@ tr.build td img {
     text-align: right;
 }
 
-#left-panel a, #left-panel a:visited,
-#list_widgets a, #list_widgets a:visited,
-#widget_details a, #widget_details a:visited {
+a, a:visited{
     color: #000099;
 }
 
-#left-panel a:hover,
-#list_widgets a:hover,
-#widget_details a:hover {
+a:hover {
     color: #3333CC;
 }
 
@@ -168,7 +169,6 @@ tr.build td img {
     left: 0px;
     right: 0px;
     margin: 10px;
-    font-size: 70%;
 }
 
 #menu-bottom-advanced {
@@ -245,24 +245,65 @@ tr.build td img {
     padding-left: 10px;
 }
 
-.ui-widget-content a:hover {
+.ui-widget-content a, .ui-widget-header a {
+    color:#222222;
+}
+
+.ui-widget-content a:hover, .ui-widget-header a:hover {
     color: #555555;
 }
-.ui-widget-header a:hover {
+
+.ui-state-default a {
     color: #555555;
 }
 
 .ui-state-default a:hover {
     color: #888888;
 }
+
+.ui-state-active a {
+    color: #212121;
+}
+
 .ui-state-active a:hover {
     color: #545454;
 }
+
+.ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {
+    color: #393939;
+}
+
 .ui-state-highlight a:hover, .ui-widget-content .ui-state-highlight a:hover, .ui-widget-header .ui-state-highlight a:hover {
     color: #696969;
 }
 
+.ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a {
+    color: #EEEEEE;
+}
 
 .ui-state-error a:hover, .ui-widget-content .ui-state-error a:hover, .ui-widget-header .ui-state-error a:hover {
-    color: #FF3D3D;
+    color: #BBBBBB;
+}
+
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
+    margin-bottom: 0px;
+}
+
+a.ui-state-error-text {
+	color: #cd0a0a;
+}
+
+a.ui-state-highlight-text {
+	color: #363636;
+}
+
+a.ui-state-error-text:hover {
+	color: #ff3c3c;
+}
+
+a.ui-state-highlight-text:hover {
+	color: #696969;
+}
+.ui-widget-overlay {
+	position: fixed;
 }

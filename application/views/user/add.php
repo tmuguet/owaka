@@ -5,7 +5,7 @@ $menu_bottom   = array();
 $menu_bottom[] = array(
     'title' => 'cancel',
     'href'  => 'dashboard/main',
-    'img'   => 'freepik/powerbutton',
+    'img'   => 'off',
     'alt'   => 'Cancel'
 );
 
@@ -38,14 +38,14 @@ echo View::factory('baseMenu')
                 <input type="checkbox" name="admin" id="admin" value="1"/>
             </div>
         </fieldset>
-        <button type="submit">Add user</button>
+        <button type="submit" class="ui-button-primary">Add user</button>
     </form>
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
         $(".ui-form :submit").button({
             icons: {
-                primary: "ui-icon-disk"
+                primary: "icon-save"
             }
         });
     });

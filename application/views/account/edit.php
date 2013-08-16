@@ -5,7 +5,7 @@ $menu_bottom   = array();
 $menu_bottom[] = array(
     'title' => 'cancel',
     'href'  => 'dashboard/main',
-    'img'   => 'freepik/powerbutton',
+    'img'   => 'off',
     'alt'   => 'Cancel'
 );
 
@@ -26,14 +26,14 @@ echo View::factory('baseMenu')
                 <input type="password" name="password" id="password"/>
             </div>
         </fieldset>
-        <button type="submit">Edit account</button>
+        <button type="submit" class="ui-button-primary">Edit account</button>
     </form>
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
         $(".ui-form :submit").button({
             icons: {
-                primary: "ui-icon-disk"
+                primary: "icon-save"
             }
         });
     });

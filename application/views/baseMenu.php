@@ -36,7 +36,7 @@ if (Auth::instance()->logged_in()) {
     $menu_bottom[] = array(
         'title' => 'logout',
         'href'  => 'logout',
-        'img'   => 'freepik/exit',
+        'img'   => 'signout',
         'alt'   => 'Log out'
     );
 }

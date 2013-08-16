@@ -94,7 +94,7 @@ echo View::factory('baseMenu')
                 ?>/>
                 <div class="details">Project will not be built in owaka if inactive.</div>
         </fieldset>
-        <button type="submit"><?php
+        <button type="submit" class="ui-button-primary"><?php
             echo ($project->loaded() ? 'Edit project ' . $project->name : 'Add new project');
             ?></button>
     </form>
@@ -103,7 +103,7 @@ echo View::factory('baseMenu')
     $(document).ready(function() {
         $(".ui-form :submit").button({
             icons: {
-                primary: "ui-icon-disk"
+                primary: "icon-save"
             }
         });
     });

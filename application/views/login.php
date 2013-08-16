@@ -25,14 +25,14 @@ echo View::factory('baseMenu')
                 <input type="password" name="password" id="password"/>
             </div>
         </fieldset>
-        <button type="submit">Login</button>
+        <button type="submit" class="ui-button-primary">Login</button>
     </form>
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
         $(".ui-form :submit").button({
             icons: {
-                primary: "ui-icon-unlocked"
+                primary: "icon-signin"
             }
         });
     });

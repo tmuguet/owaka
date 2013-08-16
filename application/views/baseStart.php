@@ -7,7 +7,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 #ifdef DEVELOPMENT
         <link rel="stylesheet" type="text/css" media="screen" href="css/fluid960gs/reset.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="css/smoothness/jquery-ui-1.10.2.custom.min.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="css/custom-theme/jquery-ui-1.10.2.custom.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/grid.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/owaka.css" />
 #else
