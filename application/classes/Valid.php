@@ -9,19 +9,19 @@ defined('SYSPATH') OR die('No direct script access.');
 class Valid extends Kohana_Valid
 {
 
+    /**
+     * Checks that a field is not the value required.
+     *
+     * @param string $value    value
+     * @param string $required required value
+     * 
+     * @return  boolean
+     */
+    public static function different($value, $required)
+    {
+        return ($value != $required);
+    }
 
-	/**
-	 * Checks that a field is not the value required.
-	 *
-	 * @param   string  $value      value
-	 * @param   string  $required   required value
-	 * @return  boolean
-	 */
-	public static function different($value, $required)
-	{
-		return ($value != $required);
-	}
-    
     /**
      * Validates a decimal number
      * 

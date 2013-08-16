@@ -10,11 +10,11 @@ class Model_User extends Model_Auth_User
 {
 
     /**
-	 * Rules for the user model.
-	 *
-	 * @return array Rules
-	 */
-	public function rules()
+     * Rules for the user model.
+     *
+     * @return array Rules
+     */
+    public function rules()
     {
         return array(
             'username' => array(
@@ -24,7 +24,7 @@ class Model_User extends Model_Auth_User
             ),
             'password' => array(
                 array('not_empty'),
-                array('different', array(':value', Auth::instance()->hash(''))),    // True non-empty test
+                array('different', array(':value', Auth::instance()->hash(''))), // True non-empty test
             ),
             'email'    => array(
                 array('not_empty'),
