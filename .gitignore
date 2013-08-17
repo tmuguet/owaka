@@ -1,10 +1,7 @@
 /nbproject/private/
-/img/LT_SubtleGrunge_07.psd
+/img/*.psd
 /application/reports/
 /private/build/tmp/
-/img/freepik2/
-/private/build/local.properties
-/private/build/test.properties
-/private/build/prod.properties
-/private/build/build.properties
-/private/build/test_public.properties
+/private/build/*.properties
+/private/build/data/
+!/private/build/data/_db/
