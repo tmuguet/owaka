@@ -140,19 +140,17 @@ a:hover {
 
 #owaka {
     position: absolute;
-    top: 60px;
-    left: 60px;
+    top: 10px;
+    left: 100px;
 }
 
 #owaka h1 {
-    font-size: 36px;
-    font-weight: bolder;
-
-    -webkit-transform:rotate(-90deg);
-    -moz-transform:rotate(-90deg);
-    -o-transform:rotate(-90deg);
-    -ms-transform:rotate(-90deg);
-    transform:rotate(-90deg);
+    background-image: url('../img/owaka-vertical.png');
+    height: 120px;
+    width: 32px;
+    display: block;
+    text-indent: 99999px;
+	overflow: hidden;
 }
 
 #menu {
