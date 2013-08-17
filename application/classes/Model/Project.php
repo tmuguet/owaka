@@ -38,13 +38,14 @@ class Model_Project extends ORM
             'scm'                   => array(
                 array('not_empty'),
             ),
+            'is_remote'             => array(
+                array('boolean'),
+            ),
             'path'                  => array(
                 array('not_empty'),
-                array('is_dir'),
             ),
             'phing_path'            => array(
                 array('not_empty'),
-                array('is_dir'),
             ),
             'phing_target_validate' => array(
                 array('not_empty'),
