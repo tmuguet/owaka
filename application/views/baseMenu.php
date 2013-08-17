@@ -48,10 +48,14 @@ if (Auth::instance()->logged_in()) {
     </div>
     <div id="menu-bottom">
         <?php echo Helper_View::processMenu($menu_bottom) ?>
-        <a href="javascript:void(0)" onclick="$('#menu-bottom-advanced').slideToggle();">more...</a>
-        <div id="menu-bottom-advanced">
-            <?php echo Helper_View::processMenu($menu_bottom_advanced) ?>
-        </div>
+        <?php
+        if (sizeof($menu_bottom_advanced) > 0):
+            ?>
+            <a href="javascript:void(0)" onclick="$('#menu-bottom-advanced').slideToggle();">more...</a>
+            <div id="menu-bottom-advanced">
+                <?php echo Helper_View::processMenu($menu_bottom_advanced) ?>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 <div id="top-panel">
