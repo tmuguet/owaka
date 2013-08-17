@@ -2,6 +2,7 @@ body {
     background-color: #f0f0f0;
     background-size: cover;
     background-attachment: fixed;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 body.splotchy.build-ok {
@@ -150,7 +151,7 @@ a:hover {
     width: 32px;
     display: block;
     text-indent: 99999px;
-	overflow: hidden;
+    overflow: hidden;
 }
 
 #menu {
@@ -243,6 +244,16 @@ a:hover {
     padding-left: 10px;
 }
 
+/* override fonts of jquery ui */
+.ui-widget, .ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button, .wijmo-wijmenu .wijmo-wijmenu-item input  {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* override colors of jquery-ui */
+
 .ui-widget-content a, .ui-widget-header a {
     color:#222222;
 }
@@ -288,20 +299,20 @@ a:hover {
 }
 
 a.ui-state-error-text {
-	color: #cd0a0a;
+    color: #cd0a0a;
 }
 
 a.ui-state-highlight-text {
-	color: #363636;
+    color: #363636;
 }
 
 a.ui-state-error-text:hover {
-	color: #ff3c3c;
+    color: #ff3c3c;
 }
 
 a.ui-state-highlight-text:hover {
-	color: #696969;
+    color: #696969;
 }
 .ui-widget-overlay {
-	position: fixed;
+    position: fixed;
 }
