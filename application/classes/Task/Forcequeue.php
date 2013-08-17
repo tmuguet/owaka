@@ -7,11 +7,6 @@ class Task_Forcequeue extends Minion_Task
         'id' => NULL,
     );
 
-    public function build_validation(Validation $validation)
-    {
-        return parent::build_validation($validation);
-    }
-
     protected function _execute(array $params)
     {
         $project = ORM::factory('Project', $params['id']);
@@ -20,21 +15,22 @@ class Task_Forcequeue extends Minion_Task
             return;
         }
 
-        chdir($project->path);
+        $command = new Command($project);
+        $command->chdir($project->path);
 
         switch ($project->scm) {
             case 'mercurial':
-                $tip = array();
-                exec('hg tip', $tip);
+                $tip_res = $command->execute('hg tip');
+                $tip     = explode("\n", $tip_res);
                 preg_match('/\s(\d+):/', $tip[0], $matches);
-                $rev = $matches[1];
+                $rev     = $matches[1];
                 break;
 
             case 'git':
-                $tip = array();
-                exec('git log -1', $tip);
+                $tip_res = $command->execute('git log -1');
+                $tip     = explode("\n", $tip_res);
                 preg_match('/commit\s+([0-9a-f]+)/', $tip[0], $matches);
-                $rev = $matches[1];
+                $rev     = $matches[1];
                 break;
         }
 
@@ -48,6 +44,6 @@ class Task_Forcequeue extends Minion_Task
         $build->finished   = NULL;
         $build->create();
 
-        chdir(DOCROOT);
+        $command->chtobasedir();
     }
 }
