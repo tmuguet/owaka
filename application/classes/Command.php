@@ -29,8 +29,8 @@ class Command
     /**
      * Constructor
      * 
-     * @param Model_Project $project Project
-     * @param string        $basedir Base dir
+     * @param Model_Project &$project Project
+     * @param string        $basedir  Base dir
      * 
      * @throws Exception Remote and impossible to login
      */
