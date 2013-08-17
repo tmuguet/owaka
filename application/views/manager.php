@@ -7,7 +7,7 @@ $menu_bottom   = array();
 $menu_bottom[] = array(
     'title' => 'cancel',
     'href'  => 'dashboard/main',
-    'img'   => 'freepik/powerbutton',
+    'img'   => 'off',
     'alt'   => 'Cancel'
 );
 
