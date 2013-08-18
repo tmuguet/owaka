@@ -8,6 +8,11 @@
 class Controller_Processor_Phpdoc extends Controller_Processor
 {
 
+    /**
+     * Gets the input reports
+     * 
+     * @return array
+     */
     static public function getInputReports()
     {
         return array(

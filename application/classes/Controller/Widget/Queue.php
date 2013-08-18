@@ -11,11 +11,11 @@ class Controller_Widget_Queue extends Controller_Widget_Basetable
     /**
      * Gets the expected parameters
      * 
-     * @param string $dashboard Type of dashboard
+     * //@param string $dashboard Type of dashboard
      * 
      * @return array
      */
-    static public function getExpectedParameters($dashboard)
+    static public function getExpectedParameters(/* $dashboard */)
     {
         return array(
             'max' => array(
@@ -85,7 +85,7 @@ class Controller_Widget_Queue extends Controller_Widget_Basetable
                 $date = $build->eta;
             } else {
                 $status = '';
-                $date = $build->started;
+                $date   = $build->started;
             }
 
             $this->rows[] = array(

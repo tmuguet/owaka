@@ -106,7 +106,8 @@ class Command
     /**
      * Executes a command.
      * 
-     * @param string $command Command is not escaped
+     * @param string $command     Command is not escaped
+     * @param int    &$return_var If present, then the return status of the executed command will be written to this variable.
      * 
      * @return string Output of the command
      */
@@ -214,7 +215,7 @@ class Command
      * @param string $pathname  The directory path.
      * @param int    $mode      Mode
      * @param bool   $recursive Allows the creation of nested directories specified in the pathname.
-     * .
+     * 
      * @return bool TRUE on success or FALSE on failure.
      */
     public function mkdir($pathname, $mode = 0755, $recursive = false)

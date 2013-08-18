@@ -11,11 +11,11 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Basetable
     /**
      * Gets the expected parameters
      * 
-     * @param string $dashboard Type of dashboard
+     * //@param string $dashboard Type of dashboard
      * 
      * @return array
      */
-    static public function getExpectedParameters($dashboard)
+    static public function getExpectedParameters(/* $dashboard */)
     {
         return array(
             'project' => array(

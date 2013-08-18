@@ -8,6 +8,11 @@
 class Controller_Processor_Phpunit extends Controller_Processor
 {
 
+    /**
+     * Gets the input reports
+     * 
+     * @return array
+     */
     static public function getInputReports()
     {
         return array(
@@ -72,6 +77,13 @@ class Controller_Processor_Phpunit extends Controller_Processor
         return false;
     }
 
+    /**
+     * Analyses a build
+     * 
+     * @param Model_Build &$build Build
+     * 
+     * @return string Status
+     */
     public function analyze(Model_Build &$build)
     {
         if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {

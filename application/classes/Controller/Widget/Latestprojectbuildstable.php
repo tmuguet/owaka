@@ -11,11 +11,11 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Baset
     /**
      * Gets the expected parameters
      * 
-     * @param string $dashboard Type of dashboard
+     * //@param string $dashboard Type of dashboard
      * 
      * @return array
      */
-    static public function getExpectedParameters($dashboard)
+    static public function getExpectedParameters(/* $dashboard */)
     {
         return array();
     }
@@ -71,7 +71,7 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Baset
         foreach ($builds as $build) {
             if ($build->loaded()) {
                 $date = ($build->status == 'building' || $build->status == 'queued') ? $build->started : $build->finished;
-            
+
                 $this->rows[] = array(
                     "link"    => array(
                         "type" => 'build',

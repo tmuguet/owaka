@@ -213,6 +213,7 @@ class Controller_Api_Project extends Controller_Api
      * Edits reports for a project
      * 
      * @param Model_Project &$project Project
+     * 
      * @return boolean
      */
     /* protected */ function editReports(Model_Project &$project)
@@ -221,7 +222,7 @@ class Controller_Api_Project extends Controller_Api
         $processors = File::findProcessors();
         foreach ($processors as $processor) {
             $name = str_replace("Controller_Processor_", "", $processor);
-            foreach ($processor::getInputReports() as $key => $reports) {
+            foreach (array_keys($processor::getInputReports()) as $key) {
                 $type = strtolower($name) . '_' . $key;
                 if (array_key_exists($type, $post)) {
                     $report = ORM::factory(

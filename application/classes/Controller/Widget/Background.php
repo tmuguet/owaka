@@ -49,11 +49,11 @@ class Controller_Widget_Background extends Controller_Widget_Base
     /**
      * Gets the expected parameters
      * 
-     * @param string $dashboard Type of dashboard
+     * //@param string $dashboard Type of dashboard
      * 
      * @return array
      */
-    static public function getExpectedParameters($dashboard)
+    static public function getExpectedParameters(/* $dashboard */)
     {
         return array(
             'theme' => array(

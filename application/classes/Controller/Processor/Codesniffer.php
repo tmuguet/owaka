@@ -8,6 +8,11 @@
 class Controller_Processor_Codesniffer extends Controller_Processor
 {
 
+    /**
+     * Gets the input reports
+     * 
+     * @return array
+     */
     static public function getInputReports()
     {
         return array(
@@ -72,15 +77,14 @@ class Controller_Processor_Codesniffer extends Controller_Processor
 
         return false;
     }
-
-    /*public function analyze(Model_Build &$build)
-    {
-        if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors == 0) {
-            return 'ok';
-        } else if ($build->codesniffer_globaldata->errors == 0) {
-            return 'unstable';
-        } else {
-            return 'error';
-        }
-    }*/
+    /* public function analyze(Model_Build &$build)
+      {
+      if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors == 0) {
+      return 'ok';
+      } else if ($build->codesniffer_globaldata->errors == 0) {
+      return 'unstable';
+      } else {
+      return 'error';
+      }
+      } */
 }
