@@ -1,6 +1,6 @@
 <?php
 
-class Task_Checkout extends Minion_Task
+class Task_Switch extends Minion_Task
 {
 
     protected $_options = array(
@@ -19,21 +19,18 @@ class Task_Checkout extends Minion_Task
             echo "No project";
             return;
         }
-        if ($project->scm_status != 'void') {
-            echo "Project has already been checked out";
+        if ($project->scm_status != 'checkedout') {
+            echo "Project has not been checked out or has already been switched";
             return;
         }
 
         $command = new Command($project);
-        if (!$command->is_dir($project->path)) {
-            $command->mkdir($project->path, 0700, true);
-        }
         $command->chdir($project->path);
 
         $res = '';
         switch ($project->scm) {
             case 'mercurial':
-                $log = $command->execute('hg clone ' . $project->scm_url . ' ./', $res);
+                $log = $command->execute('hg update ' . $project->scm_branch, $res);
                 if ($res != 0) {
                     echo "Status $res\n" . $log;
                     return;
@@ -41,7 +38,7 @@ class Task_Checkout extends Minion_Task
                 break;
 
             case 'git':
-                $log = $command->execute('git clone ' . $project->scm_url . ' ./', $res);
+                $log = $command->execute('git checkout ' . $project->scm_branch, $res);
                 if ($res != 0) {
                     echo "Status $res\n" . $log;
                     return;
@@ -49,7 +46,7 @@ class Task_Checkout extends Minion_Task
                 break;
         }
 
-        $project->scm_status = 'checkedout';
+        $project->scm_status = 'ready';
         $project->update();
         echo 'ok';
     }

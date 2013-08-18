@@ -15,7 +15,7 @@ class Task_Queue extends Minion_Task
 
         $todo = ORM::factory('Project')
                 ->where('is_active', '=', 1)
-                ->where('is_ready', '=', 1);
+                ->where('scm_status', '=', 'ready');
         if (!empty($ignoreIds)) {
             $todo->where('id', 'NOT IN', $ignoreIds);
         }
@@ -39,16 +39,16 @@ class Task_Queue extends Minion_Task
             switch ($project->scm) {
                 case 'mercurial':
                     $tip_res = $command->execute('hg tip');
-                    $tip = explode("\n", $tip_res);
+                    $tip     = explode("\n", $tip_res);
                     preg_match('/\s(\d+):/', $tip[0], $matches);
-                    $rev = $matches[1];
+                    $rev     = $matches[1];
                     break;
 
                 case 'git':
                     $tip_res = $command->execute('git log -1');
-                    $tip = explode("\n", $tip_res);
+                    $tip     = explode("\n", $tip_res);
                     preg_match('/commit\s+([0-9a-f]+)/', $tip[0], $matches);
-                    $rev = $matches[1];
+                    $rev     = $matches[1];
                     break;
             }
 

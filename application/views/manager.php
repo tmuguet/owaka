@@ -136,32 +136,29 @@ echo View::factory('baseMenu')
             echo ($project->loaded() ? 'Edit project ' . $project->name : 'Add new project');
             ?></button>
     </form>
-    <?php if (!$project->loaded() || !$project->is_ready): ?>
-        <form action="" method="post" class="ui-form" id="form-checkout" style="display: none"> 
-            <button type="submit" data-icon="icon-code-fork">Checkout</button>
-        </form>
-    <?php endif; ?>
+    <form action="" method="post" class="ui-form" id="form-checkout" style="display: none"> 
+        <button type="submit" data-icon="icon-code-fork">Checkout</button>
+    </form>
 </div>
 <script type="text/javascript">
     $.owaka.formapi($('#form-edit'), function(data) {
-<?php
-if (!$project->loaded() || !$project->is_ready):
-    ?>
+        if (data.scm_status != 'ready') {
             $("#form-checkout").attr("action", "api/project/checkout/" + data.project);
             $("#form-checkout").fadeIn();
+        } else {
+<?php if ($project->loaded()): ?>
+                alert('Project updated');
 <?php else: ?>
-            alert('Project updated');
-            document.location = 'dashboard/project/' + data.project;
+                alert('Project added');
 <?php endif; ?>
+            document.location = 'dashboard/project/' + data.project;
+        }
     });
-<?php
-if (!$project->loaded() || !$project->is_ready):
-    ?>
-        $.owaka.formapi($('#form-checkout'), function(data) {
-            alert('Project created');
-            document.location = 'dashboard/project/' + data.project;
-        });
-<?php endif; ?>
+
+    $.owaka.formapi($('#form-checkout'), function(data) {
+        alert('Project checked out!');
+        document.location = 'dashboard/project/' + data.project;
+    });
 </script>
 <?php
 echo View::factory('baseEnd')

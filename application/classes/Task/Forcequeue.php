@@ -4,14 +4,23 @@ class Task_Forcequeue extends Minion_Task
 {
 
     protected $_options = array(
-        'id' => NULL,
+        'id'      => NULL,
+        'project' => NULL,
     );
 
     protected function _execute(array $params)
     {
-        $project = ORM::factory('Project', $params['id']);
+        if (isset($params['project'])) {
+            $project = $params['project'];
+        } else {
+            $project = ORM::factory('Project', $params['id']);
+        }
         if (!$project->loaded()) {
             echo "No project";
+            return;
+        }
+        if ($project->scm_status != 'ready') {
+            echo "Project has not been checked out";
             return;
         }
 
