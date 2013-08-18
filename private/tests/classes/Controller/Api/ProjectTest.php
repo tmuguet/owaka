@@ -30,7 +30,10 @@ class Controller_Api_ProjectTest extends TestCase
         $expected                        = ORM::factory('Project');
         $expected->name                  = 'foo';
         $expected->is_active             = 1;
+        $expected->is_ready              = 0;
         $expected->scm                   = 'mercurial';
+        $expected->scm_url               = 'scm_url';
+        $expected->scm_branch            = 'branch';
         $expected->is_remote             = 1;
         $expected->host                  = "blabla";
         $expected->port                  = 22;
@@ -51,6 +54,8 @@ class Controller_Api_ProjectTest extends TestCase
         $request->post('name', $expected->name);
         $request->post('is_active', $expected->is_active);
         $request->post('scm', $expected->scm);
+        $request->post('scm_url', $expected->scm_url);
+        $request->post('scm_branch', $expected->scm_branch);
         $request->post('is_remote', $expected->is_remote);
         $request->post('host', $expected->host);
         $request->post('port', $expected->port);
@@ -101,6 +106,8 @@ class Controller_Api_ProjectTest extends TestCase
             'errors' => array(
                 'name'                  => 'You must provide a name.',
                 'scm'                   => 'You must provide a SCM.',
+                'scm_url'               => 'You must provide a URL for checking out your project.',
+                'scm_branch'            => 'You must provide a branch for checking out your project.',
                 'path'                  => 'You must provide a path.',
                 'phing_path'            => 'You must provide a path.',
                 'phing_target_validate' => 'You must provide at least one target.',
@@ -119,7 +126,10 @@ class Controller_Api_ProjectTest extends TestCase
         $expected->id                    = $this->genNumbers['ProjectFoo'];
         $expected->name                  = 'foo';
         $expected->is_active             = 1;
+        $expected->is_ready              = 0;
         $expected->scm                   = 'mercurial';
+        $expected->scm_url               = 'scm_url';
+        $expected->scm_branch            = 'branch';
         $expected->is_remote             = 1;
         $expected->host                  = "blabla";
         $expected->port                  = 22;
@@ -142,6 +152,8 @@ class Controller_Api_ProjectTest extends TestCase
         $request->post('name', $expected->name);
         $request->post('is_active', $expected->is_active);
         $request->post('scm', $expected->scm);
+        $request->post('scm_url', $expected->scm_url);
+        $request->post('scm_branch', $expected->scm_branch);
         $request->post('is_remote', $expected->is_remote);
         $request->post('host', $expected->host);
         $request->post('port', $expected->port);
@@ -190,6 +202,8 @@ class Controller_Api_ProjectTest extends TestCase
             'errors' => array(
                 'name'                  => 'You must provide a name.',
                 'scm'                   => 'You must provide a SCM.',
+                'scm_url'               => 'You must provide a URL for checking out your project.',
+                'scm_branch'            => 'You must provide a branch for checking out your project.',
                 'path'                  => 'You must provide a path.',
                 'phing_path'            => 'You must provide a path.',
                 'phing_target_validate' => 'You must provide at least one target.',

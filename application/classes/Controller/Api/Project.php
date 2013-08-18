@@ -185,6 +185,8 @@ class Controller_Api_Project extends Controller_Api
             $project->name                  = $this->request->post('name');
             $project->is_active             = $this->request->post('is_active');
             $project->scm                   = $this->request->post('scm');
+            $project->scm_url               = $this->request->post('scm_url');
+            $project->scm_branch            = $this->request->post('scm_branch');
             $project->is_remote             = $this->request->post('is_remote');
             $project->host                  = $this->request->post('host');
             $project->port                  = $this->request->post('port');

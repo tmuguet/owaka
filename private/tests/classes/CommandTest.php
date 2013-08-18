@@ -135,8 +135,7 @@ class CommandTest extends TestCase
         // Execute
         $result   = array();
         exec('ls ' . APPPATH, $result);
-        $result[] = '';
-        $actual   = implode("\n", $result);
+        $actual   = trim(implode("\n", $result));
         $this->assertEquals($actual, $target->execute('ls'));
 
         // Is_dir / Is_file

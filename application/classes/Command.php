@@ -110,7 +110,7 @@ class Command
      * 
      * @return string Output of the command
      */
-    public function execute($command, &$return_var)
+    public function execute($command, &$return_var = NULL)
     {
         if ($this->isRemote) {
             $res        = $this->remoteConnection->exec('cd ' . $this->pwd() . ' && ' . $command . '; echo +res=$?');
