@@ -38,17 +38,10 @@ echo View::factory('baseMenu')
                 <input type="checkbox" name="admin" id="admin" value="1"/>
             </div>
         </fieldset>
-        <button type="submit" class="ui-button-primary">Add user</button>
+        <button type="submit" data-icon="icon-save">Add user</button>
     </form>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $(".ui-form :submit").button({
-            icons: {
-                primary: "icon-save"
-            }
-        });
-    });
     $.owaka.formapi($('.ui-form'), function(data) {
         alert('User added');
         document.location = 'dashboard/main';

@@ -23,7 +23,7 @@ echo View::factory('baseMenu')
 <div id="grid">
     <form action="api/project/<?php
     echo ($project->loaded() ? 'edit/' . $project->id : 'add');
-    ?>" method="post" class="ui-form"> 
+    ?>" method="post" class="ui-form" id="form-edit"> 
         <fieldset>
             <legend>Project</legend>
 
@@ -51,9 +51,19 @@ echo View::factory('baseMenu')
                     </select>
                 </div>
 
+                <div class="field"><label for="scm_url">URL for SCM checkout:</label>
+                    <input type="text" name="scm_url" id="scm_url" value="<?php echo $project->scm_url; ?>"/>
+                    <div class="details">URL used for checking out your project.</div>
+                </div>
+
+                <div class="field"><label for="scm_branch">SCM Branch:</label>
+                    <input type="text" name="scm_branch" id="scm_branch" value="<?php echo $project->scm_branch; ?>"/>
+                    <div class="details">Branch used in your SCM.</div>
+                </div>
+
                 <div class="field"><label for="path">Path:</label>
                     <input type="text" name="path" id="path" value="<?php echo $project->path; ?>"/>
-                    <div class="details">Path to your SCM repository. If built remotely, path on the remote server.</div>
+                    <div class="details">Path where your project will be checked out (will be created if needed). If built remotely, path on the remote server.</div>
                 </div>
 
                 <div class="field"><label for="phing_path">Path to phing project:</label>
@@ -122,23 +132,32 @@ echo View::factory('baseMenu')
                 ?>/>
                 <div class="details">Project will not be built in owaka if inactive.</div>
         </fieldset>
-        <button type="submit" class="ui-button-primary"><?php
+        <button type="submit" data-icon="icon-save"><?php
             echo ($project->loaded() ? 'Edit project ' . $project->name : 'Add new project');
             ?></button>
     </form>
+    <?php if (!$project->loaded()): ?>
+        <form action="" method="post" class="ui-form" id="form-checkout" style="display: none"> 
+            <button type="submit" data-icon="icon-code-fork">Checkout</button>
+        </form>
+    <?php endif; ?>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $(".ui-form :submit").button({
-            icons: {
-                primary: "icon-save"
-            }
+    $.owaka.formapi($('#form-edit'), function(data) {
+<?php if (!$project->loaded()): ?>
+            $("#form-checkout").attr("action", "api/project/checkout/" + data.project);
+            $("#form-checkout").fadeIn();
+<?php else: ?>
+            alert('Project updated');
+            document.location = 'dashboard/project/' + data.project;
+<?php endif; ?>
+    });
+<?php if (!$project->loaded()): ?>
+        $.owaka.formapi($('#form-checkout'), function(data) {
+            alert('Project created');
+            document.location = 'dashboard/project/' + data.project;
         });
-    });
-    $.owaka.formapi($('.ui-form'), function(data) {
-        alert('Project updated');
-        document.location = 'dashboard/project/' + data.project;
-    });
+<?php endif; ?>
 </script>
 <?php
 echo View::factory('baseEnd')

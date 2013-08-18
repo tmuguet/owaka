@@ -26,17 +26,10 @@ echo View::factory('baseMenu')
                 <input type="password" name="password" id="password"/>
             </div>
         </fieldset>
-        <button type="submit" class="ui-button-primary">Edit account</button>
+        <button type="submit" data-icon="icon-save">Edit account</button>
     </form>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $(".ui-form :submit").button({
-            icons: {
-                primary: "icon-save"
-            }
-        });
-    });
     $.owaka.formapi($('.ui-form'), function(data) {
         alert('User edited');
         document.location = 'dashboard/main';

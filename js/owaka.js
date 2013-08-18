@@ -54,7 +54,7 @@ $.owaka = {
         $(".build-error").not("a").not("body").addClass('ui-state-error');
         $(".build-building").not("a").not("body").addClass('ui-state-active');
         $(".build-queued").not("a").not("body").addClass('ui-state-active');
-        
+
         $("a.build-unstable").addClass('ui-state-highlight-text');
         $("a.build-error").addClass('ui-state-error-text');
     },
@@ -87,14 +87,32 @@ $.owaka = {
         });
     },
     formapi: function(form, callback) {
+        var submitbtn = form.find(':submit');
+        var icon = submitbtn.attr('data-icon');
+        submitbtn.addClass('ui-button-primary');
+        submitbtn.after('<span id="' + form.attr('id') + '-helper"></span>');
+        var helper = $('#' + form.attr('id') + '-helper');
+
+        submitbtn.button({
+            icons: {
+                primary: icon
+            }
+        });
+
         form.submit(function() {
-            form.find(':submit').button('disable');
+            submitbtn.button('disable');
+            helper.html('<i class="icon-spinner icon-spin"></i> Processing...').removeClass('ui-state-error-text');
+
             $.each(form.serializeArray(), function(idx, o) {
                 $("#" + o.name).removeClass('ui-state-error');
                 $("label[for=" + o.name + "]").removeClass('ui-state-error-text');
                 $("#error_" + o.name).remove();
             });
-            $.post(form.attr('action'), form.serialize(), callback, "json").fail(function(jqXHR, textStatus, errorThrown) {
+            $.post(form.attr('action'), form.serialize(), function(data) {
+                helper.html('');
+                callback(data);
+            }, "json").fail(function(jqXHR, textStatus, errorThrown) {
+                var error = 'An error occurred!';
                 switch (jqXHR.status) {
                     case 422:
                         var res = $.parseJSON(jqXHR.responseText);
@@ -106,14 +124,18 @@ $.owaka = {
                             });
                         }
                         if (res.error) {
+                            error = res.error;
                             alert(res.error);
+                        } else {
+                            error = 'Some fields are required';
                         }
                         break;
 
                     default:
                         alert('Fail ' + textStatus + ' / ' + errorThrown + ' @ ' + jqXHR.responseText);
                 }
-                form.find(':submit').button('enable').addClass('ui-state-error');
+                submitbtn.button('enable').removeClass('ui-button-primary').addClass('ui-button-danger');
+                helper.html(error).addClass('ui-state-error-text');
             });
             return false;
         });

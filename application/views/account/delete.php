@@ -20,17 +20,10 @@ echo View::factory('baseMenu')
 ?>
 <div id="grid">
     <form action="api/account/delete" method="post" class="ui-form">
-        <button type="submit" class="ui-button-primary">Delete account</button>
+        <button type="submit" data-icon="icon-trash">Delete account</button>
     </form>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $(".ui-form :submit").button({
-            icons: {
-                primary: "icon-trash"
-            }
-        });
-    });
     $.owaka.formapi($('.ui-form'), function(data) {
         alert('Account deleted');
         document.location = 'dashboard/main';
