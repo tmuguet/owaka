@@ -110,13 +110,18 @@ class Command
      * 
      * @return string Output of the command
      */
-    public function execute($command)
+    public function execute($command, &$return_var)
     {
         if ($this->isRemote) {
-            return $this->remoteConnection->exec('cd ' . $this->pwd() .' && ' . $command);
+            $res        = $this->remoteConnection->exec('cd ' . $this->pwd() . ' && ' . $command . '; echo +res=$?');
+            $matches    = array();
+            preg_match('/\+res=(-?\d+)/', $res, $matches);
+            $return_var = $matches[1];
+            $res        = trim(str_replace($matches[0], "", $res));
+            return $res;
         } else {
             $result = array();
-            exec($command, $result);
+            exec($command, $result, $return_var);
             return implode("\n", $result);
         }
     }
@@ -200,6 +205,24 @@ class Command
             return ($stat !== FALSE && $stat['type'] == NET_SFTP_TYPE_REGULAR);
         } else {
             return is_file($filename);
+        }
+    }
+
+    /**
+     * Makes directory
+     * 
+     * @param string $pathname  The directory path.
+     * @param int    $mode      Mode
+     * @param bool   $recursive Allows the creation of nested directories specified in the pathname.
+     * .
+     * @return bool TRUE on success or FALSE on failure.
+     */
+    public function mkdir($pathname, $mode = 0755, $recursive = false)
+    {
+        if ($this->isRemote) {
+            return $this->remoteConnection->mkdir($pathname, $mode, $recursive);
+        } else {
+            return mkdir($pathname, $mode, $recursive);
         }
     }
 }

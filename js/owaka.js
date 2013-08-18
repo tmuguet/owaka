@@ -115,6 +115,7 @@ $.owaka = {
                 var error = 'An error occurred!';
                 switch (jqXHR.status) {
                     case 422:
+                    case 424:
                         var res = $.parseJSON(jqXHR.responseText);
                         if (res.errors) {
                             $.each(res.errors, function(key, o) {
@@ -125,7 +126,9 @@ $.owaka = {
                         }
                         if (res.error) {
                             error = res.error;
-                            alert(res.error);
+                            if (res.details) {
+                                error += "<br>Details : " + res.details;
+                            }
                         } else {
                             error = 'Some fields are required';
                         }

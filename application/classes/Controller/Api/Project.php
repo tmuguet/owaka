@@ -41,6 +41,8 @@ class Controller_Api_Project extends Controller_Api
      * @postparam name string Name of the project
      * @postparam is_active bool Indicates whether the project is active or not
      * @postparam scm string SCM used
+     * @postparam scm_url string URL of distant repository for checkout
+     * @postparam scm_branch string Branch for checkout
      * @postparam is_remote string SCM Indicates whether the project is build remotely or locally
      * @postparam host string Host if built remotely
      * @postparam port string SSH port if built remotely
@@ -58,8 +60,11 @@ class Controller_Api_Project extends Controller_Api
         try {
             $project                        = ORM::factory('Project');
             $project->name                  = $this->request->post('name');
+            $project->is_ready              = 0;
             $project->is_active             = $this->request->post('is_active');
             $project->scm                   = $this->request->post('scm');
+            $project->scm_url               = $this->request->post('scm_url');
+            $project->scm_branch            = $this->request->post('scm_branch');
             $project->is_remote             = $this->request->post('is_remote');
             $project->host                  = $this->request->post('host');
             $project->port                  = $this->request->post('port');
@@ -90,6 +95,63 @@ class Controller_Api_Project extends Controller_Api
             $this->respondOk(array('project' => $project->id));
         } catch (ORM_Validation_Exception $e) {
             $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors('models')));
+        }
+    }
+
+    /**
+     * Checks out a new project
+     * 
+     * @url http://example.com/api/project/checkout/&lt;project_id&gt;
+     */
+    public function action_checkout()
+    {
+        $ob = false;
+        try {
+            $projectId = $this->request->param('id');
+            $project   = ORM::factory('Project', $projectId);
+            if (!$project->loaded()) {
+                throw new HTTP_Exception_404();
+            }
+
+            ob_start();
+            $ob       = true;
+            $checkout = Minion_Task::factory(array('task' => 'Checkout', 'id'   => $projectId));
+            $checkout->execute();
+            $res      = trim(ob_get_clean());
+            $ob       = false;
+            if ($res != 'ok') {
+                $this->respondError(Response::FAILURE, array('error'   => 'Error during checkout', 'details' => $res));
+                return;
+            }
+
+            if ($project->is_active) {
+                ob_start();
+                $ob    = true;
+                $queue = Minion_Task::factory(array('task' => 'Forcequeue', 'id'   => $projectId));
+                $queue->execute();
+                $res   = trim(ob_get_clean());
+                $ob    = false;
+                if ($res != 'ok') {
+                    $this->respondError(Response::FAILURE, array('error'   => 'Error during queuing', 'details' => $res));
+                    return;
+                }
+            }
+
+            $this->respondOk(array('project' => $project->id));
+        } catch (ORM_Validation_Exception $e) {
+            if ($ob) {
+                $res = trim(ob_get_clean());
+            } else {
+                $res = '';
+            }
+            $this->respondError(Response::UNPROCESSABLE, array('errors'  => $e->errors('models'), 'details' => $res));
+        } catch (Exception $e) {
+            if ($ob) {
+                $res = trim(ob_get_clean());
+            } else {
+                $res = '';
+            }
+            $this->respondError(Response::FAILURE, array('error'   => 'Error', 'details' => $res));
         }
     }
 

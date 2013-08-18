@@ -14,7 +14,8 @@ class Task_Queue extends Minion_Task
         }
 
         $todo = ORM::factory('Project')
-                ->where('is_active', '=', 1);
+                ->where('is_active', '=', 1)
+                ->where('is_ready', '=', 1);
         if (!empty($ignoreIds)) {
             $todo->where('id', 'NOT IN', $ignoreIds);
         }

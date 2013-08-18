@@ -14,6 +14,7 @@ class Response extends Kohana_Response
     const GONE          = 410;
     const UNPROCESSABLE = 422;
     const LOCKED        = 423;
+    const FAILURE       = 424;
     const ERROR         = 500;
 
     // HTTP status codes and messages

@@ -9,6 +9,12 @@ return array(
     'scm'                   => array(
         'not_empty' => 'You must provide a SCM.',
     ),
+    'scm_url'               => array(
+        'not_empty' => 'You must provide a URL for checking out your project.',
+    ),
+    'scm_branch'            => array(
+        'not_empty' => 'You must provide a branch for checking out your project.',
+    ),
     'is_remote'             => array(
         'boolean' => 'You must set your project either local or remote.',
     ),

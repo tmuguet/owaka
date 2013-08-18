@@ -38,6 +38,12 @@ class Model_Project extends ORM
             'scm'                   => array(
                 array('not_empty'),
             ),
+            'scm_url'               => array(
+                array('not_empty'),
+            ),
+            'scm_branch'            => array(
+                array('not_empty'),
+            ),
             'is_remote'             => array(
                 array('boolean'),
             ),
