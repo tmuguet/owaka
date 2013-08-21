@@ -57,6 +57,15 @@ class includeTest extends TestCase
     }
 
     /**
+     * Tests all the tasks
+     */
+    public function testTask()
+    {
+        $files = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Task');
+        $this->_test($files);
+    }
+
+    /**
      * Tests all the loggers
      */
     public function testLoggers()
