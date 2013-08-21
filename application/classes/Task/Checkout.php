@@ -3,6 +3,7 @@
 class Task_Checkout extends Minion_Task
 {
 
+    // @codingStandardsIgnoreStart
     protected $_options = array(
         'id'      => NULL,
         'project' => NULL,
@@ -10,6 +11,7 @@ class Task_Checkout extends Minion_Task
 
     protected function _execute(array $params)
     {
+        // @codingStandardsIgnoreEnd
         if (isset($params['project'])) {
             $project = $params['project'];
         } else {
@@ -34,19 +36,15 @@ class Task_Checkout extends Minion_Task
         switch ($project->scm) {
             case 'mercurial':
                 $log = $command->execute('hg clone ' . $project->scm_url . ' ./', $res);
-                if ($res != 0) {
-                    echo "Status $res\n" . $log;
-                    return;
-                }
                 break;
 
             case 'git':
                 $log = $command->execute('git clone ' . $project->scm_url . ' ./', $res);
-                if ($res != 0) {
-                    echo "Status $res\n" . $log;
-                    return;
-                }
                 break;
+        }
+        if ($res != 0) {
+            echo "Status $res\n" . $log;
+            return;
         }
 
         $project->scm_status = 'checkedout';

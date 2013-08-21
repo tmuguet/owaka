@@ -35,14 +35,14 @@ class Owaka
     {
         $processorClass = 'Controller_Processor_' . ucfirst($processor);
         if (!class_exists($processorClass)) {
-            throw new Exception("Cannot find processor $processor");
+            throw new InvalidArgumentException("Cannot find processor $processor");
         }
         $reports = $processorClass::getInputReports();
         $root    = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $processor . DIRECTORY_SEPARATOR;
         $uri     = 'reports/' . $buildId . '/' . $processor . '/';
         if ($type != NULL) {
             if (!isset($reports[$type])) {
-                throw new Exception("Report type $type is not defined for $processor");
+                throw new InvalidArgumentException("Report type $type is not defined for $processor");
             }
 
             $path = realpath($root . $reports[$type]['keep-as']);

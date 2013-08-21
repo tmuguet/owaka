@@ -3,8 +3,10 @@
 class Task_Queue extends Minion_Task
 {
 
+    // @codingStandardsIgnoreStart
     protected function _execute(array $params)
     {
+        // @codingStandardsIgnoreEnd
         $ignore    = ORM::factory('Build')
                 ->where('status', 'IN', array('building', 'queued'))
                 ->find_all();

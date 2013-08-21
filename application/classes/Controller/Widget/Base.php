@@ -98,7 +98,7 @@ abstract class Controller_Widget_Base extends Controller
                     break;
 
                 default:
-                    throw new Exception("Unexpected type of dashboard");
+                    throw new HTTP_Exception_404("Unexpected type of dashboard");
                     break;
             }
         }
@@ -130,7 +130,7 @@ abstract class Controller_Widget_Base extends Controller
                     $this->_project = $this->getBuild()->project;
                     // @codeCoverageIgnoreStart
                 } else {
-                    throw new Exception("Unexpected type of widget");
+                    throw new HTTP_Exception_404("Unexpected type of widget");
                 }
                 // @codeCoverageIgnoreEnd
             }
@@ -160,7 +160,7 @@ abstract class Controller_Widget_Base extends Controller
                     $this->_build = ORM::factory("Build", $buildId);
                     // @codeCoverageIgnoreStart
                 } else {
-                    throw new Exception("Unexpected type of widget");
+                    throw new HTTP_Exception_404("Unexpected type of widget");
                 }
                 // @codeCoverageIgnoreEnd
             }

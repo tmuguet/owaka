@@ -6,8 +6,10 @@ class Task_Run extends Minion_Task
     private $_outdir       = NULL;
     private $_outdir_owaka = NULL;
 
+    // @codingStandardsIgnoreStart
     protected function _execute(array $params)
     {
+        // @codingStandardsIgnoreEnd
         $build = ORM::factory('Build')
                 ->where('status', '=', 'queued')
                 ->order_by('started', 'ASC')
@@ -65,7 +67,7 @@ class Task_Run extends Minion_Task
             $targets[] = $_tok;
             $_tok      = strtok(" ,;");
         }
-        
+
         $command = new Command($build->project);
 
         foreach ($targets as $target) {
@@ -85,7 +87,7 @@ class Task_Run extends Minion_Task
             file_put_contents($this->_outdir_owaka . 'buildlog.html', "<h1>Target $target</h1>", FILE_APPEND);
             file_put_contents($this->_outdir_owaka . 'buildlog.html', $buildTargetLog, FILE_APPEND);
             file_put_contents($this->_outdir_owaka . 'buildlog.html', "<h1>End of target $target with result $buildTargetResult</h1>", FILE_APPEND);
-            
+
             if ($buildTargetResult == 0) {
                 Kohana::$log->add(Log::INFO, "Target $target successful");
                 //$build->status = 'ok';    // Do not update yet
@@ -94,11 +96,11 @@ class Task_Run extends Minion_Task
             } else {
                 Kohana::$log->add(Log::CRITICAL, "Target $target unproperly configured");
             }
-            
+
             $command->chtobasedir();
 
             $this->copyReports($build);
-            
+
             if ($buildTargetResult != 0) {
                 Kohana::$log->add(Log::INFO, "Stopping build");
                 $build->status = 'error';   // Build unproperly configured

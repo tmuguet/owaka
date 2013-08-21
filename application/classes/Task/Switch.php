@@ -3,6 +3,7 @@
 class Task_Switch extends Minion_Task
 {
 
+    // @codingStandardsIgnoreStart
     protected $_options = array(
         'id'      => NULL,
         'project' => NULL,
@@ -10,6 +11,7 @@ class Task_Switch extends Minion_Task
 
     protected function _execute(array $params)
     {
+        // @codingStandardsIgnoreEnd
         if (isset($params['project'])) {
             $project = $params['project'];
         } else {
@@ -30,20 +32,16 @@ class Task_Switch extends Minion_Task
         $res = '';
         switch ($project->scm) {
             case 'mercurial':
-                $log = $command->execute('hg update ' . $project->scm_branch, $res);
-                if ($res != 0) {
-                    echo "Status $res\n" . $log;
-                    return;
-                }
+                $log = $command->execute('hg branch ' . $project->scm_branch, $res);
                 break;
 
             case 'git':
                 $log = $command->execute('git checkout ' . $project->scm_branch, $res);
-                if ($res != 0) {
-                    echo "Status $res\n" . $log;
-                    return;
-                }
                 break;
+        }
+        if ($res != 0) {
+            echo "Status $res\n" . $log;
+            return;
         }
 
         $project->scm_status = 'ready';

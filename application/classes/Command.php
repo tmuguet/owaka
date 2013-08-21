@@ -32,25 +32,27 @@ class Command
      * @param Model_Project &$project Project
      * @param string        $basedir  Base dir
      * 
-     * @throws Exception Remote and impossible to login
+     * @throws RuntimeException Remote and cannot read private key
+     * @throws RuntimeException Remote and cannot login
+     * @throws RuntimeException Remote and server key changed
      */
     public function __construct(Model_Project &$project, $basedir = DOCROOT)
     {
         if ($project->is_remote) {
             $this->isRemote = TRUE;
             if (!is_readable($project->privatekey_path)) {
-                throw new Exception('Could not read private key');
+                throw new RuntimeException('Could not read private key');
             }
 
             $this->remoteConnection = new Net_SFTP($project->host, $project->port);
             $key                    = new Crypt_RSA();
             $key->loadKey(file_get_contents($project->privatekey_path));
             if (!$this->remoteConnection->login($project->username, $key)) {
-                throw new Exception('Could not login to ' . $project->host);
+                throw new RuntimeException('Could not login to ' . $project->host);
             }
             $remotekey = trim($this->remoteConnection->getServerPublicHostKey());
             if ($remotekey != $project->public_host_key) {
-                throw new Exception(
+                throw new RuntimeException(
                 'Server public host key has changed. Expected: ' . $project->public_host_key . '; Actual: ' . $remotekey
                 );
             }

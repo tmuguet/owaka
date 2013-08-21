@@ -15,7 +15,8 @@ class Controller_Api_Dashboard extends Controller_Api
      * Returns "ok" if succeeded
      * 
      * @url http://example.com/api/dashboard/delete/&lt;dashboard&gt;/&lt;widget_id&gt;
-     * @throws Exception Unsupported dashboard type (should never happen)
+     * @throws HTTP_Exception_404 Unsupported dashboard type (should never happen)
+     * @throws HTTP_Exception_404 Widget not found
      */
     public function action_delete()
     {
@@ -31,7 +32,7 @@ class Controller_Api_Dashboard extends Controller_Api
                 break;
             // @codeCoverageIgnoreStart
             default:
-                throw new Exception("Unsupported dashboard type");
+                throw new HTTP_Exception_404();
             // @codeCoverageIgnoreEnd
         }
         if (!$widget->loaded()) {
@@ -57,7 +58,7 @@ class Controller_Api_Dashboard extends Controller_Api
      * @postparameter height  Widget height (mandatory)
      * @postparameter column  Widget column (mandatory)
      * @postparameter row     Widget row (mandatory)
-     * @throws Exception Unsupported dashboard type (should never happen)
+     * @throws HTTP_Exception_404 Unsupported dashboard type (should never happen)
      */
     public function action_add()
     {
@@ -87,7 +88,7 @@ class Controller_Api_Dashboard extends Controller_Api
                     break;
                 // @codeCoverageIgnoreStart
                 default:
-                    throw new Exception("Unsupported dashboard type");
+                    throw new HTTP_Exception_404();
                 // @codeCoverageIgnoreEnd
             }
             foreach ($params as $key => $value) {
@@ -116,7 +117,8 @@ class Controller_Api_Dashboard extends Controller_Api
      * @url http://example.com/api/dashboard/move/&lt;dashboard&gt;/&lt;widget_id&gt;
      * @postparameter column  Widget column (mandatory)
      * @postparameter row     Widget row (mandatory)
-     * @throws Exception Unsupported dashboard type (should never happen)
+     * @throws HTTP_Exception_404 Unsupported dashboard type (should never happen)
+     * @throws HTTP_Exception_404 Widget not found
      */
     public function action_move()
     {
@@ -135,7 +137,7 @@ class Controller_Api_Dashboard extends Controller_Api
                     break;
                 // @codeCoverageIgnoreStart
                 default:
-                    throw new Exception("Unsupported dashboard type");
+                    throw new HTTP_Exception_404();
                 // @codeCoverageIgnoreEnd
             }
             if (!$widget->loaded()) {

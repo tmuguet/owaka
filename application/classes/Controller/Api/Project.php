@@ -133,21 +133,16 @@ class Controller_Api_Project extends Controller_Api
                 $queue->execute();
                 $res   = trim(ob_get_clean());
                 $ob    = false;
+                // @codeCoverageIgnoreStart
                 if ($res != 'ok') {
                     $this->respondError(Response::FAILURE, array('error'   => 'Error during queuing', 'details' => $res));
                     return;
                 }
+                // @codeCoverageIgnoreEnd
             }
 
             $this->respondOk(array('project'    => $project->id, 'scm_status' => $project->scm_status));
-        } catch (ORM_Validation_Exception $e) {
-            if ($ob) {
-                $res = trim(ob_get_clean());
-            } else {
-                $res = '';
-            }
-            $this->respondError(Response::UNPROCESSABLE, array('errors'  => $e->errors('models'), 'details' => $res));
-        } catch (Exception $e) {
+        } catch (RuntimeException $e) {
             $res = $e->getMessage();
             if ($ob) {
                 $res .= trim(ob_get_clean());

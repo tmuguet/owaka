@@ -25,7 +25,7 @@ class CommandTest extends TestCase
 
     /**
      * @covers Command::__construct
-     * @expectedException Exception
+     * @expectedException RuntimeException
      * @expectedExceptionMessage Could not read private key
      */
     public function testConstructorRemoteNoKey()
@@ -41,7 +41,7 @@ class CommandTest extends TestCase
 
     /**
      * @covers Command::__construct
-     * @expectedException Exception
+     * @expectedException RuntimeException
      * @expectedExceptionMessage Could not login to 127.0.0.1
      */
     public function testConstructorNologin()

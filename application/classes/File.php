@@ -17,13 +17,18 @@ class File extends Kohana_File
     public static function rrmdir($path)
     {
         $abspath = realpath($path);
-        if (empty($path) || $abspath === FALSE || $abspath == DIRECTORY_SEPARATOR) {
+        if (empty($path) || empty($abspath) || $abspath === FALSE || $abspath == DIRECTORY_SEPARATOR) {
             // Avoid deleting root
             return false;
         }
 
         $res = true;
-        foreach (glob($abspath . '/*') as $file) {
+        foreach (glob($abspath . '/{,.}*', GLOB_BRACE) as $file) {
+            if (strpos(realpath($file), $abspath) !== 0 || realpath($file) == $abspath) {
+                // glob returns . and .., do not treat them
+                // And this allows not to follow symlinks outside of the directory
+                continue;
+            }
             if (is_dir($file)) {
                 $res = $res && self::rrmdir($file);
             } else {

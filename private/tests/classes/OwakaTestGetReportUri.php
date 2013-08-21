@@ -59,7 +59,7 @@ class OwakaTestGetReportUri extends TestCase
 
     /**
      * @covers Owaka::getReportUri
-     * @expectedException Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Cannot find processor foo
      */
     public function testGetReportUri_errorProcessor()
@@ -69,7 +69,7 @@ class OwakaTestGetReportUri extends TestCase
 
     /**
      * @covers Owaka::getReportUri
-     * @expectedException Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Report type foo is not defined for Coverage
      */
     public function testGetReportUri_errorReport()

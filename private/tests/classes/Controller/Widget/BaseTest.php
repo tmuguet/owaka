@@ -38,7 +38,7 @@ class Controller_Widget_BaseTest extends TestCase
 
     /**
      * @covers Controller_Widget_Base::getModelWidget
-     * @expectedException Exception
+     * @expectedException HTTP_Exception_404
      * @expectedExceptionMessage Unexpected type of dashboard
      */
     public function testGetModelWidgetError()
