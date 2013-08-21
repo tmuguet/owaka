@@ -20,6 +20,7 @@
         <include name="classes/Controller/**/*.php" />
         <include name="classes/Model/**/*.php" />
         <include name="classes/Helper/**/*.php" />
+        <include name="classes/Task/**/*.php" />
         <include name="classes/*.php" />
     </fileset>
     
@@ -76,6 +77,11 @@
     </target>
     
     <target name="_unit_test" hidden="true">
+        <unzip file="${build.deploydir}/private/tests/classes/Controller/Api/Project/git.zip"
+               todir="${build.deploydir}/private/tests/classes/Controller/Api/Project"/>
+        <unzip file="${build.deploydir}/private/tests/classes/Controller/Api/Project/mercurial.zip"
+               todir="${build.deploydir}/private/tests/classes/Controller/Api/Project"/>
+        
         <pdosqlexec 
             url="mysql:host=${build.db.host};dbname=${db.name}" 
             userid="${build.db.user}" 
