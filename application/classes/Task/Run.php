@@ -53,13 +53,12 @@ class Task_Run extends Minion_Task
         Kohana::$log->add(Log::INFO, "Finished build " . $build->id);
         Kohana::$log->write();
     }
-
     // @codingStandardsIgnoreEnd
 
     /**
      * Validates build, running all the tasks
      * 
-     * @param Model_Build $build Build
+     * @param Model_Build &$build Build
      */
     protected function validate(Model_Build &$build)
     {
@@ -94,7 +93,9 @@ class Task_Run extends Minion_Task
 
             Kohana::$log->add(Log::INFO, "Starting $target...");
 
-            $buildTargetLog = $command->execute('phing -logger phing.listener.HtmlColorLogger ' . $target . ' -Dowaka.build=' . $build->id);
+            $buildTargetLog = $command->execute(
+                    'phing -logger phing.listener.HtmlColorLogger ' . $target . ' -Dowaka.build=' . $build->id
+            );
             if (strpos($buildTargetLog, 'BUILD FINISHED')) {
                 $buildTargetResult = 0;
             } else {
@@ -104,8 +105,10 @@ class Task_Run extends Minion_Task
 
             file_put_contents($this->_outdir_owaka . 'buildlog.html', "<h1>Target $target</h1>", FILE_APPEND);
             file_put_contents($this->_outdir_owaka . 'buildlog.html', $buildTargetLog, FILE_APPEND);
-            file_put_contents($this->_outdir_owaka . 'buildlog.html',
-                              "<h1>End of target $target with result $buildTargetResult</h1>", FILE_APPEND);
+            file_put_contents(
+                    $this->_outdir_owaka . 'buildlog.html',
+                    "<h1>End of target $target with result $buildTargetResult</h1>", FILE_APPEND
+            );
 
             if ($buildTargetResult == 0) {
                 Kohana::$log->add(Log::INFO, "Target $target successful");
@@ -135,7 +138,7 @@ class Task_Run extends Minion_Task
     /**
      * Copy reports from a build
      * 
-     * @param Model_Build $build Build
+     * @param Model_Build &$build Build
      */
     protected function copyReports(Model_Build &$build)
     {
@@ -156,7 +159,7 @@ class Task_Run extends Minion_Task
     /**
      * Processors reports
      * 
-     * @param Model_Build $build Build
+     * @param Model_Build &$build Build
      */
     protected function parseReports(Model_Build &$build)
     {
@@ -177,7 +180,7 @@ class Task_Run extends Minion_Task
     /**
      * Analyses reports
      * 
-     * @param Model_Build $build Build
+     * @param Model_Build &$build Build
      */
     protected function analyzeReports(Model_Build &$build)
     {
