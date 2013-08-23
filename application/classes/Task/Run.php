@@ -10,8 +10,8 @@ class Task_Run extends Minion_Task
 
     private $_outdir       = NULL;
     private $_outdir_owaka = NULL;
-
     // @codingStandardsIgnoreStart
+
     /**
      * Executes the task
      * 
@@ -56,6 +56,11 @@ class Task_Run extends Minion_Task
 
     // @codingStandardsIgnoreEnd
 
+    /**
+     * Validates build, running all the tasks
+     * 
+     * @param Model_Build $build Build
+     */
     protected function validate(Model_Build &$build)
     {
         // Get last build duration to compute ETA
@@ -127,6 +132,11 @@ class Task_Run extends Minion_Task
         $build->project->update();
     }
 
+    /**
+     * Copy reports from a build
+     * 
+     * @param Model_Build $build Build
+     */
     protected function copyReports(Model_Build &$build)
     {
         Auth::instance()->force_login('owaka');
@@ -143,6 +153,11 @@ class Task_Run extends Minion_Task
         Auth::instance()->logout();
     }
 
+    /**
+     * Processors reports
+     * 
+     * @param Model_Build $build Build
+     */
     protected function parseReports(Model_Build &$build)
     {
         Auth::instance()->force_login('owaka');
@@ -159,6 +174,11 @@ class Task_Run extends Minion_Task
         Auth::instance()->logout();
     }
 
+    /**
+     * Analyses reports
+     * 
+     * @param Model_Build $build Build
+     */
     protected function analyzeReports(Model_Build &$build)
     {
         // Do not update if status is already set (-> error)
