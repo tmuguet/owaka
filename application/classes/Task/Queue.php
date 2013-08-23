@@ -1,12 +1,23 @@
 <?php
 
+/**
+ * Task for queuing projects with new commits
+ * 
+ * @package Task
+ */
 class Task_Queue extends Minion_Task
 {
 
     // @codingStandardsIgnoreStart
+    /**
+     * Executes the task
+     * 
+     * @param array $params Parameters
+     * 
+     * @SuppressWarnings("unused")
+     */
     protected function _execute(array $params)
     {
-        // @codingStandardsIgnoreEnd
         $ignore    = ORM::factory('Build')
                 ->where('status', 'IN', array('building', 'queued'))
                 ->find_all();
@@ -69,4 +80,5 @@ class Task_Queue extends Minion_Task
             $command->chtobasedir();
         }
     }
+    // @codingStandardsIgnoreEnd
 }

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Task for switch to a branch in a project
+ * 
+ * @package Task
+ */
 class Task_Switch extends Minion_Task
 {
 
@@ -9,9 +14,13 @@ class Task_Switch extends Minion_Task
         'project' => NULL,
     );
 
+    /**
+     * Executes the task
+     * 
+     * @param array $params Parameters
+     */
     protected function _execute(array $params)
     {
-        // @codingStandardsIgnoreEnd
         if (isset($params['project'])) {
             $project = $params['project'];
         } else {
@@ -48,4 +57,5 @@ class Task_Switch extends Minion_Task
         $project->update();
         echo 'ok';
     }
+    // @codingStandardsIgnoreEnd
 }

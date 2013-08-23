@@ -61,7 +61,7 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('hg clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'mercurial' . ' ' . $path);
+        passthru('hg clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'mercurial' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';
@@ -110,7 +110,7 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('hg clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'mercurial' . ' ' . $path);
+        passthru('hg clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'mercurial' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';
@@ -161,7 +161,7 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('git clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'git' . ' ' . $path);
+        passthru('git clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'git' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';
@@ -212,7 +212,7 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('git clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'git' . ' ' . $path);
+        passthru('git clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'git' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';

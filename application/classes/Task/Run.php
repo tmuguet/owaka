@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Task for running the first build in the queue
+ * 
+ * @package Task
+ */
 class Task_Run extends Minion_Task
 {
 
@@ -7,9 +12,15 @@ class Task_Run extends Minion_Task
     private $_outdir_owaka = NULL;
 
     // @codingStandardsIgnoreStart
+    /**
+     * Executes the task
+     * 
+     * @param array $params Parameters
+     * 
+     * @SuppressWarnings("unused")
+     */
     protected function _execute(array $params)
     {
-        // @codingStandardsIgnoreEnd
         $build = ORM::factory('Build')
                 ->where('status', '=', 'queued')
                 ->order_by('started', 'ASC')
@@ -42,6 +53,8 @@ class Task_Run extends Minion_Task
         Kohana::$log->add(Log::INFO, "Finished build " . $build->id);
         Kohana::$log->write();
     }
+
+    // @codingStandardsIgnoreEnd
 
     protected function validate(Model_Build &$build)
     {
@@ -86,7 +99,8 @@ class Task_Run extends Minion_Task
 
             file_put_contents($this->_outdir_owaka . 'buildlog.html', "<h1>Target $target</h1>", FILE_APPEND);
             file_put_contents($this->_outdir_owaka . 'buildlog.html', $buildTargetLog, FILE_APPEND);
-            file_put_contents($this->_outdir_owaka . 'buildlog.html', "<h1>End of target $target with result $buildTargetResult</h1>", FILE_APPEND);
+            file_put_contents($this->_outdir_owaka . 'buildlog.html',
+                              "<h1>End of target $target with result $buildTargetResult</h1>", FILE_APPEND);
 
             if ($buildTargetResult == 0) {
                 Kohana::$log->add(Log::INFO, "Target $target successful");

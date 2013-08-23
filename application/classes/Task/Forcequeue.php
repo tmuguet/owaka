@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Task for queuing a project
+ * 
+ * @package Task
+ */
 class Task_Forcequeue extends Minion_Task
 {
 
@@ -9,9 +14,13 @@ class Task_Forcequeue extends Minion_Task
         'project' => NULL,
     );
 
+    /**
+     * Executes the task
+     * 
+     * @param array $params Parameters
+     */
     protected function _execute(array $params)
     {
-        // @codingStandardsIgnoreEnd
         if (isset($params['project'])) {
             $project = $params['project'];
         } else {
@@ -58,4 +67,5 @@ class Task_Forcequeue extends Minion_Task
         $command->chtobasedir();
         echo 'ok';
     }
+    // @codingStandardsIgnoreEnd
 }
