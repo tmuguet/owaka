@@ -135,7 +135,7 @@ class FileTest extends TestCase
      */
     public function testDir()
     {
-        $this->assertFalse(File::rmmdir('/path/does/not/exist'));
+        $this->assertFalse(File::rrmdir('/path/does/not/exist'));
         $this->assertFalse(File::rcopy('/path/does/not/exist', APPPATH));
     }
 }

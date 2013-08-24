@@ -27,27 +27,40 @@ $.owaka = {
         o.css("height", o.attr("data-grid-height") * 80 - 20);
         o.css("top", o.attr("data-grid-row") * 80);
         o.css("left", o.attr("data-grid-column") * 80);
+
+        var id = o.attr("id");
+        $.owaka.timer_widget[id] = null;
+
+        o.not('.static').hover(
+                function() {
+                    $.owaka.timer_widget[id] = setTimeout('$.owaka.open_widget("' + id + '")', 400);
+                },
+                function() {
+                    if ($.owaka.timer_widget[id] == null) {
+                        $.owaka.close_widget(id);
+                    } else {
+                        clearTimeout($.owaka.timer_widget[id]);
+                        $.owaka.timer_widget[id] = null;
+                    }
+                }
+        );
+
+        o.filter(".build-unstable").addClass('ui-state-highlight');
+        o.filter(".build-error").addClass('ui-state-error');
+        o.filter(".build-building").addClass('ui-state-active');
+        o.filter(".build-queued").addClass('ui-state-active');
+
+        o.find(".build-unstable").not("a").addClass('ui-state-highlight');
+        o.find(".build-error").not("a").addClass('ui-state-error');
+        o.find(".build-building").not("a").addClass('ui-state-active');
+        o.find(".build-queued").not("a").addClass('ui-state-active');
+
+        o.find("a.build-unstable").addClass('ui-state-highlight-text');
+        o.find("a.build-error").addClass('ui-state-error-text');
     },
     computeElements: function() {
         $.each($(".grid-elt").not('.ui-widget-content'), function() {
-            var id = $(this).attr("id");
             $.owaka.computeElement($(this));
-
-            $.owaka.timer_widget[id] = null;
-
-            $(this).not('.static').hover(
-                    function() {
-                        $.owaka.timer_widget[id] = setTimeout('$.owaka.open_widget("' + id + '")', 400);
-                    },
-                    function() {
-                        if ($.owaka.timer_widget[id] == null) {
-                            $.owaka.close_widget(id);
-                        } else {
-                            clearTimeout($.owaka.timer_widget[id]);
-                            $.owaka.timer_widget[id] = null;
-                        }
-                    }
-            );
         });
 
         $(".build-unstable").not("a").not("body").addClass('ui-state-highlight');
@@ -57,6 +70,26 @@ $.owaka = {
 
         $("a.build-unstable").addClass('ui-state-highlight-text');
         $("a.build-error").addClass('ui-state-error-text');
+    },
+    refreshElements: function() {
+        $.each($(".grid-elt.autorefresh"), function() {
+            var o = $(this);
+            var id = o.attr("id");
+            $.post('w/' + $.owaka.dashboard.from + '/' + o.attr("data-widget-type") + '/display/' + o.attr("data-widget-id"), {}, function(data) {
+                var open = o.hasClass('grid-elt-hover');
+                o.replaceWith($(data));
+                $(document).ready(function() {
+                    var o2 = $("#" + id);
+                    $.owaka.computeElement(o2);
+                    if (open) {
+                        o2.addClass('grid-elt-hover');
+                        o2.css('width', o2.attr("data-grid-width") * 2 * 80 - 20);
+                        o2.find('.widget-detailed').show();
+                        $.owaka.timer_widget[id] = null;
+                    }
+                });
+            });
+        });
     },
     renderForms: function() {
         if ($(".ui-form").size() > 0) {
