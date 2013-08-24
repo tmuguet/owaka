@@ -128,4 +128,14 @@ class FileTest extends TestCase
         sort($expected);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * @covers File::rrmdir
+     * @covers File::rcopy
+     */
+    public function testDir()
+    {
+        $this->assertFalse(File::rmmdir('/path/does/not/exist'));
+        $this->assertFalse(File::rcopy('/path/does/not/exist', APPPATH));
+    }
 }

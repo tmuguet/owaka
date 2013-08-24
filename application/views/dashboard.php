@@ -78,7 +78,17 @@ foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $_proje
     $menu[] = $res;
 }
 
-$menu_bottom   = array();
+$menu_bottom = array();
+
+if ($from == 'build') {
+    $menu_bottom[] = array(
+        'title' => 'delete build',
+        'js'    => '$.deletebuild(' . $buildId . ')',
+        'img'   => 'trash',
+        'alt'   => 'Delete this build'
+    );
+}
+
 $menu_bottom[] = array(
     'title' => 'new project',
     'href'  => 'manager/add',
@@ -130,6 +140,18 @@ echo View::factory('baseMenu')
     endif;
     ?>
 </div>
+<script type="text/javascript">
+    $.deletebuild = function(id) {
+        $.owaka.api('api/build/delete/' + id, {}, function(data) {
+            alert('Build deleted!');
+            if (data.next_build != '') {
+                document.location = 'dashboard/build/' + data.next_build;
+            } else {
+                document.location = 'dashboard/project/<?php echo $projectId; ?>';
+            }
+        });
+    }
+</script>
 <?php
 echo View::factory('baseEnd')
         ->set('title', $title)

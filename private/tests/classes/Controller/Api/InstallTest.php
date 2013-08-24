@@ -32,7 +32,7 @@ class Controller_Api_InstallTest extends TestCase
         $this->assertTrue($actual->loaded());
         $expected->id        = $actual->id;
         $expected->challenge = $actual->challenge;
-        $expected->password  = $expected->generateNewPassword($actual->challenge, 'test');
+        $expected->password  = $expected->_generateNewPassword($actual->challenge, 'test');
         foreach ($actual->list_columns() as $column => $info) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'

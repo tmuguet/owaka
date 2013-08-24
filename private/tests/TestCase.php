@@ -190,7 +190,7 @@ class TestCase extends Kohana_Unittest_Database_TestCase
     {
         $res = parent::setUp();
         foreach (ORM::factory('User')->find_all() as $user) {
-            $challenge       = $user->generateNewChallenge($user->password);
+            $challenge       = $user->_generateNewChallenge($user->password);
             $user->challenge = $challenge[0];
             $user->password  = $challenge[1];
             $user->update();

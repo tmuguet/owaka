@@ -35,4 +35,25 @@ class Controller_Api_Build extends Controller_Api
         }
         $this->respondOk($output);
     }
+
+    /**
+     * Deletes a build an all of its data
+     * 
+     * @url http://example.com/api/build/delete/&lt;build_id&gt;
+     */
+    public function action_delete()
+    {
+        $build = ORM::factory('Build', $this->request->param('id'));
+        if ($build->loaded()) {
+            $next = $build->nextBuild()->find();
+            if (!$next->loaded()) {
+                $next = $build->previousBuild()->find();
+            }
+            $id = $build->id;
+            $build->delete();
+            $this->respondOk(array("build" => $id, "next_build"   => $next->id));
+        } else {
+            throw new HTTP_Exception_404();
+        }
+    }
 }

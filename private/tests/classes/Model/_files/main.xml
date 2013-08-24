@@ -14,6 +14,14 @@
     <builds id="##ID_build4##" project_id="##ID_ProjectFoo##" revision="43" message="Look, just because I don't be givin' no man a foot massage don't make it right for Marsellus to throw Antwone into a glass motherfuckin' house, fuckin' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, 'cause I'll kill the motherfucker, know what I'm sayin'?" status="building" started="2010-10-05 20:15:23" eta="2010-10-05 20:16:30" finished="2010-10-05 20:16:23"/>
     <builds id="##ID_build5##" project_id="##ID_ProjectFoo##" revision="44" message="The path of the righteous man is beset on all sides by the iniquities of the selfish and the tyranny of evil men. Blessed is he who, in the name of charity and good will, shepherds the weak through the valley of darkness, for he is truly his brother's keeper and the finder of lost children. And I will strike down upon thee with great vengeance and furious anger those who would attempt to poison and destroy My brothers. And you will know My name is the Lord when I lay My vengeance upon thee." status="queued" started="2010-10-05 21:15:23" eta="2010-10-05 21:16:30" finished="2010-10-05 21:16:23"/>
     
+    <codesniffer_errors id="##ID_data1##" build_id="##ID_build1##" file="foo" severity="warning" message="foo" line="45"/>
+    <codesniffer_globaldatas id="##ID_data2##" build_id="##ID_build1##" warnings="1" errors="0"/>
+    <coverage_globaldatas id="##ID_data3##" build_id="##ID_build1##" methodcount="1" methodscovered="0" methodcoverage="0" statementcount="10" statementscovered="10" statementcoverage="100" totalcount="56" totalcovered="50" totalcoverage="96"/>
+    <pdepend_globaldatas id="##ID_data4##" build_id="##ID_build1##" ahh="0" andc="0" calls="10" ccn="30" ccn2="32" cloc="10" clsa="0" clsc="5" eloc="5" fanout="1" leafs="1" lloc="15" loc="45" maxdit="5" ncloc="1" noc="14" nof="0" noi="1" nom="13" nop="2" roots="5"/>
+    <phpmd_globaldatas id="##ID_data5##" build_id="##ID_build1##" errors="5"/>
+    <phpunit_errors id="##ID_data6##" build_id="##ID_build1##" testsuite="foobar" testcase="case"/>
+    <phpunit_globaldatas id="##ID_data7##" build_id="##ID_build1##" tests="5" failures="1" errors="0" time="43.42"/>
+    
     <widgets id="##ID_mainBackground##" type="Background" params="{&quot;theme&quot;: &quot;grunge&quot;}" width="1" height="1" column="15" row="1"/>
     <widgets id="##ID_mainCoverage##" type="coverage_BuildIcon" params="{&quot;project&quot;: &quot;2&quot;, &quot;display&quot;: &quot;methods&quot;}" width="2" height="2" column="1" row="0"/>
     

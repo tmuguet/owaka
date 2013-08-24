@@ -48,7 +48,7 @@ class Model_User extends Model_Auth_User
      */
     public function create(Validation $validation = NULL)
     {
-        $challenge       = $this->generateNewChallenge($this->password);
+        $challenge       = $this->_generateNewChallenge($this->password);
         $this->challenge = $challenge[0];
         $this->password  = $challenge[1];
         return parent::create($validation);
@@ -66,7 +66,7 @@ class Model_User extends Model_Auth_User
     public function update(Validation $validation = NULL)
     {
         if ($this->changed("password") && !$this->changed("challenge")) {
-            $challenge       = $this->generateNewChallenge($this->password);
+            $challenge       = $this->_generateNewChallenge($this->password);
             $this->challenge = $challenge[0];
             $this->password  = $challenge[1];
         }
@@ -97,7 +97,7 @@ class Model_User extends Model_Auth_User
         $password = $aes->decrypt(hex2bin($this->password));
         $hash     = Auth::instance()->hashKey($password, $this->challenge);
         if ($hash == $response) {
-            $challenge       = $this->generateNewChallenge($password);
+            $challenge       = $this->_generateNewChallenge($password);
             $this->challenge = $challenge[0];
             $this->password  = $challenge[1];
             $this->update();
@@ -115,25 +115,25 @@ class Model_User extends Model_Auth_User
      * 
      * @return array Couple (new challenge, new encrypted password)
      */
-    /* private */ function generateNewChallenge($plainPassword)
+    /* private */ function _generateNewChallenge($plainPassword)
     {
         if (empty($plainPassword)) {
             return array("", "");
         }
         $challenge        = bin2hex(crypt_random_string(32));
-        $encryptedPasswod = $this->generateNewPassword($challenge, $plainPassword);
-        return array($challenge, $encryptedPasswod);
+        $encryptedPassword = $this->_generateNewPassword($challenge, $plainPassword);
+        return array($challenge, $encryptedPassword);
     }
 
     /**
      * Generates a new encrypted password
      * 
-     * @param string $challenge      Challenge
-     * @param string $plainPassword  Plain password
+     * @param string $challenge     Challenge
+     * @param string $plainPassword Plain password
      * 
      * @return string New encrypted password
      */
-    /* private */ function generateNewPassword($challenge, $plainPassword)
+    /* private */ function _generateNewPassword($challenge, $plainPassword)
     {
         $new_hash = Auth::instance()->hashKey($plainPassword, $challenge);
 

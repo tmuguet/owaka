@@ -47,6 +47,21 @@ class Model_Build extends ORM
             'foreign_key' => 'build_id'
         ),
     );
+
+    /**
+     * "Has many" relationships
+     * @var array
+     */
+    protected $_has_many = array(
+        'codesniffer_errors' => array(
+            'model'       => 'Codesniffer_Error',
+            'foreign_key' => 'build_id'
+        ),
+        'phpunit_errors'     => array(
+            'model'       => 'Phpunit_Error',
+            'foreign_key' => 'build_id'
+        ),
+    );
     // @codingStandardsIgnoreEnd
 
     /**
@@ -170,5 +185,31 @@ class Model_Build extends ORM
             default:
                 return 'ban-circle';
         }
+    }
+
+    /**
+     * Deletes a build with all its data.
+     *
+     * @chainable
+     * @throws Kohana_Exception
+     * @return self
+     */
+    public function delete()
+    {
+        foreach (array_keys($this->_has_one) as $fk) {
+            $relation = $this->$fk;
+            if ($relation->loaded()) {
+                $relation->delete();
+            }
+        }
+        foreach (array_keys($this->_has_many) as $fk) {
+            $relations = $this->$fk->find_all();
+            foreach ($relations as $r) {
+                $r->delete();
+            }
+        }
+
+        File::rrmdir(APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->id);
+        return parent::delete();
     }
 }

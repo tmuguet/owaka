@@ -39,8 +39,8 @@ class Auth_ORM extends Kohana_Auth_ORM
     /**
      * Logs a user in.
      *
-     * @param string  $username
-     * @param string  $reponse
+     * @param string  $user     Username
+     * @param string  $response Response to challenge
      * @param boolean $remember Enable autologin
      * 
      * @return  boolean
@@ -87,8 +87,9 @@ class Auth_ORM extends Kohana_Auth_ORM
     /**
      * Compare password with original (hashed). Works for current (logged in) user
      *
-     * @param   string  $password
-     * @return  boolean
+     * @param string $password
+     * 
+     * @return boolean
      */
     public function check_password($password)
     {

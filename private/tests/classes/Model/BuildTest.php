@@ -6,6 +6,26 @@ class Model_BuildTest extends TestCase
 
     protected $xmlDataSet = 'main';
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        $path = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build1'];
+        if (!is_dir($path)) {
+            mkdir($path . DIRECTORY_SEPARATOR . 'foo', 0777, true);
+            file_put_contents($path . DIRECTORY_SEPARATOR . 'bar', 'hello-world');
+        }
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        if (is_dir(APPPATH . 'reports')) {
+            File::rrmdir(APPPATH . 'reports');
+        }
+    }
+
     /**
      * @covers ORM::exists
      */
@@ -98,24 +118,38 @@ class Model_BuildTest extends TestCase
         $target1 = ORM::factory('Build', $this->genNumbers['build1']);
         $this->assertTrue($target1->loaded(), "Target not loaded");
         $this->assertEquals('ok', $target1->getIcon(), "Wrong icon for status ok");
-        
+
         $target2 = ORM::factory('Build', $this->genNumbers['build2']);
         $this->assertTrue($target2->loaded(), "Target not loaded");
         $this->assertEquals('warning-sign', $target2->getIcon(), "Wrong icon for status unstable");
-        
+
         $target3 = ORM::factory('Build', $this->genNumbers['build3']);
         $this->assertTrue($target3->loaded(), "Target not loaded");
         $this->assertEquals('bug', $target3->getIcon(), "Wrong icon for status error");
-        
+
         $target4 = ORM::factory('Build', $this->genNumbers['build4']);
         $this->assertTrue($target4->loaded(), "Target not loaded");
         $this->assertEquals('beaker', $target4->getIcon(), "Wrong icon for status building");
-        
+
         $target5 = ORM::factory('Build', $this->genNumbers['build5']);
         $this->assertTrue($target5->loaded(), "Target not loaded");
         $this->assertEquals('time', $target5->getIcon(), "Wrong icon for status queued");
-        
+
         $target6 = ORM::factory('Build');
         $this->assertEquals('ban-circle', $target6->getIcon(), "Wrong icon for unknown status");
+    }
+
+    /**
+     * @covers Model_Build::delete
+     */
+    public function testDelete()
+    {
+        $target1 = ORM::factory('Build', $this->genNumbers['build1']);
+        $this->assertTrue($target1->loaded(), "Target not loaded");
+        $target1->delete();
+        $this->assertFalse(is_dir(APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build1']));
+
+        $target = ORM::factory('Build', $this->genNumbers['build1']);
+        $this->assertFalse($target->loaded(), "Target loaded after delete");
     }
 }

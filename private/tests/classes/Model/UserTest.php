@@ -51,23 +51,23 @@ class Model_UserTest extends TestCase
     }
 
     /**
-     * @covers Model_User::generateNewPassword
+     * @covers Model_User::_generateNewPassword
      */
     public function testGenerateNewPassword()
     {
         $target = ORM::factory('User', $this->genNumbers['userFoo']);
-        $this->assertEquals($target->password, $target->generateNewPassword($target->challenge, 'test'));
+        $this->assertEquals($target->password, $target->_generateNewPassword($target->challenge, 'test'));
     }
 
     /**
-     * @covers Model_User::generateNewChallenge
+     * @covers Model_User::_generateNewChallenge
      */
     public function testGenerateNewChallenge()
     {
         $target       = ORM::factory('User', $this->genNumbers['userFoo']);
         $oldchallenge = $target->challenge;
         $oldpassword  = $target->password;
-        list($newchallenge, $newpassword) = $target->generateNewChallenge('mypassword');
+        list($newchallenge, $newpassword) = $target->_generateNewChallenge('mypassword');
 
         $this->assertNotEmpty($newchallenge);
         $this->assertNotEmpty($newpassword);
@@ -87,12 +87,12 @@ class Model_UserTest extends TestCase
     }
 
     /**
-     * @covers Model_User::generateNewChallenge
+     * @covers Model_User::_generateNewChallenge
      */
     public function testGenerateNewChallengeEmpty()
     {
         $target = ORM::factory('User', $this->genNumbers['userFoo']);
-        list($newchallenge, $newpassword) = $target->generateNewChallenge('');
+        list($newchallenge, $newpassword) = $target->_generateNewChallenge('');
 
         $this->assertEmpty($newchallenge);
         $this->assertEmpty($newpassword);
@@ -111,7 +111,7 @@ class Model_UserTest extends TestCase
 
         $this->assertNotEmpty($target->challenge);
         $this->assertNotEmpty($target->password);
-        $this->assertEquals($target->generateNewPassword($target->challenge, 'lorem ipsum'), $target->password);
+        $this->assertEquals($target->_generateNewPassword($target->challenge, 'lorem ipsum'), $target->password);
     }
 
     /**
@@ -129,7 +129,7 @@ class Model_UserTest extends TestCase
         $this->assertNotEmpty($target->password);
         $this->assertNotEquals($oldchallenge, $target->challenge);
         $this->assertNotEquals($oldpassword, $target->password);
-        $this->assertEquals($target->generateNewPassword($target->challenge, 'lorem ipsum'), $target->password);
+        $this->assertEquals($target->_generateNewPassword($target->challenge, 'lorem ipsum'), $target->password);
     }
 
     /**
