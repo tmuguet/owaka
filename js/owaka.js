@@ -70,75 +70,75 @@ $.owaka = {
             $(".ui-form div.details").css('margin-left', max / 2);
         }
     },
-    api: function(url, sendData, callback) {
-        return $.post(url, sendData, callback, "json").fail(function(jqXHR, textStatus, errorThrown) {
-            switch (jqXHR.status) {
-                case 422:
-                    var res = $.parseJSON(jqXHR.responseText);
-                    $.each(res.errors, function(key, o) {
-                        $("#" + key).addClass('ui-state-error');
-                        $("label[for=" + key + "]").addClass('ui-state-error-text');
-                    });
-                    break;
+    callbacks: {
+        init: function(form) {
+            var submitbtn = form.find(':submit');
+            var icon = submitbtn.attr('data-icon');
+            submitbtn.addClass('ui-button-primary');
+            submitbtn.after('<span id="' + form.attr('id') + '-helper"></span>');
 
-                default:
-                    alert('Fail ' + textStatus + ' / ' + errorThrown + ' @ ' + jqXHR.responseText);
-            }
-        });
-    },
-    formapi: function(form, callback) {
-        var submitbtn = form.find(':submit');
-        var icon = submitbtn.attr('data-icon');
-        submitbtn.addClass('ui-button-primary');
-        submitbtn.after('<span id="' + form.attr('id') + '-helper"></span>');
-        var helper = $('#' + form.attr('id') + '-helper');
-
-        submitbtn.button({
-            icons: {
-                primary: icon
-            }
-        });
-
-        form.submit(function() {
-            submitbtn.button('disable');
-            helper.html('<i class="icon-spinner icon-spin"></i> Processing...').removeClass('ui-state-error-text');
+            submitbtn.button({
+                icons: {
+                    primary: icon
+                }
+            });
+        },
+        before: function(form) {
+            form.find(':submit').button('disable');
+            $('#' + form.attr('id') + '-helper').html('<i class="icon-spinner icon-spin"></i> Processing...').removeClass('ui-state-error-text');
 
             $.each(form.serializeArray(), function(idx, o) {
                 $("#" + o.name).removeClass('ui-state-error');
                 $("label[for=" + o.name + "]").removeClass('ui-state-error-text');
                 $("#error_" + o.name).remove();
             });
+        },
+        apifail: function(form, jqXHR, textStatus, errorThrown) {
+            var error = 'An error occurred!';
+            switch (jqXHR.status) {
+                case 422:
+                case 424:
+                    var res = $.parseJSON(jqXHR.responseText);
+                    if (res.errors) {
+                        $.each(res.errors, function(key, o) {
+                            $("#" + key).addClass('ui-state-error');
+                            $("label[for=" + key + "]").addClass('ui-state-error-text');
+                            $("#" + key).after('<span id="error_' + key + '" class="ui-state-error-text details">' + o + '</span>');
+                        });
+                    }
+                    if (res.error) {
+                        error = res.error;
+                        if (res.details) {
+                            error += "<br>Details : " + res.details;
+                        }
+                    } else {
+                        error = 'Some fields are required';
+                    }
+                    break;
+
+                default:
+                    alert('Fail ' + textStatus + ' / ' + errorThrown + ' @ ' + jqXHR.responseText);
+            }
+            if (form) {
+                form.find(':submit').button('enable').removeClass('ui-button-primary').addClass('ui-button-danger');
+                $('#' + form.attr('id') + '-helper').html(error).addClass('ui-state-error-text');
+            }
+        },
+    },
+    api: function(url, sendData, callback) {
+        return $.post(url, sendData, callback, "json").fail(function(jqXHR, textStatus, errorThrown) {
+            $.owaka.callbacks.apifail(null, jqXHR, textStatus, errorThrown);
+        });
+    },
+    formapi: function(form, callback) {
+        $.owaka.callbacks.init(form);
+        form.submit(function() {
+            $.owaka.callbacks.before(form);
             $.post(form.attr('action'), form.serialize(), function(data) {
-                helper.html('');
+                $('#' + form.attr('id') + '-helper').html('');
                 callback(data);
             }, "json").fail(function(jqXHR, textStatus, errorThrown) {
-                var error = 'An error occurred!';
-                switch (jqXHR.status) {
-                    case 422:
-                    case 424:
-                        var res = $.parseJSON(jqXHR.responseText);
-                        if (res.errors) {
-                            $.each(res.errors, function(key, o) {
-                                $("#" + key).addClass('ui-state-error');
-                                $("label[for=" + key + "]").addClass('ui-state-error-text');
-                                $("#" + key).after('<span id="error_' + key + '" class="ui-state-error-text details">' + o + '</span>');
-                            });
-                        }
-                        if (res.error) {
-                            error = res.error;
-                            if (res.details) {
-                                error += "<br>Details : " + res.details;
-                            }
-                        } else {
-                            error = 'Some fields are required';
-                        }
-                        break;
-
-                    default:
-                        alert('Fail ' + textStatus + ' / ' + errorThrown + ' @ ' + jqXHR.responseText);
-                }
-                submitbtn.button('enable').removeClass('ui-button-primary').addClass('ui-button-danger');
-                helper.html(error).addClass('ui-state-error-text');
+                $.owaka.callbacks.apifail(form, jqXHR, textStatus, errorThrown);
             });
             return false;
         });

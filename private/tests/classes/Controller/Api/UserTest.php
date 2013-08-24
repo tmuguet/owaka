@@ -47,7 +47,6 @@ class Controller_Api_UserTest extends TestCase
         $expected             = ORM::factory('User');
         $expected->email      = 'test@thomasmuguet.info';
         $expected->username   = 'ut';
-        $expected->password   = 'test';
         $expected->logins     = 0;
         $expected->last_login = NULL;
 
@@ -63,6 +62,9 @@ class Controller_Api_UserTest extends TestCase
         $actual       = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
         $expected->id = $actual->id;
+        $expected->challenge = $actual->challenge;
+        $expected->password = $expected->generateNewPassword($actual->challenge, 'test');
+        
         $this->assertEquals(array("user" => $actual->id), $apiCall, "Incorrect API result");
         foreach ($actual->list_columns() as $column => $info) {
             $this->assertEquals(
@@ -79,7 +81,6 @@ class Controller_Api_UserTest extends TestCase
         $expected             = ORM::factory('User');
         $expected->email      = 'test@thomasmuguet.info';
         $expected->username   = 'ut';
-        $expected->password   = 'test';
         $expected->logins     = 0;
         $expected->last_login = NULL;
 
@@ -96,6 +97,8 @@ class Controller_Api_UserTest extends TestCase
         $actual       = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
         $expected->id = $actual->id;
+        $expected->challenge = $actual->challenge;
+        $expected->password = $expected->generateNewPassword($actual->challenge, 'test');
         $this->assertEquals(array("user" => $actual->id), $apiCall, "Incorrect API result");
         foreach ($actual->list_columns() as $column => $info) {
             $this->assertEquals(
@@ -157,7 +160,6 @@ class Controller_Api_UserTest extends TestCase
     public function testActionEdit()
     {
         $expected           = ORM::factory('User', $this->genNumbers['userFoo']);
-        $expected->password = 'new-password';
 
         $request  = Request::factory('api/user/edit/' . $this->genNumbers['userFoo'])->login(Owaka::AUTH_ROLE_ADMIN);
         $request->method(Request::POST);
@@ -169,6 +171,8 @@ class Controller_Api_UserTest extends TestCase
 
         $actual = ORM::factory('User', $this->genNumbers['userFoo']);
         $this->assertTrue($actual->loaded());
+        $expected->challenge = $actual->challenge;
+        $expected->password = $expected->generateNewPassword($actual->challenge, 'new-password');
         foreach ($actual->list_columns() as $column => $info) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'

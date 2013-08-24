@@ -11,22 +11,45 @@ class Controller_Api_Auth extends Controller_Api
     protected $requiredRole = Owaka::AUTH_ROLE_NONE;
 
     /**
+     * Gets a new challenge
+     * 
+     * @url http://example.com/api/auth/challenge
+     * @postparam user string Username
+     */
+    public function action_challenge()
+    {
+        $post = $this->request->post();
+        $user = ORM::factory('User', array('username' => $post['user']));
+        if ($user->loaded()) {
+            $challenge = $user->challenge;
+        } else {
+            // Give a fake challenge so it's less easy to distinguish if a user exists or not
+            // The challenge must depend only on the username because it must be the same if called twice
+            $challenge = Auth::instance()->hash($post['user']);
+        }
+
+        $this->respondOk(array('challenge' => $challenge));
+    }
+
+    /**
      * Logs in
      * 
      * @url http://example.com/api/auth/login
      * @postparam user string Username
-     * @postparam password string Plain password
+     * @postparam response string Response to challenge
      */
     public function action_login()
     {
         $post    = $this->request->post();
-        $success = Auth::instance()->login($post['user'], $post['password']);
+        $success = Auth::instance()->login($post['user'], $post['response']);
 
         if ($success) {
             $goto = Session::instance()->get('requested_url', 'dashboard/main');
             $this->respondOk(array('goto' => $goto));
         } else {
-            $this->respondError(Response::UNPROCESSABLE, array('errors' => array('user' => 'Bad credentials', 'password' => '')));
+            $this->respondError(
+                    Response::UNPROCESSABLE, array('errors' => array('user'     => 'Bad credentials', 'password' => ''))
+            );
         }
     }
 

@@ -28,9 +28,11 @@ class Controller_Api_InstallTest extends TestCase
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(array(), $apiCall, "Incorrect API result");
 
-        $actual       = ORM::factory('User')->where('username', '=', 'ut')->find();
+        $actual              = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
-        $expected->id = $actual->id;
+        $expected->id        = $actual->id;
+        $expected->challenge = $actual->challenge;
+        $expected->password  = $expected->generateNewPassword($actual->challenge, 'test');
         foreach ($actual->list_columns() as $column => $info) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'

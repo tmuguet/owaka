@@ -5,4 +5,5 @@ $_files = array(
     "owaka.js",
     "owaka.designer.js",
     "jquery.sparkline.min.js",
+    "crypto-js/hmac-sha256.js",
 );

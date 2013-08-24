@@ -20,9 +20,10 @@ class Request extends Kohana_Request
     {
         $user = ORM::factory('User', array('username' => 'ut-' . $role));
         if (!$user->loaded()) {
-            $user->email    = 'ut-' . $role . '@thomasmuguet.info';
-            $user->username = 'ut-' . $role;
-            $user->password = 'test';
+            $user->email     = 'ut-' . $role . '@thomasmuguet.info';
+            $user->username  = 'ut-' . $role;
+            $user->password  = 'test';
+            $user->challenge = 'none';
             $user->create();
             $user->add('roles', ORM::factory('Role', array('name' => $role)));
         }

@@ -29,8 +29,27 @@ echo View::factory('baseMenu')
     </form>
 </div>
 <script type="text/javascript">
-    $.owaka.formapi($('.ui-form'), function(data) {
-        document.location = data.goto;
+    $(document).ready(function() {
+        var form = $('.ui-form');
+        $.owaka.callbacks.init(form);
+
+        form.submit(function() {
+            $.owaka.callbacks.before(form);
+
+            $.post('api/auth/challenge', {user: $("#user").val()}, function(challenge) {
+                var response = CryptoJS.HmacSHA256($("#password").val(), challenge.challenge).toString();
+
+                $.post(form.attr('action'), {user: $("#user").val(), response: response}, function(data) {
+                    $('#' + form.attr('id') + '-helper').html('');
+                    document.location = data.goto;
+                }, "json").fail(function(jqXHR, textStatus, errorThrown) {
+                    $.owaka.callbacks.apifail(form, jqXHR, textStatus, errorThrown);
+                });
+            }, "json").fail(function(jqXHR, textStatus, errorThrown) {
+                $.owaka.callbacks.apifail(form, jqXHR, textStatus, errorThrown);
+            });
+            return false;
+        });
     });
 </script>
 <?php

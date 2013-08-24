@@ -12,43 +12,54 @@ class TestCase extends Kohana_Unittest_Database_TestCase
     protected $yesterday   = NULL;
     protected $tomorrow    = NULL;
     protected $genNumbers  = array();
-    
+    private $_dataset = NULL;
+
     /**
-	 * Creates a connection to the unittesting database
+     * Creates a connection to the unittesting database
      * 
      * Fixed bug in Kohana when $config['type'] is not in lower-case.
-	 *
-	 * @return PDO
-	 */
-	public function getConnection()
-	{
-		// Get the unittesting db connection
-		$config = Kohana::$config->load('database.'.$this->_database_connection);
-
-		if($config['type'] !== 'pdo')
-		{
-			$config['connection']['dsn'] = strtolower($config['type']).':'.
-			'host='.$config['connection']['hostname'].';'.
-			'dbname='.$config['connection']['database'];
-		}
-
-		$pdo = new PDO(
-			$config['connection']['dsn'], 
-			$config['connection']['username'], 
-			$config['connection']['password']
-		);
-
-		return $this->createDefaultDBConnection($pdo, $config['connection']['database']);
-	}
-
-    
-
-    public function __construct()
+     *
+     * @return PDO
+     */
+    public function getConnection()
     {
+        // Get the unittesting db connection
+        $config = Kohana::$config->load('database.' . $this->_database_connection);
+
+        if ($config['type'] !== 'pdo') {
+            $config['connection']['dsn'] = strtolower($config['type']) . ':' .
+                    'host=' . $config['connection']['hostname'] . ';' .
+                    'dbname=' . $config['connection']['database'];
+        }
+
+        $pdo = new PDO(
+                $config['connection']['dsn'], $config['connection']['username'], $config['connection']['password']
+        );
+
+        return $this->createDefaultDBConnection($pdo, $config['connection']['database']);
+    }
+
+    /**
+     * Constructs a test case with the given name.
+     *
+     * @param string $name
+     * @param array  $data
+     * @param string $dataName
+     */
+    public function __construct($name = NULL, array $data = array(), $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
         Kohana_Kohana_Exception::$error_view = 'kohana/errorPlain';
         Kohana_Kohana_Exception::$error_view_content_type = 'text/plain';
     }
 
+    /**
+     * Gets the data set for the test
+     * 
+     * @return \PHPUnit_Extensions_Database_DataSet_IDataSet
+     * @uses TestCase::$useDatabase
+     * @uses TestCase::$xmlDataSet
+     */
     public function getDataSet()
     {
         if ($this->useDatabase && !empty($this->xmlDataSet)) {
@@ -64,6 +75,11 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         }
     }
 
+    /**
+     * Generates the random numbers in XML datasets (##RAND_identifier##)
+     * 
+     * @param string $file Path to XML dataset
+     */
     private function _GenerateRandom($file)
     {
         $matches = array();
@@ -82,6 +98,11 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         }
     }
 
+    /**
+     * Generates the id numbers in XML datasets (##ID_identifier##)
+     * 
+     * @param string $file Path to XML dataset
+     */
     private function _GenerateId($file)
     {
         $matches = array();
@@ -97,6 +118,11 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         }
     }
 
+    /**
+     * Generates the random paths in XML datasets (##PATH_identifier##)
+     * 
+     * @param string $file Path to XML dataset
+     */
     private function _GenerateTmpPath($file)
     {
         $matches = array();
@@ -113,8 +139,13 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         }
     }
 
-    private $_dataset = NULL;
-
+    /**
+     * Gets the XML data set for the test, or NULL if not using a database
+     * 
+     * @param string $file Path to XML dataset
+     * 
+     * @return PHPUnit_Extensions_Database_DataSet_ReplacementDataSet|null
+     */
     protected function _getDataSet($file)
     {
         if ($this->useDatabase) {
@@ -159,7 +190,9 @@ class TestCase extends Kohana_Unittest_Database_TestCase
     {
         $res = parent::setUp();
         foreach (ORM::factory('User')->find_all() as $user) {
-            $user->password = $user->password;  // hash password
+            $challenge       = $user->generateNewChallenge($user->password);
+            $user->challenge = $challenge[0];
+            $user->password  = $challenge[1];
             $user->update();
         }
 
@@ -183,7 +216,8 @@ class TestCase extends Kohana_Unittest_Database_TestCase
                 "INSERT INTO `users` (`id`, `email`, `username`, `password`) VALUES (1, 'owaka-builder@thomasmuguet.info', 'owaka', 'NULL') ON DUPLICATE KEY UPDATE username=username"
         );
         Database::instance()->query(
-                Database::INSERT, "INSERT INTO `roles_users` (`user_id`, `role_id`) VALUES ('1', '3') ON DUPLICATE KEY UPDATE role_id=role_id"
+                Database::INSERT,
+                "INSERT INTO `roles_users` (`user_id`, `role_id`) VALUES ('1', '3') ON DUPLICATE KEY UPDATE role_id=role_id"
         );
 
 
@@ -193,8 +227,8 @@ class TestCase extends Kohana_Unittest_Database_TestCase
 
     public function tearDown()
     {
-        $res    = parent::tearDown();
-        
+        $res = parent::tearDown();
+
         Database::instance()->query(Database::DELETE, "SET @PHAKE_PREV_foreign_key_checks = @@foreign_key_checks");
         Database::instance()->query(Database::DELETE, "SET foreign_key_checks = 0");
         $result = Database::instance()->list_tables();
@@ -220,6 +254,13 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         return $res;
     }
 
+    /**
+     * Asserts that a response has the expected HTTP status code
+     * 
+     * @param int             $expectedStatus Expected HTTP status code
+     * @param Kohana_Response &$response      Response to validate
+     * @param string          $message        Message
+     */
     public function assertResponseStatusEquals($expectedStatus, Kohana_Response &$response, $message = "Request failed")
     {
         $this->assertEquals(
@@ -227,14 +268,27 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         );
     }
 
+    /**
+     * Asserts that a response sends 200 as HTTP status code
+     * 
+     * @param Kohana_Response &$response Response to validate
+     * @param string          $message   Message
+     */
     public function assertResponseOK(Kohana_Response &$response, $message = "Request failed")
     {
         $this->assertResponseStatusEquals(200, $response, $message);
     }
 
-    public function assertResponseRedirected(Kohana_Response &$response, $uri, $code = 302)
+    /**
+     * Asserts that a response is redirected using the Location HTTP header
+     * 
+     * @param Kohana_Response &$response Response to validate
+     * @param string          $uri       URI to redirect to
+     * @param int             $status    Expected HTTP status code
+     */
+    public function assertResponseRedirected(Kohana_Response &$response, $uri, $status = 302)
     {
-        $this->assertResponseStatusEquals($code, $response);
+        $this->assertResponseStatusEquals($status, $response);
         $this->assertEquals($uri, $response->headers('location'));
     }
 }

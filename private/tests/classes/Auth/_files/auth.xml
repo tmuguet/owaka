@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<dataset>
+    <users id="##ID_userFoo##" email="ut##ID_userFoo##@thomasmuguet.info" username="userFoo" password="test" challenge="test"/>
+    <users id="##ID_userBar##" email="ut##ID_userBar##@thomasmuguet.info" username="userBar" password="test" challenge="test"/>
+    
+    <roles_users user_id="##ID_userFoo##" role_id="1"/>
+    <roles_users user_id="##ID_userBar##" role_id="##ID_role2##"/>
+</dataset>

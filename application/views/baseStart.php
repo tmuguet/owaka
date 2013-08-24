@@ -16,11 +16,12 @@
 #endif
 
 #ifdef DEVELOPMENT
-        <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.10.2.custom.js"></script>
         <script type="text/javascript" src="js/owaka.js"></script>
         <script type="text/javascript" src="js/owaka.designer.js"></script>
         <script type="text/javascript" src="js/jquery.sparkline.min.js"></script>
+        <script type="text/javascript" src="js/crypto-js/hmac-sha256.js"></script>
 #else
         <script type="text/javascript" src="js/all-min.js"></script>
 #endif
