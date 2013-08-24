@@ -8,6 +8,8 @@
 class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Basetable
 {
 
+    protected $autorefresh = TRUE;
+
     /**
      * Gets the expected parameters
      * 

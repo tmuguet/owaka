@@ -8,6 +8,8 @@
 class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Basetable
 {
 
+    protected $autorefresh = TRUE;
+
     /**
      * Gets the expected parameters
      * 

@@ -83,7 +83,7 @@ $menu_bottom = array();
 if ($from == 'build') {
     $menu_bottom[] = array(
         'title' => 'delete build',
-        'js'    => '$.deletebuild(' . $buildId . ')',
+        'js'    => '$.owaka.dashboard.deletebuild(' . $buildId . ')',
         'img'   => 'trash',
         'alt'   => 'Delete this build'
     );
@@ -141,16 +141,21 @@ echo View::factory('baseMenu')
     ?>
 </div>
 <script type="text/javascript">
-    $.deletebuild = function(id) {
-        $.owaka.api('api/build/delete/' + id, {}, function(data) {
-            alert('Build deleted!');
-            if (data.next_build != '') {
-                document.location = 'dashboard/build/' + data.next_build;
-            } else {
-                document.location = 'dashboard/project/<?php echo $projectId; ?>';
-            }
-        });
+    $.owaka.dashboard = {
+        deletebuild: function(id) {
+            $.owaka.api('api/build/delete/' + id, {}, function(data) {
+                alert('Build deleted!');
+                if (data.next_build != '') {
+                    document.location = 'dashboard/build/' + data.next_build;
+                } else {
+                    document.location = 'dashboard/project/<?php echo $projectId; ?>';
+                }
+            });
+        },
+        from: "<?php echo $from; ?>",
     }
+
+    $.owaka.dashboard.timer = setInterval('$.owaka.refreshElements();', 10000);
 </script>
 <?php
 echo View::factory('baseEnd')

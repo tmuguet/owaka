@@ -15,10 +15,16 @@ abstract class Controller_Widget_Base extends Controller
     protected $widgetStatus = NULL;
 
     /**
-     * Determines whether the widgets extends on hover
+     * Determines whether the widget extends on hover
      * @var bool
      */
     protected $extensible = TRUE;
+
+    /**
+     * Determines whether the widget should refresh itself automatically
+     * @var bool
+     */
+    protected $autorefresh = FALSE;
 
     /**
      * Links provided by the widget
@@ -245,6 +251,7 @@ abstract class Controller_Widget_Base extends Controller
         View::set_global('widgetStatus', $this->widgetStatus);
         View::set_global('widgetLinks', $this->widgetLinks);
         View::set_global('extensible', $this->extensible);
+        View::set_global('autorefresh', $this->autorefresh);
         View::set_global('title', $this->_title);
         View::set_global('subtitle', $this->_subtitle);
     }

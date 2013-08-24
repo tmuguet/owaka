@@ -8,6 +8,8 @@
 class Controller_Widget_Queue extends Controller_Widget_Basetable
 {
 
+    protected $autorefresh = TRUE;
+
     /**
      * Gets the expected parameters
      * 
