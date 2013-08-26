@@ -1,4 +1,13 @@
 $.owaka = {
+    timer_refresh: {
+        timer: null,
+        periods: {
+            current: 10,
+            inactive: 120,
+            active: 10,
+            backoff: 30,
+        }
+    },
     timer_widget: {},
     open_widget: function(id) {
         var o = $("#" + id);
@@ -72,12 +81,16 @@ $.owaka = {
         $("a.build-error").addClass('ui-state-error-text');
     },
     refreshElements: function() {
+        $.owaka.timer_refresh.timer = null;
+        $.owaka.setRefreshTimer();
+        
+        $.owaka.timer_refresh.periods.current = $.owaka.timer_refresh.periods.backoff;
         $.each($(".grid-elt.autorefresh"), function() {
             var o = $(this);
             var id = o.attr("id");
             $.post('w/' + $.owaka.dashboard.from + '/' + o.attr("data-widget-type") + '/display/' + o.attr("data-widget-id"), {}, function(data) {
                 var open = o.hasClass('grid-elt-hover');
-                o.replaceWith($(data));
+                var deleted = o.replaceWith($(data));
                 $(document).ready(function() {
                     var o2 = $("#" + id);
                     $.owaka.computeElement(o2);
@@ -87,9 +100,23 @@ $.owaka = {
                         o2.find('.widget-detailed').show();
                         $.owaka.timer_widget[id] = null;
                     }
+                    if (deleted.text() != o2.text()) {
+                        $.owaka.timer_refresh.periods.current = $.owaka.timer_refresh.periods.active;
+                    }
                 });
             });
         });
+    },
+    setRefreshTimer: function() {
+        if ($.owaka.timer_refresh.timer) {
+            clearTimeout($.owaka.timer_refresh.timer);
+            if (!document.hidden) {
+                $.owaka.refreshElements();
+            }
+        }
+        var period = (document.hidden) ? $.owaka.timer_refresh.periods.inactive : $.owaka.timer_refresh.periods.current;
+        console.log('Next refresh in ' + period);
+        $.owaka.timer_refresh.timer = setTimeout($.owaka.refreshElements, period * 1000);
     },
     renderForms: function() {
         if ($(".ui-form").size() > 0) {

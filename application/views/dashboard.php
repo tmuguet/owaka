@@ -154,8 +154,9 @@ echo View::factory('baseMenu')
         },
         from: "<?php echo $from; ?>",
     }
-
-    $.owaka.dashboard.timer = setInterval('$.owaka.refreshElements();', 10000);
+    
+    $(document).bind('visibilitychange', $.owaka.setRefreshTimer);
+    $.owaka.setRefreshTimer();
 </script>
 <?php
 echo View::factory('baseEnd')
