@@ -133,7 +133,7 @@
         <phpunit codecoverage="false" printsummary="true" failureproperty="tests_failure" errorproperty="tests_error" bootstrap="${build.deploydir}/private/tests/bootstrap.php">
             <formatter type="xml" todir="tmp/reports"/>
             <batchtest>
-                <fileset dir="${build.deploydir}/private/tests/classes">
+                <fileset dir="${build.deploydir}/private/tests">
                     <include name="**/${testname}.php"/>
                     <exclude name="**/_mocks"/>
                     <exclude name="**/_stubs"/>
