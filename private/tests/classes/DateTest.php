@@ -43,6 +43,6 @@ class DateTest extends TestCase
         $this->assertEquals('+ 1minute', Date::loose_span(Date::MINUTE, 0));
         $this->assertEquals('+ 59second', Date::loose_span(59, 0));
         $this->assertEquals('+ 1second', Date::loose_span(1, 0));
-        $this->assertEquals('+ 0second', Date::loose_span(0, 0));
+        $this->assertEquals('never', Date::loose_span(0));
     }
 }

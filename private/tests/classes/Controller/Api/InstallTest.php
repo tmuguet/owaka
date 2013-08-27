@@ -38,8 +38,8 @@ class Controller_Api_InstallTest extends TestCase
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'
             );
         }
-        $this->assertTrue($actual->has('roles', ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_ADMIN))));
-        $this->assertTrue($actual->has('roles', ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_LOGIN))));
+        $this->assertTrue($actual->has('roles', Model_Role::getRole(Owaka::AUTH_ROLE_ADMIN)));
+        $this->assertTrue($actual->has('roles', Model_Role::getRole(Owaka::AUTH_ROLE_LOGIN)));
     }
 
     /**

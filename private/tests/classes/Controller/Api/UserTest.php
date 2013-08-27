@@ -17,22 +17,31 @@ class Controller_Api_UserTest extends TestCase
 
         $expected = array(
             array(
-                'id'       => $this->genNumbers['userBar'],
-                'username' => 'userBar',
-                'enabled'  => false,
-                'admin'    => false
+                'id'         => $this->genNumbers['userBar'],
+                'username'   => 'userBar',
+                'email'      => 'ut' . $this->genNumbers['userBar'] . '@thomasmuguet.info',
+                'logins'     => 0,
+                'last_login' => 0,
+                'enabled'    => false,
+                'admin'      => false
             ),
             array(
-                'id'       => $this->genNumbers['userFoo'],
-                'username' => 'userFoo',
-                'enabled'  => true,
-                'admin'    => false
+                'id'         => $this->genNumbers['userFoo'],
+                'username'   => 'userFoo',
+                'email'      => 'ut' . $this->genNumbers['userFoo'] . '@thomasmuguet.info',
+                'logins'     => 0,
+                'last_login' => 0,
+                'enabled'    => true,
+                'admin'      => false
             ),
             array(
-                'id'       => Auth::instance()->get_user()->id,
-                'username' => 'ut-admin',
-                'enabled'  => false,
-                'admin'    => true
+                'id'         => Auth::instance()->get_user()->id,
+                'username'   => 'ut-admin',
+                'email'      => 'ut-admin@thomasmuguet.info',
+                'logins'     => 1,
+                'last_login' => Auth::instance()->get_user()->last_login,
+                'enabled'    => false,
+                'admin'      => true
             ),
         );
         $apiCall  = json_decode($response->body(), TRUE);
@@ -59,12 +68,12 @@ class Controller_Api_UserTest extends TestCase
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
 
-        $actual       = ORM::factory('User')->where('username', '=', 'ut')->find();
+        $actual              = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
-        $expected->id = $actual->id;
+        $expected->id        = $actual->id;
         $expected->challenge = $actual->challenge;
-        $expected->password = $expected->_generateNewPassword($actual->challenge, 'test');
-        
+        $expected->password  = $expected->_generateNewPassword($actual->challenge, 'test');
+
         $this->assertEquals(array("user" => $actual->id), $apiCall, "Incorrect API result");
         foreach ($actual->list_columns() as $column => $info) {
             $this->assertEquals(
@@ -94,18 +103,18 @@ class Controller_Api_UserTest extends TestCase
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
 
-        $actual       = ORM::factory('User')->where('username', '=', 'ut')->find();
+        $actual              = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
-        $expected->id = $actual->id;
+        $expected->id        = $actual->id;
         $expected->challenge = $actual->challenge;
-        $expected->password = $expected->_generateNewPassword($actual->challenge, 'test');
+        $expected->password  = $expected->_generateNewPassword($actual->challenge, 'test');
         $this->assertEquals(array("user" => $actual->id), $apiCall, "Incorrect API result");
         foreach ($actual->list_columns() as $column => $info) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'
             );
         }
-        $this->assertTrue($actual->has('roles', ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_ADMIN))));
+        $this->assertTrue($actual->has('roles', Model_Role::getRole(Owaka::AUTH_ROLE_ADMIN)));
     }
 
     /**
@@ -159,7 +168,7 @@ class Controller_Api_UserTest extends TestCase
      */
     public function testActionEdit()
     {
-        $expected           = ORM::factory('User', $this->genNumbers['userFoo']);
+        $expected = ORM::factory('User', $this->genNumbers['userFoo']);
 
         $request  = Request::factory('api/user/edit/' . $this->genNumbers['userFoo'])->login(Owaka::AUTH_ROLE_ADMIN);
         $request->method(Request::POST);
@@ -169,10 +178,10 @@ class Controller_Api_UserTest extends TestCase
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(array("user" => $this->genNumbers['userFoo']), $apiCall, "Incorrect API result");
 
-        $actual = ORM::factory('User', $this->genNumbers['userFoo']);
+        $actual              = ORM::factory('User', $this->genNumbers['userFoo']);
         $this->assertTrue($actual->loaded());
         $expected->challenge = $actual->challenge;
-        $expected->password = $expected->_generateNewPassword($actual->challenge, 'new-password');
+        $expected->password  = $expected->_generateNewPassword($actual->challenge, 'new-password');
         foreach ($actual->list_columns() as $column => $info) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'
@@ -192,9 +201,8 @@ class Controller_Api_UserTest extends TestCase
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(
-                array("errors" => array('password' => 'You must provide a password.')), $apiCall,
-                "Incorrect API result"
-        ); 
+                array("errors" => array('password' => 'You must provide a password.')), $apiCall, "Incorrect API result"
+        );
     }
 
     /**
@@ -214,7 +222,7 @@ class Controller_Api_UserTest extends TestCase
      */
     public function testActionEnable()
     {
-        $role     = ORM::factory('Role', array("name" => Owaka::AUTH_ROLE_LOGIN));
+        $role     = Model_Role::getRole(Owaka::AUTH_ROLE_LOGIN);
         $expected = ORM::factory('User', $this->genNumbers['userBar']);
         $this->assertFalse($expected->has('roles', $role));
 
@@ -245,7 +253,7 @@ class Controller_Api_UserTest extends TestCase
      */
     public function testActionDisable()
     {
-        $role     = ORM::factory('Role', array("name" => Owaka::AUTH_ROLE_LOGIN));
+        $role     = Model_Role::getRole(Owaka::AUTH_ROLE_LOGIN);
         $expected = ORM::factory('User', $this->genNumbers['userFoo']);
         $this->assertTrue($expected->has('roles', $role));
 

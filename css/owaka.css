@@ -121,6 +121,11 @@ tr.build td img {
     vertical-align: middle;
 }
 
+.ui-table th, .ui-table td {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 #left-panel {
     position: fixed;
     top: 0px;
@@ -315,4 +320,9 @@ a.ui-state-highlight-text:hover {
 }
 .ui-widget-overlay {
     position: fixed;
+}
+
+a.ui-button, a.ui-button-danger, a.ui-button-error, a.ui-button-info, a.ui-button-inverse, a.ui-button-primary, a.ui-button-success {
+    text-decoration: none;
+    color: #FFFFFF;
 }
