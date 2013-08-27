@@ -42,6 +42,10 @@ class Date extends Kohana_Date
      */
     public static function loose_span($timestamp, $local_timestamp = NULL)
     {
+        if ($timestamp == 0) {
+            return 'never';
+        }
+
         $span = self::span($timestamp, $local_timestamp);
 
         if ($span['years'] > 0) {

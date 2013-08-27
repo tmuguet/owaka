@@ -36,12 +36,7 @@ switch ($from) {
         $title = '';
 }
 
-$menu   = array();
-$menu[] = array(
-    'title'    => 'Home',
-    'href'     => 'dashboard/main',
-    'selected' => ($from == 'main')
-);
+$menu = array();
 
 foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $_project) {
     $_lastBuild = $_project->lastBuild()->find();
@@ -52,7 +47,6 @@ foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $_proje
         'href'     => 'dashboard/project/' . $_project->id,
         'selected' => ($from == 'project' || $from == 'build') && $projectId == $_project->id,
         'img'      => $_status,
-        'alt'      => $_lastBuild->status,
         'class'    => 'build-' . $_lastBuild->status,
     );
 
@@ -70,7 +64,6 @@ foreach (ORM::factory('Project')->order_by('name', 'ASC')->find_all() as $_proje
                 'href'     => 'dashboard/build/' . $_build->id,
                 'selected' => $buildId == $_build->id,
                 'img'      => $_build->getIcon(),
-                'alt'      => $_build->status,
                 'class'    => 'build-' . $_build->status,
             );
         }
@@ -85,7 +78,6 @@ if ($from == 'build') {
         'title' => 'delete build',
         'js'    => '$.owaka.dashboard.deletebuild(' . $buildId . ')',
         'img'   => 'trash',
-        'alt'   => 'Delete this build'
     );
 }
 
@@ -93,21 +85,18 @@ $menu_bottom[] = array(
     'title' => 'new project',
     'href'  => 'manager/add',
     'img'   => 'plus',
-    'alt'   => 'Add a new project'
 );
 if ($from != 'main') {
     $menu_bottom[] = array(
         'title' => 'edit project',
         'href'  => 'manager/edit/' . $projectId,
         'img'   => 'pencil',
-        'alt'   => 'Edit project'
     );
 }
 $menu_bottom[] = array(
     'title' => 'designer',
     'href'  => 'designer/' . $from . ($from == 'main' ? '' : '/' . $projectId),
     'img'   => 'th',
-    'alt'   => 'Designer mode'
 );
 
 echo View::factory('baseStart')
@@ -154,7 +143,7 @@ echo View::factory('baseMenu')
         },
         from: "<?php echo $from; ?>",
     }
-    
+
     $(document).bind('visibilitychange', $.owaka.setRefreshTimer);
     $.owaka.setRefreshTimer();
 </script>

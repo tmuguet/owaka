@@ -3,12 +3,11 @@ $title = ($project->loaded() ? 'Edit project ' . $project->name : 'Add a new pro
 
 $menu = array();
 
-$menu_bottom   = array();
-$menu_bottom[] = array(
+$menu_bottom = array();
+$menu[]      = array(
     'title' => 'cancel',
     'href'  => 'dashboard/main',
     'img'   => 'off',
-    'alt'   => 'Cancel'
 );
 
 echo View::factory('baseStart')

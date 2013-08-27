@@ -1,12 +1,11 @@
 <?php
-$title         = 'add user';
-$menu          = array();
-$menu_bottom   = array();
-$menu_bottom[] = array(
+$title       = 'add user';
+$menu        = array();
+$menu_bottom = array();
+$menu[]      = array(
     'title' => 'cancel',
-    'href'  => 'dashboard/main',
+    'href'  => 'user/list',
     'img'   => 'off',
-    'alt'   => 'Cancel'
 );
 
 echo View::factory('baseStart')
@@ -44,7 +43,7 @@ echo View::factory('baseMenu')
 <script type="text/javascript">
     $.owaka.formapi($('.ui-form'), function(data) {
         alert('User added');
-        document.location.href = 'dashboard/main';
+        document.location.href = 'user/list';
     });
 </script>
 <?php

@@ -9,6 +9,13 @@ if (!isset($menu_bottom_advanced)) {
     $menu_bottom_advanced = array();
 }
 if (Auth::instance()->logged_in()) {
+    array_unshift(
+            $menu, array(
+        'title' => 'Home',
+        'href'  => 'dashboard/main',
+        'img'   => 'home',
+            )
+    );
     $menu_bottom_advanced[] = array(
         'title'   => 'account',
         'submenu' => array(
@@ -27,6 +34,10 @@ if (Auth::instance()->logged_in()) {
             'title'   => 'users',
             'submenu' => array(
                 array(
+                    'title' => 'list',
+                    'href'  => 'user/list'
+                ),
+                array(
                     'title' => 'add',
                     'href'  => 'user/add'
                 )
@@ -37,7 +48,6 @@ if (Auth::instance()->logged_in()) {
         'title' => 'logout',
         'href'  => 'logout',
         'img'   => 'signout',
-        'alt'   => 'Log out'
     );
 }
 ?>

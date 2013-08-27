@@ -15,28 +15,33 @@ class Controller_Api_User extends Controller_Api
      * Returns the list of users
      * 
      * Returns an array of objects order by username:
-     * {id: int, username: string, enabled: bool, admin: bool}
+     * {id: int, username: string, email: string, logins: int, last_login: int, enabled: bool, admin: bool}
      * 
      * @url http://example.com/api/user/list
      */
     public function action_list()
     {
         $users = ORM::factory('User')
-                ->where('id', '!=', 1)
                 ->order_by('username', 'ASC')
                 ->find_all();
 
-        $admin   = ORM::factory('Role', array("name" => Owaka::AUTH_ROLE_ADMIN));
-        $enabled = ORM::factory('Role', array("name" => Owaka::AUTH_ROLE_LOGIN));
+        $admin    = Model_Role::getRole(Owaka::AUTH_ROLE_ADMIN);
+        $enabled  = Model_Role::getRole(Owaka::AUTH_ROLE_LOGIN);
+        $internal = Model_Role::getRole(Owaka::AUTH_ROLE_INTERNAL);
 
         $output = array();
         foreach ($users as $user) {
-            $output[] = array(
-                "id"       => $user->id,
-                "username" => $user->username,
-                "enabled"  => $user->has('roles', $enabled),
-                "admin"    => $user->has('roles', $admin),
-            );
+            if (!$user->has('roles', $internal)) {
+                $output[] = array(
+                    "id"         => $user->id,
+                    "username"   => $user->username,
+                    "email"      => $user->email,
+                    "logins"     => $user->logins,
+                    "last_login" => $user->last_login,
+                    "enabled"    => $user->has('roles', $enabled),
+                    "admin"      => $user->has('roles', $admin),
+                );
+            }
         }
         $this->respondOk($output);
     }
@@ -59,12 +64,10 @@ class Controller_Api_User extends Controller_Api
             $user->password = $this->request->post('password');
             $user->create();
 
-            $r = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_LOGIN));
-            $user->add('roles', $r);
+            $user->add('roles', Model_Role::getRole(Owaka::AUTH_ROLE_LOGIN));
 
             if ($this->request->post('admin')) {
-                $rAdmin = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_ADMIN));
-                $user->add('roles', $rAdmin);
+                $user->add('roles', Model_Role::getRole(Owaka::AUTH_ROLE_ADMIN));
             }
             $this->respondOk(array('user' => $user->id));
         } catch (ORM_Validation_Exception $e) {
@@ -82,7 +85,7 @@ class Controller_Api_User extends Controller_Api
     {
         try {
             $user = ORM::factory('User', $this->request->param('id'));
-            if (!$user->loaded()) {
+            if (!$user->loaded() || $user->has('roles', Model_Role::getRole(Owaka::AUTH_ROLE_INTERNAL))) {
                 throw new HTTP_Exception_404();
             }
             $user->password = $this->request->post('password');
@@ -102,11 +105,10 @@ class Controller_Api_User extends Controller_Api
     public function action_enable()
     {
         $user = ORM::factory('User', $this->request->param('id'));
-        if (!$user->loaded()) {
+        if (!$user->loaded() || $user->has('roles', Model_Role::getRole(Owaka::AUTH_ROLE_INTERNAL))) {
             throw new HTTP_Exception_404();
         }
-        $r = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_LOGIN));
-        $user->add('roles', $r);
+        $user->add('roles', Model_Role::getRole(Owaka::AUTH_ROLE_LOGIN));
 
         $this->respondOk(array('user' => $user->id));
     }
@@ -119,11 +121,10 @@ class Controller_Api_User extends Controller_Api
     public function action_disable()
     {
         $user = ORM::factory('User', $this->request->param('id'));
-        if (!$user->loaded()) {
+        if (!$user->loaded() || $user->has('roles', Model_Role::getRole(Owaka::AUTH_ROLE_INTERNAL))) {
             throw new HTTP_Exception_404();
         }
-        $r = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_LOGIN));
-        $user->remove('roles', $r);
+        $user->remove('roles', Model_Role::getRole(Owaka::AUTH_ROLE_LOGIN));
 
         $this->respondOk(array('user' => $user->id));
     }
@@ -136,7 +137,7 @@ class Controller_Api_User extends Controller_Api
     public function action_delete()
     {
         $user = ORM::factory('User', $this->request->param('id'));
-        if (!$user->loaded()) {
+        if (!$user->loaded() || $user->has('roles', Model_Role::getRole(Owaka::AUTH_ROLE_INTERNAL))) {
             throw new HTTP_Exception_404();
         }
         $user->remove('roles');

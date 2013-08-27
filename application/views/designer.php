@@ -1,6 +1,11 @@
 <?php
-$title = 'Designer';
-$menu  = array();
+$title  = 'Designer';
+$menu   = array();
+$menu[] = array(
+    'title' => 'quit designer',
+    'href'  => 'dashboard/' . ($from == 'main' ? $from : 'project') . '/' . ($from == "main" ? '' : $projectId),
+    'img'   => 'off',
+);
 
 $menu_bottom   = array();
 $menu_bottom[] = array(
@@ -12,12 +17,6 @@ $menu_bottom[] = array(
     'title' => 'add a column',
     'js'    => '$.owaka.designer.slots.addColumn();',
     'img'   => 'ellipsis-vertical',
-);
-$menu_bottom[] = array(
-    'title' => 'quit designer',
-    'href'  => 'dashboard/' . ($from == 'main' ? $from : 'project') . '/' . ($from == "main" ? '' : $projectId),
-    'img'   => 'off',
-    'alt'   => 'Quit designer mode'
 );
 
 echo View::factory('baseStart')

@@ -1,12 +1,11 @@
 <?php
-$title         = 'edit user';
-$menu          = array();
-$menu_bottom   = array();
-$menu_bottom[] = array(
+$title       = 'edit user ' . $user->username;
+$menu        = array();
+$menu_bottom = array();
+$menu[]      = array(
     'title' => 'cancel',
-    'href'  => 'dashboard/main',
+    'href'  => 'user/list',
     'img'   => 'off',
-    'alt'   => 'Cancel'
 );
 
 echo View::factory('baseStart')

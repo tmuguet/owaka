@@ -1,12 +1,11 @@
 <?php
-$title         = 'edit account';
-$menu          = array();
-$menu_bottom   = array();
-$menu_bottom[] = array(
+$title       = 'edit account';
+$menu        = array();
+$menu_bottom = array();
+$menu[]      = array(
     'title' => 'cancel',
     'href'  => 'dashboard/main',
     'img'   => 'off',
-    'alt'   => 'Cancel'
 );
 
 echo View::factory('baseStart')

@@ -35,11 +35,8 @@ class Controller_Api_Install extends Controller_Api
             $user->password = $this->request->post('password');
             $user->create();
 
-            $r = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_LOGIN));
-            $user->add('roles', $r);
-
-            $rAdmin = ORM::factory('Role', array('name' => Owaka::AUTH_ROLE_ADMIN));
-            $user->add('roles', $rAdmin);
+            $user->add('roles', Model_Role::getRole(Owaka::AUTH_ROLE_LOGIN));
+            $user->add('roles', Model_Role::getRole(Owaka::AUTH_ROLE_ADMIN));
 
             @unlink(DOCROOT . 'install.php');
 
