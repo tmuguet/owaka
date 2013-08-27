@@ -151,13 +151,13 @@ echo View::factory('baseMenu')
 <?php else: ?>
                 alert('Project added');
 <?php endif; ?>
-            document.location = 'dashboard/project/' + data.project;
+            document.location.href = 'dashboard/project/' + data.project;
         }
     });
 
     $.owaka.formapi($('#form-checkout'), function(data) {
         alert('Project checked out!');
-        document.location = 'dashboard/project/' + data.project;
+        document.location.href = 'dashboard/project/' + data.project;
     });
 </script>
 <?php

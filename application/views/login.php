@@ -41,7 +41,7 @@ echo View::factory('baseMenu')
 
                 $.post(form.attr('action'), {user: $("#user").val(), response: response}, function(data) {
                     $('#' + form.attr('id') + '-helper').html('');
-                    document.location = data.goto;
+                    document.location.href = data.goto;
                 }, "json").fail(function(jqXHR, textStatus, errorThrown) {
                     $.owaka.callbacks.apifail(form, jqXHR, textStatus, errorThrown);
                 });

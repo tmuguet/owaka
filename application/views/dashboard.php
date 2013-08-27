@@ -146,9 +146,9 @@ echo View::factory('baseMenu')
             $.owaka.api('api/build/delete/' + id, {}, function(data) {
                 alert('Build deleted!');
                 if (data.next_build != '') {
-                    document.location = 'dashboard/build/' + data.next_build;
+                    document.location.href = 'dashboard/build/' + data.next_build;
                 } else {
-                    document.location = 'dashboard/project/<?php echo $projectId; ?>';
+                    document.location.href = 'dashboard/project/<?php echo $projectId; ?>';
                 }
             });
         },

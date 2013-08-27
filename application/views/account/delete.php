@@ -26,7 +26,7 @@ echo View::factory('baseMenu')
 <script type="text/javascript">
     $.owaka.formapi($('.ui-form'), function(data) {
         alert('Account deleted');
-        document.location = 'dashboard/main';
+        document.location.href = 'dashboard/main';
     });
 </script>
 <?php
