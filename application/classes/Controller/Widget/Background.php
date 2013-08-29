@@ -98,7 +98,7 @@ class Controller_Widget_Background extends Controller_Widget_Base
         $content = <<<EOT
 <script type="text/javascript">
     \$(document).ready(function() {
-        \$("body").attr("css", ".{$this->_theme} .build-{$this->_status}");
+        \$("body").attr("class", "{$this->_theme} build-{$this->_status}");
     });
 </script>
 EOT;
