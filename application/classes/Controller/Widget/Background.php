@@ -8,6 +8,8 @@
 class Controller_Widget_Background extends Controller_Widget_Base
 {
 
+    protected $autorefresh = TRUE;
+
     /**
      * Theme of backgrounds
      * @var string
@@ -96,7 +98,7 @@ class Controller_Widget_Background extends Controller_Widget_Base
         $content = <<<EOT
 <script type="text/javascript">
     \$(document).ready(function() {
-        \$("body").addClass("{$this->_theme} build-{$this->_status}");
+        \$("body").attr("css", ".{$this->_theme} .build-{$this->_status}");
     });
 </script>
 EOT;
