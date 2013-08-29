@@ -87,7 +87,7 @@ class Auth_ORM extends Kohana_Auth_ORM
     /**
      * Compare password with original (hashed). Works for current (logged in) user
      *
-     * @param string $password
+     * @param string $password Password
      * 
      * @return boolean
      */
