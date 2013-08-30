@@ -17,35 +17,35 @@ class Controller_Processor_Pdepend extends Controller_Processor
     {
         return array(
             'summary'       => array(
-                'title'       => 'PhpDepend report',
-                'description' => 'PhpDepend XML report (logger summary-xml)',
+                'title'       => 'XML report',
+                'description' => 'PhpDepend XML report (logger summary-xml). This is the report used for processing data.',
                 'type'        => 'file',
                 'keep-as'     => 'summary.xml'
             ),
-            'jdepend_chart' => array(
-                'title'       => 'PhpDepend jdepend chart',
+/*            'jdepend_chart' => array(
+                'title'       => 'jdepend chart',
                 'description' => 'PhpDepend jdepend chart (logger jdepend-chart)',
                 'type'        => 'file',
                 'keep-as'     => 'jdepend.svg'
             ),
             'jdepend_xml'   => array(
-                'title'       => 'PhpDepend jdepend XML',
+                'title'       => 'jdepend XML',
                 'description' => 'PhpDepend jdepend XML (logger jdepend-xml)',
                 'type'        => 'file',
                 'keep-as'     => 'jdepend.xml'
             ),
             'pyramid'       => array(
-                'title'       => 'PhpDepend pyramid',
+                'title'       => 'pyramid',
                 'description' => 'PhpDepend pyramid (logger overview-pyramid)',
                 'type'        => 'file',
                 'keep-as'     => 'pyramid.svg'
             ),
             'phpunit_xml'   => array(
-                'title'       => 'PhpDepend phpunit XML',
+                'title'       => 'phpunit XML',
                 'description' => 'PhpDepend phpunit XML (logger phpunit-xml)',
                 'type'        => 'file',
                 'keep-as'     => 'phpunit.xml'
-            )
+            )*/
         );
     }
 

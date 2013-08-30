@@ -83,7 +83,7 @@ $.owaka = {
     refreshElements: function() {
         $.owaka.timer_refresh.timer = null;
         $.owaka.setRefreshTimer();
-        
+
         $.owaka.timer_refresh.periods.current = $.owaka.timer_refresh.periods.backoff;
         $.each($(".grid-elt.autorefresh"), function() {
             var o = $(this);
@@ -204,6 +204,19 @@ $.owaka = {
         });
     }
 };
+$.widget("custom.catcomplete", $.ui.autocomplete, {
+    _renderMenu: function(ul, items) {
+        var that = this;
+        var currentCategory = "";
+        $.each(items, function(index, item) {
+            if (item.category != currentCategory) {
+                ul.append("<li class='ui-state-highlight' style='margin-bottom: 0px; font-weight: bold'>" + item.category + "</li>");
+                currentCategory = item.category;
+            }
+            that._renderItemData(ul, item);
+        });
+    }
+});
 $(document).ready(function() {
     $.owaka.computeElements();
     $.owaka.renderForms();

@@ -17,13 +17,13 @@ class Controller_Processor_Coverage extends Controller_Processor
     {
         return array(
             'raw' => array(
-                'title'       => 'Coverage raw report',
-                'description' => 'Coverage XML report',
+                'title'       => 'XML report',
+                'description' => 'Coverage XML report. This is the report used for processing data.',
                 'type'        => 'file',
                 'keep-as'     => 'coverage.xml'
             ),
             'dir' => array(
-                'title'       => 'Coverage report directory',
+                'title'       => 'HTML report',
                 'description' => 'Coverage HTML report directory',
                 'type'        => 'dir',
                 'keep-as'     => '.'

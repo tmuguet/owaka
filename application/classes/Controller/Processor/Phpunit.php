@@ -17,13 +17,13 @@ class Controller_Processor_Phpunit extends Controller_Processor
     {
         return array(
             'xml'    => array(
-                'title'       => 'PHPUnit XML report',
-                'description' => 'PHPUnit XML report with xml format',
+                'title'       => 'XML report',
+                'description' => 'PHPUnit XML report with xml format. This is the report used for processing data.',
                 'type'        => 'file',
                 'keep-as'     => 'report.xml'
             ),
             'report' => array(
-                'title'       => 'PHPUnit report',
+                'title'       => 'HTML report',
                 'description' => 'PHPUnit HTML report directory',
                 'type'        => 'dir',
                 'keep-as'     => '.'

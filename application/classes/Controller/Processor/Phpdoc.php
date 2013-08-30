@@ -17,7 +17,7 @@ class Controller_Processor_Phpdoc extends Controller_Processor
     {
         return array(
             'report' => array(
-                'title'       => 'PHPdoc report',
+                'title'       => 'HTML report',
                 'description' => 'PHPdoc report directory',
                 'type'        => 'dir',
                 'keep-as'     => '.'

@@ -17,7 +17,7 @@ class Controller_Processor_Codesniffer extends Controller_Processor
     {
         return array(
             'xml' => array(
-                'title'       => 'Code Sniffer report',
+                'title'       => 'XML report',
                 'description' => 'Code Sniffer XML report in checkstyle format',
                 'type'        => 'file',
                 'keep-as'     => 'index.xml'

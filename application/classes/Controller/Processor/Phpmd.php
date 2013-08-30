@@ -17,8 +17,8 @@ class Controller_Processor_Phpmd extends Controller_Processor
     {
         return array(
             'html' => array(
-                'title'       => 'PHPMD HTML report',
-                'description' => 'PHPMD HTML report',
+                'title'       => 'HTML report',
+                'description' => 'PHPMD HTML report. This is the report used for processing data.',
                 'type'        => 'file',
                 'keep-as'     => 'report.html'
             )
