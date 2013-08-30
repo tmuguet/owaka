@@ -98,11 +98,11 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
                     $this->statusData      = floor($build->coverage_globaldata->totalcoverage) . '%';
                     $this->statusDataLabel = '<br/>total';
                     if ($build->coverage_globaldata->totalcoverage > 98) {
-                        $this->status = 'ok';
+                        $this->status = Owaka::BUILD_OK;
                     } else if ($build->coverage_globaldata->totalcoverage > 95) {
-                        $this->status = 'unstable';
+                        $this->status = Owaka::BUILD_UNSTABLE;
                     } else {
-                        $this->status = 'error';
+                        $this->status = Owaka::BUILD_ERROR;
                     }
                     break;
 
@@ -110,11 +110,11 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
                     $this->statusData      = floor($build->coverage_globaldata->methodcoverage) . '%';
                     $this->statusDataLabel = '<br/>methods';
                     if ($build->coverage_globaldata->methodcoverage > 98) {
-                        $this->status = 'ok';
+                        $this->status = Owaka::BUILD_OK;
                     } else if ($build->coverage_globaldata->methodcoverage > 95) {
-                        $this->status = 'unstable';
+                        $this->status = Owaka::BUILD_UNSTABLE;
                     } else {
-                        $this->status = 'error';
+                        $this->status = Owaka::BUILD_ERROR;
                     }
                     break;
 
@@ -122,11 +122,11 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
                     $this->statusData      = floor($build->coverage_globaldata->statementcoverage) . '%';
                     $this->statusDataLabel = '<br/>statements';
                     if ($build->coverage_globaldata->statementcoverage > 98) {
-                        $this->status = 'ok';
+                        $this->status = Owaka::BUILD_OK;
                     } else if ($build->coverage_globaldata->statementcoverage > 95) {
-                        $this->status = 'unstable';
+                        $this->status = Owaka::BUILD_UNSTABLE;
                     } else {
-                        $this->status = 'error';
+                        $this->status = Owaka::BUILD_ERROR;
                     }
                     break;
 
@@ -134,29 +134,29 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
                     $this->statusData      = floor($build->coverage_globaldata->methodcoverage) . '%';
                     $this->statusDataLabel = '<br/>methods';
                     if ($build->coverage_globaldata->methodcoverage > 98) {
-                        $this->status = 'ok';
+                        $this->status = Owaka::BUILD_OK;
                     } else if ($build->coverage_globaldata->methodcoverage > 95) {
-                        $this->status = 'unstable';
+                        $this->status = Owaka::BUILD_UNSTABLE;
                     } else {
-                        $this->status = 'error';
+                        $this->status = Owaka::BUILD_ERROR;
                     }
 
                     $this->substatusData      = floor($build->coverage_globaldata->statementcoverage) . '%';
                     $this->substatusDataLabel = '<br/>statements';
                     if ($build->coverage_globaldata->statementcoverage > 98) {
-                        $this->substatus = 'ok';
+                        $this->substatus = Owaka::BUILD_OK;
                     } else if ($build->coverage_globaldata->statementcoverage > 95) {
-                        $this->substatus = 'unstable';
+                        $this->substatus = Owaka::BUILD_UNSTABLE;
                     } else {
-                        $this->substatus = 'error';
+                        $this->substatus = Owaka::BUILD_ERROR;
                     }
 
-                    if ($this->status == 'ok' && $this->substatus == 'ok') {
-                        $this->widgetStatus = 'ok';
-                    } else if ($this->status == 'error' || $this->substatus == 'error') {
-                        $this->widgetStatus = 'error';
+                    if ($this->status == Owaka::BUILD_OK && $this->substatus == Owaka::BUILD_OK) {
+                        $this->widgetStatus = Owaka::BUILD_OK;
+                    } else if ($this->status == Owaka::BUILD_ERROR || $this->substatus == Owaka::BUILD_ERROR) {
+                        $this->widgetStatus = Owaka::BUILD_ERROR;
                     } else {
-                        $this->widgetStatus = 'unstable';
+                        $this->widgetStatus = Owaka::BUILD_UNSTABLE;
                     }
                     break;
             }

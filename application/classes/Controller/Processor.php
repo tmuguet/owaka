@@ -16,9 +16,41 @@ abstract class Controller_Processor extends Controller
      * @throws Exception
      * @todo Document this
      */
-    static public function getInputReports()
+    static public function inputReports()
     {
         throw new Exception('Not implemented');
+    }
+
+    /**
+     * Gets the processor parameters
+     * 
+     * @return array
+     */
+    static public function parameters()
+    {
+        return array();
+    }
+
+    /**
+     * Gets the processor parameters
+     * 
+     * @return array
+     */
+    static public function projectParameters($project_id)
+    {
+        $report = ORM::factory('Project_Report_Parameter')
+                ->where('project_id', '=', $project_id)
+                ->where('processor', '=', static::_getName())
+                ->find();
+        if ($report->loaded()) {
+            $parameters = json_decode($report->params, true);
+        } else {
+            $parameters = array();
+            foreach (static::parameters() as $key => $info) {
+                $parameters[$key] = $info['defaultvalue'];
+            }
+        }
+        return $parameters;
     }
 
     /**
@@ -43,8 +75,8 @@ abstract class Controller_Processor extends Controller
 
 
         $command = new Command($build->project);
-        
-        foreach (static::getInputReports() as $type => $info) {
+
+        foreach (static::inputReports() as $type => $info) {
             $source      = $this->_getInputReportCompletePath($buildId, $type);
             $destination = $destinationDirectory . $info['keep-as'];    // TODO: this can get messy if mis-used !
 
@@ -64,7 +96,7 @@ abstract class Controller_Processor extends Controller
                     // Create the directory only if at least one report is available
                     mkdir($destinationDirectory, 0700, true);
                 }
-                
+
                 $command->rcopy($source, $destination);
             }
         }
@@ -75,7 +107,7 @@ abstract class Controller_Processor extends Controller
      * 
      * @return string
      */
-    /* private */ final function _getName()
+    static /* private */ final function _getName()
     {
         return strtolower(str_replace("Controller_Processor_", "", get_called_class()));
     }
@@ -86,11 +118,11 @@ abstract class Controller_Processor extends Controller
      * @param string $type Type of report to get
      * 
      * @return string
-     * @see getInputReports() for report types
+     * @see inputReports() for report types
      */
     /* private */ final function _getReportName($type)
     {
-        return $this->_getName() . '_' . $type;
+        return static::_getName() . '_' . $type;
     }
 
     /**
@@ -100,7 +132,7 @@ abstract class Controller_Processor extends Controller
      * @param string $type    Type of report to get
      * 
      * @return string|null
-     * @see getInputReports() for report types
+     * @see inputReports() for report types
      */
     /* private */ final function _getInputReportCompletePath($buildId, $type)
     {
@@ -131,13 +163,13 @@ abstract class Controller_Processor extends Controller
      * @param string $type    Type of report to get
      * 
      * @return string|null
-     * @see getInputReports() for report types
+     * @see inputReports() for report types
      */
     /* protected */ final function getReportCompletePath($buildId, $type)
     {
         $destination = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR
                 . $this->_getName() . DIRECTORY_SEPARATOR;
-        $reports     = static::getInputReports();
+        $reports     = static::inputReports();
         if (!isset($reports[$type]) || !isset($reports[$type]['keep-as'])) {
             return NULL;
         }
@@ -173,11 +205,11 @@ abstract class Controller_Processor extends Controller
      */
     public final function action_analyze()
     {
-        $buildId = $this->request->param('id');
-        $result  = NULL;
+        $result = NULL;
         if (method_exists($this, 'analyze')) {
-            $build  = ORM::factory('Build', $buildId);
-            $result = $this->analyze($build);
+            $buildId = $this->request->param('id');
+            $build   = ORM::factory('Build', $buildId);
+            $result  = $this->analyze($build, static::projectParameters($build->project_id));
         }
 
         $this->response->body($result);

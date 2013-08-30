@@ -3,7 +3,7 @@
 class Controller_Processor_processor2
 {
 
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'raw' => array(

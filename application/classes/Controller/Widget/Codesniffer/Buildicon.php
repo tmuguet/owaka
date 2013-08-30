@@ -86,21 +86,21 @@ class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
             );
 
             if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors == 0) {
-                $this->status = 'ok';
+                $this->status = Owaka::BUILD_OK;
             } else if ($build->codesniffer_globaldata->warnings > 0 && $build->codesniffer_globaldata->errors == 0) {
-                $this->status          = 'unstable';
+                $this->status          = Owaka::BUILD_UNSTABLE;
                 $this->statusData      = $build->codesniffer_globaldata->warnings;
                 $this->statusDataLabel = 'rules warnings';
             } else if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors > 0) {
-                $this->status          = 'error';
+                $this->status          = Owaka::BUILD_ERROR;
                 $this->statusData      = $build->codesniffer_globaldata->errors;
                 $this->statusDataLabel = 'rules errors';
             } else {
-                $this->widgetStatus       = 'error';
-                $this->status             = 'error';
+                $this->widgetStatus       = Owaka::BUILD_ERROR;
+                $this->status             = Owaka::BUILD_ERROR;
                 $this->statusData         = $build->codesniffer_globaldata->errors;
                 $this->statusDataLabel    = 'errors';
-                $this->substatus          = 'unstable';
+                $this->substatus          = Owaka::BUILD_UNSTABLE;
                 $this->substatusData      = $build->codesniffer_globaldata->warnings;
                 $this->substatusDataLabel = 'warnings';
             }

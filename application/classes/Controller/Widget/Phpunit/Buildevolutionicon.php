@@ -95,34 +95,34 @@ class Controller_Widget_Phpunit_Buildevolutionicon extends Controller_Widget_Bas
             $failures = $build->phpunit_globaldata->failures - $prevBuild->phpunit_globaldata->failures;
 
             if ($errors == 0 && $failures == 0) {
-                $this->status          = 'ok';
+                $this->status          = Owaka::BUILD_OK;
                 $this->statusData      = '-';
                 $this->statusDataLabel = '<br>no changes';
             } else {
                 if ($errors <= 0 && $failures <= 0) {
-                    $this->widgetStatus = 'ok';
+                    $this->widgetStatus = Owaka::BUILD_OK;
                 } else if ($errors > 0) {
-                    $this->widgetStatus = 'error';
+                    $this->widgetStatus = Owaka::BUILD_ERROR;
                 } else {
-                    $this->widgetStatus = 'unstable';
+                    $this->widgetStatus = Owaka::BUILD_UNSTABLE;
                 }
 
                 if ($errors == 0) {
-                    $this->status          = 'ok';
+                    $this->status          = Owaka::BUILD_OK;
                     $this->statusData      = '-';
                     $this->statusDataLabel = '<br>no changes';
                 } else {
-                    $this->status          = ($errors > 0 ? 'error' : 'ok');
+                    $this->status          = ($errors > 0 ? Owaka::BUILD_ERROR : Owaka::BUILD_OK);
                     $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
                     $this->statusDataLabel = 'tests errored';
                 }
 
                 if ($failures == 0) {
-                    $this->substatus          = 'ok';
+                    $this->substatus          = Owaka::BUILD_OK;
                     $this->substatusData      = '-';
                     $this->substatusDataLabel = '<br>no changes';
                 } else {
-                    $this->substatus          = ($failures > 0 ? 'unstable' : 'ok');
+                    $this->substatus          = ($failures > 0 ? Owaka::BUILD_UNSTABLE : Owaka::BUILD_OK);
                     $this->substatusData      = ($failures > 0 ? '+' . $failures : $failures);
                     $this->substatusDataLabel = 'tests failed';
                 }

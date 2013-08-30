@@ -217,7 +217,7 @@ class Controller_Api_Project extends Controller_Api
         $processors = File::findProcessors();
         foreach ($processors as $processor) {
             $name = str_replace("Controller_Processor_", "", $processor);
-            foreach (array_keys($processor::getInputReports()) as $key) {
+            foreach (array_keys($processor::inputReports()) as $key) {
                 $type = strtolower($name) . '_' . $key;
                 if (array_key_exists($type, $post)) {
                     $report = ORM::factory(

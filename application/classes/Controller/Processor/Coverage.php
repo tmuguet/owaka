@@ -13,7 +13,7 @@ class Controller_Processor_Coverage extends Controller_Processor
      * 
      * @return array
      */
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'raw' => array(
@@ -28,6 +28,41 @@ class Controller_Processor_Coverage extends Controller_Processor
                 'type'        => 'dir',
                 'keep-as'     => '.'
             )
+        );
+    }
+
+    /**
+     * Gets the processor parameters
+     * 
+     * @return array
+     */
+    static public function parameters()
+    {
+        return array(
+            'threshold_methodcoverage_error'       => array(
+                'title'        => 'Threshold of method coverage to trigger build error',
+                'defaultvalue' => 1
+            ),
+            'threshold_methodcoverage_unstable'    => array(
+                'title'        => 'Threshold of method coverage to trigger unstable build',
+                'defaultvalue' => -1
+            ),
+            'threshold_statementcoverage_error'    => array(
+                'title'        => 'Threshold of statement coverage to trigger build error',
+                'defaultvalue' => -1
+            ),
+            'threshold_statementcoverage_unstable' => array(
+                'title'        => 'Threshold of statement coverage to trigger unstable build',
+                'defaultvalue' => -1
+            ),
+            'threshold_totalcoverage_error'        => array(
+                'title'        => 'Threshold of total coverage to trigger build error',
+                'defaultvalue' => -1
+            ),
+            'threshold_totalcoverage_unstable'     => array(
+                'title'        => 'Threshold of total coverage to trigger unstable build',
+                'defaultvalue' => -1
+            ),
         );
     }
 
@@ -69,5 +104,30 @@ class Controller_Processor_Coverage extends Controller_Processor
         }
 
         return false;
+    }
+
+    /**
+     * Analyses a build
+     * 
+     * @param Model_Build &$build     Build
+     * @param array       $parameters Processor parameters
+     * 
+     * @return string Status
+     */
+    public function analyze(Model_Build &$build, array $parameters)
+    {
+        $data = $build->coverage_globaldata;
+
+        if (($parameters['threshold_methodcoverage_error'] > 0 && $data->methodcoverage < $parameters['threshold_methodcoverage_error'])
+                || ($parameters['threshold_statementcoverage_error'] > 0 && $data->statementcoverage < $parameters['threshold_statementcoverage_error'])
+                || ($parameters['threshold_totalcoverage_error'] > 0 && $data->totalcoverage < $parameters['threshold_totalcoverage_error'])) {
+            return Owaka::BUILD_ERROR;
+        } else if (($parameters['threshold_methodcoverage_unstable'] > 0 && $data->methodcoverage < $parameters['threshold_methodcoverage_unstable'])
+                || ($parameters['threshold_statementcoverage_unstable'] > 0 && $data->statementcoverage < $parameters['threshold_statementcoverage_unstable'])
+                || ($parameters['threshold_totalcoverage_unstable'] > 0 && $data->totalcoverage < $parameters['threshold_totalcoverage_unstable'])) {
+            return Owaka::BUILD_UNSTABLE;
+        } else {
+            return Owaka::BUILD_OK;
+        }
     }
 }

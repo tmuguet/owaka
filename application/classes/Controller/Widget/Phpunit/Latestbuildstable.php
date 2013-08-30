@@ -112,18 +112,18 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
                 $status .= View::factory('icon')->set('status', 'nodata')->render();
             } else if ($build->phpunit_globaldata->failures > 0 || $build->phpunit_globaldata->errors > 0) {
                 if ($build->phpunit_globaldata->failures > 0) {
-                    $status .= View::factory('icon')->set('status', 'unstable')->render();
+                    $status .= View::factory('icon')->set('status', Owaka::BUILD_UNSTABLE)->render();
                     $status .= $build->phpunit_globaldata->failures;
                 }
                 if ($build->phpunit_globaldata->failures > 0 && $build->phpunit_globaldata->errors > 0) {
                     $status .= ' ';
                 }
                 if ($build->phpunit_globaldata->errors > 0) {
-                    $status .= View::factory('icon')->set('status', 'error')->render();
+                    $status .= View::factory('icon')->set('status', Owaka::BUILD_ERROR)->render();
                     $status .= $build->phpunit_globaldata->errors;
                 }
             } else {
-                $status .= View::factory('icon')->set('status', 'ok')->render();
+                $status .= View::factory('icon')->set('status', Owaka::BUILD_OK)->render();
                 $status .= $build->phpunit_globaldata->tests;
             }
 

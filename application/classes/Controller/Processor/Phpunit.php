@@ -13,20 +13,48 @@ class Controller_Processor_Phpunit extends Controller_Processor
      * 
      * @return array
      */
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'xml'    => array(
                 'title'       => 'XML report',
                 'description' => 'PHPUnit XML report with xml format. This is the report used for processing data.',
                 'type'        => 'file',
-                'keep-as'     => 'report.xml'
+                'keep-as'     => 'report.xml',
+                'analysis'    => true
             ),
             'report' => array(
                 'title'       => 'HTML report',
                 'description' => 'PHPUnit HTML report directory',
                 'type'        => 'dir',
                 'keep-as'     => '.'
+            )
+        );
+    }
+
+    /**
+     * Gets the processor parameters
+     * 
+     * @return array
+     */
+    static public function parameters()
+    {
+        return array(
+            'threshold_errors_error'      => array(
+                'title'        => 'Number of errors to trigger build error',
+                'defaultvalue' => 1
+            ),
+            'threshold_errors_unstable'   => array(
+                'title'        => 'Number of errors to trigger unstable build',
+                'defaultvalue' => -1
+            ),
+            'threshold_failures_error'    => array(
+                'title'        => 'Number of failures to trigger build error',
+                'defaultvalue' => -1
+            ),
+            'threshold_failures_unstable' => array(
+                'title'        => 'Number of failures to trigger unstable build',
+                'defaultvalue' => 1
             )
         );
     }
@@ -80,18 +108,23 @@ class Controller_Processor_Phpunit extends Controller_Processor
     /**
      * Analyses a build
      * 
-     * @param Model_Build &$build Build
+     * @param Model_Build &$build     Build
+     * @param array       $parameters Processor parameters
      * 
      * @return string Status
      */
-    public function analyze(Model_Build &$build)
+    public function analyze(Model_Build &$build, array $parameters)
     {
-        if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {
-            return 'ok';
-        } else if ($build->phpunit_globaldata->errors == 0) {
-            return 'unstable';
+        $data = $build->phpunit_globaldata;
+        
+        if (($parameters['threshold_errors_error'] > 0 && $data->errors >= $parameters['threshold_errors_error']) 
+                || ($parameters['threshold_failures_error'] > 0 && $data->failures >= $parameters['threshold_failures_error'])) {
+            return Owaka::BUILD_ERROR;
+        } else if (($parameters['threshold_errors_unstable'] > 0 && $data->errors >= $parameters['threshold_errors_unstable'])
+                || ($parameters['threshold_failures_unstable'] > 0 && $data->failures >= $parameters['threshold_failures_unstable'])) {
+            return Owaka::BUILD_UNSTABLE;
         } else {
-            return 'error';
+            return Owaka::BUILD_OK;
         }
     }
 }

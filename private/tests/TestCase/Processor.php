@@ -24,18 +24,18 @@ abstract class TestCase_Processor extends TestCase
         parent::tearDown();
     }
 
-    public function testGetInputReports()
+    public function testInputReports()
     {
         // Code coverage purpose only
         $class = substr(get_called_class(), 0, -4); // remove Test at the end
-        $class::getInputReports();
+        $class::inputReports();
     }
 
     protected function CopyReport($type, $source)
     {
         $destinationDir = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->buildId . DIRECTORY_SEPARATOR
                 . $this->target->_getName() . DIRECTORY_SEPARATOR;
-        $reports        = $this->target->getInputReports();
+        $reports        = $this->target->inputReports();
         if (!isset($reports[$type]) || !isset($reports[$type]['keep-as'])) {
             throw new Exception("$type not available");
         }

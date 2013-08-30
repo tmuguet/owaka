@@ -87,9 +87,9 @@ class Controller_Widget_Phpmd_Buildicon extends Controller_Widget_Baseicon
             );
 
             if ($build->phpmd_globaldata->errors == 0) {
-                $this->status = 'ok';
+                $this->status = Owaka::BUILD_OK;
             } else {
-                $this->status          = 'unstable';
+                $this->status          = Owaka::BUILD_UNSTABLE;
                 $this->statusData      = $build->phpmd_globaldata->errors;
                 $this->statusDataLabel = 'errors';
             }

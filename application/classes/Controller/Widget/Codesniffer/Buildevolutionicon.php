@@ -95,27 +95,27 @@ class Controller_Widget_Codesniffer_Buildevolutionicon extends Controller_Widget
             $warnings = $build->codesniffer_globaldata->warnings - $prevBuild->codesniffer_globaldata->warnings;
 
             if ($errors == 0 && $warnings == 0) {
-                $this->status          = 'ok';
+                $this->status          = Owaka::BUILD_OK;
                 $this->statusData      = '-';
                 $this->statusDataLabel = '<br>no changes';
             } else {
-                $this->widgetStatus    = ($errors > 0 || $warnings > 0 ? 'unstable' : 'ok');
+                $this->widgetStatus    = ($errors > 0 || $warnings > 0 ? Owaka::BUILD_UNSTABLE : Owaka::BUILD_OK);
                 if ($errors == 0) {
-                    $this->status          = 'ok';
+                    $this->status          = Owaka::BUILD_OK;
                     $this->statusData      = '-';
                     $this->statusDataLabel = '<br>no changes';
                 } else {
-                    $this->status          = ($errors > 0 ? 'error' : 'ok');
+                    $this->status          = ($errors > 0 ? Owaka::BUILD_ERROR : Owaka::BUILD_OK);
                     $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
                     $this->statusDataLabel = 'rules errors';
                 }
 
                 if ($warnings == 0) {
-                    $this->substatus          = 'ok';
+                    $this->substatus          = Owaka::BUILD_OK;
                     $this->substatusData      = '-';
                     $this->substatusDataLabel = '<br>no changes';
                 } else {
-                    $this->substatus          = ($warnings > 0 ? 'unstable' : 'ok');
+                    $this->substatus          = ($warnings > 0 ? Owaka::BUILD_UNSTABLE : Owaka::BUILD_OK);
                     $this->substatusData      = ($warnings > 0 ? '+' . $warnings : $warnings);
                     $this->substatusDataLabel = 'rules warnings';
                 }

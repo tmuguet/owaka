@@ -161,23 +161,23 @@ class Model_Build extends ORM
     public function getIcon()
     {
         switch ($this->status) {
-            case 'ok':
+            case Owaka::BUILD_OK:
                 return 'ok';
                 break;
 
-            case 'unstable':
+            case Owaka::BUILD_UNSTABLE:
                 return 'warning-sign';
                 break;
 
-            case 'error':
+            case Owaka::BUILD_ERROR:
                 return 'bug';
                 break;
 
-            case 'building':
+            case Owaka::BUILD_BUILDING:
                 return 'beaker';
                 break;
 
-            case 'queued':
+            case Owaka::BUILD_QUEUED:
                 return 'time';
                 break;
 

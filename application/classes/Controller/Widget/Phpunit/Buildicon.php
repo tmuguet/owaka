@@ -85,24 +85,24 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Baseicon
             );
 
             if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {
-                $this->status          = 'ok';
+                $this->status          = Owaka::BUILD_OK;
                 $this->statusData      = $build->phpunit_globaldata->tests;
                 $this->statusDataLabel = 'tests passed';
             } else if ($build->phpunit_globaldata->failures > 0 && $build->phpunit_globaldata->errors == 0) {
-                $this->status          = 'unstable';
+                $this->status          = Owaka::BUILD_UNSTABLE;
                 $this->statusData      = $build->phpunit_globaldata->failures;
                 $this->statusDataLabel = 'tests failed<br>out of ' . $build->phpunit_globaldata->tests;
             } else if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors > 0) {
-                $this->status          = 'error';
+                $this->status          = Owaka::BUILD_ERROR;
                 $this->statusData      = $build->phpunit_globaldata->errors;
                 $this->statusDataLabel = 'tests errored<br>out of ' . $build->phpunit_globaldata->tests;
             } else {
-                $this->widgetStatus = 'error';
+                $this->widgetStatus = Owaka::BUILD_ERROR;
 
-                $this->status             = 'error';
+                $this->status             = Owaka::BUILD_ERROR;
                 $this->statusData         = $build->phpunit_globaldata->errors;
                 $this->statusDataLabel    = 'errors';
-                $this->substatus          = 'unstable';
+                $this->substatus          = Owaka::BUILD_UNSTABLE;
                 $this->substatusData      = $build->phpunit_globaldata->failures;
                 $this->substatusDataLabel = 'failed';
             }

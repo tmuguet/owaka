@@ -5,7 +5,7 @@ class Controller_Processor_ProcessorStub extends Controller_Processor
 
     public $processResult = TRUE;
 
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'file'  => array(

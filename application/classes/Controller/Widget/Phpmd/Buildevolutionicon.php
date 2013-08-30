@@ -94,11 +94,11 @@ class Controller_Widget_Phpmd_Buildevolutionicon extends Controller_Widget_Basei
             $errors = $build->phpmd_globaldata->errors - $prevBuild->phpmd_globaldata->errors;
 
             if ($errors == 0) {
-                $this->status          = 'ok';
+                $this->status          = Owaka::BUILD_OK;
                 $this->statusData      = '-';
                 $this->statusDataLabel = '<br>no changes';
             } else {
-                $this->status          = ($errors > 0 ? 'error' : 'ok');
+                $this->status          = ($errors > 0 ? Owaka::BUILD_ERROR : Owaka::BUILD_OK);
                 $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
                 $this->statusDataLabel = 'errors';
             }

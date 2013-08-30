@@ -67,24 +67,29 @@ class Controller_Processor_PhpunitTest extends TestCase_Processor
      */
     public function testAnalyze()
     {
-        $model1 = ORM::factory('Build');
+        $thresholds                           = array('threshold_errors_error'      => 1,
+            'threshold_errors_unstable'   => -1,
+            'threshold_failures_error'    => -1,
+            'threshold_failures_unstable' => 1
+        );
+        $model1                               = ORM::factory('Build');
         $model1->phpunit_globaldata->failures = 0;
-        $model1->phpunit_globaldata->errors = 0;
-        $this->assertEquals('ok', $this->target->analyze($model1));
-        
-        $model2 = ORM::factory('Build');
+        $model1->phpunit_globaldata->errors   = 0;
+        $this->assertEquals('ok', $this->target->analyze($model1, $thresholds));
+
+        $model2                               = ORM::factory('Build');
         $model2->phpunit_globaldata->failures = 1;
-        $model2->phpunit_globaldata->errors = 0;
-        $this->assertEquals('unstable', $this->target->analyze($model2));
-        
-        $model3 = ORM::factory('Build');
+        $model2->phpunit_globaldata->errors   = 0;
+        $this->assertEquals('unstable', $this->target->analyze($model2, $thresholds));
+
+        $model3                               = ORM::factory('Build');
         $model3->phpunit_globaldata->failures = 0;
-        $model3->phpunit_globaldata->errors = 1;
-        $this->assertEquals('error', $this->target->analyze($model3));
-        
-        $model4 = ORM::factory('Build');
+        $model3->phpunit_globaldata->errors   = 1;
+        $this->assertEquals('error', $this->target->analyze($model3, $thresholds));
+
+        $model4                               = ORM::factory('Build');
         $model4->phpunit_globaldata->failures = 1;
-        $model4->phpunit_globaldata->errors = 1;
-        $this->assertEquals('error', $this->target->analyze($model4));
+        $model4->phpunit_globaldata->errors   = 1;
+        $this->assertEquals('error', $this->target->analyze($model4, $thresholds));
     }
 }

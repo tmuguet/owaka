@@ -13,6 +13,11 @@ class Owaka
     const AUTH_ROLE_LOGIN    = 'login';
     const AUTH_ROLE_ADMIN    = 'admin';
     const AUTH_ROLE_INTERNAL = 'internal';
+    const BUILD_OK           = 'ok';
+    const BUILD_UNSTABLE     = 'unstable';
+    const BUILD_ERROR        = 'error';
+    const BUILD_BUILDING     = 'building';
+    const BUILD_QUEUED       = 'queued';
     const WIDGET_MAIN        = 'main';
     const WIDGET_PROJECT     = 'project';
     const WIDGET_BUILD       = 'build';
@@ -29,7 +34,7 @@ class Owaka
      * @param string|null $type      Type of report to find. If null, returns the first existing report.
      * 
      * @return string|null URI to report, or null if not found
-     * @see Controller_Processor::getInputReports()
+     * @see Controller_Processor::inputReports()
      */
     static public function getReportUri($buildId, $processor, $type = NULL)
     {
@@ -37,7 +42,7 @@ class Owaka
         if (!class_exists($processorClass)) {
             throw new InvalidArgumentException("Cannot find processor $processor");
         }
-        $reports = $processorClass::getInputReports();
+        $reports = $processorClass::inputReports();
         $root    = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $processor . DIRECTORY_SEPARATOR;
         $uri     = 'reports/' . $buildId . '/' . $processor . '/';
         if ($type != NULL) {

@@ -114,12 +114,12 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
             switch ($display) {
                 case 'total':
                     if ($total == 0) {
-                        $this->widgetStatus    = 'ok';
-                        $this->status          = 'ok';
+                        $this->widgetStatus    = Owaka::BUILD_OK;
+                        $this->status          = Owaka::BUILD_OK;
                         $this->statusData      = '-';
                         $this->statusDataLabel = '<br>no changes';
                     } else {
-                        $this->widgetStatus    = ($total > 0 ? 'ok' : 'unstable');
+                        $this->widgetStatus    = ($total > 0 ? Owaka::BUILD_OK : Owaka::BUILD_UNSTABLE);
                         $this->status          = $this->widgetStatus;
                         $this->statusData      = ($total > 0 ? '+' . $total : $total) . '%';
                         $this->statusDataLabel = '<br>total';
@@ -128,12 +128,12 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
 
                 case 'methods':
                     if ($methods == 0) {
-                        $this->widgetStatus    = 'ok';
-                        $this->status          = 'ok';
+                        $this->widgetStatus    = Owaka::BUILD_OK;
+                        $this->status          = Owaka::BUILD_OK;
                         $this->statusData      = '-';
                         $this->statusDataLabel = '<br>no changes';
                     } else {
-                        $this->widgetStatus    = ($methods > 0 ? 'ok' : 'unstable');
+                        $this->widgetStatus    = ($methods > 0 ? Owaka::BUILD_OK : Owaka::BUILD_UNSTABLE);
                         $this->status          = $this->widgetStatus;
                         $this->statusData      = ($methods > 0 ? '+' . $methods : $methods) . '%';
                         $this->statusDataLabel = '<br>methods';
@@ -142,12 +142,12 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
 
                 case 'statements':
                     if ($statements == 0) {
-                        $this->widgetStatus    = 'ok';
-                        $this->status          = 'ok';
+                        $this->widgetStatus    = Owaka::BUILD_OK;
+                        $this->status          = Owaka::BUILD_OK;
                         $this->statusData      = '-';
                         $this->statusDataLabel = '<br>no changes';
                     } else {
-                        $this->status          = ($statements > 0 ? 'ok' : 'unstable');
+                        $this->status          = ($statements > 0 ? Owaka::BUILD_OK : Owaka::BUILD_UNSTABLE);
                         $this->statusData      = ($statements > 0 ? '+' . $statements : $statements) . '%';
                         $this->statusDataLabel = '<br>statements';
                     }
@@ -155,26 +155,26 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
 
                 default:
                     if ($methods >= 0 && $statements >= 0) {
-                        $this->widgetStatus = 'ok';
+                        $this->widgetStatus = Owaka::BUILD_OK;
                     } else {
-                        $this->widgetStatus = 'unstable';
+                        $this->widgetStatus = Owaka::BUILD_UNSTABLE;
                     }
                     if ($methods == 0) {
-                        $this->status          = 'ok';
+                        $this->status          = Owaka::BUILD_OK;
                         $this->statusData      = '-';
                         $this->statusDataLabel = '<br>no changes';
                     } else {
-                        $this->status          = ($methods > 0 ? 'ok' : 'unstable');
+                        $this->status          = ($methods > 0 ? Owaka::BUILD_OK : Owaka::BUILD_UNSTABLE);
                         $this->statusData      = ($methods > 0 ? '+' . $methods : $methods) . '%';
                         $this->statusDataLabel = '<br>methods';
                     }
 
                     if ($statements == 0) {
-                        $this->substatus          = 'ok';
+                        $this->substatus          = Owaka::BUILD_OK;
                         $this->substatusData      = '-';
                         $this->substatusDataLabel = '<br>no changes';
                     } else {
-                        $this->substatus          = ($statements > 0 ? 'ok' : 'unstable');
+                        $this->substatus          = ($statements > 0 ? Owaka::BUILD_OK : Owaka::BUILD_UNSTABLE);
                         $this->substatusData      = ($statements > 0 ? '+' . $statements : $statements) . '%';
                         $this->substatusDataLabel = '<br>statements';
                     }
