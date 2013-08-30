@@ -69,6 +69,7 @@ class Auth_ORM extends Kohana_Auth_ORM
 
         return FALSE;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Compare password with original (hashed). Works for current (logged in) user
@@ -76,10 +77,11 @@ class Auth_ORM extends Kohana_Auth_ORM
      * @param string $password Password
      * 
      * @return boolean
+     * 
+     * @SuppressWarnings(PHPMD)
      */
     public function check_password($password)
     {
         throw new HTTP_Exception_500("Not implemented");
     }
-    // @codingStandardsIgnoreEnd
 }
