@@ -1,19 +1,4 @@
 <?php
-// @codeCoverageIgnoreStart
-if (!function_exists('hex2bin')) {
-
-    function hex2bin($str)
-    {
-        $sbin = "";
-        $len  = strlen($str);
-        for ($i = 0; $i < $len; $i += 2) {
-            $sbin .= pack("H*", substr($str, $i, 2));
-        }
-
-        return $sbin;
-    }
-}
-// @codeCoverageIgnoreEnd
 
 /**
  * ORM Auth driver.
@@ -35,6 +20,7 @@ class Auth_ORM extends Kohana_Auth_ORM
     {
         return hash_hmac('sha256', $str, $key);
     }
+    // @codingStandardsIgnoreStart
 
     /**
      * Logs a user in.
@@ -95,4 +81,5 @@ class Auth_ORM extends Kohana_Auth_ORM
     {
         throw new HTTP_Exception_500("Not implemented");
     }
+    // @codingStandardsIgnoreEnd
 }

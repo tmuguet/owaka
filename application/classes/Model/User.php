@@ -143,3 +143,26 @@ class Model_User extends Model_Auth_User
         return $encryptedPassword;
     }
 }
+
+// @codeCoverageIgnoreStart
+if (!function_exists('hex2bin')) {
+
+    /**
+     * Decodes a hexadecimally encoded binary string
+     * 
+     * @param string $data Hexadecimal representation of data.
+     * 
+     * @return string the binary representation of the given data or FALSE on failure.
+     */
+    function hex2bin($data)
+    {
+        $sbin = "";
+        $len  = strlen($data);
+        for ($i = 0; $i < $len; $i += 2) {
+            $sbin .= pack("H*", substr($data, $i, 2));
+        }
+
+        return $sbin;
+    }
+}
+// @codeCoverageIgnoreEnd
