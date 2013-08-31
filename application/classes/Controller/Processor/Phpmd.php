@@ -84,4 +84,25 @@ class Controller_Processor_Phpmd extends Controller_Processor
             $data->errors_delta = $data->errors - $prevData->errors;
         }
     }
+
+    /**
+     * Analyses a build
+     * 
+     * @param Model_Build &$build     Build
+     * @param array       $parameters Processor parameters
+     * 
+     * @return string Status
+     */
+    public function analyze(Model_Build &$build, array $parameters)
+    {
+        $data = $build->phpmd_globaldata;
+
+        if (($parameters['threshold_errors_error'] > 0 && $data->errors >= $parameters['threshold_errors_error'])) {
+            return Owaka::BUILD_ERROR;
+        } else if (($parameters['threshold_errors_unstable'] > 0 && $data->errors >= $parameters['threshold_errors_unstable'])) {
+            return Owaka::BUILD_UNSTABLE;
+        } else {
+            return Owaka::BUILD_OK;
+        }
+    }
 }

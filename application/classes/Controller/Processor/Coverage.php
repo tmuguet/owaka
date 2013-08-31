@@ -123,4 +123,29 @@ class Controller_Processor_Coverage extends Controller_Processor
             $data->totalcoverage_delta     = $data->totalcoverage - $prevData->totalcoverage;
         }
     }
+
+    /**
+     * Analyses a build
+     * 
+     * @param Model_Build &$build     Build
+     * @param array       $parameters Processor parameters
+     * 
+     * @return string Status
+     */
+    public function analyze(Model_Build &$build, array $parameters)
+    {
+        $data = $build->coverage_globaldata;
+
+        if (($parameters['threshold_methodcoverage_error'] > 0 && $data->methodcoverage < $parameters['threshold_methodcoverage_error'])
+                || ($parameters['threshold_statementcoverage_error'] > 0 && $data->statementcoverage < $parameters['threshold_statementcoverage_error'])
+                || ($parameters['threshold_totalcoverage_error'] > 0 && $data->totalcoverage < $parameters['threshold_totalcoverage_error'])) {
+            return Owaka::BUILD_ERROR;
+        } else if (($parameters['threshold_methodcoverage_unstable'] > 0 && $data->methodcoverage < $parameters['threshold_methodcoverage_unstable'])
+                || ($parameters['threshold_statementcoverage_unstable'] > 0 && $data->statementcoverage < $parameters['threshold_statementcoverage_unstable'])
+                || ($parameters['threshold_totalcoverage_unstable'] > 0 && $data->totalcoverage < $parameters['threshold_totalcoverage_unstable'])) {
+            return Owaka::BUILD_UNSTABLE;
+        } else {
+            return Owaka::BUILD_OK;
+        }
+    }
 }

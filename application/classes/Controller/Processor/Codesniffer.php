@@ -138,14 +138,27 @@ class Controller_Processor_Codesniffer extends Controller_Processor
             }
         }
     }
-    /* public function analyze(Model_Build &$build)
-      {
-      if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors == 0) {
-      return 'ok';
-      } else if ($build->codesniffer_globaldata->errors == 0) {
-      return 'unstable';
-      } else {
-      return 'error';
-      }
-      } */
+
+    /**
+     * Analyses a build
+     * 
+     * @param Model_Build &$build     Build
+     * @param array       $parameters Processor parameters
+     * 
+     * @return string Status
+     */
+    public function analyze(Model_Build &$build, array $parameters)
+    {
+        $data = $build->codesniffer_globaldata;
+
+        if (($parameters['threshold_errors_error'] > 0 && $data->errors >= $parameters['threshold_errors_error']) 
+                || ($parameters['threshold_warnings_error'] > 0 && $data->warnings >= $parameters['threshold_warnings_error'])) {
+            return Owaka::BUILD_ERROR;
+        } else if (($parameters['threshold_errors_unstable'] > 0 && $data->errors >= $parameters['threshold_errors_unstable'])
+                || ($parameters['threshold_warnings_unstable'] > 0 && $data->warnings >= $parameters['threshold_warnings_unstable'])) {
+            return Owaka::BUILD_UNSTABLE;
+        } else {
+            return Owaka::BUILD_OK;
+        }
+    }
 }
