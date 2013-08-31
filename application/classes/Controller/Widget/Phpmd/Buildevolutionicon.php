@@ -74,6 +74,7 @@ class Controller_Widget_Phpmd_Buildevolutionicon extends Controller_Widget_Basei
      */
     protected function process(Model_Build &$build)
     {
+        $data                = $build->phpmd_globaldata;
         $this->widgetLinks[] = array(
             "type" => 'build',
             "id"   => $build->id
