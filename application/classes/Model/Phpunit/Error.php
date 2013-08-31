@@ -11,13 +11,14 @@ class Model_Phpunit_Error extends ORM
 
     // @codingStandardsIgnoreStart
     /**
-     * "Has many" relationships
+     * "Belongs to" relationships
      * @var array
      */
-    protected $_has_one = array(
+    protected $_belongs_to = array(
         'build' => array(
             'model'       => 'Build',
-            'foreign_key' => 'build_id'),
+            'foreign_key' => 'build_id'
+        ),
     );
     // @codingStandardsIgnoreEnd
 
@@ -37,5 +38,21 @@ class Model_Phpunit_Error extends ORM
             ),
         );
         return $rules;
+    }
+
+    /**
+     * Returns whether the error is found in another build
+     * 
+     * @param Model_Build &$otherBuild Build where the error will be searched for
+     * 
+     * @return bool
+     */
+    public function hasSimilar(Model_Build &$otherBuild)
+    {
+        return ORM::factory('Phpunit_Error')
+                        ->where('build_id', '=', $otherBuild->id)
+                        ->where('testsuite', '=', $this->testsuite)
+                        ->where('testcase', '=', $this->testcase)
+                        ->count_all() > 0;
     }
 }

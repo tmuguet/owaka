@@ -43,6 +43,7 @@ class Controller_Processor_Phpmd extends Controller_Processor
             $global->errors   = substr_count($content, '</tr>'); // - 1;
             // bug in phpmd: header row not terminated with </tr>
 
+            $this->findDeltas($global);
             $global->create();
             return true;
         }
@@ -50,12 +51,26 @@ class Controller_Processor_Phpmd extends Controller_Processor
         return false;
     }
 
-    /*public function analyze(Model_Build &$build)
+    /**
+     * Computes deltas with previous build
+     * 
+     * @param Model_Phpmd_Globaldata &$data Current data
+     */
+    protected function findDeltas(Model_Phpmd_Globaldata &$data)
     {
-        if ($build->phpmd_globaldata->errors == 0) {
-            return 'ok';
-        } else {
-            return 'error';
+        $build     = $data->build;
+        $prevBuild = $build->previousBuild()->find();
+        $prevData  = $prevBuild->phpmd_globaldata;
+        if ($prevData->loaded()) {
+            $data->errors_delta = $data->errors - $prevData->errors;
         }
-    }*/
+    }
+    /* public function analyze(Model_Build &$build)
+      {
+      if ($build->phpmd_globaldata->errors == 0) {
+      return 'ok';
+      } else {
+      return 'error';
+      }
+      } */
 }

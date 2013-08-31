@@ -62,7 +62,9 @@ class Controller_Widget_Phpmd_Buildicon extends Controller_Widget_Baseicon
                     ->find();
         }
 
-        $this->process($build);
+        if ($build->phpmd_globaldata->loaded()) {
+            $this->process($build);
+        }
     }
 
     /**
@@ -72,27 +74,26 @@ class Controller_Widget_Phpmd_Buildicon extends Controller_Widget_Baseicon
      */
     protected function process(Model_Build &$build)
     {
+        $this->widgetLinks[] = array(
+            "type" => 'build',
+            "id"   => $build->id
+        );
+        $this->widgetLinks[] = array(
+            "title" => 'report',
+            "url"   => Owaka::getReportUri($build->id, 'phpmd', 'html')
+        );
 
-        if (!$build->phpmd_globaldata->loaded()) {
-            $this->status     = 'nodata';
-            $this->statusData = 'No data';
+        if ($data->errors > 0) {
+            $this->data[] = array(
+                'status' => 'error',
+                'data'   => $data->errors,
+                'label'  => 'errors'
+            );
         } else {
-            $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $build->id
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => '-'
             );
-            $this->widgetLinks[] = array(
-                "title" => 'report',
-                "url"   => Owaka::getReportUri($build->id, 'phpmd', 'html')
-            );
-
-            if ($build->phpmd_globaldata->errors == 0) {
-                $this->status = 'ok';
-            } else {
-                $this->status          = 'unstable';
-                $this->statusData      = $build->phpmd_globaldata->errors;
-                $this->statusDataLabel = 'errors';
-            }
         }
     }
 }

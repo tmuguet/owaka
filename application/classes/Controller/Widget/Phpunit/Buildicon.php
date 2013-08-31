@@ -61,7 +61,9 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Baseicon
                     ->with('phpunit_globaldata')
                     ->find();
         }
-        $this->process($build);
+        if ($build->phpunit_globaldata->loaded()) {
+            $this->process($build);
+        }
     }
 
     /**
@@ -71,41 +73,36 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Baseicon
      */
     protected function process(Model_Build &$build)
     {
-        if (!$build->phpunit_globaldata->loaded()) {
-            $this->status     = 'nodata';
-            $this->statusData = 'No data';
-        } else {
-            $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $build->id
-            );
-            $this->widgetLinks[] = array(
-                "title" => 'report',
-                "url"   => Owaka::getReportUri($build->id, 'phpunit', 'report')
-            );
+        $this->widgetLinks[] = array(
+            "type" => 'build',
+            "id"   => $build->id
+        );
+        $this->widgetLinks[] = array(
+            "title" => 'report',
+            "url"   => Owaka::getReportUri($build->id, 'phpunit', 'report')
+        );
 
-            if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {
-                $this->status          = 'ok';
-                $this->statusData      = $build->phpunit_globaldata->tests;
-                $this->statusDataLabel = 'tests passed';
-            } else if ($build->phpunit_globaldata->failures > 0 && $build->phpunit_globaldata->errors == 0) {
-                $this->status          = 'unstable';
-                $this->statusData      = $build->phpunit_globaldata->failures;
-                $this->statusDataLabel = 'tests failed<br>out of ' . $build->phpunit_globaldata->tests;
-            } else if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors > 0) {
-                $this->status          = 'error';
-                $this->statusData      = $build->phpunit_globaldata->errors;
-                $this->statusDataLabel = 'tests errored<br>out of ' . $build->phpunit_globaldata->tests;
-            } else {
-                $this->widgetStatus = 'error';
+        if ($data->errors > 0) {
+            $this->data[] = array(
+                'status' => 'error',
+                'data'   => $data->errors,
+                'label'  => 'tests errored<br>out of ' . $data->tests
+            );
+        }
+        if ($data->failures > 0) {
+            $this->data[] = array(
+                'status' => 'unstable',
+                'data'   => $data->failures,
+                'label'  => 'tests failed<br>out of ' . $data->tests
+            );
+        }
 
-                $this->status             = 'error';
-                $this->statusData         = $build->phpunit_globaldata->errors;
-                $this->statusDataLabel    = 'errors';
-                $this->substatus          = 'unstable';
-                $this->substatusData      = $build->phpunit_globaldata->failures;
-                $this->substatusDataLabel = 'failed';
-            }
+        if (sizeof($this->data) == 0) {
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => $data->tests,
+                'label'  => 'tests passed'
+            );
         }
     }
 }

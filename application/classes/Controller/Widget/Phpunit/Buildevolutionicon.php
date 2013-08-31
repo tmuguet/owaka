@@ -62,71 +62,60 @@ class Controller_Widget_Phpunit_Buildevolutionicon extends Controller_Widget_Bas
                     ->find();
         }
 
-        $prevBuild = $build->previousBuild()
-                ->where('status', 'NOT IN', array('building', 'queued'))
-                ->with('phpunit_globaldata')
-                ->find();
-
-        $this->process($build, $prevBuild);
+        if ($build->phpunit_globaldata->loaded()) {
+            $this->process($build);
+        }
     }
 
     /**
      * Processes the widget
      * 
-     * @param Model_Build &$build     Current build to process
-     * @param Model_Build &$prevBuild Previous build to process
+     * @param Model_Build &$build Current build to process
      */
-    protected function process(Model_Build &$build, Model_Build &$prevBuild)
+    protected function process(Model_Build &$build)
     {
-        if (!$build->phpunit_globaldata->loaded() || !$prevBuild->phpunit_globaldata->loaded()) {
-            $this->status     = 'nodata';
-            $this->statusData = 'No data';
-        } else {
-            $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $build->id
+        $this->widgetLinks[] = array(
+            "type" => 'build',
+            "id"   => $build->id
+        );
+        $this->widgetLinks[] = array(
+            "title" => 'report',
+            "url"   => Owaka::getReportUri($build->id, 'phpunit', 'report')
+        );
+
+        if ($data->errors_regressions > 0) {
+            $this->data[] = array(
+                'status' => 'error',
+                'data'   => '+' . $data->errors_regressions,
+                'label'  => 'errors'
             );
-            $this->widgetLinks[] = array(
-                "title" => 'report',
-                "url"   => Owaka::getReportUri($build->id, 'phpunit', 'report')
+        } else if ($data->errors_fixed > 0) {
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => '-' . $data->errors_fixed,
+                'label'  => 'errors'
             );
+        }
+        if ($data->failures_regressions > 0) {
+            $this->data[] = array(
+                'status' => 'unstable',
+                'data'   => '+' . $data->failures_regressions,
+                'label'  => 'failures'
+            );
+        } else if ($data->failures_fixed > 0) {
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => '-' . $data->failures_fixed,
+                'label'  => 'failures'
+            );
+        }
 
-            $errors   = $build->phpunit_globaldata->errors - $prevBuild->phpunit_globaldata->errors;
-            $failures = $build->phpunit_globaldata->failures - $prevBuild->phpunit_globaldata->failures;
-
-            if ($errors == 0 && $failures == 0) {
-                $this->status          = 'ok';
-                $this->statusData      = '-';
-                $this->statusDataLabel = '<br>no changes';
-            } else {
-                if ($errors <= 0 && $failures <= 0) {
-                    $this->widgetStatus = 'ok';
-                } else if ($errors > 0) {
-                    $this->widgetStatus = 'error';
-                } else {
-                    $this->widgetStatus = 'unstable';
-                }
-
-                if ($errors == 0) {
-                    $this->status          = 'ok';
-                    $this->statusData      = '-';
-                    $this->statusDataLabel = '<br>no changes';
-                } else {
-                    $this->status          = ($errors > 0 ? 'error' : 'ok');
-                    $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
-                    $this->statusDataLabel = 'tests errored';
-                }
-
-                if ($failures == 0) {
-                    $this->substatus          = 'ok';
-                    $this->substatusData      = '-';
-                    $this->substatusDataLabel = '<br>no changes';
-                } else {
-                    $this->substatus          = ($failures > 0 ? 'unstable' : 'ok');
-                    $this->substatusData      = ($failures > 0 ? '+' . $failures : $failures);
-                    $this->substatusDataLabel = 'tests failed';
-                }
-            }
+        if (sizeof($this->data) == 0) {
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => '-',
+                'label'  => '<br>no changes'
+            );
         }
     }
 }

@@ -7,12 +7,13 @@ class Controller_Processor_CodesnifferTest extends TestCase_Processor
     {
         parent::setUp();
 
-        $this->buildId = $this->genNumbers['build1'];
+        $this->buildId = $this->genNumbers['build2'];
         $this->target->request->setParam('id', $this->buildId);
     }
 
     /**
      * @covers Controller_Processor_Codesniffer::process
+     * @covers Controller_Processor_Codesniffer::findRegressions
      */
     public function testProcess()
     {
@@ -23,20 +24,37 @@ class Controller_Processor_CodesnifferTest extends TestCase_Processor
 
         $this->target->process($this->buildId);
 
-        $globaldataExpected = array(array('warnings' => 1, 'errors'   => 3));
-        $globaldata         = DB::select('warnings', 'errors')
+        $globaldataExpected = array(
+            array(
+                'warnings'             => 1,
+                'errors'               => 4,
+                'warnings_regressions' => 1,
+                'errors_regressions'   => 3,
+                'warnings_fixed'       => 1,
+                'errors_fixed'         => 1
+            )
+        );
+        $globaldata         = DB::select(
+                                'warnings', 'errors', 'warnings_regressions', 'errors_regressions', 'warnings_fixed',
+                                'errors_fixed'
+                        )
                         ->from('codesniffer_globaldatas')
+                        ->where('id', '!=', $this->genNumbers['data2'])
                         ->execute()->as_array();
         $this->assertEquals($globaldataExpected, $globaldata, 'Bad data inserted');
 
         $dataExpected = array(
-            array('file'     => 'file1', 'message'  => 'message1', 'line'     => 6, 'severity' => 'error'),
-            array('file'     => 'file1', 'message'  => 'message2', 'line'     => 42, 'severity' => 'error'),
-            array('file'     => 'file1', 'message'  => 'message3', 'line'     => 8, 'severity' => 'error'),
-            array('file'     => 'file2', 'message'  => 'message4', 'line'     => 1, 'severity' => 'warning'),
+            array('file'       => 'file1', 'message'    => 'message1', 'line'       => 6, 'severity'   => 'error', 'regression' => 1),
+            array('file'       => 'file1', 'message'    => 'message2', 'line'       => 42, 'severity'   => 'error', 'regression' => 0),
+            array('file'       => 'file1', 'message'    => 'message3', 'line'       => 8, 'severity'   => 'error', 'regression' => 1),
+            array('file'       => 'file2', 'message'    => 'message', 'line'       => 10, 'severity'   => 'error', 'regression' => 1),
+            array('file'       => 'file2', 'message'    => 'message4', 'line'       => 1, 'severity'   => 'warning', 'regression' => 1),
         );
-        $data         = DB::select('file', 'message', 'line', 'severity')
+        $data         = DB::select('file', 'message', 'line', 'severity', 'regression')
                         ->from('codesniffer_errors')
+                        ->where('id', '!=', $this->genNumbers['data1'])
+                        ->where('id', '!=', $this->genNumbers['data8'])
+                        ->where('id', '!=', $this->genNumbers['data9'])
                         ->order_by('id', 'ASC')
                         ->execute()->as_array();
         $this->assertEquals($dataExpected, $data, 'Bad data inserted');
@@ -50,6 +68,7 @@ class Controller_Processor_CodesnifferTest extends TestCase_Processor
         $this->target->process($this->buildId);
         $globaldata = DB::select('warnings', 'errors')
                         ->from('codesniffer_globaldatas')
+                        ->where('id', '!=', $this->genNumbers['data2'])
                         ->execute()->as_array();
         $this->assertEmpty($globaldata, 'Data inserted');
     }

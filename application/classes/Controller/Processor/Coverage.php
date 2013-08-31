@@ -63,11 +63,29 @@ class Controller_Processor_Coverage extends Controller_Processor
                             ($global->totalcovered * 100 / $global->totalcount) : 100);
 
             if ($global->methodcount > 0 || $global->statementcount > 0 || $global->totalcount > 0) {
+                $this->findDeltas($global);
                 $global->create();
             }
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Computes deltas with previous build
+     * 
+     * @param Model_Coverage_Globaldata &$data Current data
+     */
+    protected function findDeltas(Model_Coverage_Globaldata &$data)
+    {
+        $build     = $data->build;
+        $prevBuild = $build->previousBuild()->find();
+        $prevData  = $prevBuild->coverage_globaldata;
+        if ($prevData->loaded()) {
+            $data->methodcoverage_delta    = $data->methodcoverage - $prevData->methodcoverage;
+            $data->statementcoverage_delta = $data->statementcoverage - $prevData->statementcoverage;
+            $data->totalcoverage_delta     = $data->totalcoverage - $prevData->totalcoverage;
+        }
     }
 }

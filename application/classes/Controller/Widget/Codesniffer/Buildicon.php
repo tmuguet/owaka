@@ -62,7 +62,9 @@ class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
                     ->find();
         }
 
-        $this->process($build);
+        if ($build->codesniffer_globaldata->loaded()) {
+            $this->process($build);
+        }
     }
 
     /**
@@ -72,38 +74,35 @@ class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
      */
     protected function process(Model_Build &$build)
     {
-        if (!$build->codesniffer_globaldata->loaded()) {
-            $this->status     = 'nodata';
-            $this->statusData = 'No data';
-        } else {
-            $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $build->id
-            );
-            $this->widgetLinks[] = array(
-                "title" => 'report',
-                "url"   => Owaka::getReportUri($build->id, 'codesniffer', 'xml')
-            );
+        $this->widgetLinks[] = array(
+            "type" => 'build',
+            "id"   => $build->id
+        );
+        $this->widgetLinks[] = array(
+            "title" => 'report',
+            "url"   => Owaka::getReportUri($build->id, 'codesniffer', 'xml')
+        );
 
-            if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors == 0) {
-                $this->status = 'ok';
-            } else if ($build->codesniffer_globaldata->warnings > 0 && $build->codesniffer_globaldata->errors == 0) {
-                $this->status          = 'unstable';
-                $this->statusData      = $build->codesniffer_globaldata->warnings;
-                $this->statusDataLabel = 'rules warnings';
-            } else if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors > 0) {
-                $this->status          = 'error';
-                $this->statusData      = $build->codesniffer_globaldata->errors;
-                $this->statusDataLabel = 'rules errors';
-            } else {
-                $this->widgetStatus       = 'error';
-                $this->status             = 'error';
-                $this->statusData         = $build->codesniffer_globaldata->errors;
-                $this->statusDataLabel    = 'errors';
-                $this->substatus          = 'unstable';
-                $this->substatusData      = $build->codesniffer_globaldata->warnings;
-                $this->substatusDataLabel = 'warnings';
-            }
+        if ($data->errors > 0) {
+            $this->data[] = array(
+                'status' => 'error',
+                'data'   => $data->errors,
+                'label'  => 'rules errors'
+            );
+        }
+        if ($data->warnings > 0) {
+            $this->data[] = array(
+                'status' => 'unstable',
+                'data'   => $data->warnings,
+                'label'  => 'rules warnings'
+            );
+        }
+
+        if (sizeof($this->data) == 0) {
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => '-'
+            );
         }
     }
 }

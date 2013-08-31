@@ -51,31 +51,65 @@ class Controller_Processor_Codesniffer extends Controller_Processor
                     $error->message  = (string) $item['message'];
                     $error->line     = (int) $item['line'];
 
-                    switch ((string) $item['severity']) {
-                        case 'warning':
-                            $global->warnings++;
-                            $error->severity = 'warning';
-                            break;
-
-                        case 'error':
-                            $global->errors++;
-                            $error->severity = 'error';
-                            break;
-
-                        default:
-                            // ignore
-                            continue 2;
+                    if ($item['severity'] == 'warning') {
+                        $global->warnings++;
+                        $error->severity = 'warning';
+                    } else {
+                        $global->errors++;
+                        $error->severity = 'error';
                     }
 
                     $error->create();
                 }
             }
-
+            $this->findRegressions($global);
             $global->create();
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Finds regressions and fixes with previous build
+     * 
+     * @param Model_Codesniffer_Globaldata &$data Current data
+     */
+    protected function findRegressions(Model_Codesniffer_Globaldata &$data)
+    {
+        $build     = $data->build;
+        $prevBuild = $build->previousBuild()->find();
+        $prevData  = $prevBuild->codesniffer_globaldata;
+        if ($prevData->loaded()) {
+            $data->warnings_regressions = 0;
+            $data->errors_regressions   = 0;
+            $data->warnings_fixed       = 0;
+            $data->errors_fixed         = 0;
+
+            foreach ($build->codesniffer_errors->find_all() as $current) {
+                if (!$current->hasSimilar($prevBuild)) {
+                    if ($current->severity == 'warning') {
+                        $data->warnings_regressions++;
+                    } else {
+                        $data->errors_regressions++;
+                    }
+                    $current->regression = 1;
+                    $current->update();
+                }
+            }
+
+            foreach ($prevBuild->codesniffer_errors->find_all() as $old) {
+                if (!$old->hasSimilar($build)) {
+                    if ($old->severity == 'warning') {
+                        $data->warnings_fixed++;
+                    } else {
+                        $data->errors_fixed++;
+                    }
+                    $old->fixed = 1;
+                    $old->update();
+                }
+            }
+        }
     }
     /* public function analyze(Model_Build &$build)
       {

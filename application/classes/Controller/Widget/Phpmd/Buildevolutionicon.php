@@ -62,46 +62,45 @@ class Controller_Widget_Phpmd_Buildevolutionicon extends Controller_Widget_Basei
                     ->find();
         }
 
-        $prevBuild = $build->previousBuild()
-                ->where('status', 'NOT IN', array('building', 'queued'))
-                ->with('phpmd_globaldata')
-                ->find();
-
-        $this->process($build, $prevBuild);
+        if ($build->phpmd_globaldata->loaded()) {
+            $this->process($build);
+        }
     }
 
     /**
      * Processes the widget
      * 
-     * @param Model_Build &$build     Current build to process
-     * @param Model_Build &$prevBuild Previous build to process
+     * @param Model_Build &$build Current build to process
      */
-    protected function process(Model_Build &$build, Model_Build &$prevBuild)
+    protected function process(Model_Build &$build)
     {
-        if (!$build->phpmd_globaldata->loaded() || !$prevBuild->phpmd_globaldata->loaded()) {
-            $this->status     = 'nodata';
-            $this->statusData = 'No data';
+        $this->widgetLinks[] = array(
+            "type" => 'build',
+            "id"   => $build->id
+        );
+        $this->widgetLinks[] = array(
+            "title" => 'report',
+            "url"   => Owaka::getReportUri($build->id, 'phpmd', 'html')
+        );
+
+        if ($data->errors_delta > 0) {
+            $this->data[] = array(
+                'status' => 'error',
+                'data'   => '+' . $data->errors_delta,
+                'label'  => 'errors'
+            );
+        } else if ($data->errors_delta < 0) {
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => $data->errors_delta,
+                'label'  => 'errors'
+            );
         } else {
-            $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $build->id
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => '-',
+                'label'  => '<br>no changes'
             );
-            $this->widgetLinks[] = array(
-                "title" => 'report',
-                "url"   => Owaka::getReportUri($build->id, 'phpmd', 'html')
-            );
-
-            $errors = $build->phpmd_globaldata->errors - $prevBuild->phpmd_globaldata->errors;
-
-            if ($errors == 0) {
-                $this->status          = 'ok';
-                $this->statusData      = '-';
-                $this->statusDataLabel = '<br>no changes';
-            } else {
-                $this->status          = ($errors > 0 ? 'error' : 'ok');
-                $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
-                $this->statusDataLabel = 'errors';
-            }
         }
     }
 }

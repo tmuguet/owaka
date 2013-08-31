@@ -68,7 +68,9 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
                     ->with('coverage_globaldata')
                     ->find();
         }
-        $this->process($build);
+        if ($build->coverage_globaldata->loaded()) {
+            $this->process($build);
+        }
     }
 
     /**
@@ -78,88 +80,61 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
      */
     protected function process(Model_Build &$build)
     {
-        if (!$build->coverage_globaldata->loaded()) {
-            $this->status     = 'nodata';
-            $this->statusData = 'No data';
-        } else {
-            $display = $this->getParameter('display');
+        $display = $this->getParameter('display');
 
-            $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $build->id
-            );
-            $this->widgetLinks[] = array(
-                "title" => 'report',
-                "url"   => Owaka::getReportUri($build->id, 'coverage', 'dir')
-            );
+        $this->widgetLinks[] = array(
+            "type" => 'build',
+            "id"   => $build->id
+        );
+        $this->widgetLinks[] = array(
+            "title" => 'report',
+            "url"   => Owaka::getReportUri($build->id, 'coverage', 'dir')
+        );
 
-            switch ($display) {
-                case 'total':
-                    $this->statusData      = floor($build->coverage_globaldata->totalcoverage) . '%';
-                    $this->statusDataLabel = '<br/>total';
-                    if ($build->coverage_globaldata->totalcoverage > 98) {
-                        $this->status = 'ok';
-                    } else if ($build->coverage_globaldata->totalcoverage > 95) {
-                        $this->status = 'unstable';
-                    } else {
-                        $this->status = 'error';
-                    }
-                    break;
-
-                case 'methods':
-                    $this->statusData      = floor($build->coverage_globaldata->methodcoverage) . '%';
-                    $this->statusDataLabel = '<br/>methods';
-                    if ($build->coverage_globaldata->methodcoverage > 98) {
-                        $this->status = 'ok';
-                    } else if ($build->coverage_globaldata->methodcoverage > 95) {
-                        $this->status = 'unstable';
-                    } else {
-                        $this->status = 'error';
-                    }
-                    break;
-
-                case 'statements':
-                    $this->statusData      = floor($build->coverage_globaldata->statementcoverage) . '%';
-                    $this->statusDataLabel = '<br/>statements';
-                    if ($build->coverage_globaldata->statementcoverage > 98) {
-                        $this->status = 'ok';
-                    } else if ($build->coverage_globaldata->statementcoverage > 95) {
-                        $this->status = 'unstable';
-                    } else {
-                        $this->status = 'error';
-                    }
-                    break;
-
-                default:
-                    $this->statusData      = floor($build->coverage_globaldata->methodcoverage) . '%';
-                    $this->statusDataLabel = '<br/>methods';
-                    if ($build->coverage_globaldata->methodcoverage > 98) {
-                        $this->status = 'ok';
-                    } else if ($build->coverage_globaldata->methodcoverage > 95) {
-                        $this->status = 'unstable';
-                    } else {
-                        $this->status = 'error';
-                    }
-
-                    $this->substatusData      = floor($build->coverage_globaldata->statementcoverage) . '%';
-                    $this->substatusDataLabel = '<br/>statements';
-                    if ($build->coverage_globaldata->statementcoverage > 98) {
-                        $this->substatus = 'ok';
-                    } else if ($build->coverage_globaldata->statementcoverage > 95) {
-                        $this->substatus = 'unstable';
-                    } else {
-                        $this->substatus = 'error';
-                    }
-
-                    if ($this->status == 'ok' && $this->substatus == 'ok') {
-                        $this->widgetStatus = 'ok';
-                    } else if ($this->status == 'error' || $this->substatus == 'error') {
-                        $this->widgetStatus = 'error';
-                    } else {
-                        $this->widgetStatus = 'unstable';
-                    }
-                    break;
+        if ($display == 'total') {
+            if ($data->totalcoverage > 98) {
+                $status = 'ok';
+            } else if ($data->totalcoverage > 95) {
+                $status = 'unstable';
+            } else {
+                $status = 'error';
             }
+
+            $this->data[] = array(
+                'status' => $status,
+                'data'   => floor($data->totalcoverage) . '%',
+                'label'  => 'total'
+            );
+        }
+        if ($display == 'methods' || $display == 'methods+statements') {
+            if ($data->methodcoverage > 98) {
+                $status = 'ok';
+            } else if ($data->methodcoverage > 95) {
+                $status = 'unstable';
+            } else {
+                $status = 'error';
+            }
+
+            $this->data[] = array(
+                'status' => $status,
+                'data'   => floor($data->methodcoverage) . '%',
+                'label'  => 'methods'
+            );
+        }
+        if ($display == 'statements' || $display == 'methods+statements') {
+            if ($data->statementcoverage > 98) {
+                $status = 'ok';
+            } else if ($data->statementcoverage > 95) {
+                $status = 'unstable';
+            } else {
+                $status = 'error';
+            }
+
+            $this->data[] = array(
+                'status' => $status,
+                'data'   => floor($data->statementcoverage) . '%',
+                'label'  => 'statements'
+            );
         }
     }
 }

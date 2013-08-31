@@ -6,7 +6,7 @@
         <error line="8" column="29" severity="error" message="message3"/>
     </file>
     <file name="file2">
-        <error line="10" column="10" severity="unknown" message="message"/>
+        <error line="10" column="10" severity="error" message="message"/>
         <error line="1" column="6" severity="warning" message="message4"/>
     </file>
 </checkstyle>

@@ -7,7 +7,7 @@ class Controller_Processor_PdependTest extends TestCase_Processor
     {
         parent::setUp();
 
-        $this->buildId = $this->genNumbers['build1'];
+        $this->buildId = $this->genNumbers['build2'];
         $this->target->request->setParam('id', $this->buildId);
     }
 
@@ -58,6 +58,7 @@ class Controller_Processor_PdependTest extends TestCase_Processor
                                 'leafs', 'lloc', 'loc', 'maxdit', 'ncloc', 'noc', 'nof', 'noi', 'nom', 'nop', 'roots'
                         )
                         ->from('pdepend_globaldatas')
+                        ->where('id', '!=', $this->genNumbers['data4'])
                         ->execute()->as_array();
         $this->assertEquals($globaldataExpected, $globaldata, 'Bad data inserted');
     }
@@ -70,6 +71,7 @@ class Controller_Processor_PdependTest extends TestCase_Processor
         $this->target->process($this->buildId);
         $globaldata = DB::select('ahh')
                         ->from('pdepend_globaldatas')
+                        ->where('id', '!=', $this->genNumbers['data4'])
                         ->execute()->as_array();
         $this->assertEmpty($globaldata, 'Data inserted');
     }

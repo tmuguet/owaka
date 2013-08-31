@@ -6,6 +6,19 @@
     <projects id="##ID_ProjectBat##" name="inactive-git" is_active="O" scm="git" is_remote="0" host="##NULL##" port="##NULL##" username="##NULL##" privatekey_path="##NULL##" public_host_key="##NULL##" path="/tmp" phing_path="/tmp" phing_target_validate="validate" reports_path="##PATH_PathBat##" lastrevision="abcdefghijklmnopqrstuvwxyz"/>
     
     <builds id="##ID_build1##" project_id="##ID_ProjectFoo##" revision="40" message="My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You listen: we go in there, and that nigga Winston or anybody else is in there, you the first motherfucker to get shot. You understand?" status="ok" started="2010-10-05 17:15:23" eta="2010-10-05 17:16:30" finished="2010-10-05 17:16:23"/>
+    <builds id="##ID_build2##" project_id="##ID_ProjectFoo##" revision="40" message="My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You listen: we go in there, and that nigga Winston or anybody else is in there, you the first motherfucker to get shot. You understand?" status="ok" started="2010-10-05 17:15:23" eta="2010-10-05 17:16:30" finished="2010-10-05 17:16:23"/>
+    
+    <codesniffer_errors id="##ID_data1##" build_id="##ID_build1##" file="file1" severity="error" message="message2" line="45"/>
+    <codesniffer_errors id="##ID_data8##" build_id="##ID_build1##" file="file3" severity="error" message="message2" line="45"/>
+    <codesniffer_errors id="##ID_data9##" build_id="##ID_build1##" file="file3" severity="warning" message="message" line="45"/>
+    <codesniffer_globaldatas id="##ID_data2##" build_id="##ID_build1##" warnings="0" errors="1"/>
+    <coverage_globaldatas id="##ID_data3##" build_id="##ID_build1##" methodcount="10" methodscovered="6" methodcoverage="60" statementcount="142" statementscovered="110" statementcoverage="77" totalcount="152" totalcovered="116" totalcoverage="76"/>
+    <pdepend_globaldatas id="##ID_data4##" build_id="##ID_build1##" ahh="0" andc="0" calls="10" ccn="30" ccn2="32" cloc="10" clsa="0" clsc="5" eloc="5" fanout="1" leafs="1" lloc="15" loc="45" maxdit="5" ncloc="1" noc="14" nof="0" noi="1" nom="13" nop="2" roots="5"/>
+    <phpmd_globaldatas id="##ID_data5##" build_id="##ID_build1##" errors="5"/>
+    <phpunit_errors id="##ID_data6##" build_id="##ID_build1##" testsuite="Controller_Processor_PhpunitTest" testcase="testProcessEmpty" severity="failure"/>
+    <phpunit_errors id="##ID_data10##" build_id="##ID_build1##" testsuite="foo" testcase="testProcessEmpty" severity="failure"/>
+    <phpunit_errors id="##ID_data11##" build_id="##ID_build1##" testsuite="bar" testcase="testProcessEmpty" severity="error"/>
+    <phpunit_globaldatas id="##ID_data7##" build_id="##ID_build1##" tests="5" failures="1" errors="0" time="43.42"/>
     
     <project_reports id="##ID_Report1##" project_id="##ID_ProjectFoo##" type="processorstub_foo" value="bar"/>
     <project_reports id="##ID_Report2##" project_id="##ID_ProjectFoo##" type="processorstub_bat" value="baz"/>
