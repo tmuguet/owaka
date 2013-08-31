@@ -74,6 +74,7 @@ class Controller_Widget_Phpunit_Buildevolutionicon extends Controller_Widget_Bas
      */
     protected function process(Model_Build &$build)
     {
+        $data                = $build->phpunit_globaldata;
         $this->widgetLinks[] = array(
             "type" => 'build',
             "id"   => $build->id

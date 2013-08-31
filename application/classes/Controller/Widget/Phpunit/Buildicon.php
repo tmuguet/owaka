@@ -73,6 +73,7 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Baseicon
      */
     protected function process(Model_Build &$build)
     {
+        $data                = $build->phpunit_globaldata;
         $this->widgetLinks[] = array(
             "type" => 'build',
             "id"   => $build->id

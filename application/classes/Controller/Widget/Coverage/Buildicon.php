@@ -80,6 +80,7 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
      */
     protected function process(Model_Build &$build)
     {
+        $data    = $build->coverage_globaldata;
         $display = $this->getParameter('display');
 
         $this->widgetLinks[] = array(

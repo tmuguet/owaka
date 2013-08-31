@@ -74,6 +74,7 @@ class Controller_Widget_Phpmd_Buildicon extends Controller_Widget_Baseicon
      */
     protected function process(Model_Build &$build)
     {
+        $data                = $build->phpmd_globaldata;
         $this->widgetLinks[] = array(
             "type" => 'build',
             "id"   => $build->id

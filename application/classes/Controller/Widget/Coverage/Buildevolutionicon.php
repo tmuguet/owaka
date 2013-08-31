@@ -81,6 +81,7 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
      */
     protected function process(Model_Build &$build)
     {
+        $data    = $build->coverage_globaldata;
         $display = $this->getParameter('display');
 
         $this->widgetLinks[] = array(
