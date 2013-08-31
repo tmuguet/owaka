@@ -64,7 +64,7 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
         $build = $this->getBuild();
         if ($build === NULL) {
             $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                     ->with('coverage_globaldata')
                     ->find();
         }
@@ -94,11 +94,11 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
 
         if ($display == 'total') {
             if ($data->totalcoverage > 98) {
-                $status = 'ok';
+                $status = Owaka::BUILD_OK;
             } else if ($data->totalcoverage > 95) {
-                $status = 'unstable';
+                $status = Owaka::BUILD_UNSTABLE;
             } else {
-                $status = 'error';
+                $status = Owaka::BUILD_ERROR;
             }
 
             $this->data[] = array(
@@ -109,11 +109,11 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
         }
         if ($display == 'methods' || $display == 'methods+statements') {
             if ($data->methodcoverage > 98) {
-                $status = 'ok';
+                $status = Owaka::BUILD_OK;
             } else if ($data->methodcoverage > 95) {
-                $status = 'unstable';
+                $status = Owaka::BUILD_UNSTABLE;
             } else {
-                $status = 'error';
+                $status = Owaka::BUILD_ERROR;
             }
 
             $this->data[] = array(
@@ -124,11 +124,11 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
         }
         if ($display == 'statements' || $display == 'methods+statements') {
             if ($data->statementcoverage > 98) {
-                $status = 'ok';
+                $status = Owaka::BUILD_OK;
             } else if ($data->statementcoverage > 95) {
-                $status = 'unstable';
+                $status = Owaka::BUILD_UNSTABLE;
             } else {
-                $status = 'error';
+                $status = Owaka::BUILD_ERROR;
             }
 
             $this->data[] = array(

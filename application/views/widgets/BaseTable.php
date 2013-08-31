@@ -14,7 +14,7 @@ echo View::factory('widgets/BaseStart')->render();
         if (sizeof($rows) == 0):
             ?>
             <tr><td colspan="<?php echo sizeof($columns); ?>"><?php
-                    echo View::factory('icon')->set('status', 'nodata')->set('size', 32)->render();
+                    echo View::factory('icon')->set('status', Owaka::BUILD_NODATA)->set('size', 32)->render();
                     ?><br/>no data</td></tr>
         <?php else: ?>
             <?php foreach ($rows as $_row): ?>

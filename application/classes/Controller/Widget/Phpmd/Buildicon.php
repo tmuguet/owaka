@@ -57,7 +57,7 @@ class Controller_Widget_Phpmd_Buildicon extends Controller_Widget_Baseicon
         $build = $this->getBuild();
         if ($build === NULL) {
             $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                     ->with('phpmd_globaldata')
                     ->find();
         }
@@ -86,13 +86,13 @@ class Controller_Widget_Phpmd_Buildicon extends Controller_Widget_Baseicon
 
         if ($data->errors > 0) {
             $this->data[] = array(
-                'status' => 'error',
+                'status' => Owaka::BUILD_ERROR,
                 'data'   => $data->errors,
                 'label'  => 'errors'
             );
         } else {
             $this->data[] = array(
-                'status' => 'ok',
+                'status' => Owaka::BUILD_OK,
                 'data'   => '-'
             );
         }

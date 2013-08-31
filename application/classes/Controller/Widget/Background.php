@@ -149,7 +149,7 @@ EOT;
     public function display_project()
     {
         $build = $this->getProject()->builds
-                ->where('status', 'NOT IN', array('building', 'queued'))
+                ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                 ->order_by('id', 'DESC')
                 ->limit(1)
                 ->find();

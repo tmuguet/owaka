@@ -57,7 +57,7 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Baseicon
         $build = $this->getBuild();
         if ($build === NULL) {
             $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                     ->find();
         }
 
@@ -73,7 +73,7 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Baseicon
     {
         $path = Owaka::getReportUri($build->id, 'phpdoc', 'report');
         if (!empty($path)) {
-            $this->widgetStatus = 'ok';
+            $this->widgetStatus = Owaka::BUILD_OK;
 
             $this->widgetLinks[] = array(
                 "type" => 'build',
@@ -84,7 +84,7 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Baseicon
                 "url"   => $path
             );
         } else {
-            $this->widgetStatus = 'nodata';
+            $this->widgetStatus = Owaka::BUILD_NODATA;
         }
     }
 }

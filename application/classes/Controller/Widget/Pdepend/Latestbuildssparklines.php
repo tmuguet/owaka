@@ -66,7 +66,7 @@ class Controller_Widget_Pdepend_Latestbuildssparklines extends Controller_Widget
     public function display_project()
     {
         $builds = $this->getProject()->builds
-                ->where('status', 'NOT IN', array('building', 'queued'))
+                ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                 ->order_by('id', 'DESC')
                 ->with('pdpend_globaldata')
                 ->limit(50)

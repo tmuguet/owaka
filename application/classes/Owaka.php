@@ -18,6 +18,7 @@ class Owaka
     const BUILD_ERROR        = 'error';
     const BUILD_BUILDING     = 'building';
     const BUILD_QUEUED       = 'queued';
+    const BUILD_NODATA       = 'nodata';
     const WIDGET_MAIN        = 'main';
     const WIDGET_PROJECT     = 'project';
     const WIDGET_BUILD       = 'build';

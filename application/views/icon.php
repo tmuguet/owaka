@@ -20,7 +20,7 @@
            echo 'time';
            break;
 
-       case 'nodata':
+       case Owaka::BUILD_NODATA:
            echo 'ban-circle';
            break;
    }

@@ -19,7 +19,7 @@ class Task_Queue extends Minion_Task
     protected function _execute(array $params)
     {
         $ignore    = ORM::factory('Build')
-                ->where('status', 'IN', array('building', 'queued'))
+                ->where('status', 'IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                 ->find_all();
         $ignoreIds = array();
         foreach ($ignore as $i) {
@@ -70,7 +70,7 @@ class Task_Queue extends Minion_Task
                 $build->project_id = $project->id;
                 $build->revision   = $rev;
                 $build->message    = implode("\n", $tip);
-                $build->status     = "queued";
+                $build->status     = Owaka::BUILD_QUEUED;
                 $build->started    = DB::expr('NOW()');
                 $build->eta        = NULL;
                 $build->finished   = NULL;

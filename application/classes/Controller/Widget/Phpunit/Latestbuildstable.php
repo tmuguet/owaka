@@ -54,7 +54,7 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
     {
         if ($this->getProject() === NULL) {
             $builds = ORM::factory('Build')
-                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                     ->order_by('id', 'DESC')
                     ->with('phpunit_globaldata')
                     ->limit(10)
@@ -72,7 +72,7 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
     public function display_project()
     {
         $builds = $this->getProject()->builds
-                ->where('status', 'NOT IN', array('building', 'queued'))
+                ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                 ->order_by('id', 'DESC')
                 ->with('phpunit_globaldata')
                 ->limit(10)
@@ -106,10 +106,10 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
         foreach ($builds as $build) {
             $status = '';
 
-            if ($build->status == "building") {
+            if ($build->status == Owaka::BUILD_BUILDING) {
                 $status = 'ETA ' . date("H:i", strtotime($build->eta));
             } else if (!$build->phpunit_globaldata->loaded()) {
-                $status .= View::factory('icon')->set('status', 'nodata')->render();
+                $status .= View::factory('icon')->set('status', Owaka::BUILD_NODATA)->render();
             } else if ($build->phpunit_globaldata->failures > 0 || $build->phpunit_globaldata->errors > 0) {
                 if ($build->phpunit_globaldata->failures > 0) {
                     $status .= View::factory('icon')->set('status', Owaka::BUILD_UNSTABLE)->render();

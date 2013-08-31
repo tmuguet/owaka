@@ -72,7 +72,7 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Baset
 
         foreach ($builds as $build) {
             if ($build->loaded()) {
-                $date = ($build->status == 'building' || $build->status == 'queued') ? $build->started : $build->finished;
+                $date = ($build->status == Owaka::BUILD_BUILDING || $build->status == Owaka::BUILD_QUEUED) ? $build->started : $build->finished;
 
                 $this->rows[] = array(
                     "link"    => array(

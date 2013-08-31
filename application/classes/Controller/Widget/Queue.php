@@ -56,7 +56,7 @@ class Controller_Widget_Queue extends Controller_Widget_Basetable
     public function display_main()
     {
         $builds = ORM::factory('Build')
-                ->where('status', 'IN', array('queued', 'building'))
+                ->where('status', 'IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                 ->order_by('status', 'ASC')
                 ->order_by('started', 'ASC')
                 ->order_by('id', 'ASC')
@@ -78,7 +78,7 @@ class Controller_Widget_Queue extends Controller_Widget_Basetable
             "Project", "Status", "_Date"
         );
         foreach ($builds as $build) {
-            if ($build->status == "building") {
+            if ($build->status == Owaka::BUILD_BUILDING) {
                 if (strtotime($build->eta) < time()) {
                     $status = 'unknown';
                 } else {

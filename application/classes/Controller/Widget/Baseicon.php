@@ -46,13 +46,13 @@ abstract class Controller_Widget_Baseicon extends Controller_Widget_Base
     protected function render()
     {
         if (empty($this->widgetStatus)) {
-            $this->widgetStatus = (sizeof($this->data) > 0) ? $this->data[0]['status'] : 'nodata';
+            $this->widgetStatus = (sizeof($this->data) > 0) ? $this->data[0]['status'] : Owaka::BUILD_NODATA;
         }
 
         parent::initViews();
 
         if (empty($this->data)) {
-            $this->data[] = array('status' => 'nodata', 'data'   => 'No data');
+            $this->data[] = array('status' => Owaka::BUILD_NODATA, 'data'   => 'No data');
         }
 
         $view = View::factory('widgets' . DIRECTORY_SEPARATOR . 'BaseIcon')

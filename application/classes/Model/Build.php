@@ -181,7 +181,7 @@ class Model_Build extends ORM
                 return 'time';
                 break;
 
-            case 'nodata':
+            case Owaka::BUILD_NODATA:
             default:
                 return 'ban-circle';
         }

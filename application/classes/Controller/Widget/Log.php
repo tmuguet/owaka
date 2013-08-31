@@ -53,7 +53,7 @@ class Controller_Widget_Log extends Controller_Widget_Baseraw
         $build = $this->getBuild();
         if ($build === NULL) {
             $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                     ->find();
         }
 
