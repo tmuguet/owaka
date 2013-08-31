@@ -78,26 +78,18 @@ class Controller_Processor_Codesniffer extends Controller_Processor
                     $error->message  = (string) $item['message'];
                     $error->line     = (int) $item['line'];
 
-                    switch ((string) $item['severity']) {
-                        case 'warning':
-                            $global->warnings++;
-                            $error->severity = 'warning';
-                            break;
-
-                        case 'error':
-                            $global->errors++;
-                            $error->severity = 'error';
-                            break;
-
-                        default:
-                            // ignore
-                            continue 2;
+                    if ($item['severity'] == 'warning') {
+                        $global->warnings++;
+                        $error->severity = 'warning';
+                    } else {
+                        $global->errors++;
+                        $error->severity = 'error';
                     }
 
                     $error->create();
                 }
             }
-
+            $this->findRegressions($global);
             $global->create();
             return true;
         }
@@ -106,25 +98,54 @@ class Controller_Processor_Codesniffer extends Controller_Processor
     }
 
     /**
-     * Analyses a build
+     * Finds regressions and fixes with previous build
      * 
-     * @param Model_Build &$build     Build
-     * @param array       $parameters Processor parameters
-     * 
-     * @return string Status
+     * @param Model_Codesniffer_Globaldata &$data Current data
      */
-    public function analyze(Model_Build &$build, array $parameters)
+    protected function findRegressions(Model_Codesniffer_Globaldata &$data)
     {
-        $data = $build->codesniffer_globaldata;
+        $build     = $data->build;
+        $prevBuild = $build->previousBuild()->find();
+        $prevData  = $prevBuild->codesniffer_globaldata;
+        if ($prevData->loaded()) {
+            $data->warnings_regressions = 0;
+            $data->errors_regressions   = 0;
+            $data->warnings_fixed       = 0;
+            $data->errors_fixed         = 0;
 
-        if (($parameters['threshold_errors_error'] > 0 && $data->errors >= $parameters['threshold_errors_error']) 
-                || ($parameters['threshold_warnings_error'] > 0 && $data->warnings >= $parameters['threshold_warnings_error'])) {
-            return Owaka::BUILD_ERROR;
-        } else if (($parameters['threshold_errors_unstable'] > 0 && $data->errors >= $parameters['threshold_errors_unstable'])
-                || ($parameters['threshold_warnings_unstable'] > 0 && $data->warnings >= $parameters['threshold_warnings_unstable'])) {
-            return Owaka::BUILD_UNSTABLE;
-        } else {
-            return Owaka::BUILD_OK;
+            foreach ($build->codesniffer_errors->find_all() as $current) {
+                if (!$current->hasSimilar($prevBuild)) {
+                    if ($current->severity == 'warning') {
+                        $data->warnings_regressions++;
+                    } else {
+                        $data->errors_regressions++;
+                    }
+                    $current->regression = 1;
+                    $current->update();
+                }
+            }
+
+            foreach ($prevBuild->codesniffer_errors->find_all() as $old) {
+                if (!$old->hasSimilar($build)) {
+                    if ($old->severity == 'warning') {
+                        $data->warnings_fixed++;
+                    } else {
+                        $data->errors_fixed++;
+                    }
+                    $old->fixed = 1;
+                    $old->update();
+                }
+            }
         }
     }
+    /* public function analyze(Model_Build &$build)
+      {
+      if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors == 0) {
+      return 'ok';
+      } else if ($build->codesniffer_globaldata->errors == 0) {
+      return 'unstable';
+      } else {
+      return 'error';
+      }
+      } */
 }

@@ -7,7 +7,7 @@ class Controller_Processor_PhpdocTest extends TestCase_Processor
     {
         parent::setUp();
 
-        $this->buildId = $this->genNumbers['build1'];
+        $this->buildId = $this->genNumbers['build2'];
         $this->target->request->setParam('id', $this->buildId);
     }
 

@@ -7,7 +7,7 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
     {
         parent::setUp();
 
-        $this->buildId = $this->genNumbers['build1'];
+        $this->buildId = $this->genNumbers['build2'];
         $this->target->request->setParam('id', $this->buildId);
     }
 
@@ -18,6 +18,7 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
 
     /**
      * @covers Controller_Processor_Coverage::process
+     * @covers Controller_Processor_Coverage::findDeltas
      */
     public function testProcess()
     {
@@ -29,16 +30,27 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
 
         $globaldataExpected = array(
             array(
-                'methodcount'       => 11, 'methodscovered'    => 7, 'methodcoverage'    => round(7 * 100 / 11, 2),
-                'statementcount'    => 142, 'statementscovered' => 119, 'statementcoverage' => round(119 * 100 / 142, 2),
-                'totalcount'        => 153, 'totalcovered'      => 126, 'totalcoverage'     => round(126 * 100 / 153, 2)
+                'methodcount'             => 11,
+                'methodscovered'          => 7,
+                'methodcoverage'          => round(7 * 100 / 11, 2),
+                'statementcount'          => 142,
+                'statementscovered'       => 119,
+                'statementcoverage'       => round(119 * 100 / 142, 2),
+                'totalcount'              => 153,
+                'totalcovered'            => 126,
+                'totalcoverage'           => round(126 * 100 / 153, 2),
+                'methodcoverage_delta'    => round(7 * 100 / 11, 2) - 60,
+                'statementcoverage_delta' => round(119 * 100 / 142, 2) - 77,
+                'totalcoverage_delta'     => round(126 * 100 / 153, 2) - 76,
             )
         );
         $globaldata         = DB::select(
                                 'methodcount', 'methodscovered', 'methodcoverage', 'statementcount',
-                                'statementscovered', 'statementcoverage', 'totalcount', 'totalcovered', 'totalcoverage'
+                                'statementscovered', 'statementcoverage', 'totalcount', 'totalcovered', 'totalcoverage',
+                                'methodcoverage_delta', 'statementcoverage_delta', 'totalcoverage_delta'
                         )
                         ->from('coverage_globaldatas')
+                        ->where('id', '!=', $this->genNumbers['data3'])
                         ->execute()->as_array();
         $this->assertEquals($globaldataExpected, $globaldata, 'Bad data inserted');
     }
@@ -51,6 +63,7 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
         $this->target->process($this->buildId);
         $globaldata = DB::select('methodcount')
                         ->from('coverage_globaldatas')
+                        ->where('id', '!=', $this->genNumbers['data3'])
                         ->execute()->as_array();
         $this->assertEmpty($globaldata, 'Data inserted');
     }

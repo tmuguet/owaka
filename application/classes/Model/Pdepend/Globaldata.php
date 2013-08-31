@@ -11,13 +11,14 @@ class Model_Pdepend_Globaldata extends ORM
 
     // @codingStandardsIgnoreStart
     /**
-     * "Has many" relationships
+     * "Belongs to" relationships
      * @var array
      */
-    protected $_has_one = array(
+    protected $_belongs_to = array(
         'build' => array(
             'model'       => 'Build',
-            'foreign_key' => 'build_id'),
+            'foreign_key' => 'build_id'
+            ),
     );
     // @codingStandardsIgnoreEnd
 

@@ -88,21 +88,68 @@ class Controller_Processor_Phpunit extends Controller_Processor
                 foreach ($testsuite->children() as $subtestsuite) {
                     foreach ($subtestsuite->children() as $testcase) {
                         if ($testcase->count() > 0) {
+                            $errorNodes = $testcase->children();
+
                             $error            = ORM::factory('Phpunit_Error');
                             $error->build_id  = $buildId;
                             $error->testsuite = (string) $subtestsuite['name'];
                             $error->testcase  = (string) $testcase['name'];
+                            $error->severity  = $errorNodes[0]->getName();
                             $error->create();
                         }
                     }
                 }
             }
 
+            $this->findRegressions($global);
             $global->create();
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Finds regressions and fixes with previous build
+     * 
+     * @param Model_Phpunit_Globaldata &$data Current data
+     */
+    protected function findRegressions(Model_Phpunit_Globaldata &$data)
+    {
+        $build     = $data->build;
+        $prevBuild = $build->previousBuild()->find();
+        if ($prevBuild->loaded()) {
+            $data->failures_regressions = 0;
+            $data->errors_regressions   = 0;
+            $data->failures_fixed       = 0;
+            $data->errors_fixed         = 0;
+            $data->tests_delta          = $data->tests - $prevBuild->phpunit_globaldata->tests;
+            $data->time_delta           = $data->time - $prevBuild->phpunit_globaldata->time;
+
+            foreach ($build->phpunit_errors->find_all() as $current) {
+                if (!$current->hasSimilar($prevBuild)) {
+                    if ($current->severity == 'failure') {
+                        $data->failures_regressions++;
+                    } else {
+                        $data->errors_regressions++;
+                    }
+                    $current->regression = 1;
+                    $current->update();
+                }
+            }
+
+            foreach ($prevBuild->phpunit_errors->find_all() as $old) {
+                if (!$old->hasSimilar($build)) {
+                    if ($old->severity == 'failure') {
+                        $data->failures_fixed++;
+                    } else {
+                        $data->errors_fixed++;
+                    }
+                    $old->fixed = 1;
+                    $old->update();
+                }
+            }
+        }
     }
 
     /**

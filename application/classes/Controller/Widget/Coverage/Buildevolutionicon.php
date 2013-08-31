@@ -69,116 +69,90 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
                     ->find();
         }
 
-        $prevBuild = $build->previousBuild()
-                ->where('status', 'NOT IN', array('building', 'queued'))
-                ->with('coverage_globaldata')
-                ->find();
-
-        $this->process($build, $prevBuild);
+        if ($build->coverage_globaldata->loaded()) {
+            $this->process($build);
+        }
     }
 
     /**
      * Processes the widget
      * 
-     * @param Model_Build &$build     Current build to process
-     * @param Model_Build &$prevBuild Previous build to process
+     * @param Model_Build &$build Current build to process
      */
-    protected function process(Model_Build &$build, Model_Build &$prevBuild)
+    protected function process(Model_Build &$build)
     {
-        if (!$build->coverage_globaldata->loaded() || !$prevBuild->coverage_globaldata->loaded()) {
-            $this->status     = 'nodata';
-            $this->statusData = 'No data';
-        } else {
-            $display = $this->getParameter('display');
+        $display = $this->getParameter('display');
 
-            $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $build->id
-            );
-            $this->widgetLinks[] = array(
-                "title" => 'report',
-                "url"   => Owaka::getReportUri($build->id, 'coverage', 'dir')
-            );
+        $this->widgetLinks[] = array(
+            "type" => 'build',
+            "id"   => $build->id
+        );
+        $this->widgetLinks[] = array(
+            "title" => 'report',
+            "url"   => Owaka::getReportUri($build->id, 'coverage', 'dir')
+        );
 
-            $total      = round(
-                    $build->coverage_globaldata->totalcoverage - $prevBuild->coverage_globaldata->totalcoverage, 2
-            );
-            $methods    = round(
-                    $build->coverage_globaldata->methodcoverage - $prevBuild->coverage_globaldata->methodcoverage, 2
-            );
-            $statements = round(
-                    $build->coverage_globaldata->statementcoverage - $prevBuild->coverage_globaldata->statementcoverage,
-                    2
-            );
-
-            switch ($display) {
-                case 'total':
-                    if ($total == 0) {
-                        $this->widgetStatus    = Owaka::BUILD_OK;
-                        $this->status          = Owaka::BUILD_OK;
-                        $this->statusData      = '-';
-                        $this->statusDataLabel = '<br>no changes';
-                    } else {
-                        $this->widgetStatus    = ($total > 0 ? Owaka::BUILD_OK : Owaka::BUILD_UNSTABLE);
-                        $this->status          = $this->widgetStatus;
-                        $this->statusData      = ($total > 0 ? '+' . $total : $total) . '%';
-                        $this->statusDataLabel = '<br>total';
-                    }
-                    break;
-
-                case 'methods':
-                    if ($methods == 0) {
-                        $this->widgetStatus    = Owaka::BUILD_OK;
-                        $this->status          = Owaka::BUILD_OK;
-                        $this->statusData      = '-';
-                        $this->statusDataLabel = '<br>no changes';
-                    } else {
-                        $this->widgetStatus    = ($methods > 0 ? Owaka::BUILD_OK : Owaka::BUILD_UNSTABLE);
-                        $this->status          = $this->widgetStatus;
-                        $this->statusData      = ($methods > 0 ? '+' . $methods : $methods) . '%';
-                        $this->statusDataLabel = '<br>methods';
-                    }
-                    break;
-
-                case 'statements':
-                    if ($statements == 0) {
-                        $this->widgetStatus    = Owaka::BUILD_OK;
-                        $this->status          = Owaka::BUILD_OK;
-                        $this->statusData      = '-';
-                        $this->statusDataLabel = '<br>no changes';
-                    } else {
-                        $this->status          = ($statements > 0 ? Owaka::BUILD_OK : Owaka::BUILD_UNSTABLE);
-                        $this->statusData      = ($statements > 0 ? '+' . $statements : $statements) . '%';
-                        $this->statusDataLabel = '<br>statements';
-                    }
-                    break;
-
-                default:
-                    if ($methods >= 0 && $statements >= 0) {
-                        $this->widgetStatus = Owaka::BUILD_OK;
-                    } else {
-                        $this->widgetStatus = Owaka::BUILD_UNSTABLE;
-                    }
-                    if ($methods == 0) {
-                        $this->status          = Owaka::BUILD_OK;
-                        $this->statusData      = '-';
-                        $this->statusDataLabel = '<br>no changes';
-                    } else {
-                        $this->status          = ($methods > 0 ? Owaka::BUILD_OK : Owaka::BUILD_UNSTABLE);
-                        $this->statusData      = ($methods > 0 ? '+' . $methods : $methods) . '%';
-                        $this->statusDataLabel = '<br>methods';
-                    }
-
-                    if ($statements == 0) {
-                        $this->substatus          = Owaka::BUILD_OK;
-                        $this->substatusData      = '-';
-                        $this->substatusDataLabel = '<br>no changes';
-                    } else {
-                        $this->substatus          = ($statements > 0 ? Owaka::BUILD_OK : Owaka::BUILD_UNSTABLE);
-                        $this->substatusData      = ($statements > 0 ? '+' . $statements : $statements) . '%';
-                        $this->substatusDataLabel = '<br>statements';
-                    }
-                    break;
+        if ($display == 'total') {
+            if ($data->totalcoverage_delta < 0) {
+                $this->data[] = array(
+                    'status' => 'error',
+                    'data'   => $data->totalcoverage_delta,
+                    'label'  => 'total'
+                );
+            } else if ($data->totalcoverage_delta > 0) {
+                $this->data[] = array(
+                    'status' => 'ok',
+                    'data'   => '+' . $data->totalcoverage_delta,
+                    'label'  => 'total'
+                );
+            } else {
+                $this->data[] = array(
+                    'status' => 'ok',
+                    'data'   => '-',
+                    'label'  => '<br>total'
+                );
+            }
+        }
+        if ($display == 'methods' || $display == 'methods+statements') {
+            if ($data->methodcoverage_delta < 0) {
+                $this->data[] = array(
+                    'status' => 'error',
+                    'data'   => $data->methodcoverage_delta,
+                    'label'  => 'methods'
+                );
+            } else if ($data->methodcoverage_delta > 0) {
+                $this->data[] = array(
+                    'status' => 'ok',
+                    'data'   => '+' . $data->methodcoverage_delta,
+                    'label'  => 'methods'
+                );
+            } else {
+                $this->data[] = array(
+                    'status' => 'ok',
+                    'data'   => '-',
+                    'label'  => '<br>methods'
+                );
+            }
+        }
+        if ($display == 'statements' || $display == 'methods+statements') {
+            if ($data->statementcoverage_delta < 0) {
+                $this->data[] = array(
+                    'status' => 'error',
+                    'data'   => $data->statementcoverage_delta,
+                    'label'  => 'statements'
+                );
+            } else if ($data->statementcoverage_delta > 0) {
+                $this->data[] = array(
+                    'status' => 'ok',
+                    'data'   => '+' . $data->statementcoverage_delta,
+                    'label'  => 'statements'
+                );
+            } else {
+                $this->data[] = array(
+                    'status' => 'ok',
+                    'data'   => '-',
+                    'label'  => '<br>statements'
+                );
             }
         }
     }

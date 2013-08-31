@@ -98,6 +98,7 @@ class Controller_Processor_Coverage extends Controller_Processor
                             ($global->totalcovered * 100 / $global->totalcount) : 100);
 
             if ($global->methodcount > 0 || $global->statementcount > 0 || $global->totalcount > 0) {
+                $this->findDeltas($global);
                 $global->create();
             }
             return true;
@@ -107,27 +108,19 @@ class Controller_Processor_Coverage extends Controller_Processor
     }
 
     /**
-     * Analyses a build
+     * Computes deltas with previous build
      * 
-     * @param Model_Build &$build     Build
-     * @param array       $parameters Processor parameters
-     * 
-     * @return string Status
+     * @param Model_Coverage_Globaldata &$data Current data
      */
-    public function analyze(Model_Build &$build, array $parameters)
+    protected function findDeltas(Model_Coverage_Globaldata &$data)
     {
-        $data = $build->coverage_globaldata;
-
-        if (($parameters['threshold_methodcoverage_error'] > 0 && $data->methodcoverage < $parameters['threshold_methodcoverage_error'])
-                || ($parameters['threshold_statementcoverage_error'] > 0 && $data->statementcoverage < $parameters['threshold_statementcoverage_error'])
-                || ($parameters['threshold_totalcoverage_error'] > 0 && $data->totalcoverage < $parameters['threshold_totalcoverage_error'])) {
-            return Owaka::BUILD_ERROR;
-        } else if (($parameters['threshold_methodcoverage_unstable'] > 0 && $data->methodcoverage < $parameters['threshold_methodcoverage_unstable'])
-                || ($parameters['threshold_statementcoverage_unstable'] > 0 && $data->statementcoverage < $parameters['threshold_statementcoverage_unstable'])
-                || ($parameters['threshold_totalcoverage_unstable'] > 0 && $data->totalcoverage < $parameters['threshold_totalcoverage_unstable'])) {
-            return Owaka::BUILD_UNSTABLE;
-        } else {
-            return Owaka::BUILD_OK;
+        $build     = $data->build;
+        $prevBuild = $build->previousBuild()->find();
+        $prevData  = $prevBuild->coverage_globaldata;
+        if ($prevData->loaded()) {
+            $data->methodcoverage_delta    = $data->methodcoverage - $prevData->methodcoverage;
+            $data->statementcoverage_delta = $data->statementcoverage - $prevData->statementcoverage;
+            $data->totalcoverage_delta     = $data->totalcoverage - $prevData->totalcoverage;
         }
     }
 }

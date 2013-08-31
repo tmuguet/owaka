@@ -62,6 +62,7 @@ class Controller_Processor_Phpmd extends Controller_Processor
             $global->errors   = substr_count($content, '</tr>'); // - 1;
             // bug in phpmd: header row not terminated with </tr>
 
+            $this->findDeltas($global);
             $global->create();
             return true;
         }
@@ -70,23 +71,17 @@ class Controller_Processor_Phpmd extends Controller_Processor
     }
 
     /**
-     * Analyses a build
+     * Computes deltas with previous build
      * 
-     * @param Model_Build &$build     Build
-     * @param array       $parameters Processor parameters
-     * 
-     * @return string Status
+     * @param Model_Phpmd_Globaldata &$data Current data
      */
-    public function analyze(Model_Build &$build, array $parameters)
+    protected function findDeltas(Model_Phpmd_Globaldata &$data)
     {
-        $data = $build->phpmd_globaldata;
-
-        if (($parameters['threshold_errors_error'] > 0 && $data->errors >= $parameters['threshold_errors_error'])) {
-            return Owaka::BUILD_ERROR;
-        } else if (($parameters['threshold_errors_unstable'] > 0 && $data->errors >= $parameters['threshold_errors_unstable'])) {
-            return Owaka::BUILD_UNSTABLE;
-        } else {
-            return Owaka::BUILD_OK;
+        $build     = $data->build;
+        $prevBuild = $build->previousBuild()->find();
+        $prevData  = $prevBuild->phpmd_globaldata;
+        if ($prevData->loaded()) {
+            $data->errors_delta = $data->errors - $prevData->errors;
         }
     }
 }

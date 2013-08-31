@@ -62,64 +62,61 @@ class Controller_Widget_Codesniffer_Buildevolutionicon extends Controller_Widget
                     ->find();
         }
 
-        $prevBuild = $build->previousBuild()
-                ->where('status', 'NOT IN', array('building', 'queued'))
-                ->with('codesniffer_globaldata')
-                ->find();
-
-        $this->process($build, $prevBuild);
+        if ($build->codesniffer_globaldata->loaded()) {
+            $this->process($build);
+        }
     }
 
     /**
      * Processes the widget
      * 
-     * @param Model_Build &$build     Current build to process
-     * @param Model_Build &$prevBuild Previous build to process
+     * @param Model_Build &$build Current build to process
      */
-    protected function process(Model_Build &$build, Model_Build &$prevBuild)
+    protected function process(Model_Build &$build)
     {
-        if (!$build->codesniffer_globaldata->loaded() || !$prevBuild->codesniffer_globaldata->loaded()) {
-            $this->status     = 'nodata';
-            $this->statusData = 'No data';
-        } else {
-            $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $build->id
-            );
-            $this->widgetLinks[] = array(
-                "title" => 'report',
-                "url"   => Owaka::getReportUri($build->id, 'codesniffer', 'xml')
-            );
-            
-            $errors   = $build->codesniffer_globaldata->errors - $prevBuild->codesniffer_globaldata->errors;
-            $warnings = $build->codesniffer_globaldata->warnings - $prevBuild->codesniffer_globaldata->warnings;
+        $data                = $build->codesniffer_globaldata;
+        $this->widgetLinks[] = array(
+            "type" => 'build',
+            "id"   => $build->id
+        );
+        $this->widgetLinks[] = array(
+            "title" => 'report',
+            "url"   => Owaka::getReportUri($build->id, 'codesniffer', 'xml')
+        );
 
-            if ($errors == 0 && $warnings == 0) {
-                $this->status          = Owaka::BUILD_OK;
-                $this->statusData      = '-';
-                $this->statusDataLabel = '<br>no changes';
-            } else {
-                $this->widgetStatus    = ($errors > 0 || $warnings > 0 ? Owaka::BUILD_UNSTABLE : Owaka::BUILD_OK);
-                if ($errors == 0) {
-                    $this->status          = Owaka::BUILD_OK;
-                    $this->statusData      = '-';
-                    $this->statusDataLabel = '<br>no changes';
-                } else {
-                    $this->status          = ($errors > 0 ? Owaka::BUILD_ERROR : Owaka::BUILD_OK);
-                    $this->statusData      = ($errors > 0 ? '+' . $errors : $errors);
-                    $this->statusDataLabel = 'rules errors';
-                }
+        if ($data->errors_regressions > 0) {
+            $this->data[] = array(
+                'status' => 'error',
+                'data'   => '+' . $data->errors_regressions,
+                'label'  => 'rules errors'
+            );
+        } else if ($data->errors_fixed > 0) {
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => '-' . $data->errors_fixed,
+                'label'  => 'rules errors'
+            );
+        }
+        if ($data->warnings_regressions > 0) {
+            $this->data[] = array(
+                'status' => 'unstable',
+                'data'   => '+' . $data->warnings_regressions,
+                'label'  => 'rules warnings'
+            );
+        } else if ($data->warnings_fixed > 0) {
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => '-' . $data->warnings_fixed,
+                'label'  => 'rules warnings'
+            );
+        }
 
-                if ($warnings == 0) {
-                    $this->substatus          = Owaka::BUILD_OK;
-                    $this->substatusData      = '-';
-                    $this->substatusDataLabel = '<br>no changes';
-                } else {
-                    $this->substatus          = ($warnings > 0 ? Owaka::BUILD_UNSTABLE : Owaka::BUILD_OK);
-                    $this->substatusData      = ($warnings > 0 ? '+' . $warnings : $warnings);
-                    $this->substatusDataLabel = 'rules warnings';
-                }
-            }
+        if (sizeof($this->data) == 0) {
+            $this->data[] = array(
+                'status' => 'ok',
+                'data'   => '-',
+                'label'  => '<br>no changes'
+            );
         }
     }
 }

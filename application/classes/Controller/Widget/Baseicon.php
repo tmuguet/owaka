@@ -9,42 +9,16 @@ abstract class Controller_Widget_Baseicon extends Controller_Widget_Base
 {
 
     /**
-     * Main status of the widget, among ok/unstable/error/nodata
-     * @var string
+     * Array of data to show
+     * 
+     * For each data, the following keys are expected:
+     * - status (ok, unstable, error, nodata)
+     * - data: value to show (optional)
+     * - label: label to show when the widget is hovered (optional)
+     * 
+     * @var array
      */
-    protected $status = NULL;
-
-    /**
-     * Main status data (optional)
-     * @var string
-     */
-    protected $statusData = NULL;
-
-    /**
-     * Main status label for data (optional; used only if statusData not empty)
-     * This is shown only when widget is hovered
-     * @var string
-     */
-    protected $statusDataLabel = NULL;
-
-    /**
-     * Secondary status of the widget, among ok/unstable/error/nodata (optional)
-     * @var string 
-     */
-    protected $substatus          = NULL;
-
-    /**
-     * Secondary status data (optional; used only if substatus and statusData not empty)
-     * @var string
-     */
-    protected $substatusData      = NULL;
-
-    /**
-     * Secondary status label for data (optional; used only if substatusData not empty)
-     * This is shown only when widget is hovered
-     * @var string
-     */
-    protected $substatusDataLabel = NULL;
+    protected $data = array();
 
     /**
      * Gets the preferred size (width, height)
@@ -71,19 +45,18 @@ abstract class Controller_Widget_Baseicon extends Controller_Widget_Base
      */
     protected function render()
     {
-        if (empty($this->widgetStatus) && !empty($this->status) && empty($this->substatus)) {
-            $this->widgetStatus = $this->status;
+        if (empty($this->widgetStatus)) {
+            $this->widgetStatus = (sizeof($this->data) > 0) ? $this->data[0]['status'] : 'nodata';
         }
 
         parent::initViews();
 
+        if (empty($this->data)) {
+            $this->data[] = array('status' => 'nodata', 'data'   => 'No data');
+        }
+
         $view = View::factory('widgets' . DIRECTORY_SEPARATOR . 'BaseIcon')
-                ->set('status', $this->status)
-                ->set('statusData', $this->statusData)
-                ->set('statusDataLabel', $this->statusDataLabel)
-                ->set('substatus', $this->substatus)
-                ->set('substatusData', $this->substatusData)
-                ->set('substatusDataLabel', $this->substatusDataLabel);
+                ->set('data', $this->data);
 
         $this->response->body($view);
     }
