@@ -37,8 +37,13 @@ abstract class Controller extends Kohana_Controller
      */
     public function before()
     {
-        if ($this->requiredRole != Owaka::AUTH_ROLE_NONE) {
-            if (!Auth::instance()->logged_in($this->requiredRole)) {
+        $role   = $this->requiredRole;
+        $action = 'requiredRole_' . $this->request->action();
+        if (property_exists($this, $action)) {
+            $role = $this->$action;
+        }
+        if ($role != Owaka::AUTH_ROLE_NONE) {
+            if (!Auth::instance()->logged_in($role)) {
                 $uri = $this->request->uri();
                 if (!empty($uri) && $uri != '/') {
                     Session::instance()->set("requested_url", $uri);

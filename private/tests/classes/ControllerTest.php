@@ -60,4 +60,14 @@ class ControllerTest extends TestCase
         $target = new Controller_none();
         $target->before();
     }
+
+    /**
+     * @covers Controller::before
+     */
+    public function testBeforeNoneAction()
+    {
+        $target = new Controller_admin();
+        $target->request->action('nonadmin');
+        $target->before();
+    }
 }

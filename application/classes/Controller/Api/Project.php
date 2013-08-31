@@ -238,4 +238,44 @@ class Controller_Api_Project extends Controller_Api
         }
         return true;
     }
+
+    protected $requiredRole_trigger = Owaka::AUTH_ROLE_NONE;
+
+    /**
+     * Triggers the build of a project
+     * 
+     * @url http://example.com/api/project/trigger/&lt;project_id&gt;
+     */
+    public function action_trigger()
+    {
+        $ob = false;
+        try {
+            $projectId = $this->request->param('id');
+            $project   = ORM::factory('Project', $projectId);
+            if (!$project->loaded()) {
+                throw new HTTP_Exception_404();
+            }
+
+            ob_start();
+            $ob    = true;
+            $queue = Minion_Task::factory(array('task'    => 'Queue', 'project' => $project));
+            $queue->execute();
+            $res   = trim(ob_get_clean());
+            $ob    = false;
+            // @codeCoverageIgnoreStart
+            if ($res != 'ok') {
+                $this->respondError(Response::FAILURE, array('error'   => 'Error during queuing', 'details' => $res));
+                return;
+            }
+            // @codeCoverageIgnoreEnd
+
+            $this->respondOk(array('project'    => $project->id));
+        } catch (RuntimeException $e) {
+            $res = $e->getMessage();
+            if ($ob) {
+                $res .= trim(ob_get_clean());
+            }
+            $this->respondError(Response::FAILURE, array('error'   => 'Error', 'details' => $res));
+        }
+    }
 }

@@ -55,7 +55,7 @@ class Controller_Api_ProjectTestCheckout extends TestCase
      * @covers Task_Forcequeue::_execute
      * @covers File::rrmdir
      */
-    public function testActionCheckoutReady()
+    public function testActionCheckoutReadyHg()
     {
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
         if (is_dir($path)) {
@@ -70,6 +70,55 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->scm                   = 'mercurial';
         $project->scm_url               = 'not_used';
         $project->scm_branch            = 'default';
+        $project->is_remote             = 0;
+        $project->host                  = '';
+        $project->port                  = '';
+        $project->username              = '';
+        $project->privatekey_path       = '';
+        $project->public_host_key       = '';
+        $project->path                  = $path;
+        $project->phing_path            = '/';
+        $project->phing_target_validate = 'doc';
+        $project->reports_path          = '/';
+        $project->create();
+
+        $request  = Request::factory('api/project/checkout/' . $project->id)->login();
+        $request->method(Request::POST);
+        $response = $request->execute();
+        $this->assertResponseOK($response);
+        $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->assertEquals(
+                array("project"    => $project->id, 'scm_status' => 'ready'), $apiCall, "Incorrect API result"
+        );
+
+        $builds = ORM::factory('Build')
+                ->where('status', '=', 'queued')
+                ->where('project_id', '=', $project->id)
+                ->find_all();
+        $this->assertEquals(1, sizeof($builds));
+    }
+
+    /**
+     * @covers Controller_Api_Project::action_checkout
+     * @covers Task_Forcequeue::_execute
+     * @covers File::rrmdir
+     */
+    public function testActionCheckoutReadyGit()
+    {
+        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
+        if (is_dir($path)) {
+            File::rrmdir($path);
+        }
+        exec('git clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'git' . ' ' . $path);
+
+        $project                        = ORM::factory('Project');
+        $project->name                  = 'utest';
+        $project->scm_status            = 'ready';
+        $project->is_active             = 1;
+        $project->scm                   = 'git';
+        $project->scm_url               = 'not_used';
+        $project->scm_branch            = 'origin/master';
         $project->is_remote             = 0;
         $project->host                  = '';
         $project->port                  = '';

@@ -34,6 +34,11 @@ class Task_Forcequeue extends Minion_Task
             echo "Project has not been checked out";
             return;
         }
+        $building = $project->builds->where('status', 'IN', array('building', 'queued'))->count_all();
+        if ($building > 0) {
+            echo "Project already in queue";
+            return;
+        }
 
         $command = new Command($project);
         $command->chdir($project->path);
