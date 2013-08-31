@@ -41,11 +41,14 @@ class Task_Switch extends Minion_Task
         $res = '';
         switch ($project->scm) {
             case 'mercurial':
-                $log = $command->execute('hg branch ' . $project->scm_branch, $res);
+                $log = $command->execute('hg pull');
+                $log .= $command->execute('hg update');
+                $log .= $command->execute('hg branch ' . $project->scm_branch, $res);
                 break;
 
             case 'git':
-                $log = $command->execute('git checkout ' . $project->scm_branch, $res);
+                $log = $command->execute('git pull');
+                $log .= $command->execute('git checkout ' . $project->scm_branch, $res);
                 break;
         }
         if ($res != 0) {
