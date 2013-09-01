@@ -35,6 +35,8 @@ class Owaka
      * @param string|null $type      Type of report to find. If null, returns the first existing report.
      * 
      * @return string|null URI to report, or null if not found
+     * @throws InvalidArgumentException Invalid processor
+     * @throws InvalidArgumentException Invalid report type
      * @see Controller_Processor::inputReports()
      */
     static public function getReportUri($buildId, $processor, $type = NULL)
@@ -65,6 +67,25 @@ class Owaka
             }
         }
         return NULL;
+    }
+
+    /**
+     * Gets the processor parameters for a project
+     * 
+     * @param int    $projectId Project ID
+     * @param string $processor Processor
+     * 
+     * @return array
+     * @throws InvalidArgumentException Invalid processor
+     * @see Controller_Processor::parameters()
+     */
+    static public function getReportParameters($projectId, $processor)
+    {
+        $processorClass = 'Controller_Processor_' . ucfirst($processor);
+        if (!class_exists($processorClass)) {
+            throw new InvalidArgumentException("Cannot find processor $processor");
+        }
+        return $processorClass::projectParameters($projectId);
     }
 
     /**

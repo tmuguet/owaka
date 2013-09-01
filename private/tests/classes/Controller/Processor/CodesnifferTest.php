@@ -72,4 +72,22 @@ class Controller_Processor_CodesnifferTest extends TestCase_Processor
                         ->execute()->as_array();
         $this->assertEmpty($globaldata, 'Data inserted');
     }
+
+    /**
+     * @covers Controller_Processor_Codesniffer::analyze
+     */
+    public function testAnalyze()
+    {
+        $build = ORM::factory('Build');
+        $build->codesniffer_globaldata->errors = 10;
+        $build->codesniffer_globaldata->warnings = 0;
+
+        $parameters = array(
+            'threshold_errors_error'      => -1,
+            'threshold_warnings_error'    => -1,
+            'threshold_errors_unstable'   => 1,
+            'threshold_warnings_unstable' => -1,
+        );
+        $this->assertEquals(Owaka::BUILD_UNSTABLE, $this->target->analyze($build, $parameters));
+    }
 }

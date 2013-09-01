@@ -74,6 +74,7 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Baseicon
     protected function process(Model_Build &$build)
     {
         $data                = $build->phpunit_globaldata;
+        $parameters          = Owaka::getReportParameters($build->project_id, 'codesniffer');
         $this->widgetLinks[] = array(
             "type" => 'build',
             "id"   => $build->id
@@ -85,14 +86,14 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Baseicon
 
         if ($data->errors > 0) {
             $this->data[] = array(
-                'status' => Owaka::BUILD_ERROR,
+                'status' => $data->buildStatus($parameters),
                 'data'   => $data->errors,
                 'label'  => 'tests errored<br>out of ' . $data->tests
             );
         }
         if ($data->failures > 0) {
             $this->data[] = array(
-                'status' => Owaka::BUILD_UNSTABLE,
+                'status' => $data->buildStatus($parameters),
                 'data'   => $data->failures,
                 'label'  => 'tests failed<br>out of ' . $data->tests
             );
@@ -100,7 +101,7 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Baseicon
 
         if (sizeof($this->data) == 0) {
             $this->data[] = array(
-                'status' => Owaka::BUILD_OK,
+                'status' => $data->buildStatus($parameters),
                 'data'   => $data->tests,
                 'label'  => 'tests passed'
             );

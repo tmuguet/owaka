@@ -48,4 +48,19 @@ class Controller_Processor_PhpmdTest extends TestCase_Processor
                         ->execute()->as_array();
         $this->assertEmpty($globaldata, 'Data inserted');
     }
+
+    /**
+     * @covers Controller_Processor_Phpmd::analyze
+     */
+    public function testAnalyze()
+    {
+        $build = ORM::factory('Build');
+        $build->phpmd_globaldata->errors    = 9;
+
+        $parameters = array(
+            'threshold_errors_error'       => 10,
+            'threshold_errors_unstable'    => 1,
+        );
+        $this->assertEquals(Owaka::BUILD_UNSTABLE, $this->target->analyze($build, $parameters));
+    }
 }

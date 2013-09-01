@@ -75,6 +75,7 @@ class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
     protected function process(Model_Build &$build)
     {
         $data                = $build->codesniffer_globaldata;
+        $parameters          = Owaka::getReportParameters($build->project_id, 'codesniffer');
         $this->widgetLinks[] = array(
             "type" => 'build',
             "id"   => $build->id
@@ -86,14 +87,14 @@ class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
 
         if ($data->errors > 0) {
             $this->data[] = array(
-                'status' => Owaka::BUILD_ERROR,
+                'status' => $data->buildStatus($parameters),
                 'data'   => $data->errors,
                 'label'  => 'rules errors'
             );
         }
         if ($data->warnings > 0) {
             $this->data[] = array(
-                'status' => Owaka::BUILD_UNSTABLE,
+                'status' => $data->buildStatus($parameters),
                 'data'   => $data->warnings,
                 'label'  => 'rules warnings'
             );

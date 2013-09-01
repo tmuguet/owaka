@@ -34,12 +34,14 @@ abstract class Controller_Processor extends Controller
     /**
      * Gets the processor parameters
      * 
+     * @param int $projectId Project ID
+     * 
      * @return array
      */
-    static public function projectParameters($project_id)
+    static public function projectParameters($projectId)
     {
         $report = ORM::factory('Project_Report_Parameter')
-                ->where('project_id', '=', $project_id)
+                ->where('project_id', '=', $projectId)
                 ->where('processor', '=', static::_getName())
                 ->find();
         if ($report->loaded()) {

@@ -67,4 +67,25 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
                         ->execute()->as_array();
         $this->assertEmpty($globaldata, 'Data inserted');
     }
+
+    /**
+     * @covers Controller_Processor_Coverage::analyze
+     */
+    public function testAnalyze()
+    {
+        $build = ORM::factory('Build');
+        $build->coverage_globaldata->methodcoverage    = 10;
+        $build->coverage_globaldata->statementcoverage = 10;
+        $build->coverage_globaldata->totalcoverage     = 10;
+
+        $parameters = array(
+            'threshold_methodcoverage_error'       => -1,
+            'threshold_statementcoverage_error'    => 100,
+            'threshold_totalcoverage_error'        => -1,
+            'threshold_methodcoverage_unstable'    => -1,
+            'threshold_statementcoverage_unstable' => -1,
+            'threshold_totalcoverage_unstable'     => -1,
+        );
+        $this->assertEquals(Owaka::BUILD_ERROR, $this->target->analyze($build, $parameters));
+    }
 }

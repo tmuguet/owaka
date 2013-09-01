@@ -35,6 +35,20 @@ class Controller_Processor_ProcessorStub extends Controller_Processor
         );
     }
 
+    static public function parameters()
+    {
+        return array(
+            'threshold_errors_error'    => array(
+                'title'        => 'Number of errors to trigger build error',
+                'defaultvalue' => 1
+            ),
+            'threshold_errors_unstable' => array(
+                'title'        => 'Number of errors to trigger unstable build',
+                'defaultvalue' => -1
+            ),
+        );
+    }
+
     public function process($buildId)
     {
         return $this->processResult;

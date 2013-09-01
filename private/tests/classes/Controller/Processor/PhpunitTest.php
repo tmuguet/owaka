@@ -91,7 +91,8 @@ class Controller_Processor_PhpunitTest extends TestCase_Processor
      */
     public function testAnalyze()
     {
-        $thresholds                           = array('threshold_errors_error'      => 1,
+        $thresholds                           = array(
+            'threshold_errors_error'      => 1,
             'threshold_errors_unstable'   => -1,
             'threshold_failures_error'    => -1,
             'threshold_failures_unstable' => 1
@@ -99,21 +100,21 @@ class Controller_Processor_PhpunitTest extends TestCase_Processor
         $model1                               = ORM::factory('Build');
         $model1->phpunit_globaldata->failures = 0;
         $model1->phpunit_globaldata->errors   = 0;
-        $this->assertEquals('ok', $this->target->analyze($model1, $thresholds));
+        $this->assertEquals(Owaka::BUILD_OK, $this->target->analyze($model1, $thresholds));
 
         $model2                               = ORM::factory('Build');
         $model2->phpunit_globaldata->failures = 1;
         $model2->phpunit_globaldata->errors   = 0;
-        $this->assertEquals('unstable', $this->target->analyze($model2, $thresholds));
+        $this->assertEquals(Owaka::BUILD_UNSTABLE, $this->target->analyze($model2, $thresholds));
 
         $model3                               = ORM::factory('Build');
         $model3->phpunit_globaldata->failures = 0;
         $model3->phpunit_globaldata->errors   = 1;
-        $this->assertEquals('error', $this->target->analyze($model3, $thresholds));
+        $this->assertEquals(Owaka::BUILD_ERROR, $this->target->analyze($model3, $thresholds));
 
         $model4                               = ORM::factory('Build');
         $model4->phpunit_globaldata->failures = 1;
         $model4->phpunit_globaldata->errors   = 1;
-        $this->assertEquals('error', $this->target->analyze($model4, $thresholds));
+        $this->assertEquals(Owaka::BUILD_ERROR, $this->target->analyze($model4, $thresholds));
     }
 }

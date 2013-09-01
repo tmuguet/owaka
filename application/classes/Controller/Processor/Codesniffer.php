@@ -149,16 +149,6 @@ class Controller_Processor_Codesniffer extends Controller_Processor
      */
     public function analyze(Model_Build &$build, array $parameters)
     {
-        $data = $build->codesniffer_globaldata;
-
-        if (($parameters['threshold_errors_error'] > 0 && $data->errors >= $parameters['threshold_errors_error']) 
-                || ($parameters['threshold_warnings_error'] > 0 && $data->warnings >= $parameters['threshold_warnings_error'])) {
-            return Owaka::BUILD_ERROR;
-        } else if (($parameters['threshold_errors_unstable'] > 0 && $data->errors >= $parameters['threshold_errors_unstable'])
-                || ($parameters['threshold_warnings_unstable'] > 0 && $data->warnings >= $parameters['threshold_warnings_unstable'])) {
-            return Owaka::BUILD_UNSTABLE;
-        } else {
-            return Owaka::BUILD_OK;
-        }
+        return $build->codesniffer_globaldata->buildStatus($parameters);
     }
 }

@@ -75,6 +75,7 @@ class Controller_Widget_Phpmd_Buildicon extends Controller_Widget_Baseicon
     protected function process(Model_Build &$build)
     {
         $data                = $build->phpmd_globaldata;
+        $parameters          = Owaka::getReportParameters($build->project_id, 'phpmd');
         $this->widgetLinks[] = array(
             "type" => 'build',
             "id"   => $build->id
@@ -86,13 +87,13 @@ class Controller_Widget_Phpmd_Buildicon extends Controller_Widget_Baseicon
 
         if ($data->errors > 0) {
             $this->data[] = array(
-                'status' => Owaka::BUILD_ERROR,
+                'status' => $data->buildStatus($parameters),
                 'data'   => $data->errors,
                 'label'  => 'errors'
             );
         } else {
             $this->data[] = array(
-                'status' => Owaka::BUILD_OK,
+                'status' => $data->buildStatus($parameters),
                 'data'   => '-'
             );
         }

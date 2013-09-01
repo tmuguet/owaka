@@ -61,6 +61,29 @@ class Controller_ProcessorTest extends TestCase
     }
 
     /**
+     * @covers Controller_Processor::projectParameters
+     */
+    public function testProjectParameters()
+    {
+        $expectedFound    = array(
+            'threshold_errors_error'    => 10,
+            'threshold_errors_unstable' => 1
+        );
+        $expectedNotFound = array(
+            'threshold_errors_error'    => 1,
+            'threshold_errors_unstable' => -1
+        );
+
+        $this->assertEquals(
+                $expectedFound, Controller_Processor_ProcessorStub::projectParameters($this->genNumbers['ProjectFoo'])
+        );
+        $this->assertEquals(
+                $expectedNotFound,
+                Controller_Processor_ProcessorStub::projectParameters($this->genNumbers['ProjectBar'])
+        );
+    }
+
+    /**
      * @covers Controller_Processor::_getInputReportCompletePath
      */
     public function testGetInputReportCompletePath()

@@ -104,27 +104,22 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
         }
 
         foreach ($builds as $build) {
-            $status = '';
+            $parameters = Owaka::getReportParameters($build->project_id, 'codesniffer');
+            $status     = '';
 
             if ($build->status == Owaka::BUILD_BUILDING) {
                 $status = 'ETA ' . date("H:i", strtotime($build->eta));
             } else if (!$build->phpunit_globaldata->loaded()) {
                 $status .= View::factory('icon')->set('status', Owaka::BUILD_NODATA)->render();
-            } else if ($build->phpunit_globaldata->failures > 0 || $build->phpunit_globaldata->errors > 0) {
-                if ($build->phpunit_globaldata->failures > 0) {
-                    $status .= View::factory('icon')->set('status', Owaka::BUILD_UNSTABLE)->render();
-                    $status .= $build->phpunit_globaldata->failures;
-                }
-                if ($build->phpunit_globaldata->failures > 0 && $build->phpunit_globaldata->errors > 0) {
-                    $status .= ' ';
-                }
-                if ($build->phpunit_globaldata->errors > 0) {
-                    $status .= View::factory('icon')->set('status', Owaka::BUILD_ERROR)->render();
-                    $status .= $build->phpunit_globaldata->errors;
-                }
             } else {
-                $status .= View::factory('icon')->set('status', Owaka::BUILD_OK)->render();
-                $status .= $build->phpunit_globaldata->tests;
+                $status .= View::factory('icon')->set('status', $build->phpunit_globaldata->buildStatus($parameters))->render();
+                if ($build->phpunit_globaldata->errors > 0) {
+                    $status .= $build->phpunit_globaldata->errors;
+                } else if ($build->phpunit_globaldata->failures > 0) {
+                    $status .= $build->phpunit_globaldata->failures;
+                } else {
+                    $status .= $build->phpunit_globaldata->tests;
+                }
             }
 
             $this->rows[] = array(

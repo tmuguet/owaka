@@ -80,8 +80,9 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
      */
     protected function process(Model_Build &$build)
     {
-        $data    = $build->coverage_globaldata;
-        $display = $this->getParameter('display');
+        $data       = $build->coverage_globaldata;
+        $parameters = Owaka::getReportParameters($build->project_id, 'coverage');
+        $display    = $this->getParameter('display');
 
         $this->widgetLinks[] = array(
             "type" => 'build',
@@ -93,46 +94,22 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Baseicon
         );
 
         if ($display == 'total') {
-            if ($data->totalcoverage > 98) {
-                $status = Owaka::BUILD_OK;
-            } else if ($data->totalcoverage > 95) {
-                $status = Owaka::BUILD_UNSTABLE;
-            } else {
-                $status = Owaka::BUILD_ERROR;
-            }
-
             $this->data[] = array(
-                'status' => $status,
+                'status' => $data->buildStatus($parameters),
                 'data'   => floor($data->totalcoverage) . '%',
                 'label'  => 'total'
             );
         }
         if ($display == 'methods' || $display == 'methods+statements') {
-            if ($data->methodcoverage > 98) {
-                $status = Owaka::BUILD_OK;
-            } else if ($data->methodcoverage > 95) {
-                $status = Owaka::BUILD_UNSTABLE;
-            } else {
-                $status = Owaka::BUILD_ERROR;
-            }
-
             $this->data[] = array(
-                'status' => $status,
+                'status' => $data->buildStatus($parameters),
                 'data'   => floor($data->methodcoverage) . '%',
                 'label'  => 'methods'
             );
         }
         if ($display == 'statements' || $display == 'methods+statements') {
-            if ($data->statementcoverage > 98) {
-                $status = Owaka::BUILD_OK;
-            } else if ($data->statementcoverage > 95) {
-                $status = Owaka::BUILD_UNSTABLE;
-            } else {
-                $status = Owaka::BUILD_ERROR;
-            }
-
             $this->data[] = array(
-                'status' => $status,
+                'status' => $data->buildStatus($parameters),
                 'data'   => floor($data->statementcoverage) . '%',
                 'label'  => 'statements'
             );

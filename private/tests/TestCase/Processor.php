@@ -29,6 +29,7 @@ abstract class TestCase_Processor extends TestCase
         // Code coverage purpose only
         $class = substr(get_called_class(), 0, -4); // remove Test at the end
         $class::inputReports();
+        $class::parameters();
     }
 
     protected function CopyReport($type, $source)

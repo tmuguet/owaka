@@ -29,10 +29,10 @@ class Model_Project_Report_Parameter extends ORM
     public function rules()
     {
         $rules = array(
-            'type'   => array(
+            'processor' => array(
                 array('not_empty'),
             ),
-            'params' => array(
+            'params'    => array(
                 array('not_empty'),
             ),
         );
