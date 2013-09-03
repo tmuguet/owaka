@@ -32,7 +32,10 @@ class Model_Project_Report_Parameter extends ORM
             'processor' => array(
                 array('not_empty'),
             ),
-            'params'    => array(
+            'type'      => array(
+                array('not_empty'),
+            ),
+            'value'     => array(
                 array('not_empty'),
             ),
         );

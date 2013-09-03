@@ -40,16 +40,17 @@ abstract class Controller_Processor extends Controller
      */
     static public function projectParameters($projectId)
     {
-        $report = ORM::factory('Project_Report_Parameter')
+        $params     = ORM::factory('Project_Report_Parameter')
                 ->where('project_id', '=', $projectId)
                 ->where('processor', '=', static::_getName())
-                ->find();
-        if ($report->loaded()) {
-            $parameters = json_decode($report->params, true);
-        } else {
-            $parameters = array();
-            foreach (static::parameters() as $key => $info) {
-                $parameters[$key] = $info['defaultvalue'];
+                ->find_all();
+        $parameters = array();
+        foreach (static::parameters() as $key => $info) {
+            $parameters[$key] = $info['defaultvalue'];
+        }
+        foreach ($params as $param) {
+            if ($param->value != -1) {
+                $parameters[$param->type] = $param->value;
             }
         }
         return $parameters;

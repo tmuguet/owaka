@@ -34,11 +34,13 @@ class Controller_Processor_Phpmd extends Controller_Processor
     {
         return array(
             'threshold_errors_error'    => array(
-                'title'        => 'Number of errors to trigger build error',
+                'title'        => 'Errors to trigger error',
+                'description'  => 'Number of errors to trigger build error',
                 'defaultvalue' => 1
             ),
             'threshold_errors_unstable' => array(
-                'title'        => 'Number of errors to trigger unstable build',
+                'title'        => 'Errors to trigger unstable',
+                'description'  => 'Number of errors to trigger unstable build',
                 'defaultvalue' => -1
             )
         );

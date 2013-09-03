@@ -40,27 +40,33 @@ class Controller_Processor_Coverage extends Controller_Processor
     {
         return array(
             'threshold_methodcoverage_error'       => array(
-                'title'        => 'Threshold of method coverage to trigger build error',
-                'defaultvalue' => 1
-            ),
-            'threshold_methodcoverage_unstable'    => array(
-                'title'        => 'Threshold of method coverage to trigger unstable build',
+                'title'        => 'Method coverage to trigger error',
+                'description'  => 'Threshold of method coverage to trigger build error',
                 'defaultvalue' => -1
             ),
+            'threshold_methodcoverage_unstable'    => array(
+                'title'        => 'Method coverage to trigger unstable',
+                'description'  => 'Threshold of method coverage to trigger unstable build',
+                'defaultvalue' => 100
+            ),
             'threshold_statementcoverage_error'    => array(
-                'title'        => 'Threshold of statement coverage to trigger build error',
+                'title'        => 'Statement coverage to trigger error',
+                'description'  => 'Threshold of statement coverage to trigger build error',
                 'defaultvalue' => -1
             ),
             'threshold_statementcoverage_unstable' => array(
-                'title'        => 'Threshold of statement coverage to trigger unstable build',
+                'title'        => 'Statement coverage to trigger unstable',
+                'description'  => 'Threshold of statement coverage to trigger unstable build',
                 'defaultvalue' => -1
             ),
             'threshold_totalcoverage_error'        => array(
-                'title'        => 'Threshold of total coverage to trigger build error',
+                'title'        => 'Total coverage to trigger error',
+                'description'  => 'Threshold of total coverage to trigger build error',
                 'defaultvalue' => -1
             ),
             'threshold_totalcoverage_unstable'     => array(
-                'title'        => 'Threshold of total coverage to trigger unstable build',
+                'title'        => 'Total coverage to trigger unstable',
+                'description'  => 'Threshold of total coverage to trigger unstable build',
                 'defaultvalue' => -1
             ),
         );

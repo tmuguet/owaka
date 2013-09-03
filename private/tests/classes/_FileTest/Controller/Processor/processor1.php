@@ -14,4 +14,14 @@ class Controller_Processor_processor1
             )
         );
     }
+    
+    static public function parameters() {
+          return array(
+            'threshold_warnings_unstable' => array(
+                'title'        => 'Warnings to trigger unstable',
+                'description'        => 'Number of warnings to trigger unstable build',
+                'defaultvalue' => 1
+            )
+        );
+    }
 }
