@@ -104,7 +104,7 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
         }
 
         foreach ($builds as $build) {
-            $parameters = Owaka::getReportParameters($build->project_id, 'codesniffer');
+            $parameters = Owaka::getReportParameters($build->project_id, 'phpunit');
             $status     = '';
 
             if ($build->status == Owaka::BUILD_BUILDING) {

@@ -74,7 +74,7 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Baseicon
     protected function process(Model_Build &$build)
     {
         $data                = $build->phpunit_globaldata;
-        $parameters          = Owaka::getReportParameters($build->project_id, 'codesniffer');
+        $parameters          = Owaka::getReportParameters($build->project_id, 'phpunit');
         $this->widgetLinks[] = array(
             "type" => 'build',
             "id"   => $build->id
