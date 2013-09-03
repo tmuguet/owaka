@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processor_processor1
+class Controller_Processor_processor1 extends Controller_Processor
 {
 
     static public function inputReports()
@@ -23,5 +23,10 @@ class Controller_Processor_processor1
                 'defaultvalue' => 1
             )
         );
+    }
+
+    public function process($buildId)
+    {
+        
     }
 }

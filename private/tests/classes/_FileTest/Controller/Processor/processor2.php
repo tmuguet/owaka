@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processor_processor2
+class Controller_Processor_processor2 extends Controller_Processor
 {
 
     static public function inputReports()
@@ -37,6 +37,11 @@ class Controller_Processor_processor2
     }
 
     public function analyze()
+    {
+        
+    }
+
+    public function process($buildId)
     {
         
     }
