@@ -1,13 +1,13 @@
 <?php
 defined('SYSPATH') or die('No direct access allowed!');
 
-class Controller_Api_DashboardTestAdd extends TestCase
+class Controller_Api_WidgetTestAdd extends TestCase
 {
 
     protected $xmlDataSet = 'data';
 
     /**
-     * @covers Controller_Api_Dashboard::action_add
+     * @covers Controller_Api_Widget::action_add
      */
     public function testActionAddMain()
     {
@@ -18,7 +18,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
             "row"    => 42
         );
 
-        $response = Request::factory('api/dashboard/add/main/Log')
+        $response = Request::factory('api/widget/add/main/Log')
                 ->login()
                 ->post($post)
                 ->execute();
@@ -40,7 +40,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Dashboard::action_add
+     * @covers Controller_Api_Widget::action_add
      */
     public function testActionAddProject1()
     {
@@ -56,7 +56,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
             "row"    => 42
         );
 
-        $response = Request::factory('api/dashboard/add/project/Log/' . $this->genNumbers['ProjectFoo'])
+        $response = Request::factory('api/widget/add/project/Log/' . $this->genNumbers['ProjectFoo'])
                 ->login()
                 ->post($post)
                 ->execute();
@@ -81,7 +81,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Dashboard::action_add
+     * @covers Controller_Api_Widget::action_add
      */
     public function testActionAddProject2()
     {
@@ -97,7 +97,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
             "row"    => 42
         );
 
-        $response = Request::factory('api/dashboard/add/project/Log/' . $this->genNumbers['ProjectBar'])
+        $response = Request::factory('api/widget/add/project/Log/' . $this->genNumbers['ProjectBar'])
                 ->login()
                 ->post($post)
                 ->execute();
@@ -121,7 +121,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Dashboard::action_add
+     * @covers Controller_Api_Widget::action_add
      */
     public function testActionAddBuild1()
     {
@@ -137,7 +137,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
             "row"    => 42
         );
 
-        $response = Request::factory('api/dashboard/add/build/Log/' . $this->genNumbers['ProjectFoo'])
+        $response = Request::factory('api/widget/add/build/Log/' . $this->genNumbers['ProjectFoo'])
                 ->login()
                 ->post($post)
                 ->execute();
@@ -162,7 +162,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Dashboard::action_add
+     * @covers Controller_Api_Widget::action_add
      */
     public function testActionAddBuild2()
     {
@@ -178,7 +178,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
             "row"    => 42
         );
 
-        $response = Request::factory('api/dashboard/add/build/Log/' . $this->genNumbers['ProjectBar'])
+        $response = Request::factory('api/widget/add/build/Log/' . $this->genNumbers['ProjectBar'])
                 ->login()
                 ->post($post)
                 ->execute();
@@ -202,7 +202,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Dashboard::action_add
+     * @covers Controller_Api_Widget::action_add
      */
     public function testActionAddFailed()
     {
@@ -214,7 +214,7 @@ class Controller_Api_DashboardTestAdd extends TestCase
             )
         );
 
-        $response = Request::factory('api/dashboard/add/build/Log' . $this->genNumbers['ProjectBar'])
+        $response = Request::factory('api/widget/add/build/Log' . $this->genNumbers['ProjectBar'])
                 ->login()
                 ->post($post)
                 ->execute();

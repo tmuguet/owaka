@@ -2,11 +2,11 @@
 defined('SYSPATH') OR die('No direct access allowed.');
 
 /**
- * API entry for managing dashboards
+ * API entry for managing widgets
  * 
  * @package Api
  */
-class Controller_Api_Dashboard extends Controller_Api
+class Controller_Api_Widget extends Controller_Api
 {
 
     /**
@@ -14,7 +14,7 @@ class Controller_Api_Dashboard extends Controller_Api
      * 
      * Returns "ok" if succeeded
      * 
-     * @url http://example.com/api/dashboard/delete/&lt;dashboard&gt;/&lt;widget_id&gt;
+     * @url http://example.com/api/widget/delete/&lt;dashboard&gt;/&lt;widget_id&gt;
      * @throws HTTP_Exception_404 Unsupported dashboard type (should never happen)
      * @throws HTTP_Exception_404 Widget not found
      */
@@ -49,9 +49,9 @@ class Controller_Api_Dashboard extends Controller_Api
      * 
      * Returns "ok" if succeeded.
      * 
-     * @url http://example.com/api/dashboard/add/main/&lt;dashboard_id&gt;
-     * @url http://example.com/api/dashboard/add/project/&lt;dashboard_id&gt;/&lt;project_id&gt;
-     * @url http://example.com/api/dashboard/add/build/&lt;dashboard_id&gt;/&lt;project_id&gt;
+     * @url http://example.com/api/widget/add/main/&lt;dashboard_id&gt;
+     * @url http://example.com/api/widget/add/project/&lt;dashboard_id&gt;/&lt;project_id&gt;
+     * @url http://example.com/api/widget/add/build/&lt;dashboard_id&gt;/&lt;project_id&gt;
      * @postparameter project Project ID (optional or mandatory, depending on widget)
      * @postparameter id      Widget type (mandatory)
      * @postparameter width   Widget width (mandatory)
@@ -114,7 +114,7 @@ class Controller_Api_Dashboard extends Controller_Api
      * 
      * Returns "ok" if succeeded.
      * 
-     * @url http://example.com/api/dashboard/move/&lt;dashboard&gt;/&lt;widget_id&gt;
+     * @url http://example.com/api/widget/move/&lt;dashboard&gt;/&lt;widget_id&gt;
      * @postparameter column  Widget column (mandatory)
      * @postparameter row     Widget row (mandatory)
      * @throws HTTP_Exception_404 Unsupported dashboard type (should never happen)

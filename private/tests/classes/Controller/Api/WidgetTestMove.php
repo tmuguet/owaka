@@ -1,17 +1,17 @@
 <?php
 defined('SYSPATH') or die('No direct access allowed!');
 
-class Controller_Api_DashboardTestMove extends TestCase
+class Controller_Api_WidgetTestMove extends TestCase
 {
 
     protected $xmlDataSet = 'data';
 
     /**
-     * @covers Controller_Api_Dashboard::action_move
+     * @covers Controller_Api_Widget::action_move
      */
     public function testActionMoveMain()
     {
-        $response = Request::factory('api/dashboard/move/main/' . $this->genNumbers['mainBackground'])
+        $response = Request::factory('api/widget/move/main/' . $this->genNumbers['mainBackground'])
                 ->login()
                 ->post('column', '1')
                 ->post('row', '42')
@@ -31,11 +31,11 @@ class Controller_Api_DashboardTestMove extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Dashboard::action_move
+     * @covers Controller_Api_Widget::action_move
      */
     public function testActionMoveProject()
     {
-        $response = Request::factory('api/dashboard/move/project/' . $this->genNumbers['projectBarLog'])
+        $response = Request::factory('api/widget/move/project/' . $this->genNumbers['projectBarLog'])
                 ->login()
                 ->post('column', '42')
                 ->post('row', '5')
@@ -55,11 +55,11 @@ class Controller_Api_DashboardTestMove extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Dashboard::action_move
+     * @covers Controller_Api_Widget::action_move
      */
     public function testActionMoveBuild()
     {
-        $response = Request::factory('api/dashboard/move/build/' . $this->genNumbers['buildFooBackground'])
+        $response = Request::factory('api/widget/move/build/' . $this->genNumbers['buildFooBackground'])
                 ->login()
                 ->post('column', '10')
                 ->post('row', '11')
@@ -79,11 +79,11 @@ class Controller_Api_DashboardTestMove extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Dashboard::action_move
+     * @covers Controller_Api_Widget::action_move
      */
     public function testActionMoveFailed()
     {
-        $response = Request::factory('api/dashboard/move/main/' . $this->genNumbers['mainBackground'])
+        $response = Request::factory('api/widget/move/main/' . $this->genNumbers['mainBackground'])
                 ->login()
                 ->execute();
         $this->assertResponseStatusEquals(Response::UNPROCESSABLE, $response);
@@ -98,11 +98,11 @@ class Controller_Api_DashboardTestMove extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Dashboard::action_move
+     * @covers Controller_Api_Widget::action_move
      */
     public function testActionMoveNotFound()
     {
-        $response = Request::factory('api/dashboard/move/main/99999')->login()->execute();
+        $response = Request::factory('api/widget/move/main/99999')->login()->execute();
         $this->assertResponseStatusEquals(Response::NOTFOUND, $response);
     }
 }

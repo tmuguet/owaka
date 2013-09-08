@@ -118,7 +118,7 @@ $.owaka.designer = {
                             height: height,
                             params: $("#widget_drag").data("params")
                         };
-                        $.owaka.api('api/dashboard/add/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + $.owaka.designer.data, postData, function(info) {
+                        $.owaka.api('api/widget/add/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + $.owaka.designer.data, postData, function(info) {
                             $.post('w/' + $.owaka.designer.from + '/' + $("#widget_drag").attr("data-widget") + '/sample/' + info.widget, {}, function(data) {
                                 var o = $(data);
                                 $.owaka.designer.slots.take(row, column, height, width);
@@ -164,7 +164,7 @@ $.owaka.designer = {
                         row: row,
                         column: column
                     };
-                    $.owaka.api('api/dashboard/move/' + $.owaka.designer.from + '/' + o.attr("data-widget-id"), postData, function(info) {
+                    $.owaka.api('api/widget/move/' + $.owaka.designer.from + '/' + o.attr("data-widget-id"), postData, function(info) {
                         $.owaka.designer.slots.free(oldRow, oldColumn, height, width);
                         $.owaka.designer.slots.take(row, column, height, width);
                         o.attr("data-grid-row", row);
@@ -186,7 +186,7 @@ $.owaka.designer = {
             $.owaka.designer.widget._generatePlaceholder('deleting', row, column, height, width);
             $.owaka.designer.slots.free(row, column, height, width);
 
-            $.owaka.api('api/dashboard/delete/' + $.owaka.designer.from + '/' + widget.attr("data-widget-id"), function() {
+            $.owaka.api('api/widget/delete/' + $.owaka.designer.from + '/' + widget.attr("data-widget-id"), function() {
                 widget.remove();
                 $("#placeholder-deleting").remove();
             });
