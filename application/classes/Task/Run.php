@@ -205,6 +205,7 @@ class Task_Run extends Minion_Task
                 } else if ($response->body() == Owaka::BUILD_UNSTABLE) {
                     $build->status = Owaka::BUILD_UNSTABLE;
                 }
+                Kohana::$log->add(Log::INFO, "$name : {$build->status}");
             }
         } else {
             Kohana::$log->add(Log::INFO, "Skipping analyze of reports: status already set to " . $build->status);
