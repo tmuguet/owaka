@@ -12,8 +12,8 @@ class OwakaTestGetReportParameters extends TestCase
     public function testGetReportParameters()
     {
         $expected = array(
-            'threshold_errors_error'      => 1,
-            'threshold_errors_unstable'   => -1,
+            'threshold_errors_error'      => -1,
+            'threshold_errors_unstable'   => 1,
             'threshold_warnings_error'    => -1,
             'threshold_warnings_unstable' => 1
         );

@@ -57,7 +57,7 @@ class Controller_Processor_Coverage extends Controller_Processor
             'threshold_statementcoverage_unstable' => array(
                 'title'        => 'Statement coverage to trigger unstable',
                 'description'  => 'Threshold of statement coverage to trigger unstable build',
-                'defaultvalue' => -1
+                'defaultvalue' => 100
             ),
             'threshold_totalcoverage_error'        => array(
                 'title'        => 'Total coverage to trigger error',
@@ -67,7 +67,7 @@ class Controller_Processor_Coverage extends Controller_Processor
             'threshold_totalcoverage_unstable'     => array(
                 'title'        => 'Total coverage to trigger unstable',
                 'description'  => 'Threshold of total coverage to trigger unstable build',
-                'defaultvalue' => -1
+                'defaultvalue' => 100
             ),
         );
     }
