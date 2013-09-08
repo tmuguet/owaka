@@ -33,13 +33,13 @@ class Controller_ProcessorTest extends TestCase
     }
 
     /**
-     * @covers Controller_Processor::getInputReports
+     * @covers Controller_Processor::inputReports
      * @expectedException Exception
      * @expectedExceptionMessage Not implemented
      */
-    public function testGetInputReports()
+    public function testInputReports()
     {
-        Controller_Processor::getInputReports();
+        Controller_Processor::inputReports();
     }
 
     /**
@@ -58,6 +58,29 @@ class Controller_ProcessorTest extends TestCase
     {
         $target = new Controller_Processor_ProcessorStub();
         $this->assertEquals('processorstub_hello', $target->_getReportName('hello'));
+    }
+
+    /**
+     * @covers Controller_Processor::projectParameters
+     */
+    public function testProjectParameters()
+    {
+        $expectedFound    = array(
+            'threshold_errors_error'    => 10,
+            'threshold_errors_unstable' => 1
+        );
+        $expectedNotFound = array(
+            'threshold_errors_error'    => 1,
+            'threshold_errors_unstable' => -1
+        );
+
+        $this->assertEquals(
+                $expectedFound, Controller_Processor_ProcessorStub::projectParameters($this->genNumbers['ProjectFoo'])
+        );
+        $this->assertEquals(
+                $expectedNotFound,
+                Controller_Processor_ProcessorStub::projectParameters($this->genNumbers['ProjectBar'])
+        );
     }
 
     /**

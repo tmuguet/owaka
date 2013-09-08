@@ -107,6 +107,7 @@ echo View::factory('baseMenu')
             <legend>Reports <label for="search">Add:</label> <input type="text" id="search"/></legend>
             <?php
             foreach ($reports as $_controller => $_reports) {
+                echo '<div class="field reports" id="field-' . strtolower($_controller) . '"><strong>' . $_controller . '</strong>';
                 foreach ($_reports as $_key => $_report) {
                     if ($project->loaded()) {
                         $value = ORM::factory('Project_Report')
@@ -116,12 +117,31 @@ echo View::factory('baseMenu')
                     } else {
                         $value = '';
                     }
-                    echo '<div class="field report ' . (empty($value) ? 'empty' : 'non-empty') . '" id="field-' . strtolower($_controller) . '_' . $_key . '"><label for="' . strtolower($_controller) . '_' . $_key . '"><strong>' . $_controller . ' :</strong> ' . $_report['title'] . ':</label>';
+
+                    echo '<div class="field report ' . (empty($value) ? 'empty' : 'non-empty') . '" id="field-' . strtolower($_controller) . '_' . $_key . '"><label for="' . strtolower($_controller) . '_' . $_key . '">' . $_report['title'] . ':</label>';
                     echo '<input type="text" name="' . strtolower($_controller) . '_' . $_key . '" id="' . strtolower($_controller) . '_' . $_key . '" value="' . $value . '"/>';
-                    echo '<div class="details">Optional</div>';
                     echo '<div class="details">' . $_report['description'] . '</div>';
                     echo '</div>';
                 }
+
+                $classname  = 'Controller_Processor_' . ucfirst($_controller);
+                    $parameters = $classname::parameters();
+
+                if ($project->loaded()) {
+                    $parametersValues = $classname::projectParameters($project->id);
+                } else {
+                    $parametersValues = $classname::projectParameters(0);
+                }
+                if (sizeof($parameters) > 0) {
+                    echo '<div class="details"><strong><a href="javascript:void(0)" onclick="$(\'.param-' . strtolower($_controller) . '\').slideToggle();">Parameters</a></strong></div>';
+                    foreach ($parameters as $_paramkey => $_param) {
+                        echo '<div class="field param param-' . strtolower($_controller) . '" id="field-' . strtolower($_controller) . '_' . $_paramkey . '"><label for="' . strtolower($_controller) . '_' . $_paramkey . '">' . $_param['title'] . ':</label>';
+                        echo '<input type="text" name="' . strtolower($_controller) . '_' . $_paramkey . '" id="' . strtolower($_controller) . '_' . $_paramkey . '" value="' . $parametersValues[$_paramkey] . '"/>';
+                        echo '<div class="details">' . $_param['description'] . '</div>';
+                        echo '</div>';
+                    }
+                }
+                echo '</div>';
             }
             ?>
         </fieldset>
@@ -143,6 +163,12 @@ echo View::factory('baseMenu')
 <script type="text/javascript">
     $(document).ready(function() {
         $(".field.report.empty").hide();
+        $.each($(".field.reports"), function() {
+            if ($(this).has('.field.report:visible').size() == 0) {
+                $(this).hide();
+            }
+        });
+        $(".field.param").hide();
     });
     $.owaka.formapi($('#form-edit'), function(data) {
         if (data.scm_status != 'ready') {
@@ -169,7 +195,10 @@ $data = array();
 foreach ($reports as $_controller => $_reports) {
     foreach ($_reports as $_key => $_report) {
         $data[] = array(
-            "label"    => $_report['title'], "category" => $_controller, "field"    => 'field-' . strtolower($_controller) . '_' . $_key
+            "label"    => $_report['title'],
+            "category" => $_controller,
+            "parent"   => 'field-' . strtolower($_controller),
+            "field"    => 'field-' . strtolower($_controller) . '_' . $_key
         );
     }
 }
@@ -180,6 +209,7 @@ echo 'var data = ' . json_encode($data) . ';';
             delay: 0,
             source: data,
             select: function(event, ui) {
+                $("#" + ui.item.parent).slideDown();
                 $("#" + ui.item.field).slideDown();
                 return false;
             }
@@ -189,6 +219,9 @@ echo 'var data = ' . json_encode($data) . ';';
     $(".field.report input").blur(function() {
         if ($(this).val() == "") {
             $(this).parent().slideUp();
+            if ($(this).parent().siblings('.field.report:visible').size() == 0) {
+                $(this).parent().parent().slideUp();
+            }
         }
     });
 </script>

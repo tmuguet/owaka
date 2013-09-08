@@ -66,7 +66,7 @@ class Task_Queue extends Minion_Task
     protected function runAll()
     {
         $ignore    = ORM::factory('Build')
-                ->where('status', 'IN', array('building', 'queued'))
+                ->where('status', 'IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                 ->find_all();
         $ignoreIds = array();
         foreach ($ignore as $i) {

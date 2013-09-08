@@ -5,7 +5,7 @@ class Controller_Processor_ProcessorStub extends Controller_Processor
 
     public $processResult = TRUE;
 
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'file'  => array(
@@ -31,6 +31,20 @@ class Controller_Processor_ProcessorStub extends Controller_Processor
                 'description' => 'Directory report',
                 'type'        => 'dir',
                 'keep-as'     => 'subdir'
+            ),
+        );
+    }
+
+    static public function parameters()
+    {
+        return array(
+            'threshold_errors_error'    => array(
+                'title'        => 'Number of errors to trigger build error',
+                'defaultvalue' => 1
+            ),
+            'threshold_errors_unstable' => array(
+                'title'        => 'Number of errors to trigger unstable build',
+                'defaultvalue' => -1
             ),
         );
     }

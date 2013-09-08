@@ -216,9 +216,10 @@ class Controller_Api_Project extends Controller_Api
         $post       = $this->request->post();
         $processors = File::findProcessors();
         foreach ($processors as $processor) {
-            $name = str_replace("Controller_Processor_", "", $processor);
-            foreach (array_keys($processor::getInputReports()) as $key) {
-                $type = strtolower($name) . '_' . $key;
+            $name      = str_replace("Controller_Processor_", "", $processor);
+            $namelower = strtolower($name);
+            foreach (array_keys($processor::inputReports()) as $key) {
+                $type = $namelower . '_' . $key;
                 if (array_key_exists($type, $post)) {
                     $report = ORM::factory(
                                     'Project_Report', array('project_id' => $project->id, 'type'       => $type)
@@ -232,6 +233,31 @@ class Controller_Api_Project extends Controller_Api
                         $report->type       = $type;
                         $report->value      = $post[$type];
                         $report->save();
+                    }
+                }
+            }
+
+            foreach (array_keys($processor::parameters()) as $key) {
+                $type = $namelower . '_' . $key;
+                if (array_key_exists($type, $post)) {
+                    $parameter = ORM::factory(
+                                    'Project_Report_Parameter',
+                                    array(
+                                'project_id' => $project->id,
+                                'processor'  => $namelower,
+                                'type'       => $key
+                                    )
+                    );
+                    if (empty($post[$type]) || $post[$type] == -1) {
+                        if ($parameter->loaded()) {
+                            $parameter->delete();
+                        }
+                    } else {
+                        $parameter->project_id = $project->id;
+                        $parameter->processor  = $namelower;
+                        $parameter->type       = $key;
+                        $parameter->value      = $post[$type];
+                        $parameter->save();
                     }
                 }
             }

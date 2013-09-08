@@ -13,7 +13,7 @@ class Controller_Processor_Codesniffer extends Controller_Processor
      * 
      * @return array
      */
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'xml' => array(
@@ -21,6 +21,37 @@ class Controller_Processor_Codesniffer extends Controller_Processor
                 'description' => 'Code Sniffer XML report in checkstyle format',
                 'type'        => 'file',
                 'keep-as'     => 'index.xml'
+            )
+        );
+    }
+
+    /**
+     * Gets the processor parameters
+     * 
+     * @return array
+     */
+    static public function parameters()
+    {
+        return array(
+            'threshold_errors_error'      => array(
+                'title'        => 'Errors to trigger error',
+                'description'        => 'Number of errors to trigger build error',
+                'defaultvalue' => -1
+            ),
+            'threshold_errors_unstable'   => array(
+                'title'        => 'Errors to trigger unstable',
+                'description'        => 'Number of errors to trigger unstable build',
+                'defaultvalue' => 1
+            ),
+            'threshold_warnings_error'    => array(
+                'title'        => 'Warnings to trigger error',
+                'description'        => 'Number of warnings to trigger build error',
+                'defaultvalue' => -1
+            ),
+            'threshold_warnings_unstable' => array(
+                'title'        => 'Warnings to trigger unstable',
+                'description'        => 'Number of warnings to trigger unstable build',
+                'defaultvalue' => 1
             )
         );
     }
@@ -111,14 +142,17 @@ class Controller_Processor_Codesniffer extends Controller_Processor
             }
         }
     }
-    /* public function analyze(Model_Build &$build)
-      {
-      if ($build->codesniffer_globaldata->warnings == 0 && $build->codesniffer_globaldata->errors == 0) {
-      return 'ok';
-      } else if ($build->codesniffer_globaldata->errors == 0) {
-      return 'unstable';
-      } else {
-      return 'error';
-      }
-      } */
+
+    /**
+     * Analyses a build
+     * 
+     * @param Model_Build &$build     Build
+     * @param array       $parameters Processor parameters
+     * 
+     * @return string Status
+     */
+    public function analyze(Model_Build &$build, array $parameters)
+    {
+        return $build->codesniffer_globaldata->buildStatus($parameters);
+    }
 }

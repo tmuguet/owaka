@@ -1,26 +1,26 @@
 <i class="icon-<?php
    switch ($status) {
-       case 'ok':
+       case Owaka::BUILD_OK:
            echo 'ok';
            break;
 
-       case 'unstable':
+       case Owaka::BUILD_UNSTABLE:
            echo 'warning-sign';
            break;
 
-       case 'error':
+       case Owaka::BUILD_ERROR:
            echo 'bug';
            break;
 
-       case 'building':
+       case Owaka::BUILD_BUILDING:
            echo 'beaker';
            break;
 
-       case 'queued':
+       case Owaka::BUILD_QUEUED:
            echo 'time';
            break;
 
-       case 'nodata':
+       case Owaka::BUILD_NODATA:
            echo 'ban-circle';
            break;
    }

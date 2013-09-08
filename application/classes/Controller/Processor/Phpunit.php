@@ -13,20 +13,52 @@ class Controller_Processor_Phpunit extends Controller_Processor
      * 
      * @return array
      */
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'xml'    => array(
                 'title'       => 'XML report',
                 'description' => 'PHPUnit XML report with xml format. This is the report used for processing data.',
                 'type'        => 'file',
-                'keep-as'     => 'report.xml'
+                'keep-as'     => 'report.xml',
+                'analysis'    => true
             ),
             'report' => array(
                 'title'       => 'HTML report',
                 'description' => 'PHPUnit HTML report directory',
                 'type'        => 'dir',
                 'keep-as'     => '.'
+            )
+        );
+    }
+
+    /**
+     * Gets the processor parameters
+     * 
+     * @return array
+     */
+    static public function parameters()
+    {
+        return array(
+            'threshold_errors_error'      => array(
+                'title'        => 'Errors to trigger error',
+                'description'  => 'Number of errors to trigger build error',
+                'defaultvalue' => 1
+            ),
+            'threshold_errors_unstable'   => array(
+                'title'        => 'Errors to trigger unstable',
+                'description'  => 'Number of errors to trigger unstable build',
+                'defaultvalue' => -1
+            ),
+            'threshold_failures_error'    => array(
+                'title'        => 'Failures to trigger error',
+                'description'  => 'Number of failures to trigger build error',
+                'defaultvalue' => -1
+            ),
+            'threshold_failures_unstable' => array(
+                'title'        => 'Failures to trigger unstable',
+                'description'  => 'Number of failures to trigger unstable build',
+                'defaultvalue' => 1
             )
         );
     }
@@ -127,18 +159,13 @@ class Controller_Processor_Phpunit extends Controller_Processor
     /**
      * Analyses a build
      * 
-     * @param Model_Build &$build Build
+     * @param Model_Build &$build     Build
+     * @param array       $parameters Processor parameters
      * 
      * @return string Status
      */
-    public function analyze(Model_Build &$build)
+    public function analyze(Model_Build &$build, array $parameters)
     {
-        if ($build->phpunit_globaldata->failures == 0 && $build->phpunit_globaldata->errors == 0) {
-            return 'ok';
-        } else if ($build->phpunit_globaldata->errors == 0) {
-            return 'unstable';
-        } else {
-            return 'error';
-        }
+        return $build->phpunit_globaldata->buildStatus($parameters);
     }
 }

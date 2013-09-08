@@ -63,7 +63,7 @@ class Task_Forcequeue extends Minion_Task
         $build->project_id = $project->id;
         $build->revision   = $rev;
         $build->message    = implode("\n", $tip);
-        $build->status     = "queued";
+        $build->status     = Owaka::BUILD_QUEUED;
         $build->started    = DB::expr('NOW()');
         $build->eta        = NULL;
         $build->finished   = NULL;

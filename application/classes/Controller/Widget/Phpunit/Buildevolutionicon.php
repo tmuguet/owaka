@@ -57,7 +57,7 @@ class Controller_Widget_Phpunit_Buildevolutionicon extends Controller_Widget_Bas
         $build = $this->getBuild();
         if ($build === NULL) {
             $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                     ->with('phpunit_globaldata')
                     ->find();
         }
@@ -86,26 +86,26 @@ class Controller_Widget_Phpunit_Buildevolutionicon extends Controller_Widget_Bas
 
         if ($data->errors_regressions > 0) {
             $this->data[] = array(
-                'status' => 'error',
+                'status' => Owaka::BUILD_ERROR,
                 'data'   => '+' . $data->errors_regressions,
                 'label'  => 'errors'
             );
         } else if ($data->errors_fixed > 0) {
             $this->data[] = array(
-                'status' => 'ok',
+                'status' => Owaka::BUILD_OK,
                 'data'   => '-' . $data->errors_fixed,
                 'label'  => 'errors'
             );
         }
         if ($data->failures_regressions > 0) {
             $this->data[] = array(
-                'status' => 'unstable',
+                'status' => Owaka::BUILD_UNSTABLE,
                 'data'   => '+' . $data->failures_regressions,
                 'label'  => 'failures'
             );
         } else if ($data->failures_fixed > 0) {
             $this->data[] = array(
-                'status' => 'ok',
+                'status' => Owaka::BUILD_OK,
                 'data'   => '-' . $data->failures_fixed,
                 'label'  => 'failures'
             );
@@ -113,7 +113,7 @@ class Controller_Widget_Phpunit_Buildevolutionicon extends Controller_Widget_Bas
 
         if (sizeof($this->data) == 0) {
             $this->data[] = array(
-                'status' => 'ok',
+                'status' => Owaka::BUILD_OK,
                 'data'   => '-',
                 'label'  => '<br>no changes'
             );

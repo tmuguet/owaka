@@ -13,7 +13,7 @@ class Controller_Processor_Phpdoc extends Controller_Processor
      * 
      * @return array
      */
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'report' => array(

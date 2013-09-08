@@ -120,7 +120,7 @@ EOT;
                 ->where('is_active', '=', '1')
                 ->find_all();
 
-        $this->_status = 'ok';
+        $this->_status = Owaka::BUILD_OK;
 
         foreach ($projects as $project) {
             $build = $project->builds
@@ -129,11 +129,11 @@ EOT;
                     ->find();
 
             if ($build->loaded()) {
-                if ($build->status == 'error') {
-                    $this->_status = 'error';
+                if ($build->status == Owaka::BUILD_ERROR) {
+                    $this->_status = Owaka::BUILD_ERROR;
                     break;
-                } else if ($build->status == 'unstable') {
-                    $this->_status = 'unstable';
+                } else if ($build->status == Owaka::BUILD_UNSTABLE) {
+                    $this->_status = Owaka::BUILD_UNSTABLE;
                 }
             }
         }
@@ -149,12 +149,12 @@ EOT;
     public function display_project()
     {
         $build = $this->getProject()->builds
-                ->where('status', 'NOT IN', array('building', 'queued'))
+                ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                 ->order_by('id', 'DESC')
                 ->limit(1)
                 ->find();
 
-        $this->_status = ($build->loaded() ? $build->status : 'ok');
+        $this->_status = ($build->loaded() ? $build->status : Owaka::BUILD_OK);
         $this->_theme  = $this->getParameter('theme');
     }
 
@@ -165,7 +165,7 @@ EOT;
      */
     public function display_build()
     {
-        $this->_status = ($this->getBuild()->loaded() ? $this->getBuild()->status : 'ok');
+        $this->_status = ($this->getBuild()->loaded() ? $this->getBuild()->status : Owaka::BUILD_OK);
         $this->_theme  = $this->getParameter('theme');
     }
 

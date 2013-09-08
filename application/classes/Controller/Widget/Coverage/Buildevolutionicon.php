@@ -64,7 +64,7 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
         $build = $this->getBuild();
         if ($build === NULL) {
             $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                     ->with('coverage_globaldata')
                     ->find();
         }
@@ -96,19 +96,19 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
         if ($display == 'total') {
             if ($data->totalcoverage_delta < 0) {
                 $this->data[] = array(
-                    'status' => 'error',
+                    'status' => Owaka::BUILD_ERROR,
                     'data'   => $data->totalcoverage_delta,
                     'label'  => 'total'
                 );
             } else if ($data->totalcoverage_delta > 0) {
                 $this->data[] = array(
-                    'status' => 'ok',
+                    'status' => Owaka::BUILD_OK,
                     'data'   => '+' . $data->totalcoverage_delta,
                     'label'  => 'total'
                 );
             } else {
                 $this->data[] = array(
-                    'status' => 'ok',
+                    'status' => Owaka::BUILD_OK,
                     'data'   => '-',
                     'label'  => '<br>total'
                 );
@@ -117,19 +117,19 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
         if ($display == 'methods' || $display == 'methods+statements') {
             if ($data->methodcoverage_delta < 0) {
                 $this->data[] = array(
-                    'status' => 'error',
+                    'status' => Owaka::BUILD_ERROR,
                     'data'   => $data->methodcoverage_delta,
                     'label'  => 'methods'
                 );
             } else if ($data->methodcoverage_delta > 0) {
                 $this->data[] = array(
-                    'status' => 'ok',
+                    'status' => Owaka::BUILD_OK,
                     'data'   => '+' . $data->methodcoverage_delta,
                     'label'  => 'methods'
                 );
             } else {
                 $this->data[] = array(
-                    'status' => 'ok',
+                    'status' => Owaka::BUILD_OK,
                     'data'   => '-',
                     'label'  => '<br>methods'
                 );
@@ -138,19 +138,19 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
         if ($display == 'statements' || $display == 'methods+statements') {
             if ($data->statementcoverage_delta < 0) {
                 $this->data[] = array(
-                    'status' => 'error',
+                    'status' => Owaka::BUILD_ERROR,
                     'data'   => $data->statementcoverage_delta,
                     'label'  => 'statements'
                 );
             } else if ($data->statementcoverage_delta > 0) {
                 $this->data[] = array(
-                    'status' => 'ok',
+                    'status' => Owaka::BUILD_OK,
                     'data'   => '+' . $data->statementcoverage_delta,
                     'label'  => 'statements'
                 );
             } else {
                 $this->data[] = array(
-                    'status' => 'ok',
+                    'status' => Owaka::BUILD_OK,
                     'data'   => '-',
                     'label'  => '<br>statements'
                 );

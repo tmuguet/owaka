@@ -22,4 +22,7 @@
     
     <project_reports id="##ID_Report1##" project_id="##ID_ProjectFoo##" type="processorstub_foo" value="bar"/>
     <project_reports id="##ID_Report2##" project_id="##ID_ProjectFoo##" type="processorstub_bat" value="baz"/>
+    
+    <project_report_parameters id="##ID_param1##" project_id="##ID_ProjectFoo##" processor="processorstub" type="threshold_errors_error" value="10"/>
+    <project_report_parameters id="##ID_param2##" project_id="##ID_ProjectFoo##" processor="processorstub" type="threshold_errors_unstable" value="1"/>
 </dataset>

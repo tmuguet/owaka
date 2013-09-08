@@ -13,7 +13,7 @@ class Controller_Processor_Coverage extends Controller_Processor
      * 
      * @return array
      */
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'raw' => array(
@@ -28,6 +28,47 @@ class Controller_Processor_Coverage extends Controller_Processor
                 'type'        => 'dir',
                 'keep-as'     => '.'
             )
+        );
+    }
+
+    /**
+     * Gets the processor parameters
+     * 
+     * @return array
+     */
+    static public function parameters()
+    {
+        return array(
+            'threshold_methodcoverage_error'       => array(
+                'title'        => 'Method coverage to trigger error',
+                'description'  => 'Threshold of method coverage to trigger build error',
+                'defaultvalue' => -1
+            ),
+            'threshold_methodcoverage_unstable'    => array(
+                'title'        => 'Method coverage to trigger unstable',
+                'description'  => 'Threshold of method coverage to trigger unstable build',
+                'defaultvalue' => 100
+            ),
+            'threshold_statementcoverage_error'    => array(
+                'title'        => 'Statement coverage to trigger error',
+                'description'  => 'Threshold of statement coverage to trigger build error',
+                'defaultvalue' => -1
+            ),
+            'threshold_statementcoverage_unstable' => array(
+                'title'        => 'Statement coverage to trigger unstable',
+                'description'  => 'Threshold of statement coverage to trigger unstable build',
+                'defaultvalue' => 100
+            ),
+            'threshold_totalcoverage_error'        => array(
+                'title'        => 'Total coverage to trigger error',
+                'description'  => 'Threshold of total coverage to trigger build error',
+                'defaultvalue' => -1
+            ),
+            'threshold_totalcoverage_unstable'     => array(
+                'title'        => 'Total coverage to trigger unstable',
+                'description'  => 'Threshold of total coverage to trigger unstable build',
+                'defaultvalue' => 100
+            ),
         );
     }
 
@@ -87,5 +128,18 @@ class Controller_Processor_Coverage extends Controller_Processor
             $data->statementcoverage_delta = $data->statementcoverage - $prevData->statementcoverage;
             $data->totalcoverage_delta     = $data->totalcoverage - $prevData->totalcoverage;
         }
+    }
+
+    /**
+     * Analyses a build
+     * 
+     * @param Model_Build &$build     Build
+     * @param array       $parameters Processor parameters
+     * 
+     * @return string Status
+     */
+    public function analyze(Model_Build &$build, array $parameters)
+    {
+        return $build->coverage_globaldata->buildStatus($parameters);
     }
 }

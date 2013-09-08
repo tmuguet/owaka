@@ -54,7 +54,7 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
     {
         if ($this->getProject() === NULL) {
             $builds = ORM::factory('Build')
-                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                     ->order_by('id', 'DESC')
                     ->with('phpunit_globaldata')
                     ->limit(10)
@@ -72,7 +72,7 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
     public function display_project()
     {
         $builds = $this->getProject()->builds
-                ->where('status', 'NOT IN', array('building', 'queued'))
+                ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                 ->order_by('id', 'DESC')
                 ->with('phpunit_globaldata')
                 ->limit(10)
@@ -104,27 +104,22 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Base
         }
 
         foreach ($builds as $build) {
-            $status = '';
+            $parameters = Owaka::getReportParameters($build->project_id, 'phpunit');
+            $status     = '';
 
-            if ($build->status == "building") {
+            if ($build->status == Owaka::BUILD_BUILDING) {
                 $status = 'ETA ' . date("H:i", strtotime($build->eta));
             } else if (!$build->phpunit_globaldata->loaded()) {
-                $status .= View::factory('icon')->set('status', 'nodata')->render();
-            } else if ($build->phpunit_globaldata->failures > 0 || $build->phpunit_globaldata->errors > 0) {
-                if ($build->phpunit_globaldata->failures > 0) {
-                    $status .= View::factory('icon')->set('status', 'unstable')->render();
-                    $status .= $build->phpunit_globaldata->failures;
-                }
-                if ($build->phpunit_globaldata->failures > 0 && $build->phpunit_globaldata->errors > 0) {
-                    $status .= ' ';
-                }
-                if ($build->phpunit_globaldata->errors > 0) {
-                    $status .= View::factory('icon')->set('status', 'error')->render();
-                    $status .= $build->phpunit_globaldata->errors;
-                }
+                $status .= View::factory('icon')->set('status', Owaka::BUILD_NODATA)->render();
             } else {
-                $status .= View::factory('icon')->set('status', 'ok')->render();
-                $status .= $build->phpunit_globaldata->tests;
+                $status .= View::factory('icon')->set('status', $build->phpunit_globaldata->buildStatus($parameters))->render();
+                if ($build->phpunit_globaldata->errors > 0) {
+                    $status .= $build->phpunit_globaldata->errors;
+                } else if ($build->phpunit_globaldata->failures > 0) {
+                    $status .= $build->phpunit_globaldata->failures;
+                } else {
+                    $status .= $build->phpunit_globaldata->tests;
+                }
             }
 
             $this->rows[] = array(

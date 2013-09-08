@@ -13,16 +13,16 @@ class Controller_Processor_Pdepend extends Controller_Processor
      * 
      * @return array
      */
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'summary'       => array(
                 'title'       => 'XML report',
                 'description' => 'PhpDepend XML report (logger summary-xml). This is the report used for processing data.',
                 'type'        => 'file',
-                'keep-as'     => 'summary.xml'
+                'keep-as'     => 'summary.xml',
             ),
-/*            'jdepend_chart' => array(
+            'jdepend_chart' => array(
                 'title'       => 'jdepend chart',
                 'description' => 'PhpDepend jdepend chart (logger jdepend-chart)',
                 'type'        => 'file',
@@ -45,7 +45,7 @@ class Controller_Processor_Pdepend extends Controller_Processor
                 'description' => 'PhpDepend phpunit XML (logger phpunit-xml)',
                 'type'        => 'file',
                 'keep-as'     => 'phpunit.xml'
-            )*/
+            )
         );
     }
 

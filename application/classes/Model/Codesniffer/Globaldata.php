@@ -41,4 +41,26 @@ class Model_Codesniffer_Globaldata extends ORM
         );
         return $rules;
     }
+
+    /**
+     * Gets the build status according to parameters
+     * 
+     * @param array $parameters Parameters
+     * 
+     * @return string
+     */
+    public function buildStatus(array $parameters)
+    {
+        if (($parameters['threshold_errors_error'] > 0 && $this->errors >= $parameters['threshold_errors_error']) 
+                || ($parameters['threshold_warnings_error'] > 0 && $this->warnings >= $parameters['threshold_warnings_error'])
+        ) {
+            return Owaka::BUILD_ERROR;
+        } else if (($parameters['threshold_errors_unstable'] > 0 && $this->errors >= $parameters['threshold_errors_unstable'])
+                || ($parameters['threshold_warnings_unstable'] > 0 && $this->warnings >= $parameters['threshold_warnings_unstable'])
+        ) {
+            return Owaka::BUILD_UNSTABLE;
+        } else {
+            return Owaka::BUILD_OK;
+        }
+    }
 }

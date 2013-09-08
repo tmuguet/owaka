@@ -1,9 +1,9 @@
 <?php
 
-class Controller_Processor_processor1
+class Controller_Processor_processor1 extends Controller_Processor
 {
 
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'xml' => array(
@@ -13,5 +13,20 @@ class Controller_Processor_processor1
                 'keep-as'     => 'index.xml'
             )
         );
+    }
+    
+    static public function parameters() {
+          return array(
+            'threshold_warnings_unstable' => array(
+                'title'        => 'Warnings to trigger unstable',
+                'description'        => 'Number of warnings to trigger unstable build',
+                'defaultvalue' => 1
+            )
+        );
+    }
+
+    public function process($buildId)
+    {
+        
     }
 }

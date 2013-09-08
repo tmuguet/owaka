@@ -54,7 +54,7 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Basetable
     {
         if ($this->getProject() === NULL) {
             $builds = ORM::factory('Build')
-                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                     ->order_by('id', 'DESC')
                     ->limit(10)
                     ->find_all();
@@ -71,7 +71,7 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Basetable
     public function display_project()
     {
         $builds = $this->getProject()->builds
-                ->where('status', 'NOT IN', array('building', 'queued'))
+                ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                 ->order_by('id', 'DESC')
                 ->limit(10)
                 ->find_all();
@@ -98,7 +98,7 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Basetable
         }
 
         foreach ($builds as $build) {
-            $date         = ($build->status == 'building' || $build->status == 'queued') ? $build->started : $build->finished;
+            $date         = ($build->status == Owaka::BUILD_BUILDING || $build->status == Owaka::BUILD_QUEUED) ? $build->started : $build->finished;
             $this->rows[] = array(
                 "link"    => array(
                     "type" => 'build',

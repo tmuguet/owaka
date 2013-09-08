@@ -13,14 +13,35 @@ class Controller_Processor_Phpmd extends Controller_Processor
      * 
      * @return array
      */
-    static public function getInputReports()
+    static public function inputReports()
     {
         return array(
             'html' => array(
                 'title'       => 'HTML report',
                 'description' => 'PHPMD HTML report. This is the report used for processing data.',
                 'type'        => 'file',
-                'keep-as'     => 'report.html'
+                'keep-as'     => 'report.html',
+            )
+        );
+    }
+
+    /**
+     * Gets the processor parameters
+     * 
+     * @return array
+     */
+    static public function parameters()
+    {
+        return array(
+            'threshold_errors_error'    => array(
+                'title'        => 'Errors to trigger error',
+                'description'  => 'Number of errors to trigger build error',
+                'defaultvalue' => -1
+            ),
+            'threshold_errors_unstable' => array(
+                'title'        => 'Errors to trigger unstable',
+                'description'  => 'Number of errors to trigger unstable build',
+                'defaultvalue' => 1
             )
         );
     }
@@ -65,12 +86,17 @@ class Controller_Processor_Phpmd extends Controller_Processor
             $data->errors_delta = $data->errors - $prevData->errors;
         }
     }
-    /* public function analyze(Model_Build &$build)
-      {
-      if ($build->phpmd_globaldata->errors == 0) {
-      return 'ok';
-      } else {
-      return 'error';
-      }
-      } */
+
+    /**
+     * Analyses a build
+     * 
+     * @param Model_Build &$build     Build
+     * @param array       $parameters Processor parameters
+     * 
+     * @return string Status
+     */
+    public function analyze(Model_Build &$build, array $parameters)
+    {
+        return $build->phpmd_globaldata->buildStatus($parameters);
+    }
 }

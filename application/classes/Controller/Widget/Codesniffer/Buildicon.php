@@ -57,7 +57,7 @@ class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
         $build = $this->getBuild();
         if ($build === NULL) {
             $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array('building', 'queued'))
+                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
                     ->with('codesniffer_globaldata')
                     ->find();
         }
@@ -75,6 +75,7 @@ class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
     protected function process(Model_Build &$build)
     {
         $data                = $build->codesniffer_globaldata;
+        $parameters          = Owaka::getReportParameters($build->project_id, 'codesniffer');
         $this->widgetLinks[] = array(
             "type" => 'build',
             "id"   => $build->id
@@ -86,14 +87,14 @@ class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
 
         if ($data->errors > 0) {
             $this->data[] = array(
-                'status' => 'error',
+                'status' => $data->buildStatus($parameters),
                 'data'   => $data->errors,
                 'label'  => 'rules errors'
             );
         }
         if ($data->warnings > 0) {
             $this->data[] = array(
-                'status' => 'unstable',
+                'status' => $data->buildStatus($parameters),
                 'data'   => $data->warnings,
                 'label'  => 'rules warnings'
             );
@@ -101,7 +102,7 @@ class Controller_Widget_Codesniffer_Buildicon extends Controller_Widget_Baseicon
 
         if (sizeof($this->data) == 0) {
             $this->data[] = array(
-                'status' => 'ok',
+                'status' => Owaka::BUILD_OK,
                 'data'   => '-'
             );
         }

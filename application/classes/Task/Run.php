@@ -22,7 +22,7 @@ class Task_Run extends Minion_Task
     protected function _execute(array $params)
     {
         $build = ORM::factory('Build')
-                ->where('status', '=', 'queued')
+                ->where('status', '=', Owaka::BUILD_QUEUED)
                 ->order_by('started', 'ASC')
                 ->order_by('id', 'ASC')
                 ->limit(1)
@@ -64,7 +64,7 @@ class Task_Run extends Minion_Task
     {
         // Get last build duration to compute ETA
         $lastBuild    = $build->project->builds
-                ->where('status', 'NOT IN', array('queued', 'building'))
+                ->where('status', 'NOT IN', array(Owaka::BUILD_QUEUED, Owaka::BUILD_BUILDING))
                 ->order_by('id', 'DESC')
                 ->limit(1)
                 ->find();
@@ -72,7 +72,7 @@ class Task_Run extends Minion_Task
         $lastFinished = new DateTime($lastBuild->finished);
         $lastDuration = $lastFinished->diff($lastStart, TRUE);
 
-        $build->status  = 'building';
+        $build->status  = Owaka::BUILD_BUILDING;
         $build->started = DB::expr('NOW()');
         $build->eta     = DB::expr('ADDTIME(NOW(), \'' . $lastDuration->format('%H:%I:%S') . '\')');
         $build->update();
@@ -125,7 +125,7 @@ class Task_Run extends Minion_Task
 
             if ($buildTargetResult != 0) {
                 Kohana::$log->add(Log::INFO, "Stopping build");
-                $build->status = 'error';   // Build unproperly configured
+                $build->status = Owaka::BUILD_ERROR;   // Build unproperly configured
                 break;
             }
         }
@@ -186,8 +186,8 @@ class Task_Run extends Minion_Task
     {
         // Do not update if status is already set (-> error)
         Auth::instance()->force_login('owaka');
-        if ($build->status == 'building') {
-            $build->status = 'ok';
+        if ($build->status == Owaka::BUILD_BUILDING) {
+            $build->status = Owaka::BUILD_OK;
 
             foreach (File::findAnalyzers() as $processor) {
                 $name     = str_replace("Controller_", "", $processor);
@@ -199,12 +199,13 @@ class Task_Run extends Minion_Task
                     Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
                 }
 
-                if ($response->body() == 'error') {
-                    $build->status = 'error';
+                if ($response->body() == Owaka::BUILD_ERROR) {
+                    $build->status = Owaka::BUILD_ERROR;
                     break;
-                } else if ($response->body() == 'unstable') {
-                    $build->status = 'unstable';
+                } else if ($response->body() == Owaka::BUILD_UNSTABLE) {
+                    $build->status = Owaka::BUILD_UNSTABLE;
                 }
+                Kohana::$log->add(Log::INFO, "$name : {$build->status}");
             }
         } else {
             Kohana::$log->add(Log::INFO, "Skipping analyze of reports: status already set to " . $build->status);
