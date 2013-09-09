@@ -36,20 +36,36 @@ abstract class ORM extends Kohana_ORM
     }
 
     /**
+     * Returns a duplicated object of this instance
+     * 
+     * @param array $new_values New values to set
+     * 
+     * @return self
+     */
+    public function duplicate($new_values = array())
+    {
+        $new = ORM::factory($this->_object_name);
+        $new->values($this->_original_values);
+        $new->values($new_values);
+        unset($new->id);
+        $new->create();
+        return $new;
+    }
+    /**
      * Validates the current model's data
      *
      * @param  Validation $extra_validation Validation object
      * @throws ORM_Validation_Exception
      * @return ORM
      */
-    /*public function check(Validation $extra_validation = NULL)
-    {
-        try {
-            return parent::check($extra_validation);
-        } catch (ORM_Validation_Exception $e) {
-            $objects = $e->objects();
-            throw new ORM_Validation_Exception($this->errors_filename(), $objects['_object'],
-                                               $e->getMessage() . var_export($e->errors(), true));
-        }
-    }*/
+    /* public function check(Validation $extra_validation = NULL)
+      {
+      try {
+      return parent::check($extra_validation);
+      } catch (ORM_Validation_Exception $e) {
+      $objects = $e->objects();
+      throw new ORM_Validation_Exception($this->errors_filename(), $objects['_object'],
+      $e->getMessage() . var_export($e->errors(), true));
+      }
+      } */
 }

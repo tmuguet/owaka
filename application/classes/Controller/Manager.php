@@ -16,18 +16,20 @@ class Controller_Manager extends Controller
     public function action_add()
     {
         $processors = File::findProcessors();
-        $reports = array();
+        $reports    = array();
         foreach ($processors as $processor) {
-            $name = str_replace("Controller_Processor_", "", $processor);
+            $name           = str_replace("Controller_Processor_", "", $processor);
             $reports[$name] = $processor::inputReports();
         }
-        
+
         $view = View::factory('manager')
+                ->set('action', 'add')
+                ->set('uri', 'api/project/add')
                 ->set('project', ORM::factory('Project'))
                 ->set('reports', $reports);
         $this->response->body($view);
     }
-    
+
     /**
      * Displays form for editing an existing project
      * 
@@ -36,14 +38,40 @@ class Controller_Manager extends Controller
     public function action_edit()
     {
         $processors = File::findProcessors();
-        $reports = array();
+        $reports    = array();
         foreach ($processors as $processor) {
-            $name = str_replace("Controller_Processor_", "", $processor);
+            $name           = str_replace("Controller_Processor_", "", $processor);
             $reports[$name] = $processor::inputReports();
         }
         $project = ORM::factory('Project', $this->request->param('id'));
 
         $view = View::factory('manager')
+                ->set('action', 'edit')
+                ->set('uri', 'api/project/edit/' . $project->id)
+                ->set('project', $project)
+                ->set('reports', $reports);
+        $this->response->body($view);
+    }
+
+    /**
+     * Displays form for duplicating an existing project
+     * 
+     * @url http://example.com/manager/duplicate/&lt;project_id&gt;
+     */
+    public function action_duplicate()
+    {
+        $processors = File::findProcessors();
+        $reports    = array();
+        foreach ($processors as $processor) {
+            $name           = str_replace("Controller_Processor_", "", $processor);
+            $reports[$name] = $processor::inputReports();
+        }
+        $project = ORM::factory('Project', $this->request->param('id'));
+        $project->name .= '-copy';
+
+        $view = View::factory('manager')
+                ->set('action', 'duplicate')
+                ->set('uri', 'api/project/duplicate/' . $project->id)
                 ->set('project', $project)
                 ->set('reports', $reports);
         $this->response->body($view);

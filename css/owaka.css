@@ -131,7 +131,7 @@ tr.build td img {
     top: 0px;
     left: 0px;
     bottom: 0px;
-    width: 140px;
+    width: 160px;
     background-color: rgba(255, 255, 255, 0.5);
     text-align: right;
 }
@@ -186,14 +186,14 @@ a:hover {
 #top-panel {
     position: fixed;
     top: 0px;
-    left: 140px;
+    left: 160px;
     right: 0px;
     height: 20px;
     background-color: rgba(255, 255, 255, 0.5);
 }
 
 #grid.sample {
-    margin-left: 340px;
+    margin-left: 360px;
 }
 
 #list_widgets {
@@ -203,7 +203,7 @@ a:hover {
     left: 0px;
     width: 200px;
     overflow-x: hidden;
-    padding-left: 140px;
+    padding-left: 160px;
     padding-top: 20px;
     padding-bottom: 20px;
     background-color: rgba(255, 255, 255, 0.5);
@@ -216,7 +216,7 @@ a:hover {
     left: 0px;
     width: 200px;
     display: none;
-    padding-left: 140px;
+    padding-left: 160px;
     padding-top: 20px;
     padding-bottom: 20px;
     background-color: rgba(255, 255, 255, 0.5);

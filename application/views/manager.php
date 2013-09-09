@@ -1,14 +1,28 @@
 <?php
-$title = ($project->loaded() ? 'Edit project ' . $project->name : 'Add a new project');
+if ($action == 'add') {
+    $title = 'Add a new project';
+} else if ($action == 'edit') {
+    $title = 'Edit project ' . $project->name;
+} else {
+    $title = 'Duplicate project ' . $project->name;
+}
 
 $menu = array();
 
 $menu_bottom = array();
-$menu[]      = array(
-    'title' => 'cancel',
-    'href'  => 'dashboard/main',
-    'img'   => 'off',
-);
+if ($action == 'add') {
+    $menu[] = array(
+        'title' => 'cancel',
+        'href'  => 'dashboard/main',
+        'img'   => 'off',
+    );
+} else {
+    $menu[] = array(
+        'title' => 'cancel',
+        'href'  => 'dashboard/project/' . $project->id,
+        'img'   => 'off',
+    );
+}
 
 echo View::factory('baseStart')
         ->set('title', $title)
@@ -20,9 +34,7 @@ echo View::factory('baseMenu')
         ->render();
 ?>
 <div id="grid">
-    <form action="api/project/<?php
-    echo ($project->loaded() ? 'edit/' . $project->id : 'add');
-    ?>" method="post" class="ui-form" id="form-edit"> 
+    <form action="<?php echo $uri; ?>" method="post" class="ui-form" id="form-edit"> 
         <fieldset>
             <legend>Project</legend>
 
@@ -125,7 +137,7 @@ echo View::factory('baseMenu')
                 }
 
                 $classname  = 'Controller_Processor_' . ucfirst($_controller);
-                    $parameters = $classname::parameters();
+                $parameters = $classname::parameters();
 
                 if ($project->loaded()) {
                     $parametersValues = $classname::projectParameters($project->id);
@@ -152,9 +164,7 @@ echo View::factory('baseMenu')
                 ?>/>
                 <div class="details">Project will not be built in owaka if inactive.</div>
         </fieldset>
-        <button type="submit" data-icon="icon-save"><?php
-            echo ($project->loaded() ? 'Edit project ' . $project->name : 'Add new project');
-            ?></button>
+        <button type="submit" data-icon="icon-save"><?php echo $title; ?></button>
     </form>
     <form action="" method="post" class="ui-form" id="form-checkout" style="display: none"> 
         <button type="submit" data-icon="icon-code-fork">Checkout</button>
@@ -175,7 +185,8 @@ echo View::factory('baseMenu')
             $("#form-checkout").attr("action", "api/project/checkout/" + data.project);
             $("#form-checkout").fadeIn();
         } else {
-<?php if ($project->loaded()): ?>
+<?php if ($action
+        == 'edit'): ?>
                 alert('Project updated');
 <?php else: ?>
                 alert('Project added');

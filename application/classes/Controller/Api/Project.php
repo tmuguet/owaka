@@ -86,6 +86,60 @@ class Controller_Api_Project extends Controller_Api
     }
 
     /**
+     * Duplicates a project and its dashboards
+     * 
+     * @url http://example.com/api/project/duplicate/&lt;project_id&gt;
+     * @postparam name string Name of the project
+     * @postparam is_active bool Indicates whether the project is active or not
+     * @postparam scm string SCM used
+     * @postparam scm_url string URL of distant repository for checkout
+     * @postparam scm_branch string Branch for checkout
+     * @postparam is_remote string SCM Indicates whether the project is build remotely or locally
+     * @postparam host string Host if built remotely
+     * @postparam port string SSH port if built remotely
+     * @postparam username string Username if built remotely
+     * @postparam privatekey_path string Path to the RSA private key if built remotely
+     * @postparam public_host_key string RSA public key of the remote host if built remotely
+     * @postparam path string Path to the project (used for SCM polling)
+     * @postparam phing_path string Path to the phing project (used for build)
+     * @postparam phing_target_validate string Targets for validating
+     * @postparam reports_path string Path to the folder containing the generated reports during build
+     * @postparam &lt;report&gt; string Name of the generated report (optional)
+     */
+    public function action_duplicate()
+    {
+        try {
+            $project                        = ORM::factory('Project');
+            $project->name                  = $this->request->post('name');
+            $project->scm_status            = 'void';
+            $project->is_active             = $this->request->post('is_active');
+            $project->scm                   = $this->request->post('scm');
+            $project->scm_url               = $this->request->post('scm_url');
+            $project->scm_branch            = $this->request->post('scm_branch');
+            $project->is_remote             = $this->request->post('is_remote');
+            $project->host                  = $this->request->post('host');
+            $project->port                  = $this->request->post('port');
+            $project->username              = $this->request->post('username');
+            $project->privatekey_path       = $this->request->post('privatekey_path');
+            $project->public_host_key       = trim($this->request->post('public_host_key'));
+            $project->path                  = $this->request->post('path');
+            $project->phing_path            = $this->request->post('phing_path');
+            $project->phing_target_validate = $this->request->post('phing_target_validate');
+            $project->reports_path          = $this->request->post('reports_path');
+            $project->create();
+
+            $this->editReports($project);
+
+            Request::factory('api/dashboard/duplicate/project/' . $this->request->param('id') . '/' . $project->id)->execute();
+            Request::factory('api/dashboard/duplicate/build/' . $this->request->param('id') . '/' . $project->id)->execute();
+
+            $this->respondOk(array('project'    => $project->id, 'scm_status' => $project->scm_status));
+        } catch (ORM_Validation_Exception $e) {
+            $this->respondError(Response::UNPROCESSABLE, array('errors' => $e->errors('models')));
+        }
+    }
+
+    /**
      * Checks out a new project
      * 
      * @url http://example.com/api/project/checkout/&lt;project_id&gt;
@@ -295,7 +349,7 @@ class Controller_Api_Project extends Controller_Api
             }
             // @codeCoverageIgnoreEnd
 
-            $this->respondOk(array('project'    => $project->id));
+            $this->respondOk(array('project' => $project->id));
         } catch (RuntimeException $e) {
             $res = $e->getMessage();
             if ($ob) {

@@ -92,6 +92,11 @@ if ($from != 'main') {
         'href'  => 'manager/edit/' . $projectId,
         'img'   => 'pencil',
     );
+    $menu_bottom[] = array(
+        'title' => 'duplicate project',
+        'href'  => 'manager/duplicate/' . $projectId,
+        'img'   => 'code-fork',
+    );
 }
 $menu_bottom[] = array(
     'title' => 'designer',
