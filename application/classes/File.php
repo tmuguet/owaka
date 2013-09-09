@@ -4,7 +4,10 @@ defined('SYSPATH') or die('No direct script access.');
 /**
  * File helper class
  * 
- * @package Core
+ * @package   Core
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class File extends Kohana_File
 {

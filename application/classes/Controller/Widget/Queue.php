@@ -1,9 +1,13 @@
 <?php
+defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * Displays the building queue.
  * 
- * @package Widgets
+ * @package   Widgets
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Controller_Widget_Queue extends Controller_Widget_Basetable
 {

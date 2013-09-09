@@ -1,9 +1,13 @@
 <?php
+defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * Displays the status of the latest 10 builds.
  * 
- * @package Widgets
+ * @package   Widgets
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Controller_Widget_Latestbuildstable extends Controller_Widget_Basetable
 {

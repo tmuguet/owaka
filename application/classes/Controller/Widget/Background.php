@@ -1,9 +1,13 @@
 <?php
+defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * Widget for displaying a background image depending on the build status
  * 
- * @package Widgets
+ * @package   Widgets
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Controller_Widget_Background extends Controller_Widget_Base
 {

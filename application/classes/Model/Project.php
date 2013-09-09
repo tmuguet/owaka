@@ -4,7 +4,10 @@ defined('SYSPATH') or die('No direct script access.');
 /**
  * Project model
  * 
- * @package Model
+ * @package   Model
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Model_Project extends ORM
 {

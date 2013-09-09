@@ -1,4 +1,6 @@
 <?php
+defined('SYSPATH') OR die('No direct script access.');
+
 return array(
     'username' => array(
         'not_empty'  => 'You must provide a username.',

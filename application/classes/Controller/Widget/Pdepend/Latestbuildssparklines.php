@@ -1,4 +1,5 @@
 <?php
+defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * Displays several metrics of the latest 50 builds.
@@ -10,7 +11,10 @@
  * * Executable lines of code (eloc)
  * * Logical lines of code (lloc)
  * 
- * @package Widgets
+ * @package   Widgets
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Controller_Widget_Pdepend_Latestbuildssparklines extends Controller_Widget_Basesparklines
 {

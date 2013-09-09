@@ -4,7 +4,10 @@ defined('SYSPATH') OR die('No direct access allowed.');
 /**
  * Gets details of a widget for the designer mode
  * 
- * @package Designer
+ * @package   Designer
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Controller_Designer_Details extends Controller
 {

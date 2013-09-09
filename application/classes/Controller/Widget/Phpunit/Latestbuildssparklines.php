@@ -1,9 +1,13 @@
 <?php
+defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * Displays the number of errors and failures of the latest 50 builds.
  * 
- * @package Widgets
+ * @package   Widgets
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget_Basesparklines
 {

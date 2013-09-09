@@ -4,7 +4,10 @@ defined('SYSPATH') or die('No direct script access.');
 /**
  * Build widget model
  * 
- * @package Model
+ * @package   Model
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Model_Build_Widget extends ORM
 {

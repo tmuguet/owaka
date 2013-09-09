@@ -1,9 +1,13 @@
 <?php
+defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * Base class for all widgets displaying text
  * 
- * @package Widgets
+ * @package   Widgets
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 abstract class Controller_Widget_Baseraw extends Controller_Widget_Base
 {

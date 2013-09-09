@@ -4,7 +4,11 @@ defined('SYSPATH') OR die('No direct access allowed.');
 /**
  * API entry for managing users
  * 
- * @package Api
+ * @api
+ * @package   Api
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Controller_Api_User extends Controller_Api
 {

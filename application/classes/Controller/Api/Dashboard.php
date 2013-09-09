@@ -4,7 +4,11 @@ defined('SYSPATH') OR die('No direct access allowed.');
 /**
  * API entry for managing dashboards
  * 
- * @package Api
+ * @api
+ * @package   Api
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Controller_Api_Dashboard extends Controller_Api
 {

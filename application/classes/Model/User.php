@@ -9,7 +9,10 @@ require_once MODPATH . 'phpseclib' . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY
  * The challenge/response authentication algorithm is based on research from Openwall, 
  * described at http://www.openwall.info/wiki/people/solar/algorithms/challenge-response-authentication
  * 
- * @package Model
+ * @package   Model
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Model_User extends Model_Auth_User
 {

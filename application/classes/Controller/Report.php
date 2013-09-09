@@ -4,7 +4,10 @@ defined('SYSPATH') or die('No direct script access.');
 /**
  * Accessor to reports
  * 
- * @package Reports
+ * @package   Reports
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Controller_Report extends Controller
 {

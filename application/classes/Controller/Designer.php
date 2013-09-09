@@ -4,7 +4,10 @@ defined('SYSPATH') or die('No direct script access.');
 /**
  * Displays dashboard designers
  * 
- * @package Designer
+ * @package   Designer
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Controller_Designer extends Controller
 {

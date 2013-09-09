@@ -4,7 +4,10 @@ defined('SYSPATH') or die('No direct script access.');
 /**
  * Base class for models
  * 
- * @package Core
+ * @package   Core
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 abstract class ORM extends Kohana_ORM
 {

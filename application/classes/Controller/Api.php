@@ -4,7 +4,10 @@ defined('SYSPATH') OR die('No direct access allowed.');
 /**
  * Base class for API
  * 
- * @package Api
+ * @package   Api
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 abstract class Controller_Api extends Controller
 {

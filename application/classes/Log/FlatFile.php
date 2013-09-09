@@ -4,17 +4,16 @@ defined('SYSPATH') OR die('No direct script access.');
 /**
  * Flat file log writer. Writes out messages and stores them in a file.
  *
- * @package    Kohana
- * @category   Logging
- * @author     Kohana Team
- * @copyright  (c) 2008-2012 Kohana Team
- * @license    http://kohanaframework.org/license
+ * @package   Core
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Log_FlatFile extends Log_Writer
 {
 
     /**
-     * @var  string  File to place log messages in
+     * @var string File to place log messages in
      */
     protected $_file;
 
@@ -24,8 +23,9 @@ class Log_FlatFile extends Log_Writer
      *
      *     $writer = new Log_FlatFile($file);
      *
-     * @param   string  $file  log file
-     * @return  void
+     * @param string $file log file
+     * 
+     * @return void
      */
     public function __construct($file)
     {
@@ -43,8 +43,9 @@ class Log_FlatFile extends Log_Writer
      *
      *     $writer->write($messages);
      *
-     * @param   array   $messages
-     * @return  void
+     * @param array $messages Messages
+     * 
+     * @return void
      */
     public function write(array $messages)
     {
@@ -59,5 +60,3 @@ class Log_FlatFile extends Log_Writer
         }
     }
 }
-
-// End Log_FlatFile

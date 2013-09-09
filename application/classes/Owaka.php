@@ -4,7 +4,10 @@ defined('SYSPATH') OR die('No direct access allowed.');
 /**
  * Owaka helper class
  * 
- * @package Core
+ * @package   Core
+ * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
+ * @copyright 2013 Thomas Muguet
+ * @license   New BSD license
  */
 class Owaka
 {
