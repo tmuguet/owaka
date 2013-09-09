@@ -33,6 +33,7 @@ class Task_Run extends Minion_Task
                 ->find();
 
         if (!$build->loaded()) {
+            echo 'No project to build';
             return;
         }
 
@@ -56,6 +57,7 @@ class Task_Run extends Minion_Task
 
         Kohana::$log->add(Log::INFO, "Finished build " . $build->id);
         Kohana::$log->write();
+        echo 'ok';
     }
     // @codingStandardsIgnoreEnd
 
