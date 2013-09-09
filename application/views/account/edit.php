@@ -1,9 +1,9 @@
 <?php
-$title       = 'edit account';
+$title       = 'Zdit account';
 $menu        = array();
 $menu_bottom = array();
 $menu[]      = array(
-    'title' => 'cancel',
+    'title' => 'Cancel',
     'href'  => 'dashboard/main',
     'img'   => 'off',
 );

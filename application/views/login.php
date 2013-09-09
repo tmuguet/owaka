@@ -1,5 +1,5 @@
 <?php
-$title       = 'login';
+$title       = 'Login';
 $menu        = array();
 $menu_bottom = array();
 

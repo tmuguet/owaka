@@ -1,9 +1,9 @@
 <?php
-$title       = 'edit user ' . $user->username;
+$title       = 'Edit user ' . $user->username;
 $menu        = array();
 $menu_bottom = array();
 $menu[]      = array(
-    'title' => 'cancel',
+    'title' => 'Cancel',
     'href'  => 'user/list',
     'img'   => 'off',
 );

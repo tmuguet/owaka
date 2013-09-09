@@ -24,7 +24,7 @@ if ($buildId !== NULL) {
 
 switch ($from) {
     case "main":
-        $title = 'main';
+        $title = 'Main';
         break;
     case "project" :
         $title = $project->name . ' - latest: ' . ($lastBuild === NULL ? 'none' : $lastBuild->getRevision() . ' from ' . Date::loose_span(strtotime($lastBuild->finished)));
@@ -75,31 +75,31 @@ $menu_bottom = array();
 
 if ($from == 'build') {
     $menu_bottom[] = array(
-        'title' => 'delete build',
+        'title' => 'Delete build',
         'js'    => '$.owaka.dashboard.deletebuild(' . $buildId . ')',
         'img'   => 'trash',
     );
 }
 
 $menu_bottom[] = array(
-    'title' => 'new project',
+    'title' => 'New project',
     'href'  => 'manager/add',
     'img'   => 'plus',
 );
 if ($from != 'main') {
     $menu_bottom[] = array(
-        'title' => 'edit project',
+        'title' => 'Edit project',
         'href'  => 'manager/edit/' . $projectId,
         'img'   => 'pencil',
     );
     $menu_bottom[] = array(
-        'title' => 'duplicate project',
+        'title' => 'Duplicate project',
         'href'  => 'manager/duplicate/' . $projectId,
         'img'   => 'code-fork',
     );
 }
 $menu_bottom[] = array(
-    'title' => 'designer',
+    'title' => 'Designer',
     'href'  => 'designer/' . $from . ($from == 'main' ? '' : '/' . $projectId),
     'img'   => 'th',
 );

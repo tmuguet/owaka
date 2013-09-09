@@ -12,13 +12,13 @@ $menu = array();
 $menu_bottom = array();
 if ($action == 'add') {
     $menu[] = array(
-        'title' => 'cancel',
+        'title' => 'Cancel',
         'href'  => 'dashboard/main',
         'img'   => 'off',
     );
 } else {
     $menu[] = array(
-        'title' => 'cancel',
+        'title' => 'Cancel',
         'href'  => 'dashboard/project/' . $project->id,
         'img'   => 'off',
     );

@@ -79,6 +79,7 @@ body.grunge.build-error {
     top: 0px;
     right: 0px;
     text-align: right;
+    text-transform: lowercase;
 }
 
 .widget-detailed {
@@ -134,6 +135,18 @@ tr.build td img {
     width: 160px;
     background-color: rgba(255, 255, 255, 0.5);
     text-align: right;
+    text-transform: lowercase;
+    margin: 0px;
+}
+
+#left-panel ul {
+    margin-right: 5px;
+    padding-right: 5px;
+    margin-bottom: 10px;
+}
+
+#left-panel ul ul {
+    border-right: 1px solid #000000;
 }
 
 a, a:visited{
@@ -164,7 +177,7 @@ a:hover {
     top: 140px;
     left: 0px;
     right: 0px;
-    margin: 10px;
+    margin: 0px;
 }
 
 #menu-bottom {

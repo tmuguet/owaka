@@ -1,5 +1,5 @@
 <?php
-$title       = 'users';
+$title       = 'Users';
 $menu        = array();
 $menu_bottom = array();
 

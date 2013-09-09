@@ -1,9 +1,9 @@
 <?php
-$title       = 'add user';
+$title       = 'Add user';
 $menu        = array();
 $menu_bottom = array();
 $menu[]      = array(
-    'title' => 'cancel',
+    'title' => 'Cancel',
     'href'  => 'user/list',
     'img'   => 'off',
 );

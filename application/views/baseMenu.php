@@ -17,35 +17,35 @@ if (Auth::instance()->logged_in()) {
             )
     );
     $menu_bottom_advanced[] = array(
-        'title'   => 'account',
+        'title'   => 'Account',
         'submenu' => array(
             array(
-                'title' => 'edit',
+                'title' => 'Edit',
                 'href'  => 'account/edit'
             ),
             array(
-                'title' => 'delete',
+                'title' => 'Delete',
                 'href'  => 'account/delete'
             )
         )
     );
     if (Auth::instance()->logged_in(Owaka::AUTH_ROLE_ADMIN)) {
         $menu_bottom_advanced[] = array(
-            'title'   => 'users',
+            'title'   => 'Users',
             'submenu' => array(
                 array(
-                    'title' => 'list',
+                    'title' => 'List',
                     'href'  => 'user/list'
                 ),
                 array(
-                    'title' => 'add',
+                    'title' => 'Add',
                     'href'  => 'user/add'
                 )
             )
         );
     }
     $menu_bottom[] = array(
-        'title' => 'logout',
+        'title' => 'Logout',
         'href'  => 'logout',
         'img'   => 'signout',
     );
@@ -61,7 +61,7 @@ if (Auth::instance()->logged_in()) {
         <?php
         if (sizeof($menu_bottom_advanced) > 0):
             ?>
-            <a href="javascript:void(0)" onclick="$('#menu-bottom-advanced').slideToggle();">more...</a>
+            <a href="javascript:void(0)" onclick="$('#menu-bottom-advanced').slideToggle();">More...</a>
             <div id="menu-bottom-advanced">
                 <?php echo Helper_View::processMenu($menu_bottom_advanced) ?>
             </div>

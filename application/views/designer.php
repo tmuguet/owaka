@@ -2,19 +2,19 @@
 $title  = 'Designer';
 $menu   = array();
 $menu[] = array(
-    'title' => 'quit designer',
+    'title' => 'Quit designer',
     'href'  => 'dashboard/' . ($from == 'main' ? $from : 'project') . '/' . ($from == "main" ? '' : $projectId),
     'img'   => 'off',
 );
 
 $menu_bottom   = array();
 $menu_bottom[] = array(
-    'title' => 'add a row',
+    'title' => 'Add a row',
     'js'    => '$.owaka.designer.slots.addRow();',
     'img'   => 'ellipsis-horizontal',
 );
 $menu_bottom[] = array(
-    'title' => 'add a column',
+    'title' => 'Add a column',
     'js'    => '$.owaka.designer.slots.addColumn();',
     'img'   => 'ellipsis-vertical',
 );
