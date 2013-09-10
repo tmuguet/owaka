@@ -34,8 +34,8 @@ abstract class TestCase_Processor extends TestCase
 
     protected function CopyReport($type, $source)
     {
-        $destinationDir = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->buildId . DIRECTORY_SEPARATOR
-                . $this->target->_getName() . DIRECTORY_SEPARATOR;
+        $destinationDir = APPPATH . 'reports' . DIR_SEP . $this->buildId . DIR_SEP
+                . $this->target->_getName() . DIR_SEP;
         $reports        = $this->target->inputReports();
         if (!isset($reports[$type]) || !isset($reports[$type]['keep-as'])) {
             throw new Exception("$type not available");

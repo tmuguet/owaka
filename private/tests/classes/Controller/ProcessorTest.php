@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'ProcessorStub.php';
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'ProcessorStub2.php';
+require_once dirname(__FILE__) . DIR_SEP . '_stubs' . DIR_SEP . 'ProcessorStub.php';
+require_once dirname(__FILE__) . DIR_SEP . '_stubs' . DIR_SEP . 'ProcessorStub2.php';
 
 class Controller_ProcessorTest extends TestCase
 {
@@ -13,10 +13,10 @@ class Controller_ProcessorTest extends TestCase
         parent::setUp();
 
         mkdir($this->genNumbers['PathFoo']);
-        file_put_contents($this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'bar', 'hello-world');
+        file_put_contents($this->genNumbers['PathFoo'] . DIR_SEP . 'bar', 'hello-world');
 
-        $this->_basePathReports = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build1']
-                . DIRECTORY_SEPARATOR . 'processorstub' . DIRECTORY_SEPARATOR;
+        $this->_basePathReports = APPPATH . 'reports' . DIR_SEP . $this->genNumbers['build1']
+                . DIR_SEP . 'processorstub' . DIR_SEP;
 
         if (!file_exists($this->_basePathReports)) {
             mkdir($this->_basePathReports, 0700, true);
@@ -90,7 +90,7 @@ class Controller_ProcessorTest extends TestCase
     {
         $target = new Controller_Processor_ProcessorStub();
         $this->assertEquals(
-                $this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'bar',
+                $this->genNumbers['PathFoo'] . DIR_SEP . 'bar',
                 $target->_getInputReportCompletePath($this->genNumbers['build1'], 'foo'), "Nominal case"
         );
         $this->assertNull(

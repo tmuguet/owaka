@@ -1,7 +1,7 @@
 <?php
 defined('SYSPATH') OR die('No direct access allowed.');
 
-require_once MODPATH . 'phpseclib' . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'Crypt' . DIRECTORY_SEPARATOR . 'Random.php';
+require_once MODPATH . 'phpseclib' . DIR_SEP . 'classes' . DIR_SEP . 'Crypt' . DIR_SEP . 'Random.php';
 
 /**
  * User model

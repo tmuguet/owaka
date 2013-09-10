@@ -57,11 +57,11 @@ class Controller_Api_ProjectTestCheckout extends TestCase
      */
     public function testActionCheckoutReadyHg()
     {
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
+        $path = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'test';
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('hg clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'mercurial' . ' ' . $path);
+        exec('hg clone ' . __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'mercurial' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';
@@ -106,11 +106,11 @@ class Controller_Api_ProjectTestCheckout extends TestCase
      */
     public function testActionCheckoutReadyGit()
     {
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
+        $path = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'test';
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('git clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'git' . ' ' . $path);
+        exec('git clone ' . __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'git' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';
@@ -155,11 +155,11 @@ class Controller_Api_ProjectTestCheckout extends TestCase
      */
     public function testActionCheckoutCheckedoutHg()
     {
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
+        $path = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'test';
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('hg clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'mercurial' . ' ' . $path);
+        exec('hg clone ' . __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'mercurial' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';
@@ -206,11 +206,11 @@ class Controller_Api_ProjectTestCheckout extends TestCase
      */
     public function testActionCheckoutCheckedoutGit()
     {
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
+        $path = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'test';
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('git clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'git' . ' ' . $path);
+        exec('git clone ' . __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'git' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';
@@ -257,11 +257,11 @@ class Controller_Api_ProjectTestCheckout extends TestCase
      */
     public function testActionCheckoutCheckedoutError()
     {
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
+        $path = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'test';
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('git clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'git' . ' ' . $path);
+        exec('git clone ' . __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'git' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';
@@ -298,7 +298,7 @@ class Controller_Api_ProjectTestCheckout extends TestCase
      */
     public function testActionCheckoutVoidHg()
     {
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
+        $path = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'test';
         if (is_dir($path)) {
             File::rrmdir($path);
         }
@@ -308,7 +308,7 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->scm_status            = 'void';
         $project->is_active             = 1;
         $project->scm                   = 'mercurial';
-        $project->scm_url               = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'mercurial';
+        $project->scm_url               = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'mercurial';
         $project->scm_branch            = 'default';
         $project->is_remote             = 0;
         $project->host                  = '';
@@ -348,7 +348,7 @@ class Controller_Api_ProjectTestCheckout extends TestCase
      */
     public function testActionCheckoutVoidGit()
     {
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
+        $path = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'test';
         if (is_dir($path)) {
             File::rrmdir($path);
         }
@@ -358,7 +358,7 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->scm_status            = 'void';
         $project->is_active             = 0;
         $project->scm                   = 'git';
-        $project->scm_url               = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'git';
+        $project->scm_url               = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'git';
         $project->scm_branch            = 'origin/master';
         $project->is_remote             = 0;
         $project->host                  = '';

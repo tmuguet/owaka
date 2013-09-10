@@ -37,8 +37,8 @@ class Task_Run extends Minion_Task
             return;
         }
 
-        $this->_outdir       = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $build->id . DIRECTORY_SEPARATOR;
-        $this->_outdir_owaka = $this->_outdir . 'owaka' . DIRECTORY_SEPARATOR;
+        $this->_outdir       = APPPATH . 'reports' . DIR_SEP . $build->id . DIR_SEP;
+        $this->_outdir_owaka = $this->_outdir . 'owaka' . DIR_SEP;
 
         mkdir($this->_outdir, 0700);
         mkdir($this->_outdir_owaka, 0700);

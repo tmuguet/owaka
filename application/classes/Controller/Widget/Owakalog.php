@@ -61,7 +61,7 @@ class Controller_Widget_Owakalog extends Controller_Widget_Baseraw
                     ->find();
         }
 
-        $file = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $build->id . DIRECTORY_SEPARATOR . 'owaka' . DIRECTORY_SEPARATOR . 'builder.log';
+        $file = APPPATH . 'reports' . DIR_SEP . $build->id . DIR_SEP . 'owaka' . DIR_SEP . 'builder.log';
         if (!file_exists($file)) {
             $this->content = 'No data';
         } else {

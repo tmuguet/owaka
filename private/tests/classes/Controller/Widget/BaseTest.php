@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'BaseStub.php';
+require_once dirname(__FILE__) . DIR_SEP . '_stubs' . DIR_SEP . 'BaseStub.php';
 
 class Controller_Widget_BaseTest extends TestCase
 {

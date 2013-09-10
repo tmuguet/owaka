@@ -16,8 +16,8 @@ class OwakaTestGetReportUri extends TestCase
 
         $this->_buildId   = '42';
         $this->_processor = 'Coverage';
-        $this->_basePath  = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->_buildId
-                . DIRECTORY_SEPARATOR . $this->_processor . DIRECTORY_SEPARATOR;
+        $this->_basePath  = APPPATH . 'reports' . DIR_SEP . $this->_buildId
+                . DIR_SEP . $this->_processor . DIR_SEP;
         $this->_baseUri   = 'reports/' . $this->_buildId . '/' . $this->_processor . '/';
 
         if (!file_exists($this->_basePath)) {
@@ -29,8 +29,8 @@ class OwakaTestGetReportUri extends TestCase
     {
         parent::tearDown();
 
-        rmdir(APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->_buildId . DIRECTORY_SEPARATOR . $this->_processor);
-        rmdir(APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->_buildId);
+        rmdir(APPPATH . 'reports' . DIR_SEP . $this->_buildId . DIR_SEP . $this->_processor);
+        rmdir(APPPATH . 'reports' . DIR_SEP . $this->_buildId);
     }
 
     /**

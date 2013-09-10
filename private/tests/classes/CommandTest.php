@@ -19,7 +19,7 @@ class CommandTest extends TestCase
     {
         $project                  = ORM::factory('Project');
         $project->is_remote       = TRUE;
-        $project->privatekey_path = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'key';
+        $project->privatekey_path = __DIR__ . DIR_SEP . '_files' . DIR_SEP . 'key';
         new Command($project);
     }
 
@@ -51,7 +51,7 @@ class CommandTest extends TestCase
         $project->host            = '127.0.0.1';
         $project->port            = 22;
         $project->username        = get_current_user();
-        $project->privatekey_path = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'key';
+        $project->privatekey_path = __DIR__ . DIR_SEP . '_files' . DIR_SEP . 'key';
         new Command($project);
     }
 
@@ -103,7 +103,7 @@ class CommandTest extends TestCase
         $this->assertEquals($actual, $target->execute('ls'));
 
         // Is_dir / Is_file
-        $files = array(DOCROOT, APPPATH, APPPATH . DIRECTORY_SEPARATOR . 'bootstrap.php', '/nonexisting', '/var/log/apache');
+        $files = array(DOCROOT, APPPATH, APPPATH . DIR_SEP . 'bootstrap.php', '/nonexisting', '/var/log/apache');
         foreach ($files as $f) {
             $this->assertEquals(is_dir($f), $target->is_dir($f));
             $this->assertEquals(is_file($f), $target->is_file($f));
@@ -139,7 +139,7 @@ class CommandTest extends TestCase
         $this->assertEquals($actual, $target->execute('ls'));
 
         // Is_dir / Is_file
-        $files = array(DOCROOT, APPPATH, APPPATH . DIRECTORY_SEPARATOR . 'bootstrap.php', '/nonexisting', '/var/log/apache');
+        $files = array(DOCROOT, APPPATH, APPPATH . DIR_SEP . 'bootstrap.php', '/nonexisting', '/var/log/apache');
         foreach ($files as $f) {
             $this->assertEquals(is_dir($f), $target->is_dir($f));
             $this->assertEquals(is_file($f), $target->is_file($f));

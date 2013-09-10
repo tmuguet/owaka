@@ -171,7 +171,7 @@ class Command
                     continue;
                 }
 
-                $result &= $this->_rcopy($source . '/' . $file, $dest . DIRECTORY_SEPARATOR . $file);
+                $result &= $this->_rcopy($source . '/' . $file, $dest . DIR_SEP . $file);
             }
             return $result;
         } elseif ($this->is_file($source)) {

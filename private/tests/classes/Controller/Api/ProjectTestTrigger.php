@@ -62,11 +62,11 @@ class Controller_Api_ProjectTestTrigger extends TestCase
      */
     public function testActionTriggerReadyHg()
     {
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
+        $path = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'test';
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('hg clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'mercurial' . ' ' . $path);
+        exec('hg clone ' . __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'mercurial' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';
@@ -113,11 +113,11 @@ class Controller_Api_ProjectTestTrigger extends TestCase
      */
     public function testActionTriggerReadyGit()
     {
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'test';
+        $path = __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'test';
         if (is_dir($path)) {
             File::rrmdir($path);
         }
-        exec('git clone ' . __DIR__ . DIRECTORY_SEPARATOR . 'Project' . DIRECTORY_SEPARATOR . 'git' . ' ' . $path);
+        exec('git clone ' . __DIR__ . DIR_SEP . 'Project' . DIR_SEP . 'git' . ' ' . $path);
 
         $project                        = ORM::factory('Project');
         $project->name                  = 'utest';

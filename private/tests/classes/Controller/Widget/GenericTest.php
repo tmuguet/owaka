@@ -40,13 +40,13 @@ class Controller_Widget_GenericTest extends TestCase
      */
     public function testGeneric()
     {
-        $basePath = APPPATH . 'classes' . DIRECTORY_SEPARATOR;
+        $basePath = APPPATH . 'classes' . DIR_SEP;
 
-        $files   = File::getFiles($basePath . 'Controller' . DIRECTORY_SEPARATOR . 'Widget' . DIRECTORY_SEPARATOR);
+        $files   = File::getFiles($basePath . 'Controller' . DIR_SEP . 'Widget' . DIR_SEP);
         $classes = array();
         foreach ($files as $file) {
             $nameClass = str_replace(
-                    DIRECTORY_SEPARATOR, '_', str_replace($basePath, '', substr($file, 0, -4))
+                    DIR_SEP, '_', str_replace($basePath, '', substr($file, 0, -4))
             );
             if (!class_exists($nameClass, FALSE)) {
                 include_once $file;

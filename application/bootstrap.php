@@ -13,6 +13,10 @@ if (is_file(APPPATH . 'classes/Kohana' . EXT)) {
     require SYSPATH . 'classes/Kohana' . EXT;
 }
 
+if (!defined(DIR_SEP)) {
+    define(DIR_SEP, DIRECTORY_SEPARATOR);
+}
+
 /**
  * Set the default time zone.
  *
@@ -90,7 +94,7 @@ if (isset($_SERVER['KOHANA_ENV'])) {
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 Kohana::init(array(
-    'base_url' => '/##REWRITEBASE##',
+    'base_url'   => '/##REWRITEBASE##',
     'index_file' => FALSE
 ));
 
@@ -108,16 +112,16 @@ Kohana::$config->attach(new Config_File);
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules(array(
-    'auth'     => MODPATH . 'auth', // Basic authentication
+    'auth'      => MODPATH . 'auth', // Basic authentication
     // 'cache'      => MODPATH.'cache',      // Caching with multiple backends
     // 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-    'database' => MODPATH . 'database', // Database access
+    'database'  => MODPATH . 'database', // Database access
     // 'image'      => MODPATH.'image',      // Image manipulation
-    'minion'   => MODPATH . 'minion', // CLI Tasks
-    'orm'      => MODPATH . 'orm', // Object Relationship Mapping
-        // 'unittest'   => MODPATH.'unittest',   // Unit testing
-        // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
-    'phpseclib'  => MODPATH.'phpseclib',  // PHP Secure Communications Library
+    'minion'    => MODPATH . 'minion', // CLI Tasks
+    'orm'       => MODPATH . 'orm', // Object Relationship Mapping
+    // 'unittest'   => MODPATH.'unittest',   // Unit testing
+    // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+    'phpseclib' => MODPATH . 'phpseclib', // PHP Secure Communications Library
 ));
 
 /**

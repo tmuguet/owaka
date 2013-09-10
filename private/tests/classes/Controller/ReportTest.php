@@ -11,8 +11,8 @@ class Controller_ReportTest extends TestCase
     {
         parent::setUp();
 
-        $this->_basePath = APPPATH . 'reports' . DIRECTORY_SEPARATOR . '42'
-                . DIRECTORY_SEPARATOR . 'myreport' . DIRECTORY_SEPARATOR;
+        $this->_basePath = APPPATH . 'reports' . DIR_SEP . '42'
+                . DIR_SEP . 'myreport' . DIR_SEP;
 
         if (!file_exists($this->_basePath)) {
             mkdir($this->_basePath, 0700, true);
@@ -28,8 +28,8 @@ class Controller_ReportTest extends TestCase
         unlink($this->_basePath . 'index.html');
         unlink($this->_basePath . 'index.xml');
 
-        rmdir(APPPATH . 'reports' . DIRECTORY_SEPARATOR . '42' . DIRECTORY_SEPARATOR . 'myreport');
-        rmdir(APPPATH . 'reports' . DIRECTORY_SEPARATOR . '42');
+        rmdir(APPPATH . 'reports' . DIR_SEP . '42' . DIR_SEP . 'myreport');
+        rmdir(APPPATH . 'reports' . DIR_SEP . '42');
     }
 
     /**

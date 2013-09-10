@@ -10,10 +10,10 @@ class Model_BuildTest extends TestCase
     {
         parent::setUp();
 
-        $path = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build1'];
+        $path = APPPATH . 'reports' . DIR_SEP . $this->genNumbers['build1'];
         if (!is_dir($path)) {
-            mkdir($path . DIRECTORY_SEPARATOR . 'foo', 0777, true);
-            file_put_contents($path . DIRECTORY_SEPARATOR . 'bar', 'hello-world');
+            mkdir($path . DIR_SEP . 'foo', 0777, true);
+            file_put_contents($path . DIR_SEP . 'bar', 'hello-world');
         }
     }
 
@@ -147,7 +147,7 @@ class Model_BuildTest extends TestCase
         $target1 = ORM::factory('Build', $this->genNumbers['build1']);
         $this->assertTrue($target1->loaded(), "Target not loaded");
         $target1->delete();
-        $this->assertFalse(is_dir(APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build1']));
+        $this->assertFalse(is_dir(APPPATH . 'reports' . DIR_SEP . $this->genNumbers['build1']));
 
         $target = ORM::factory('Build', $this->genNumbers['build1']);
         $this->assertFalse($target->loaded(), "Target loaded after delete");

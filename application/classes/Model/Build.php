@@ -212,7 +212,7 @@ class Model_Build extends ORM
             }
         }
 
-        File::rrmdir(APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->id);
+        File::rrmdir(APPPATH . 'reports' . DIR_SEP . $this->id);
         return parent::delete();
     }
 }

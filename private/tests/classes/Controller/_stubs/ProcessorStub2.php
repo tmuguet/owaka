@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ProcessorStub.php';
+require_once dirname(__FILE__) . DIR_SEP . 'ProcessorStub.php';
 
 class Controller_Processor_ProcessorStub2 extends Controller_Processor_ProcessorStub
 {

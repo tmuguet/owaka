@@ -8,10 +8,10 @@ class Model_GenericTest extends TestCase
 
     public function testRules()
     {
-        $models = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Model');
-        $pos    = strlen(APPPATH . 'classes' . DIRECTORY_SEPARATOR);
+        $models = File::getFiles(APPPATH . 'classes' . DIR_SEP . 'Model');
+        $pos    = strlen(APPPATH . 'classes' . DIR_SEP);
         foreach ($models as $file) {
-            $className = str_replace(DIRECTORY_SEPARATOR, "_", substr($file, $pos, -4));
+            $className = str_replace(DIR_SEP, "_", substr($file, $pos, -4));
             $model     = new $className;
             $model->rules();
         }

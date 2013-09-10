@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_stubs' . DIRECTORY_SEPARATOR . 'ProcessorStub.php';
+require_once dirname(__FILE__) . DIR_SEP . '_stubs' . DIR_SEP . 'ProcessorStub.php';
 
 class Controller_ProcessorTestCopy extends TestCase
 {
@@ -12,19 +12,19 @@ class Controller_ProcessorTestCopy extends TestCase
 
         mkdir($this->genNumbers['PathFoo']);
         file_put_contents(
-                $this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'bar', 'hello-world'
+                $this->genNumbers['PathFoo'] . DIR_SEP . 'bar', 'hello-world'
         );
-        mkdir($this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'baz');
+        mkdir($this->genNumbers['PathFoo'] . DIR_SEP . 'baz');
         file_put_contents(
-                $this->genNumbers['PathFoo'] . DIRECTORY_SEPARATOR . 'baz' . DIRECTORY_SEPARATOR . 'hello',
+                $this->genNumbers['PathFoo'] . DIR_SEP . 'baz' . DIR_SEP . 'hello',
                 'hello-world2'
         );
 
         mkdir($this->genNumbers['PathBar']);
         file_put_contents(
-                $this->genNumbers['PathBar'] . DIRECTORY_SEPARATOR . 'file', 'hello-world'
+                $this->genNumbers['PathBar'] . DIR_SEP . 'file', 'hello-world'
         );
-        mkdir($this->genNumbers['PathBar'] . DIRECTORY_SEPARATOR . 'dir');
+        mkdir($this->genNumbers['PathBar'] . DIR_SEP . 'dir');
     }
 
     public function tearDown()
@@ -48,8 +48,8 @@ class Controller_ProcessorTestCopy extends TestCase
 
         $target->action_copy();
 
-        $basedir = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build1']
-                . DIRECTORY_SEPARATOR . 'processorstub' . DIRECTORY_SEPARATOR;
+        $basedir = APPPATH . 'reports' . DIR_SEP . $this->genNumbers['build1']
+                . DIR_SEP . 'processorstub' . DIR_SEP;
         $this->assertTrue(is_dir($basedir));
 
         // file
@@ -62,8 +62,8 @@ class Controller_ProcessorTestCopy extends TestCase
 
         // dir2
         $this->assertTrue(is_dir($basedir . 'subdir'));
-        $this->assertTrue(is_readable($basedir . 'subdir' . DIRECTORY_SEPARATOR . 'hello'));
-        $this->assertEquals('hello-world2', file_get_contents($basedir . 'subdir' . DIRECTORY_SEPARATOR . 'hello'));
+        $this->assertTrue(is_readable($basedir . 'subdir' . DIR_SEP . 'hello'));
+        $this->assertEquals('hello-world2', file_get_contents($basedir . 'subdir' . DIR_SEP . 'hello'));
     }
 
     /**
@@ -76,8 +76,8 @@ class Controller_ProcessorTestCopy extends TestCase
 
         $target->action_copy();
 
-        $basedir = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $this->genNumbers['build2']
-                . DIRECTORY_SEPARATOR . 'processorstub' . DIRECTORY_SEPARATOR;
+        $basedir = APPPATH . 'reports' . DIR_SEP . $this->genNumbers['build2']
+                . DIR_SEP . 'processorstub' . DIR_SEP;
         $this->assertFalse(is_dir($basedir));
     }
 }

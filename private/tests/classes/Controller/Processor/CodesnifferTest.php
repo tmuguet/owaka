@@ -19,7 +19,7 @@ class Controller_Processor_CodesnifferTest extends TestCase_Processor
     {
         $this->CopyReport(
                 'xml',
-                dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'codesniffer-report.xml'
+                dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'codesniffer-report.xml'
         );
 
         $this->target->process($this->buildId);

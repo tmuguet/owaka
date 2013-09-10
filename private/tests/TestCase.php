@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "EmptyDataSet.php";
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "MySQL55Truncate.php";
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "MySQL55Insert.php";
+require_once dirname(__FILE__) . DIR_SEP . "EmptyDataSet.php";
+require_once dirname(__FILE__) . DIR_SEP . "MySQL55Truncate.php";
+require_once dirname(__FILE__) . DIR_SEP . "MySQL55Insert.php";
 
 class TestCase extends Kohana_Unittest_Database_TestCase
 {
@@ -63,12 +63,12 @@ class TestCase extends Kohana_Unittest_Database_TestCase
     public function getDataSet()
     {
         if ($this->useDatabase && !empty($this->xmlDataSet)) {
-            $callingClass = str_replace('_', DIRECTORY_SEPARATOR, get_called_class());
-            $callingDir   = substr($callingClass, 0, strrpos($callingClass, DIRECTORY_SEPARATOR));
+            $callingClass = str_replace('_', DIR_SEP, get_called_class());
+            $callingDir   = substr($callingClass, 0, strrpos($callingClass, DIR_SEP));
             return $this->_getDataSet(
-                            dirname(__FILE__) . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR
-                            . $callingDir . DIRECTORY_SEPARATOR
-                            . '_files' . DIRECTORY_SEPARATOR . $this->xmlDataSet . '.xml'
+                            dirname(__FILE__) . DIR_SEP . 'classes' . DIR_SEP
+                            . $callingDir . DIR_SEP
+                            . '_files' . DIR_SEP . $this->xmlDataSet . '.xml'
             );
         } else {
             return new PHPUnit_Extensions_DataSet_EmptyDataSet();
@@ -293,4 +293,4 @@ class TestCase extends Kohana_Unittest_Database_TestCase
     }
 }
 
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "TestCase" . DIRECTORY_SEPARATOR . "Processor.php";
+require_once dirname(__FILE__) . DIR_SEP . "TestCase" . DIR_SEP . "Processor.php";

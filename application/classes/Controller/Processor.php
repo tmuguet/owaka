@@ -77,8 +77,8 @@ abstract class Controller_Processor extends Controller
     {
         $buildId              = $this->request->param('id');    // TODO: validate
         $build                = ORM::factory('Build', $buildId);
-        $destinationDirectory = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId
-                . DIRECTORY_SEPARATOR . $this->_getName() . DIRECTORY_SEPARATOR;
+        $destinationDirectory = APPPATH . 'reports' . DIR_SEP . $buildId
+                . DIR_SEP . $this->_getName() . DIR_SEP;
 
 
         $command = new Command($build->project);
@@ -152,8 +152,8 @@ abstract class Controller_Processor extends Controller
         $reportPath = str_replace(
                 array('%rev%', '%build%'), array($build->revision, $build->id), $build->project->reports_path
         );
-        if (substr($reportPath, 0, -1) != DIRECTORY_SEPARATOR) {
-            $reportPath .= DIRECTORY_SEPARATOR;
+        if (substr($reportPath, 0, -1) != DIR_SEP) {
+            $reportPath .= DIR_SEP;
         }
         $realPath = realpath($reportPath . $name);
         if (empty($realPath)) {
@@ -174,8 +174,8 @@ abstract class Controller_Processor extends Controller
      */
     /* protected */ final function getReportCompletePath($buildId, $type)
     {
-        $destination = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR
-                . $this->_getName() . DIRECTORY_SEPARATOR;
+        $destination = APPPATH . 'reports' . DIR_SEP . $buildId . DIR_SEP
+                . $this->_getName() . DIR_SEP;
         $reports     = static::inputReports();
         if (!isset($reports[$type]) || !isset($reports[$type]['keep-as'])) {
             return NULL;

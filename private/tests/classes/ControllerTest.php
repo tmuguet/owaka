@@ -1,9 +1,9 @@
 <?php
 defined('SYSPATH') or die('No direct access allowed!');
 
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_ControllerTest' . DIRECTORY_SEPARATOR . 'admin.php';
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_ControllerTest' . DIRECTORY_SEPARATOR . 'login.php';
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '_ControllerTest' . DIRECTORY_SEPARATOR . 'none.php';
+require_once dirname(__FILE__) . DIR_SEP . '_ControllerTest' . DIR_SEP . 'admin.php';
+require_once dirname(__FILE__) . DIR_SEP . '_ControllerTest' . DIR_SEP . 'login.php';
+require_once dirname(__FILE__) . DIR_SEP . '_ControllerTest' . DIR_SEP . 'none.php';
 
 class ControllerTest extends TestCase
 {

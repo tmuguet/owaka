@@ -11,11 +11,11 @@ class FileTest extends TestCase
      */
     public function testGetFiles()
     {
-        $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '_FileTest'
-                . DIRECTORY_SEPARATOR . 'dummies' . DIRECTORY_SEPARATOR . 'dummies';
+        $basePath = dirname(__FILE__) . DIR_SEP . '_FileTest'
+                . DIR_SEP . 'dummies' . DIR_SEP . 'dummies';
         $actual   = File::getFiles($basePath);
         $expected = array(
-            $basePath . DIRECTORY_SEPARATOR . 'dummy3.php'
+            $basePath . DIR_SEP . 'dummy3.php'
         );
         sort($actual);
         sort($expected);
@@ -27,13 +27,13 @@ class FileTest extends TestCase
      */
     public function testGetFiles_Recursive()
     {
-        $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '_FileTest'
-                . DIRECTORY_SEPARATOR . 'dummies' . DIRECTORY_SEPARATOR;
+        $basePath = dirname(__FILE__) . DIR_SEP . '_FileTest'
+                . DIR_SEP . 'dummies' . DIR_SEP;
         $actual   = File::getFiles($basePath);
         $expected = array(
             $basePath . 'dummy1.php',
             $basePath . 'dummy2.php',
-            $basePath . 'dummies' . DIRECTORY_SEPARATOR . 'dummy3.php'
+            $basePath . 'dummies' . DIR_SEP . 'dummy3.php'
         );
         sort($actual);
         sort($expected);

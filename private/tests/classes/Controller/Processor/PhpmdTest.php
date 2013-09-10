@@ -23,7 +23,7 @@ class Controller_Processor_PhpmdTest extends TestCase_Processor
     public function testProcess()
     {
         $this->CopyReport(
-                'html', dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'phpmd-report.html'
+                'html', dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'phpmd-report.html'
         );
 
         $this->target->process($this->buildId);

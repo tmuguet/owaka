@@ -11,11 +11,11 @@ class includeTest extends TestCase
 
     protected function _test($files)
     {
-        $pos = strlen(APPPATH . 'classes' . DIRECTORY_SEPARATOR);
+        $pos = strlen(APPPATH . 'classes' . DIR_SEP);
 
         foreach ($files as $file) {
             if (substr($file, -3) === 'php') {
-                $className = str_replace(DIRECTORY_SEPARATOR, "_", substr($file, $pos, -4));
+                $className = str_replace(DIR_SEP, "_", substr($file, $pos, -4));
                 if (!class_exists($className, FALSE) && !interface_exists($className, FALSE)) {
                     if ((include_once $file) !== 1) {
                         $this->assertFail('Could not include ' . $file);
@@ -34,7 +34,7 @@ class includeTest extends TestCase
      */
     public function testControllers()
     {
-        $files = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Controller');
+        $files = File::getFiles(APPPATH . 'classes' . DIR_SEP . 'Controller');
         $this->_test($files);
     }
 
@@ -43,7 +43,7 @@ class includeTest extends TestCase
      */
     public function testModels()
     {
-        $files = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Model');
+        $files = File::getFiles(APPPATH . 'classes' . DIR_SEP . 'Model');
         $this->_test($files);
     }
 
@@ -52,7 +52,7 @@ class includeTest extends TestCase
      */
     public function testHelper()
     {
-        $files = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Helper');
+        $files = File::getFiles(APPPATH . 'classes' . DIR_SEP . 'Helper');
         $this->_test($files);
     }
 
@@ -61,7 +61,7 @@ class includeTest extends TestCase
      */
     public function testTask()
     {
-        $files = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Task');
+        $files = File::getFiles(APPPATH . 'classes' . DIR_SEP . 'Task');
         $this->_test($files);
     }
 
@@ -70,7 +70,7 @@ class includeTest extends TestCase
      */
     public function testLoggers()
     {
-        $files = File::getFiles(APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Log');
+        $files = File::getFiles(APPPATH . 'classes' . DIR_SEP . 'Log');
         $this->_test($files);
     }
 
@@ -80,9 +80,9 @@ class includeTest extends TestCase
     public function testUtils()
     {
         $files = array(
-            APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Date.php',
-            APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'File.php',
-            APPPATH . 'classes' . DIRECTORY_SEPARATOR . 'Owaka.php',
+            APPPATH . 'classes' . DIR_SEP . 'Date.php',
+            APPPATH . 'classes' . DIR_SEP . 'File.php',
+            APPPATH . 'classes' . DIR_SEP . 'Owaka.php',
         );
         $this->_test($files);
     }

@@ -180,7 +180,7 @@ EOT;
     {
         $this->display_main();
 
-        $this->_additionalContent = View::factory('widgets' . DIRECTORY_SEPARATOR . 'BaseIcon')
+        $this->_additionalContent = View::factory('widgets' . DIR_SEP . 'BaseIcon')
                 ->set('data', array());
     }
 
@@ -191,7 +191,7 @@ EOT;
     {
         $this->display_project();
 
-        $this->_additionalContent = View::factory('widgets' . DIRECTORY_SEPARATOR . 'BaseIcon')
+        $this->_additionalContent = View::factory('widgets' . DIR_SEP . 'BaseIcon')
                 ->set('data', array());
     }
 
@@ -202,7 +202,7 @@ EOT;
     {
         $this->display_build();
 
-        $this->_additionalContent = View::factory('widgets' . DIRECTORY_SEPARATOR . 'BaseIcon')
+        $this->_additionalContent = View::factory('widgets' . DIR_SEP . 'BaseIcon')
                 ->set('data', array());
     }
 }

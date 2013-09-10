@@ -22,7 +22,7 @@ class File extends Kohana_File
     public static function rrmdir($path)
     {
         $abspath = realpath($path);
-        if (empty($path) || empty($abspath) || $abspath === FALSE || $abspath == DIRECTORY_SEPARATOR) {
+        if (empty($path) || empty($abspath) || $abspath === FALSE || $abspath == DIR_SEP) {
             // Avoid deleting root
             return false;
         }
@@ -64,7 +64,7 @@ class File extends Kohana_File
                     continue;
                 }
 
-                $result &= self::rcopy($source . DIRECTORY_SEPARATOR . $file, $dest . DIRECTORY_SEPARATOR . $file);
+                $result &= self::rcopy($source . DIR_SEP . $file, $dest . DIR_SEP . $file);
             }
             return $result;
         } elseif (is_file($source)) {
@@ -83,8 +83,8 @@ class File extends Kohana_File
      */
     public static function getFiles($path)
     {
-        if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
-            $path .= DIRECTORY_SEPARATOR;
+        if (substr($path, -1) !== DIR_SEP) {
+            $path .= DIR_SEP;
         }
         $phpFiles = glob($path . '*.php');
 
@@ -104,20 +104,20 @@ class File extends Kohana_File
      */
     public static function findClasses($path)
     {
-        if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
-            $path .= DIRECTORY_SEPARATOR;
+        if (substr($path, -1) !== DIR_SEP) {
+            $path .= DIR_SEP;
         }
 
 #if TESTING
-        $basePath = DOCROOT . 'private' . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . '_FileTest' . DIRECTORY_SEPARATOR;
+        $basePath = DOCROOT . 'private' . DIR_SEP . 'tests' . DIR_SEP . 'classes' . DIR_SEP . '_FileTest' . DIR_SEP;
 #else
-        $basePath = APPPATH . 'classes' . DIRECTORY_SEPARATOR;
+        $basePath = APPPATH . 'classes' . DIR_SEP;
 #endif
         $files    = self::getFiles($basePath . $path);
         $classes  = array();
         foreach ($files as $file) {
             $nameClass = str_replace(
-                    DIRECTORY_SEPARATOR, '_', str_replace($basePath, '', substr($file, 0, -4))
+                    DIR_SEP, '_', str_replace($basePath, '', substr($file, 0, -4))
             );
             // @codeCoverageIgnoreStart
             if (!class_exists($nameClass, FALSE)) {
@@ -142,7 +142,7 @@ class File extends Kohana_File
      */
     public static function findWidgets($dashboard)
     {
-        $allWidgets = self::findClasses('Controller' . DIRECTORY_SEPARATOR . 'Widget' . DIRECTORY_SEPARATOR);
+        $allWidgets = self::findClasses('Controller' . DIR_SEP . 'Widget' . DIR_SEP);
         $widgets    = array();
         foreach ($allWidgets as $widget) {
             $class = new ReflectionClass($widget);
@@ -160,7 +160,7 @@ class File extends Kohana_File
      */
     public static function findProcessors()
     {
-        return self::findClasses('Controller' . DIRECTORY_SEPARATOR . 'Processor' . DIRECTORY_SEPARATOR);
+        return self::findClasses('Controller' . DIR_SEP . 'Processor' . DIR_SEP);
     }
 
     /**

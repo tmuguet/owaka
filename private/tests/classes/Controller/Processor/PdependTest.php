@@ -23,7 +23,7 @@ class Controller_Processor_PdependTest extends TestCase_Processor
     {
         $this->CopyReport(
                 'summary',
-                dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'pdepend-summary.xml'
+                dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'pdepend-summary.xml'
         );
 
         $this->target->process($this->buildId);

@@ -49,7 +49,7 @@ class Owaka
             throw new InvalidArgumentException("Cannot find processor $processor");
         }
         $reports = $processorClass::inputReports();
-        $root    = APPPATH . 'reports' . DIRECTORY_SEPARATOR . $buildId . DIRECTORY_SEPARATOR . $processor . DIRECTORY_SEPARATOR;
+        $root    = APPPATH . 'reports' . DIR_SEP . $buildId . DIR_SEP . $processor . DIR_SEP;
         $uri     = 'reports/' . $buildId . '/' . $processor . '/';
         if ($type != NULL) {
             if (!isset($reports[$type])) {

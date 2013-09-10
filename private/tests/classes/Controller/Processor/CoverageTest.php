@@ -23,7 +23,7 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
     public function testProcess()
     {
         $this->CopyReport(
-                'raw', dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'coverage-report.xml'
+                'raw', dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'coverage-report.xml'
         );
 
         $this->target->process($this->buildId);

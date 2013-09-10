@@ -23,7 +23,7 @@ class Controller_Processor_PhpunitTest extends TestCase_Processor
     public function testProcess()
     {
         $this->CopyReport(
-                'xml', dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'phpunit-report.xml'
+                'xml', dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'phpunit-report.xml'
         );
 
         $this->target->process($this->buildId);

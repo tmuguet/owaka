@@ -59,7 +59,7 @@ abstract class Controller_Widget_Baseicon extends Controller_Widget_Base
             $this->data[] = array('status' => Owaka::BUILD_NODATA, 'data'   => 'No data');
         }
 
-        $view = View::factory('widgets' . DIRECTORY_SEPARATOR . 'BaseIcon')
+        $view = View::factory('widgets' . DIR_SEP . 'BaseIcon')
                 ->set('data', $this->data);
 
         $this->response->body($view);
