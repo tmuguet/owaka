@@ -80,9 +80,17 @@ class includeTest extends TestCase
     public function testUtils()
     {
         $files = array(
+            APPPATH . 'classes' . DIR_SEP . 'Command.php',
+            APPPATH . 'classes' . DIR_SEP . 'Controller.php',
             APPPATH . 'classes' . DIR_SEP . 'Date.php',
             APPPATH . 'classes' . DIR_SEP . 'File.php',
+            APPPATH . 'classes' . DIR_SEP . 'Num.php',
+            APPPATH . 'classes' . DIR_SEP . 'ORM.php',
             APPPATH . 'classes' . DIR_SEP . 'Owaka.php',
+            APPPATH . 'classes' . DIR_SEP . 'Request.php',
+            APPPATH . 'classes' . DIR_SEP . 'Response.php',
+            APPPATH . 'classes' . DIR_SEP . 'URL.php',
+            APPPATH . 'classes' . DIR_SEP . 'Valid.php',
         );
         $this->_test($files);
     }
