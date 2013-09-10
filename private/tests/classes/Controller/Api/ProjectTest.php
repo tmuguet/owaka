@@ -56,15 +56,15 @@ class Controller_Api_ProjectTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Project::editReports
+     * @covers Controller_Api_Project::editParameters
      */
-    public function testEditReportsParameters_replace()
+    public function testEditParameters_replace()
     {
         $target  = new Controller_Api_Project();
         $post    = array('processor2_threshold_errors_error' => '5');
         $target->request->post($post);
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
-        $target->editReports($project);
+        $target->editParameters($project);
         $actual  = ORM::factory('Project_Report_Parameter')
                 ->where('project_id', '=', $project->id)
                 ->order_by('processor', 'ASC')
@@ -130,15 +130,15 @@ class Controller_Api_ProjectTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Project::editReports
+     * @covers Controller_Api_Project::editParameters
      */
-    public function testEditReportsParameters_add()
+    public function testEditParameters_add()
     {
         $target  = new Controller_Api_Project();
         $post    = array('processor1_threshold_warnings_unstable' => 'value1');
         $target->request->post($post);
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
-        $target->editReports($project);
+        $target->editParameters($project);
         $actual  = ORM::factory('Project_Report_Parameter')
                 ->where('project_id', '=', $project->id)
                 ->order_by('processor', 'ASC')
@@ -189,15 +189,15 @@ class Controller_Api_ProjectTest extends TestCase
     }
 
     /**
-     * @covers Controller_Api_Project::editReports
+     * @covers Controller_Api_Project::editParameters
      */
-    public function testEditReportsParameters_delete()
+    public function testEditParameters_delete()
     {
         $target  = new Controller_Api_Project();
         $post    = array('processor2_threshold_errors_error' => '');
         $target->request->post($post);
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
-        $target->editReports($project);
+        $target->editParameters($project);
         $actual  = ORM::factory('Project_Report_Parameter')
                 ->where('project_id', '=', $project->id)
                 ->order_by('type', 'ASC')

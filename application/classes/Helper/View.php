@@ -18,6 +18,8 @@ class Helper_View
      * @param array $menu Menu
      * 
      * @return string HTML
+     * 
+     * @SuppressWarnings(PHPMD)
      */
     static public function processMenu(array $menu)
     {

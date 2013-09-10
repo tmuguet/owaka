@@ -98,67 +98,97 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ba
         );
 
         if ($display == 'total') {
-            if ($data->totalcoverage_delta < 0) {
-                $this->data[] = array(
-                    'status' => Owaka::BUILD_ERROR,
-                    'data'   => $data->totalcoverage_delta,
-                    'label'  => 'total'
-                );
-            } else if ($data->totalcoverage_delta > 0) {
-                $this->data[] = array(
-                    'status' => Owaka::BUILD_OK,
-                    'data'   => '+' . $data->totalcoverage_delta,
-                    'label'  => 'total'
-                );
-            } else {
-                $this->data[] = array(
-                    'status' => Owaka::BUILD_OK,
-                    'data'   => '-',
-                    'label'  => '<br>total'
-                );
-            }
+            $this->do_processTotal($data);
         }
         if ($display == 'methods' || $display == 'methods+statements') {
-            if ($data->methodcoverage_delta < 0) {
-                $this->data[] = array(
-                    'status' => Owaka::BUILD_ERROR,
-                    'data'   => $data->methodcoverage_delta,
-                    'label'  => 'methods'
-                );
-            } else if ($data->methodcoverage_delta > 0) {
-                $this->data[] = array(
-                    'status' => Owaka::BUILD_OK,
-                    'data'   => '+' . $data->methodcoverage_delta,
-                    'label'  => 'methods'
-                );
-            } else {
-                $this->data[] = array(
-                    'status' => Owaka::BUILD_OK,
-                    'data'   => '-',
-                    'label'  => '<br>methods'
-                );
-            }
+            $this->do_processMethods($data);
         }
         if ($display == 'statements' || $display == 'methods+statements') {
-            if ($data->statementcoverage_delta < 0) {
-                $this->data[] = array(
-                    'status' => Owaka::BUILD_ERROR,
-                    'data'   => $data->statementcoverage_delta,
-                    'label'  => 'statements'
-                );
-            } else if ($data->statementcoverage_delta > 0) {
-                $this->data[] = array(
-                    'status' => Owaka::BUILD_OK,
-                    'data'   => '+' . $data->statementcoverage_delta,
-                    'label'  => 'statements'
-                );
-            } else {
-                $this->data[] = array(
-                    'status' => Owaka::BUILD_OK,
-                    'data'   => '-',
-                    'label'  => '<br>statements'
-                );
-            }
+            $this->do_processStatements($data);
+        }
+    }
+
+    /**
+     * Processes the widget for "total" display
+     * 
+     * @param Model_Coverage_Globaldata &$data Coverage data
+     */
+    protected function do_processTotal(Model_Coverage_Globaldata &$data)
+    {
+        if ($data->totalcoverage_delta < 0) {
+            $this->data[] = array(
+                'status' => Owaka::BUILD_ERROR,
+                'data'   => $data->totalcoverage_delta,
+                'label'  => 'total'
+            );
+        } else if ($data->totalcoverage_delta > 0) {
+            $this->data[] = array(
+                'status' => Owaka::BUILD_OK,
+                'data'   => '+' . $data->totalcoverage_delta,
+                'label'  => 'total'
+            );
+        } else {
+            $this->data[] = array(
+                'status' => Owaka::BUILD_OK,
+                'data'   => '-',
+                'label'  => '<br>total'
+            );
+        }
+    }
+
+    /**
+     * Processes the widget for "methods" display
+     * 
+     * @param Model_Coverage_Globaldata &$data Coverage data
+     */
+    protected function do_processMethods(Model_Coverage_Globaldata &$data)
+    {
+        if ($data->methodcoverage_delta < 0) {
+            $this->data[] = array(
+                'status' => Owaka::BUILD_ERROR,
+                'data'   => $data->methodcoverage_delta,
+                'label'  => 'methods'
+            );
+        } else if ($data->methodcoverage_delta > 0) {
+            $this->data[] = array(
+                'status' => Owaka::BUILD_OK,
+                'data'   => '+' . $data->methodcoverage_delta,
+                'label'  => 'methods'
+            );
+        } else {
+            $this->data[] = array(
+                'status' => Owaka::BUILD_OK,
+                'data'   => '-',
+                'label'  => '<br>methods'
+            );
+        }
+    }
+
+    /**
+     * Processes the widget for "statements" display
+     * 
+     * @param Model_Coverage_Globaldata &$data Coverage data
+     */
+    protected function do_processStatements(Model_Coverage_Globaldata &$data)
+    {
+        if ($data->statementcoverage_delta < 0) {
+            $this->data[] = array(
+                'status' => Owaka::BUILD_ERROR,
+                'data'   => $data->statementcoverage_delta,
+                'label'  => 'statements'
+            );
+        } else if ($data->statementcoverage_delta > 0) {
+            $this->data[] = array(
+                'status' => Owaka::BUILD_OK,
+                'data'   => '+' . $data->statementcoverage_delta,
+                'label'  => 'statements'
+            );
+        } else {
+            $this->data[] = array(
+                'status' => Owaka::BUILD_OK,
+                'data'   => '-',
+                'label'  => '<br>statements'
+            );
         }
     }
 }

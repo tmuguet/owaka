@@ -27,10 +27,14 @@ class Task_Queue extends Minion_Task
      */
     protected function _execute(array $params)
     {
-        if (isset($params['project']) || isset($params['id'])) {
-            $this->run($params);
-        } else {
-            $this->runAll();
+        try {
+            if (isset($params['project']) || isset($params['id'])) {
+                $this->run($params);
+            } else {
+                $this->runAll();
+            }
+        } catch (Exception $e) {
+            echo 'Error: ' . $e->getMessage();
         }
     }
     // @codingStandardsIgnoreEnd

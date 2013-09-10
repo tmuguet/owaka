@@ -79,6 +79,8 @@ class Model_Coverage_Globaldata extends ORM
      * @param array $parameters Parameters
      * 
      * @return string
+     * 
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function buildStatus(array $parameters)
     {

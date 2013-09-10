@@ -16,6 +16,8 @@ class File extends Kohana_File
      * Recursively delete a directory
      * 
      * @param string $path Path to delete
+     * 
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public static function rrmdir($path)
     {

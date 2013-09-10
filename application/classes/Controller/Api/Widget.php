@@ -63,6 +63,8 @@ class Controller_Api_Widget extends Controller_Api
      * @postparameter column  Widget column (mandatory)
      * @postparameter row     Widget row (mandatory)
      * @throws HTTP_Exception_404 Unsupported dashboard type (should never happen)
+     * 
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function action_add()
     {

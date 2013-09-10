@@ -82,6 +82,7 @@ class Controller_Api_Project extends Controller_Api
             $project->create();
 
             $this->editReports($project);
+            $this->editParameters($project);
 
             $this->respondOk(array('project'    => $project->id, 'scm_status' => $project->scm_status));
         } catch (ORM_Validation_Exception $e) {
@@ -133,6 +134,7 @@ class Controller_Api_Project extends Controller_Api
             $project->create();
 
             $this->editReports($project);
+            $this->editParameters($project);
 
             Request::factory('api/dashboard/duplicate/project/' . $this->request->param('id') . '/' . $project->id)->execute();
             Request::factory('api/dashboard/duplicate/build/' . $this->request->param('id') . '/' . $project->id)->execute();
@@ -150,63 +152,48 @@ class Controller_Api_Project extends Controller_Api
      */
     public function action_checkout()
     {
-        $ob = false;
-        try {
-            $projectId = $this->request->param('id');
-            $project   = ORM::factory('Project', $projectId);
-            if (!$project->loaded()) {
-                throw new HTTP_Exception_404();
-            }
-
-            if ($project->scm_status == 'void') {
-                ob_start();
-                $ob       = true;
-                $checkout = Minion_Task::factory(array('task'    => 'Checkout', 'project' => $project));
-                $checkout->execute();
-                $res      = trim(ob_get_clean());
-                $ob       = false;
-                if ($res != 'ok') {
-                    $this->respondError(Response::FAILURE, array('error'   => 'Error during checkout', 'details' => $res));
-                    return;
-                }
-            }
-
-            if ($project->scm_status == 'checkedout') {
-                ob_start();
-                $ob     = true;
-                $switch = Minion_Task::factory(array('task'    => 'Switch', 'project' => $project));
-                $switch->execute();
-                $res    = trim(ob_get_clean());
-                $ob     = false;
-                if ($res != 'ok') {
-                    $this->respondError(Response::FAILURE, array('error'   => 'Error during switch', 'details' => $res));
-                    return;
-                }
-            }
-
-            if ($project->scm_status == 'ready' && $project->is_active) {
-                ob_start();
-                $ob    = true;
-                $queue = Minion_Task::factory(array('task'    => 'Forcequeue', 'project' => $project));
-                $queue->execute();
-                $res   = trim(ob_get_clean());
-                $ob    = false;
-                // @codeCoverageIgnoreStart
-                if ($res != 'ok') {
-                    $this->respondError(Response::FAILURE, array('error'   => 'Error during queuing', 'details' => $res));
-                    return;
-                }
-                // @codeCoverageIgnoreEnd
-            }
-
-            $this->respondOk(array('project'    => $project->id, 'scm_status' => $project->scm_status));
-        } catch (RuntimeException $e) {
-            $res = $e->getMessage();
-            if ($ob) {
-                $res .= trim(ob_get_clean());
-            }
-            $this->respondError(Response::FAILURE, array('error'   => 'Error', 'details' => $res));
+        $projectId = $this->request->param('id');
+        $project   = ORM::factory('Project', $projectId);
+        if (!$project->loaded()) {
+            throw new HTTP_Exception_404();
         }
+
+        if ($project->scm_status == 'void') {
+            ob_start();
+            $checkout = Minion_Task::factory(array('task'    => 'Checkout', 'project' => $project));
+            $checkout->execute();
+            $res      = trim(ob_get_clean());
+            if ($res != 'ok') {
+                $this->respondError(Response::FAILURE, array('error'   => 'Error during checkout', 'details' => $res));
+                return;
+            }
+        }
+
+        if ($project->scm_status == 'checkedout') {
+            ob_start();
+            $switch = Minion_Task::factory(array('task'    => 'Switch', 'project' => $project));
+            $switch->execute();
+            $res    = trim(ob_get_clean());
+            if ($res != 'ok') {
+                $this->respondError(Response::FAILURE, array('error'   => 'Error during switch', 'details' => $res));
+                return;
+            }
+        }
+
+        if ($project->scm_status == 'ready' && $project->is_active) {
+            ob_start();
+            $queue = Minion_Task::factory(array('task'    => 'Forcequeue', 'project' => $project));
+            $queue->execute();
+            $res   = trim(ob_get_clean());
+            // @codeCoverageIgnoreStart
+            if ($res != 'ok') {
+                $this->respondError(Response::FAILURE, array('error'   => 'Error during queuing', 'details' => $res));
+                return;
+            }
+            // @codeCoverageIgnoreEnd
+        }
+
+        $this->respondOk(array('project'    => $project->id, 'scm_status' => $project->scm_status));
     }
 
     /**
@@ -255,6 +242,7 @@ class Controller_Api_Project extends Controller_Api
             $project->update();
 
             $this->editReports($project);
+            $this->editParameters($project);
 
             $this->respondOk(array('project'    => $project->id, 'scm_status' => $project->scm_status));
         } catch (ORM_Validation_Exception $e) {
@@ -294,7 +282,24 @@ class Controller_Api_Project extends Controller_Api
                     }
                 }
             }
+        }
+        return true;
+    }
 
+    /**
+     * Edits processor parameters for a project
+     * 
+     * @param Model_Project &$project Project
+     * 
+     * @return boolean
+     */
+    /* protected */ function editParameters(Model_Project &$project)
+    {
+        $post       = $this->request->post();
+        $processors = File::findProcessors();
+        foreach ($processors as $processor) {
+            $name      = str_replace("Controller_Processor_", "", $processor);
+            $namelower = strtolower($name);
             foreach (array_keys($processor::parameters()) as $key) {
                 $type = $namelower . '_' . $key;
                 if (array_key_exists($type, $post)) {
@@ -332,34 +337,23 @@ class Controller_Api_Project extends Controller_Api
      */
     public function action_trigger()
     {
-        $ob = false;
-        try {
-            $projectId = $this->request->param('id');
-            $project   = ORM::factory('Project', $projectId);
-            if (!$project->loaded()) {
-                throw new HTTP_Exception_404();
-            }
-
-            ob_start();
-            $ob    = true;
-            $queue = Minion_Task::factory(array('task'    => 'Queue', 'project' => $project));
-            $queue->execute();
-            $res   = trim(ob_get_clean());
-            $ob    = false;
-            // @codeCoverageIgnoreStart
-            if ($res != 'ok') {
-                $this->respondError(Response::FAILURE, array('error'   => 'Error during queuing', 'details' => $res));
-                return;
-            }
-            // @codeCoverageIgnoreEnd
-
-            $this->respondOk(array('project' => $project->id));
-        } catch (RuntimeException $e) {
-            $res = $e->getMessage();
-            if ($ob) {
-                $res .= trim(ob_get_clean());
-            }
-            $this->respondError(Response::FAILURE, array('error'   => 'Error', 'details' => $res));
+        $projectId = $this->request->param('id');
+        $project   = ORM::factory('Project', $projectId);
+        if (!$project->loaded()) {
+            throw new HTTP_Exception_404();
         }
+
+        ob_start();
+        $queue = Minion_Task::factory(array('task'    => 'Queue', 'project' => $project));
+        $queue->execute();
+        $res   = trim(ob_get_clean());
+        // @codeCoverageIgnoreStart
+        if ($res != 'ok') {
+            $this->respondError(Response::FAILURE, array('error'   => 'Error during queuing', 'details' => $res));
+            return;
+        }
+        // @codeCoverageIgnoreEnd
+
+        $this->respondOk(array('project' => $project->id));
     }
 }

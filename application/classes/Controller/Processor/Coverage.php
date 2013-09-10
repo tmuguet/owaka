@@ -94,18 +94,15 @@ class Controller_Processor_Coverage extends Controller_Processor
             $xml                    = simplexml_load_file($report);
             $global->methodcount    = (int) $xml['methodcount'];
             $global->methodscovered = (int) $xml['methodscovered'];
-            $global->methodcoverage = ($global->methodcount > 0 ?
-                            ($global->methodscovered * 100 / $global->methodcount) : 100);
+            $global->methodcoverage = Num::percent($global->methodscovered, $global->methodcount);
 
             $global->statementcount    = (int) $xml['statementcount'];
             $global->statementscovered = (int) $xml['statementscovered'];
-            $global->statementcoverage = ($global->statementcount > 0 ?
-                            ($global->statementscovered * 100 / $global->statementcount) : 100);
+            $global->statementcoverage = Num::percent($global->statementscovered, $global->statementcount);
 
             $global->totalcount    = (int) $xml['totalcount'];
             $global->totalcovered  = (int) $xml['totalcovered'];
-            $global->totalcoverage = ($global->totalcount > 0 ?
-                            ($global->totalcovered * 100 / $global->totalcount) : 100);
+            $global->totalcoverage = Num::percent($global->totalcovered, $global->totalcount);
 
             if ($global->methodcount > 0 || $global->statementcount > 0 || $global->totalcount > 0) {
                 $this->findDeltas($global);

@@ -99,6 +99,8 @@ class Owaka
      * @param string $outputAs Output format (html or js)
      * 
      * @return string Formatted link
+     * 
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     static public function processLink($from, $link, $outputAs = 'html')
     {
