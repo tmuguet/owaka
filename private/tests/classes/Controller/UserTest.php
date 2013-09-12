@@ -16,6 +16,7 @@ class Controller_UserTest extends TestCase
         $this->assertResponseOK($response);
         $users = json_decode(Request::factory('api/user/list')->execute()->body(), TRUE);
         $expected = View::factory('user/list')->set('users', $users)->render();
+        $expected = str_replace('1second', '0second', $expected);
 
         $this->assertEquals($expected, $response->body(), "Rendering incorrect");
     }
