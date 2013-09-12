@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Widget_BaseStub extends Controller_Widget_Base
+class Controller_Widget_WidgetStub extends Controller_Widget
 {
 
     static public function getExpectedParameters($dashboard)

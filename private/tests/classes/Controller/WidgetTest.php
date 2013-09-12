@@ -1,17 +1,17 @@
 <?php
-require_once dirname(__FILE__) . DIR_SEP . '_stubs' . DIR_SEP . 'BaseStub.php';
+require_once dirname(__FILE__) . DIR_SEP . '_stubs' . DIR_SEP . 'WidgetStub.php';
 
-class Controller_Widget_BaseTest extends TestCase
+class Controller_WidgetTest extends TestCase
 {
 
-    protected $xmlDataSet = 'base';
+    protected $xmlDataSet = 'widgets';
 
     /**
-     * @covers Controller_Widget_Base::getModelWidget
+     * @covers Controller_Widget::getModelWidget
      */
     public function testGetModelWidget()
     {
-        $target1   = new Controller_Widget_BaseStub();
+        $target1   = new Controller_Widget_WidgetStub();
         $target1->request->setParam('id', $this->genNumbers['widget1']);
         $target1->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target1->request->action(Owaka::WIDGET_MAIN);
@@ -19,7 +19,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected1->loaded());
         $this->assertEquals($expected1, $target1->getModelWidget());
 
-        $target2   = new Controller_Widget_BaseStub();
+        $target2   = new Controller_Widget_WidgetStub();
         $target2->request->setParam('id', $this->genNumbers['widget11']);
         $target2->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
         $target2->request->action(Owaka::WIDGET_PROJECT);
@@ -27,7 +27,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected2->loaded());
         $this->assertEquals($expected2, $target2->getModelWidget());
 
-        $target3   = new Controller_Widget_BaseStub();
+        $target3   = new Controller_Widget_WidgetStub();
         $target3->request->setParam('id', $this->genNumbers['widget21']);
         $target3->request->setParam('dashboard', Owaka::WIDGET_BUILD);
         $target3->request->action(Owaka::WIDGET_BUILD);
@@ -37,13 +37,13 @@ class Controller_Widget_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Widget_Base::getModelWidget
+     * @covers Controller_Widget::getModelWidget
      * @expectedException HTTP_Exception_404
      * @expectedExceptionMessage Unexpected type of dashboard
      */
     public function testGetModelWidgetError()
     {
-        $target1 = new Controller_Widget_BaseStub();
+        $target1 = new Controller_Widget_WidgetStub();
         $target1->request->setParam('id', $this->genNumbers['widget1']);
         $target1->request->setParam('dashboard', 'foo');
         $target1->request->action(Owaka::WIDGET_MAIN);
@@ -51,23 +51,23 @@ class Controller_Widget_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Widget_Base::getParameters
+     * @covers Controller_Widget::getParameters
      */
     public function testGetParameters()
     {
-        $target0 = new Controller_Widget_BaseStub();
+        $target0 = new Controller_Widget_WidgetStub();
         $target0->request->setParam('id', $this->genNumbers['widget0']);
         $target0->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target0->request->action(Owaka::WIDGET_MAIN);
         $this->assertEquals(array(), $target0->getParameters());
 
-        $target1 = new Controller_Widget_BaseStub();
+        $target1 = new Controller_Widget_WidgetStub();
         $target1->request->setParam('id', $this->genNumbers['widget1']);
         $target1->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target1->request->action(Owaka::WIDGET_MAIN);
         $this->assertEquals(array(), $target1->getParameters());
 
-        $target2   = new Controller_Widget_BaseStub();
+        $target2   = new Controller_Widget_WidgetStub();
         $target2->request->setParam('id', $this->genNumbers['widget2']);
         $target2->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target2->request->action(Owaka::WIDGET_MAIN);
@@ -76,11 +76,11 @@ class Controller_Widget_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Widget_Base::getParameter
+     * @covers Controller_Widget::getParameter
      */
     public function testGetParameter()
     {
-        $target = new Controller_Widget_BaseStub();
+        $target = new Controller_Widget_WidgetStub();
         $target->request->setParam('id', $this->genNumbers['widget3']);
         $target->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target->request->action(Owaka::WIDGET_MAIN);
@@ -91,17 +91,17 @@ class Controller_Widget_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Widget_Base::getProject
+     * @covers Controller_Widget::getProject
      */
     public function testGetProjectMain()
     {
-        $target1 = new Controller_Widget_BaseStub();
+        $target1 = new Controller_Widget_WidgetStub();
         $target1->request->setParam('id', $this->genNumbers['widget1']);
         $target1->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target1->request->action(Owaka::WIDGET_MAIN);
         $this->assertNull($target1->getProject());
 
-        $target2   = new Controller_Widget_BaseStub();
+        $target2   = new Controller_Widget_WidgetStub();
         $target2->request->setParam('id', $this->genNumbers['widget2']);
         $target2->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target2->request->action(Owaka::WIDGET_MAIN);
@@ -109,7 +109,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected2->loaded());
         $this->assertEquals($expected2, $target2->getProject());
 
-        $target3   = new Controller_Widget_BaseStub();
+        $target3   = new Controller_Widget_WidgetStub();
         $target3->request->setParam('id', $this->genNumbers['widget3']);
         $target3->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target3->request->action(Owaka::WIDGET_MAIN);
@@ -119,11 +119,11 @@ class Controller_Widget_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Widget_Base::getProject
+     * @covers Controller_Widget::getProject
      */
     public function testGetProjectProject()
     {
-        $target1   = new Controller_Widget_BaseStub();
+        $target1   = new Controller_Widget_WidgetStub();
         $target1->request->setParam('id', $this->genNumbers['widget11']);
         $target1->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
         $target1->request->setParam('data', $this->genNumbers['ProjectFoo']);
@@ -132,7 +132,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected1->loaded());
         $this->assertEquals($expected1, $target1->getProject());
 
-        $target2   = new Controller_Widget_BaseStub();
+        $target2   = new Controller_Widget_WidgetStub();
         $target2->request->setParam('id', $this->genNumbers['widget12']);
         $target2->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
         $target2->request->action(Owaka::WIDGET_PROJECT);
@@ -140,7 +140,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected2->loaded());
         $this->assertEquals($expected2, $target2->getProject());
 
-        $target3   = new Controller_Widget_BaseStub();
+        $target3   = new Controller_Widget_WidgetStub();
         $target3->request->setParam('id', $this->genNumbers['widget13']);
         $target3->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
         $target3->request->action(Owaka::WIDGET_PROJECT);
@@ -148,7 +148,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected3->loaded());
         $this->assertEquals($expected3, $target3->getProject());
 
-        $target4   = new Controller_Widget_BaseStub();
+        $target4   = new Controller_Widget_WidgetStub();
         $target4->request->setParam('id', $this->genNumbers['widget14']);
         $target4->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
         $target4->request->action(Owaka::WIDGET_PROJECT);
@@ -156,7 +156,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected4->loaded());
         $this->assertEquals($expected4, $target4->getProject());
 
-        $target5   = new Controller_Widget_BaseStub();
+        $target5   = new Controller_Widget_WidgetStub();
         $target5->request->setParam('id', $this->genNumbers['widget15']);
         $target5->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
         $target5->request->action(Owaka::WIDGET_PROJECT);
@@ -166,11 +166,11 @@ class Controller_Widget_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Widget_Base::getProject
+     * @covers Controller_Widget::getProject
      */
     public function testGetProjectBuild()
     {
-        $target1   = new Controller_Widget_BaseStub();
+        $target1   = new Controller_Widget_WidgetStub();
         $target1->request->setParam('id', $this->genNumbers['widget21']);
         $target1->request->setParam('dashboard', Owaka::WIDGET_BUILD);
         $target1->request->setParam('data', $this->genNumbers['build1']);
@@ -179,7 +179,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected1->loaded());
         $this->assertEquals($expected1, $target1->getProject());
 
-        $target2   = new Controller_Widget_BaseStub();
+        $target2   = new Controller_Widget_WidgetStub();
         $target2->request->setParam('id', $this->genNumbers['widget22']);
         $target2->request->setParam('dashboard', Owaka::WIDGET_BUILD);
         $target2->request->action(Owaka::WIDGET_BUILD);
@@ -187,7 +187,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected2->loaded());
         $this->assertEquals($expected2, $target2->getProject());
 
-        $target3   = new Controller_Widget_BaseStub();
+        $target3   = new Controller_Widget_WidgetStub();
         $target3->request->setParam('id', $this->genNumbers['widget23']);
         $target3->request->setParam('dashboard', Owaka::WIDGET_BUILD);
         $target3->request->action(Owaka::WIDGET_BUILD);
@@ -195,7 +195,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected3->loaded());
         $this->assertEquals($expected3, $target3->getProject());
 
-        $target4   = new Controller_Widget_BaseStub();
+        $target4   = new Controller_Widget_WidgetStub();
         $target4->request->setParam('id', $this->genNumbers['widget24']);
         $target4->request->setParam('dashboard', Owaka::WIDGET_BUILD);
         $target4->request->action(Owaka::WIDGET_BUILD);
@@ -203,7 +203,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected4->loaded());
         $this->assertEquals($expected4, $target4->getProject());
 
-        $target5   = new Controller_Widget_BaseStub();
+        $target5   = new Controller_Widget_WidgetStub();
         $target5->request->setParam('id', $this->genNumbers['widget25']);
         $target5->request->setParam('dashboard', Owaka::WIDGET_BUILD);
         $target5->request->action(Owaka::WIDGET_BUILD);
@@ -213,23 +213,23 @@ class Controller_Widget_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Widget_Base::getBuild
+     * @covers Controller_Widget::getBuild
      */
     public function testGetBuildMain()
     {
-        $target1 = new Controller_Widget_BaseStub();
+        $target1 = new Controller_Widget_WidgetStub();
         $target1->request->setParam('id', $this->genNumbers['widget1']);
         $target1->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target1->request->action(Owaka::WIDGET_MAIN);
         $this->assertNull($target1->getBuild());
 
-        $target2 = new Controller_Widget_BaseStub();
+        $target2 = new Controller_Widget_WidgetStub();
         $target2->request->setParam('id', $this->genNumbers['widget2']);
         $target2->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target2->request->action(Owaka::WIDGET_MAIN);
         $this->assertNull($target2->getBuild());
 
-        $target3   = new Controller_Widget_BaseStub();
+        $target3   = new Controller_Widget_WidgetStub();
         $target3->request->setParam('id', $this->genNumbers['widget3']);
         $target3->request->setParam('dashboard', Owaka::WIDGET_MAIN);
         $target3->request->action(Owaka::WIDGET_MAIN);
@@ -239,24 +239,24 @@ class Controller_Widget_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Widget_Base::getBuild
+     * @covers Controller_Widget::getBuild
      */
     public function testGetBuildProject()
     {
-        $target1 = new Controller_Widget_BaseStub();
+        $target1 = new Controller_Widget_WidgetStub();
         $target1->request->setParam('id', $this->genNumbers['widget11']);
         $target1->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
         $target1->request->setParam('data', $this->genNumbers['ProjectFoo']);
         $target1->request->action(Owaka::WIDGET_PROJECT);
         $this->assertNull($target1->getBuild());
 
-        $target2 = new Controller_Widget_BaseStub();
+        $target2 = new Controller_Widget_WidgetStub();
         $target2->request->setParam('id', $this->genNumbers['widget12']);
         $target2->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
         $target2->request->action(Owaka::WIDGET_PROJECT);
         $this->assertNull($target2->getBuild());
 
-        $target4   = new Controller_Widget_BaseStub();
+        $target4   = new Controller_Widget_WidgetStub();
         $target4->request->setParam('id', $this->genNumbers['widget14']);
         $target4->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
         $target4->request->action(Owaka::WIDGET_PROJECT);
@@ -264,7 +264,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected4->loaded());
         $this->assertEquals($expected4, $target4->getBuild());
 
-        $target5   = new Controller_Widget_BaseStub();
+        $target5   = new Controller_Widget_WidgetStub();
         $target5->request->setParam('id', $this->genNumbers['widget15']);
         $target5->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
         $target5->request->action(Owaka::WIDGET_PROJECT);
@@ -274,11 +274,11 @@ class Controller_Widget_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Widget_Base::getBuild
+     * @covers Controller_Widget::getBuild
      */
     public function testGetBuildBuild()
     {
-        $target1   = new Controller_Widget_BaseStub();
+        $target1   = new Controller_Widget_WidgetStub();
         $target1->request->setParam('id', $this->genNumbers['widget21']);
         $target1->request->setParam('dashboard', Owaka::WIDGET_BUILD);
         $target1->request->setParam('data', $this->genNumbers['build1']);
@@ -287,7 +287,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected1->loaded());
         $this->assertEquals($expected1, $target1->getBuild());
 
-        $target4   = new Controller_Widget_BaseStub();
+        $target4   = new Controller_Widget_WidgetStub();
         $target4->request->setParam('id', $this->genNumbers['widget24']);
         $target4->request->setParam('dashboard', Owaka::WIDGET_BUILD);
         $target4->request->action(Owaka::WIDGET_BUILD);
@@ -295,7 +295,7 @@ class Controller_Widget_BaseTest extends TestCase
         $this->assertTrue($expected4->loaded());
         $this->assertEquals($expected4, $target4->getBuild());
 
-        $target5   = new Controller_Widget_BaseStub();
+        $target5   = new Controller_Widget_WidgetStub();
         $target5->request->setParam('id', $this->genNumbers['widget25']);
         $target5->request->setParam('dashboard', Owaka::WIDGET_BUILD);
         $target5->request->action(Owaka::WIDGET_BUILD);
@@ -305,12 +305,12 @@ class Controller_Widget_BaseTest extends TestCase
     }
 
     /**
-     * @covers Controller_Widget_Base::before
-     * @covers Controller_Widget_Base::initViews
+     * @covers Controller_Widget::before
+     * @covers Controller_Widget::initViews
      */
     public function testInitViews()
     {
-        $target = new Controller_Widget_BaseStub();
+        $target = new Controller_Widget_WidgetStub();
         $target->request->login();
         $target->request->setParam('id', $this->genNumbers['widget3']);
         $target->request->setParam('dashboard', Owaka::WIDGET_MAIN);

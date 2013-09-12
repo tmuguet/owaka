@@ -9,7 +9,7 @@ defined('SYSPATH') OR die('No direct script access.');
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
  */
-abstract class Controller_Widget_Baseraw extends Controller_Widget_Base
+abstract class Controller_Widget_Raw extends Controller_Widget
 {
 
     /**

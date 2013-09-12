@@ -9,7 +9,7 @@ defined('SYSPATH') OR die('No direct script access.');
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
  */
-class Controller_Widget_Background extends Controller_Widget_Base
+class Controller_Widget_Background extends Controller_Widget
 {
 
     protected $autorefresh = TRUE;

@@ -3,7 +3,7 @@
 class Controller_Widget_GenericTest extends TestCase
 {
 
-    protected $xmlDataSet = 'base';
+    protected $xmlDataSet = 'widgets';
 
     private function _testClass($nameClass, $reflectionClass)
     {
