@@ -13,7 +13,7 @@ if (is_file(APPPATH . 'classes/Kohana' . EXT)) {
     require SYSPATH . 'classes/Kohana' . EXT;
 }
 
-if (!defined(DIR_SEP)) {
+if (!defined("DIR_SEP")) {
     define(DIR_SEP, DIRECTORY_SEPARATOR);
 }
 
