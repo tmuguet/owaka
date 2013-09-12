@@ -27,8 +27,7 @@
         <script type="text/javascript" src="js/all-min.js"></script>
 #endif
 
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/logo.ico">
     </head>
     <body>
         <div id="overlay" class="ui-widget-overlay ui-helper-hidden"> </div>
