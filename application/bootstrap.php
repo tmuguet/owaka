@@ -14,7 +14,7 @@ if (is_file(APPPATH . 'classes/Kohana' . EXT)) {
 }
 
 if (!defined("DIR_SEP")) {
-    define(DIR_SEP, DIRECTORY_SEPARATOR);
+    define("DIR_SEP", DIRECTORY_SEPARATOR);
 }
 
 /**
