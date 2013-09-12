@@ -32,11 +32,11 @@ class Task_Checkout extends Minion_Task
                 $project = ORM::factory('Project', $params['id']);
             }
             if (!$project->loaded()) {
-                echo "No project";
+                echo 'No project';
                 return;
             }
             if ($project->scm_status != 'void') {
-                echo "Project has already been checked out";
+                echo 'Project has already been checked out';
                 return;
             }
 
@@ -57,7 +57,7 @@ class Task_Checkout extends Minion_Task
                     break;
             }
             if ($res != 0) {
-                echo "Status $res\n" . $log;
+                echo 'Status ' . $res . PHP_EOL . $log;
                 return;
             }
 

@@ -60,7 +60,7 @@ class File extends Kohana_File
             $objects = scandir($source);
             $result  = true;
             foreach ($objects as $file) {
-                if ($file == "." || $file == "..") {
+                if ($file == '.' || $file == '..') {
                     continue;
                 }
 

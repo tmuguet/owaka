@@ -64,7 +64,7 @@ class Controller_Processor_Pdepend extends Controller_Processor
     {
         $report = $this->getReportCompletePath($buildId, 'summary');
 
-        if (!empty($report) && file_get_contents($report) != "") {
+        if (!empty($report) && file_get_contents($report) != '') {
             $global           = ORM::factory('Pdepend_Globaldata');
             $global->build_id = $buildId;
 

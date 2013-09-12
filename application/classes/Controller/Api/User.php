@@ -37,13 +37,13 @@ class Controller_Api_User extends Controller_Api
         foreach ($users as $user) {
             if (!$user->has('roles', $internal)) {
                 $output[] = array(
-                    "id"         => $user->id,
-                    "username"   => $user->username,
-                    "email"      => $user->email,
-                    "logins"     => $user->logins,
-                    "last_login" => $user->last_login,
-                    "enabled"    => $user->has('roles', $enabled),
-                    "admin"      => $user->has('roles', $admin),
+                    'id'         => $user->id,
+                    'username'   => $user->username,
+                    'email'      => $user->email,
+                    'logins'     => $user->logins,
+                    'last_login' => $user->last_login,
+                    'enabled'    => $user->has('roles', $enabled),
+                    'admin'      => $user->has('roles', $admin),
                 );
             }
         }

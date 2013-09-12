@@ -25,13 +25,13 @@ class Controller_Api_Widget extends Controller_Api
     public function action_delete()
     {
         switch ($this->request->param('dashboard')) {
-            case "main":
+            case 'main':
                 $widget = ORM::factory('Widget', $this->request->param('id'));
                 break;
-            case "project":
+            case 'project':
                 $widget = ORM::factory('Project_Widget', $this->request->param('id'));
                 break;
-            case "build":
+            case 'build':
                 $widget = ORM::factory('Build_Widget', $this->request->param('id'));
                 break;
             // @codeCoverageIgnoreStart
@@ -75,17 +75,17 @@ class Controller_Api_Widget extends Controller_Api
             }
 
             switch ($this->request->param('dashboard')) {
-                case "main":
+                case 'main':
                     $widget             = ORM::factory('Widget');
                     break;
-                case "project":
+                case 'project':
                     $widget             = ORM::factory('Project_Widget');
                     $widget->project_id = $this->request->param('data');
                     if (isset($params['project']) && $widget->project_id == $params['project']) {
                         unset($params['project']);
                     }
                     break;
-                case "build":
+                case 'build':
                     $widget             = ORM::factory('Build_Widget');
                     $widget->project_id = $this->request->param('data');
                     if (isset($params['project']) && $widget->project_id == $params['project']) {
@@ -132,13 +132,13 @@ class Controller_Api_Widget extends Controller_Api
             $widgetId = $this->request->param('id');
 
             switch ($this->request->param('dashboard')) {
-                case "main":
+                case 'main':
                     $widget = ORM::factory('Widget', $widgetId);
                     break;
-                case "project":
+                case 'project':
                     $widget = ORM::factory('Project_Widget', $widgetId);
                     break;
-                case "build":
+                case 'build':
                     $widget = ORM::factory('Build_Widget', $widgetId);
                     break;
                 // @codeCoverageIgnoreStart

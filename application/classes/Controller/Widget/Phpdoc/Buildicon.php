@@ -80,12 +80,12 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Icon
             $this->widgetStatus = Owaka::BUILD_OK;
 
             $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $build->id
+                'type' => 'build',
+                'id'   => $build->id
             );
             $this->widgetLinks[] = array(
-                "title" => 'report',
-                "url"   => $path
+                'title' => 'report',
+                'url'   => $path
             );
         } else {
             $this->widgetStatus = Owaka::BUILD_NODATA;

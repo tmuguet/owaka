@@ -93,17 +93,17 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Tabl
     protected function process($builds)
     {
         $this->columnsHeaders = array(
-            "Revision", "Status"
+            'Revision', 'Status'
         );
 
         if (sizeof($builds) > 0) {
             $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $builds[0]->id
+                'type' => 'build',
+                'id'   => $builds[0]->id
             );
             $this->widgetLinks[] = array(
-                "title" => 'report',
-                "url"   => Owaka::getReportUri($builds[0]->id, 'phpunit', 'report')
+                'title' => 'report',
+                'url'   => Owaka::getReportUri($builds[0]->id, 'phpunit', 'report')
             );
         }
 
@@ -112,7 +112,7 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Tabl
             $status     = '';
 
             if ($build->status == Owaka::BUILD_BUILDING) {
-                $status = 'ETA ' . date("H:i", strtotime($build->eta));
+                $status = 'ETA ' . date('H:i', strtotime($build->eta));
             } else if (!$build->phpunit_globaldata->loaded()) {
                 $status .= View::factory('icon')->set('status', Owaka::BUILD_NODATA)->render();
             } else {
@@ -127,12 +127,12 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Tabl
             }
 
             $this->rows[] = array(
-                "link"    => array(
-                    "type" => 'build',
-                    "id"   => $build->id
+                'link'    => array(
+                    'type' => 'build',
+                    'id'   => $build->id
                 ),
-                "class"   => 'clickable build build-' . $build->status,
-                "columns" => array(
+                'class'   => 'clickable build build-' . $build->status,
+                'columns' => array(
                     $build->getRevision(),
                     $status
                 ),

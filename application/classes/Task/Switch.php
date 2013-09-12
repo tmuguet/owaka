@@ -32,11 +32,11 @@ class Task_Switch extends Minion_Task
                 $project = ORM::factory('Project', $params['id']);
             }
             if (!$project->loaded()) {
-                echo "No project";
+                echo 'No project';
                 return;
             }
             if ($project->scm_status != 'checkedout') {
-                echo "Project has not been checked out or has already been switched";
+                echo 'Project has not been checked out or has already been switched';
                 return;
             }
 
@@ -57,7 +57,7 @@ class Task_Switch extends Minion_Task
                     break;
             }
             if ($res != 0) {
-                echo "Status $res\n" . $log;
+                echo 'Status ' . $res . PHP_EOL . $log;
                 return;
             }
 

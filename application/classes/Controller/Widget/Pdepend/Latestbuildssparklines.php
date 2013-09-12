@@ -88,12 +88,12 @@ class Controller_Widget_Pdepend_Latestbuildssparklines extends Controller_Widget
     {
         if (sizeof($builds) > 0) {
             $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $builds[0]->id
+                'type' => 'build',
+                'id'   => $builds[0]->id
             );
             $this->widgetLinks[] = array(
-                "title" => 'latest report',
-                "url"   => Owaka::getReportUri($builds[0]->id, 'pdepend', 'summary')
+                'title' => 'latest report',
+                'url'   => Owaka::getReportUri($builds[0]->id, 'pdepend', 'summary')
             );
         }
 
@@ -113,10 +113,10 @@ class Controller_Widget_Pdepend_Latestbuildssparklines extends Controller_Widget
             }
         }
 
-        $this->sparklines[] = array("title" => "Cyclo Complexity", "data"  => array_reverse($ccn));
-        $this->sparklines[] = array("title" => "Ext. Cyclo Complexity", "data"  => array_reverse($ccn2));
-        $this->sparklines[] = array("title" => "Comment Lines", "data"  => array_reverse($cloc));
-        $this->sparklines[] = array("title" => "Executable Lines", "data"  => array_reverse($eloc));
-        $this->sparklines[] = array("title" => "Logical Lines", "data"  => array_reverse($lloc));
+        $this->sparklines[] = array('title' => 'Cyclo Complexity', 'data'  => array_reverse($ccn));
+        $this->sparklines[] = array('title' => 'Ext. Cyclo Complexity', 'data'  => array_reverse($ccn2));
+        $this->sparklines[] = array('title' => 'Comment Lines', 'data'  => array_reverse($cloc));
+        $this->sparklines[] = array('title' => 'Executable Lines', 'data'  => array_reverse($eloc));
+        $this->sparklines[] = array('title' => 'Logical Lines', 'data'  => array_reverse($lloc));
     }
 }

@@ -68,7 +68,7 @@ class Model_User extends Model_Auth_User
      */
     public function update(Validation $validation = NULL)
     {
-        if ($this->changed("password") && !$this->changed("challenge")) {
+        if ($this->changed('password') && !$this->changed('challenge')) {
             $challenge       = $this->_generateNewChallenge($this->password);
             $this->challenge = $challenge[0];
             $this->password  = $challenge[1];
@@ -121,7 +121,7 @@ class Model_User extends Model_Auth_User
     /* private */ function _generateNewChallenge($plainPassword)
     {
         if (empty($plainPassword)) {
-            return array("", "");
+            return array('', '');
         }
         $challenge        = bin2hex(crypt_random_string(32));
         $encryptedPassword = $this->_generateNewPassword($challenge, $plainPassword);
@@ -159,10 +159,10 @@ if (!function_exists('hex2bin')) {
      */
     function hex2bin($data)
     {
-        $sbin = "";
+        $sbin = '';
         $len  = strlen($data);
         for ($i = 0; $i < $len; $i += 2) {
-            $sbin .= pack("H*", substr($data, $i, 2));
+            $sbin .= pack('H*', substr($data, $i, 2));
         }
 
         return $sbin;

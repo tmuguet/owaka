@@ -23,13 +23,13 @@ if ($buildId !== NULL) {
 
 
 switch ($from) {
-    case "main":
+    case 'main':
         $title = 'Main';
         break;
-    case "project" :
+    case 'project' :
         $title = $project->name . ' - latest: ' . ($lastBuild === NULL ? 'none' : $lastBuild->getRevision() . ' from ' . Date::loose_span(strtotime($lastBuild->finished)));
         break;
-    case "build":
+    case 'build':
         $title = $project->name . ' - ' . $build->getRevision() . ' from ' . Date::loose_span(strtotime($build->finished));
         break;
     default:

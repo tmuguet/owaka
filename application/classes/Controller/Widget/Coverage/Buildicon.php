@@ -89,12 +89,12 @@ class Controller_Widget_Coverage_Buildicon extends Controller_Widget_Icon
         $display    = $this->getParameter('display');
 
         $this->widgetLinks[] = array(
-            "type" => 'build',
-            "id"   => $build->id
+            'type' => 'build',
+            'id'   => $build->id
         );
         $this->widgetLinks[] = array(
-            "title" => 'report',
-            "url"   => Owaka::getReportUri($build->id, 'coverage', 'dir')
+            'title' => 'report',
+            'url'   => Owaka::getReportUri($build->id, 'coverage', 'dir')
         );
 
         if ($display == 'total') {

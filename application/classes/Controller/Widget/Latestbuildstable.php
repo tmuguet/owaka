@@ -91,25 +91,25 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Table
     protected function process($builds)
     {
         $this->columnsHeaders = array(
-            "Project", "Date", "_Date", "Status"
+            'Project', 'Date', '_Date', 'Status'
         );
 
         if (sizeof($builds) > 0) {
             $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $builds[0]->id
+                'type' => 'build',
+                'id'   => $builds[0]->id
             );
         }
 
         foreach ($builds as $build) {
             $date         = ($build->status == Owaka::BUILD_BUILDING || $build->status == Owaka::BUILD_QUEUED) ? $build->started : $build->finished;
             $this->rows[] = array(
-                "link"    => array(
-                    "type" => 'build',
-                    "id"   => $build->id
+                'link'    => array(
+                    'type' => 'build',
+                    'id'   => $build->id
                 ),
-                "class"   => 'clickable build build-' . $build->status,
-                "columns" => array(
+                'class'   => 'clickable build build-' . $build->status,
+                'columns' => array(
                     $build->project->name,
                     Date::loose_span(strtotime($date)),
                     $date,

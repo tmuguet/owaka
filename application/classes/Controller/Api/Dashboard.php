@@ -22,10 +22,10 @@ class Controller_Api_Dashboard extends Controller_Api
     public function action_duplicate()
     {
         switch ($this->request->param('dashboard')) {
-            case "project":
+            case 'project':
                 $model = ORM::factory('Project_Widget');
                 break;
-            case "build":
+            case 'build':
                 $model = ORM::factory('Build_Widget');
                 break;
             // @codeCoverageIgnoreStart

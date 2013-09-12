@@ -54,10 +54,10 @@ echo View::factory('baseMenu')
                 <label for="scm">SCM:</label>
                 <select name="scm" id="scm">
                     <option value="git"<?php
-                    echo ($project->scm == "git" ? ' selected="selected"' : '')
+                    echo ($project->scm == 'git' ? ' selected="selected"' : '')
                     ?>>GIT</option>
                     <option value="mercurial"<?php
-                    echo ($project->scm == "mercurial" ? ' selected="selected"' : '')
+                    echo ($project->scm == 'mercurial' ? ' selected="selected"' : '')
                     ?>>Mercurial</option>
                 </select>
             </div>
@@ -206,10 +206,10 @@ $data = array();
 foreach ($reports as $_controller => $_reports) {
     foreach ($_reports as $_key => $_report) {
         $data[] = array(
-            "label"    => $_report['title'],
-            "category" => $_controller,
-            "parent"   => 'field-' . strtolower($_controller),
-            "field"    => 'field-' . strtolower($_controller) . '_' . $_key
+            'label'    => $_report['title'],
+            'category' => $_controller,
+            'parent'   => 'field-' . strtolower($_controller),
+            'field'    => 'field-' . strtolower($_controller) . '_' . $_key
         );
     }
 }

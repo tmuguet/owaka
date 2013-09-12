@@ -79,7 +79,7 @@ class Controller_Widget_Queue extends Controller_Widget_Table
     {
 
         $this->columnsHeaders = array(
-            "Project", "Time left", "_Date"
+            'Project', 'Time left', '_Date'
         );
         foreach ($builds as $build) {
             if ($build->status == Owaka::BUILD_BUILDING) {
@@ -95,8 +95,8 @@ class Controller_Widget_Queue extends Controller_Widget_Table
             }
 
             $this->rows[] = array(
-                "url"     => "",
-                "columns" => array(
+                'url'     => '',
+                'columns' => array(
                     $build->project->name,
                     $status,
                     $date

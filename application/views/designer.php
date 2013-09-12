@@ -3,7 +3,7 @@ $title  = 'Designer';
 $menu   = array();
 $menu[] = array(
     'title' => 'Quit designer',
-    'href'  => 'dashboard/' . ($from == 'main' ? $from : 'project') . '/' . ($from == "main" ? '' : $projectId),
+    'href'  => 'dashboard/' . ($from == 'main' ? $from : 'project') . '/' . ($from == 'main' ? '' : $projectId),
     'img'   => 'off',
 );
 
@@ -37,7 +37,7 @@ echo View::factory('baseStart')
         <?php foreach ($controllers as $_controller): ?>
             <li class="widget-elt"><a href="javascript:void(0)" data-widget="<?php echo $_controller; ?>">
                     <?php
-                    echo str_replace("_", "/", $_controller);
+                    echo str_replace('_', '/', $_controller);
                     ?></a></li>
         <?php endforeach; ?>
     </ul>

@@ -80,12 +80,12 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Icon
         $data                = $build->phpunit_globaldata;
         $parameters          = Owaka::getReportParameters($build->project_id, 'phpunit');
         $this->widgetLinks[] = array(
-            "type" => 'build',
-            "id"   => $build->id
+            'type' => 'build',
+            'id'   => $build->id
         );
         $this->widgetLinks[] = array(
-            "title" => 'report',
-            "url"   => Owaka::getReportUri($build->id, 'phpunit', 'report')
+            'title' => 'report',
+            'url'   => Owaka::getReportUri($build->id, 'phpunit', 'report')
         );
 
         if ($data->errors > 0) {

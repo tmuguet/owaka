@@ -80,12 +80,12 @@ class Controller_Widget_Phpunit_Buildevolutionicon extends Controller_Widget_Ico
     {
         $data                = $build->phpunit_globaldata;
         $this->widgetLinks[] = array(
-            "type" => 'build',
-            "id"   => $build->id
+            'type' => 'build',
+            'id'   => $build->id
         );
         $this->widgetLinks[] = array(
-            "title" => 'report',
-            "url"   => Owaka::getReportUri($build->id, 'phpunit', 'report')
+            'title' => 'report',
+            'url'   => Owaka::getReportUri($build->id, 'phpunit', 'report')
         );
 
         if ($data->errors_regressions > 0) {

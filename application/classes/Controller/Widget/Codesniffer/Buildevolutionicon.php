@@ -80,12 +80,12 @@ class Controller_Widget_Codesniffer_Buildevolutionicon extends Controller_Widget
     {
         $data                = $build->codesniffer_globaldata;
         $this->widgetLinks[] = array(
-            "type" => 'build',
-            "id"   => $build->id
+            'type' => 'build',
+            'id'   => $build->id
         );
         $this->widgetLinks[] = array(
-            "title" => 'report',
-            "url"   => Owaka::getReportUri($build->id, 'codesniffer', 'xml')
+            'title' => 'report',
+            'url'   => Owaka::getReportUri($build->id, 'codesniffer', 'xml')
         );
 
         if ($data->errors_regressions > 0) {

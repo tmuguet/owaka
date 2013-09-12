@@ -58,7 +58,7 @@ class Controller_Designer extends Controller
     {
         $controllers = array();
         foreach (File::findWidgets($this->request->action()) as $controller) {
-            $controllers[]  = str_replace("Controller_Widget_", "", $controller);
+            $controllers[]  = str_replace('Controller_Widget_', '', $controller);
         }
 
         $view = View::factory('designer')

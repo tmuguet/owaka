@@ -86,6 +86,6 @@ class Auth_ORM extends Kohana_Auth_ORM
      */
     public function check_password($password)
     {
-        throw new HTTP_Exception_500("Not implemented");
+        throw new HTTP_Exception_500('Not implemented');
     }
 }

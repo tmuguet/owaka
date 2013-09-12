@@ -45,7 +45,7 @@ class Task_Run extends Minion_Task
         $logger = new Log_FlatFile($this->_outdir_owaka . 'builder.log');
         Kohana::$log->attach($logger);
 
-        Kohana::$log->add(Log::INFO, "Starting build " . $build->id . " for project " . $build->project->name);
+        Kohana::$log->add(Log::INFO, 'Starting build ' . $build->id . ' for project ' . $build->project->name);
 
         try {
             $this->validate($build);
@@ -55,7 +55,7 @@ class Task_Run extends Minion_Task
             Kohana_Exception::log($e);
         }
 
-        Kohana::$log->add(Log::INFO, "Finished build " . $build->id);
+        Kohana::$log->add(Log::INFO, 'Finished build ' . $build->id);
         Kohana::$log->write();
         echo 'ok';
     }
@@ -84,11 +84,11 @@ class Task_Run extends Minion_Task
         $build->update();
 
         $targets = array();
-        $_tok    = strtok(trim($build->project->phing_target_validate), " ,;");
+        $_tok    = strtok(trim($build->project->phing_target_validate), ' ,;');
 
         while ($_tok !== false) {
             $targets[] = $_tok;
-            $_tok      = strtok(" ,;");
+            $_tok      = strtok(' ,;');
         }
 
         $command = new Command($build->project);
@@ -97,7 +97,7 @@ class Task_Run extends Minion_Task
             $path = (empty($build->project->phing_path) ? $build->project->path : $build->project->phing_path);
             $command->chdir($path);
 
-            Kohana::$log->add(Log::INFO, "Starting $target...");
+            Kohana::$log->add(Log::INFO, 'Starting ' . $target . '...');
 
             $buildTargetLog = $command->execute(
                     'phing -logger phing.listener.HtmlColorLogger ' . $target . ' -Dowaka.build=' . $build->id
@@ -107,22 +107,22 @@ class Task_Run extends Minion_Task
             } else {
                 $buildTargetResult = 1;
             }
-            Kohana::$log->add(Log::INFO, "Finished $target with result $buildTargetResult");
+            Kohana::$log->add(Log::INFO, 'Finished ' . $target . ' with result ' . $buildTargetResult);
 
-            file_put_contents($this->_outdir_owaka . 'buildlog.html', "<h1>Target $target</h1>", FILE_APPEND);
+            file_put_contents($this->_outdir_owaka . 'buildlog.html', '<h1>Target ' . $target . '</h1>', FILE_APPEND);
             file_put_contents($this->_outdir_owaka . 'buildlog.html', $buildTargetLog, FILE_APPEND);
             file_put_contents(
                     $this->_outdir_owaka . 'buildlog.html',
-                    "<h1>End of target $target with result $buildTargetResult</h1>", FILE_APPEND
+                    '<h1>End of target ' . $target . ' with result ' . $buildTargetResult . '</h1>', FILE_APPEND
             );
 
             if ($buildTargetResult == 0) {
-                Kohana::$log->add(Log::INFO, "Target $target successful");
+                Kohana::$log->add(Log::INFO, 'Target ' . $target . ' successful');
                 //$build->status = 'ok';    // Do not update yet
             } else if ($buildTargetResult == 1) {
-                Kohana::$log->add(Log::ERROR, "Target $target failed with errors");
+                Kohana::$log->add(Log::ERROR, 'Target ' . $target . ' failed with errors');
             } else {
-                Kohana::$log->add(Log::CRITICAL, "Target $target unproperly configured");
+                Kohana::$log->add(Log::CRITICAL, 'Target ' . $target . ' unproperly configured');
             }
 
             $command->chtobasedir();
@@ -130,7 +130,7 @@ class Task_Run extends Minion_Task
             $this->copyReports($build);
 
             if ($buildTargetResult != 0) {
-                Kohana::$log->add(Log::INFO, "Stopping build");
+                Kohana::$log->add(Log::INFO, 'Stopping build');
                 $build->status = Owaka::BUILD_ERROR;   // Build unproperly configured
                 break;
             }
@@ -150,13 +150,13 @@ class Task_Run extends Minion_Task
     {
         Auth::instance()->force_login('owaka');
         foreach (File::findProcessors() as $processor) {
-            $name     = str_replace("Controller_", "", $processor);
-            Kohana::$log->add(Log::INFO, "Copying reports for $name...");
+            $name     = str_replace('Controller_', '', $processor);
+            Kohana::$log->add(Log::INFO, 'Copying reports for ' . $name . '...');
             $response = Request::factory($name . '/copy/' . $build->id)
                     ->execute();
             if ($response->status() != 200) {
-                Kohana::$log->add(Log::ERROR, "Status: " . $response->status());
-                Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
+                Kohana::$log->add(Log::ERROR, 'Status: ' . $response->status());
+                Kohana::$log->add(Log::ERROR, 'Content: ' . $response->body());
             }
         }
         Auth::instance()->logout();
@@ -171,13 +171,13 @@ class Task_Run extends Minion_Task
     {
         Auth::instance()->force_login('owaka');
         foreach (File::findProcessors() as $processor) {
-            $name     = str_replace("Controller_", "", $processor);
-            Kohana::$log->add(Log::INFO, "Processing reports for $name...");
+            $name     = str_replace('Controller_', '', $processor);
+            Kohana::$log->add(Log::INFO, 'Processing reports for ' . $name . '...');
             $response = Request::factory($name . '/process/' . $build->id)
                     ->execute();
             if ($response->status() != 200) {
-                Kohana::$log->add(Log::ERROR, "Status: " . $response->status());
-                Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
+                Kohana::$log->add(Log::ERROR, 'Status: ' . $response->status());
+                Kohana::$log->add(Log::ERROR, 'Content: ' . $response->body());
             }
         }
         Auth::instance()->logout();
@@ -196,13 +196,13 @@ class Task_Run extends Minion_Task
             $build->status = Owaka::BUILD_OK;
 
             foreach (File::findAnalyzers() as $processor) {
-                $name     = str_replace("Controller_", "", $processor);
-                Kohana::$log->add(Log::INFO, "Analyzing reports for $name...");
+                $name     = str_replace('Controller_', '', $processor);
+                Kohana::$log->add(Log::INFO, 'Analyzing reports for ' . $name . '...');
                 $response = Request::factory($name . '/analyze/' . $build->id)
                         ->execute();
                 if ($response->status() != 200) {
-                    Kohana::$log->add(Log::ERROR, "Status: " . $response->status());
-                    Kohana::$log->add(Log::ERROR, "Content: " . $response->body());
+                    Kohana::$log->add(Log::ERROR, 'Status: ' . $response->status());
+                    Kohana::$log->add(Log::ERROR, 'Content: ' . $response->body());
                 }
 
                 if ($response->body() == Owaka::BUILD_ERROR) {
@@ -211,10 +211,10 @@ class Task_Run extends Minion_Task
                 } else if ($response->body() == Owaka::BUILD_UNSTABLE) {
                     $build->status = Owaka::BUILD_UNSTABLE;
                 }
-                Kohana::$log->add(Log::INFO, "$name : {$build->status}");
+                Kohana::$log->add(Log::INFO, $name . ' : ' . $build->status);
             }
         } else {
-            Kohana::$log->add(Log::INFO, "Skipping analyze of reports: status already set to " . $build->status);
+            Kohana::$log->add(Log::INFO, 'Skipping analyze of reports: status already set to '. $build->status);
         }
         $build->finished = DB::expr('NOW()');
         $build->update();

@@ -32,9 +32,9 @@ class Controller_Api_Build extends Controller_Api
         $output = array();
         foreach ($builds as $build) {
             $output[] = array(
-                "id"       => $build->id,
-                "revision" => $build->getRevision(),
-                "status"   => $build->status,
+                'id'       => $build->id,
+                'revision' => $build->getRevision(),
+                'status'   => $build->status,
             );
         }
         $this->respondOk($output);
@@ -55,7 +55,7 @@ class Controller_Api_Build extends Controller_Api
             }
             $id = $build->id;
             $build->delete();
-            $this->respondOk(array("build" => $id, "next_build"   => $next->id));
+            $this->respondOk(array('build' => $id, 'next_build'   => $next->id));
         } else {
             throw new HTTP_Exception_404();
         }

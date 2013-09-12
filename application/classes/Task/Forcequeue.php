@@ -32,16 +32,16 @@ class Task_Forcequeue extends Minion_Task
                 $project = ORM::factory('Project', $params['id']);
             }
             if (!$project->loaded()) {
-                echo "No project";
+                echo 'No project';
                 return;
             }
             if ($project->scm_status != 'ready') {
-                echo "Project has not been checked out";
+                echo 'Project has not been checked out';
                 return;
             }
             $building = $project->builds->where('status', 'IN', array('building', 'queued'))->count_all();
             if ($building > 0) {
-                echo "Project already in queue";
+                echo 'Project already in queue';
                 return;
             }
 
@@ -51,14 +51,14 @@ class Task_Forcequeue extends Minion_Task
             switch ($project->scm) {
                 case 'mercurial':
                     $tip_res = $command->execute('hg tip');
-                    $tip     = explode("\n", $tip_res);
+                    $tip     = explode(PHP_EOL, $tip_res);
                     preg_match('/\s(\d+):/', $tip[0], $matches);
                     $rev     = $matches[1];
                     break;
 
                 case 'git':
                     $tip_res = $command->execute('git log -1');
-                    $tip     = explode("\n", $tip_res);
+                    $tip     = explode(PHP_EOL, $tip_res);
                     preg_match('/commit\s+([0-9a-f]+)/', $tip[0], $matches);
                     $rev     = $matches[1];
                     break;
@@ -67,7 +67,7 @@ class Task_Forcequeue extends Minion_Task
             $build             = ORM::factory('Build');
             $build->project_id = $project->id;
             $build->revision   = $rev;
-            $build->message    = implode("\n", $tip);
+            $build->message    = implode(PHP_EOL, $tip);
             $build->status     = Owaka::BUILD_QUEUED;
             $build->started    = DB::expr('NOW()');
             $build->eta        = NULL;

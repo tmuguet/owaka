@@ -47,7 +47,7 @@ class Controller_Designer_Details extends Controller
      */
     protected function process()
     {
-        $name = "Controller_Widget_" . $this->request->param('id');
+        $name = 'Controller_Widget_' . $this->request->param('id');
         if (!class_exists($name)) {
             throw new HTTP_Exception_404();
         }

@@ -80,12 +80,12 @@ class Controller_Widget_Phpmd_Buildevolutionicon extends Controller_Widget_Icon
     {
         $data                = $build->phpmd_globaldata;
         $this->widgetLinks[] = array(
-            "type" => 'build',
-            "id"   => $build->id
+            'type' => 'build',
+            'id'   => $build->id
         );
         $this->widgetLinks[] = array(
-            "title" => 'report',
-            "url"   => Owaka::getReportUri($build->id, 'phpmd', 'html')
+            'title' => 'report',
+            'url'   => Owaka::getReportUri($build->id, 'phpmd', 'html')
         );
 
         if ($data->errors_delta > 0) {

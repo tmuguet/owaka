@@ -87,18 +87,18 @@ abstract class Controller_Processor extends Controller
             $source      = $this->_getInputReportCompletePath($buildId, $type);
             $destination = $destinationDirectory . $info['keep-as'];    // TODO: this can get messy if mis-used !
 
-            Kohana::$log->add(Log::DEBUG, "Trying to copy $source to $destination");
+            Kohana::$log->add(Log::DEBUG, 'Trying to copy ' . $source . ' to ' . $destination);
 
             if (!empty($source) && !empty($destination)) {
-                if ($info['type'] == "dir" && !$command->is_dir($source)) {
-                    Kohana::$log->add(Log::INFO, "Source $source is not a directory");
+                if ($info['type'] == 'dir' && !$command->is_dir($source)) {
+                    Kohana::$log->add(Log::INFO, 'Source ' . $source . ' is not a directory');
                     continue;
-                } else if ($info['type'] == "file" && !$command->is_file($source)) {
-                    Kohana::$log->add(Log::INFO, "Source $source is not a file");
+                } else if ($info['type'] == 'file' && !$command->is_file($source)) {
+                    Kohana::$log->add(Log::INFO, 'Source ' . $source . ' is not a file');
                     continue;
                 }
 
-                Kohana::$log->add(Log::DEBUG, "Copying $source to $destination");
+                Kohana::$log->add(Log::DEBUG, 'Copying ' . $source . ' to ' . $destination);
                 if (!file_exists($destinationDirectory)) {
                     // Create the directory only if at least one report is available
                     mkdir($destinationDirectory, 0700, true);
@@ -116,7 +116,7 @@ abstract class Controller_Processor extends Controller
      */
     static /* private */ final function _getName()
     {
-        return strtolower(str_replace("Controller_Processor_", "", get_called_class()));
+        return strtolower(str_replace('Controller_Processor_', '', get_called_class()));
     }
 
     /**
@@ -199,9 +199,9 @@ abstract class Controller_Processor extends Controller
         $result  = $this->process($buildId);
         // TODO: proper error management
         if ($result) {
-            $this->response->body("true");
+            $this->response->body('true');
         } else {
-            $this->response->body("false");
+            $this->response->body('false');
         }
     }
 

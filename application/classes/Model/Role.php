@@ -21,6 +21,6 @@ class Model_Role extends Model_Auth_Role
      */
     static public function getRole($role)
     {
-        return ORM::factory('Role', array("name" => $role));
+        return ORM::factory('Role', array('name' => $role));
     }
 }

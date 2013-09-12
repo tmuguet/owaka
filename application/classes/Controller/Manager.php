@@ -22,7 +22,7 @@ class Controller_Manager extends Controller
         $processors = File::findProcessors();
         $reports    = array();
         foreach ($processors as $processor) {
-            $name           = str_replace("Controller_Processor_", "", $processor);
+            $name           = str_replace('Controller_Processor_', '', $processor);
             $reports[$name] = $processor::inputReports();
         }
 
@@ -44,7 +44,7 @@ class Controller_Manager extends Controller
         $processors = File::findProcessors();
         $reports    = array();
         foreach ($processors as $processor) {
-            $name           = str_replace("Controller_Processor_", "", $processor);
+            $name           = str_replace('Controller_Processor_', '', $processor);
             $reports[$name] = $processor::inputReports();
         }
         $project = ORM::factory('Project', $this->request->param('id'));
@@ -67,7 +67,7 @@ class Controller_Manager extends Controller
         $processors = File::findProcessors();
         $reports    = array();
         foreach ($processors as $processor) {
-            $name           = str_replace("Controller_Processor_", "", $processor);
+            $name           = str_replace('Controller_Processor_', '', $processor);
             $reports[$name] = $processor::inputReports();
         }
         $project = ORM::factory('Project', $this->request->param('id'));

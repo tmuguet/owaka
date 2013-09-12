@@ -78,7 +78,7 @@ class Controller_Processor_Phpunit extends Controller_Processor
     {
         $report = $this->getReportCompletePath($buildId, 'xml');
 
-        if (!empty($report) && file_get_contents($report) != "") {
+        if (!empty($report) && file_get_contents($report) != '') {
             $global           = ORM::factory('Phpunit_Globaldata');
             $global->build_id = $buildId;
             $global->tests    = 0;

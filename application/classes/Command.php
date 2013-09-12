@@ -124,12 +124,12 @@ class Command
             $matches    = array();
             preg_match('/\+res=(-?\d+)/', $res, $matches);
             $return_var = $matches[1];
-            $res        = trim(str_replace($matches[0], "", $res));
+            $res        = trim(str_replace($matches[0], '', $res));
             return $res;
         } else {
             $result = array();
             exec($command, $result, $return_var);
-            return implode("\n", $result);
+            return implode(PHP_EOL, $result);
         }
     }
 
@@ -167,7 +167,7 @@ class Command
             $objects = $this->remoteConnection->nlist($source);
             $result  = true;
             foreach ($objects as $file) {
-                if ($file == "." || $file == "..") {
+                if ($file == '.' || $file == '..') {
                     continue;
                 }
 

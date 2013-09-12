@@ -75,7 +75,7 @@ class Valid extends Kohana_Valid
      */
     public static function boolean($str)
     {
-        return in_array($str, array(0, 1, "0", "1"), TRUE);
+        return in_array($str, array(0, 1, '0', '1'), TRUE);
     }
 
     /**

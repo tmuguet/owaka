@@ -50,7 +50,7 @@ abstract class Controller extends Kohana_Controller
             if (!Auth::instance()->logged_in($role)) {
                 $uri = $this->request->uri();
                 if (!empty($uri) && $uri != '/') {
-                    Session::instance()->set("requested_url", $uri);
+                    Session::instance()->set('requested_url', $uri);
                 }
                 $this->redirect('login');
                 // @codeCoverageIgnoreStart

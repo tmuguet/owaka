@@ -87,7 +87,7 @@ class Controller_Processor_Coverage extends Controller_Processor
     {
         $report = $this->getReportCompletePath($buildId, 'raw');
 
-        if (!empty($report) && file_get_contents($report) != "") {
+        if (!empty($report) && file_get_contents($report) != '') {
             $global           = ORM::factory('Coverage_Globaldata');
             $global->build_id = $buildId;
 

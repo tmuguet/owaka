@@ -108,7 +108,7 @@ abstract class Controller_Widget extends Controller
                     break;
 
                 default:
-                    throw new HTTP_Exception_404("Unexpected type of dashboard");
+                    throw new HTTP_Exception_404('Unexpected type of dashboard');
                     break;
             }
         }
@@ -140,7 +140,7 @@ abstract class Controller_Widget extends Controller
                     $this->_project = $this->getBuild()->project;
                     // @codeCoverageIgnoreStart
                 } else {
-                    throw new HTTP_Exception_404("Unexpected type of widget");
+                    throw new HTTP_Exception_404('Unexpected type of widget');
                 }
                 // @codeCoverageIgnoreEnd
             }
@@ -167,10 +167,10 @@ abstract class Controller_Widget extends Controller
                 } else if ($model instanceof Model_Build_Widget) {
                     // Build ID is available via URI parameters
                     $buildId      = $this->request->param('data');
-                    $this->_build = ORM::factory("Build", $buildId);
+                    $this->_build = ORM::factory('Build', $buildId);
                     // @codeCoverageIgnoreStart
                 } else {
-                    throw new HTTP_Exception_404("Unexpected type of widget");
+                    throw new HTTP_Exception_404('Unexpected type of widget');
                 }
                 // @codeCoverageIgnoreEnd
             }
@@ -243,7 +243,7 @@ abstract class Controller_Widget extends Controller
         View::set_global('from', $this->request->param('dashboard'));
         View::set_global(
                 'widgetType',
-                str_replace("_", "/", str_replace("Controller_Widget_", "", $this->getModelWidget()->type))
+                str_replace('_', '/', str_replace('Controller_Widget_', '', $this->getModelWidget()->type))
         );
         View::set_global('id', $this->getModelWidget()->id);
         View::set_global('width', $this->getModelWidget()->width);
@@ -268,23 +268,23 @@ abstract class Controller_Widget extends Controller
      */
     public final function action_display()
     {
-        $name = "display_" . $this->request->param('dashboard');
+        $name = 'display_' . $this->request->param('dashboard');
         if (is_callable(array($this, $name))) {
             $this->$name();
-        } else if (is_callable(array($this, "display_all"))) {
+        } else if (is_callable(array($this, 'display_all'))) {
             $this->display_all();
         } else {
-            throw new HTTP_Exception_500("Widget " . get_called_class() . " does not support dashboard " . $this->request->param('dashboard'));
+            throw new HTTP_Exception_500('Widget ' . get_called_class() . ' does not support dashboard ' . $this->request->param('dashboard'));
         }
 
         if ($this->getProject() !== NULL) {
             array_unshift(
-                    $this->widgetLinks, array("type" => 'project', "id"   => $this->getProject()->id)
+                    $this->widgetLinks, array('type' => 'project', 'id'   => $this->getProject()->id)
             );
         }
         if ($this->getBuild() !== NULL) {
             array_unshift(
-                    $this->widgetLinks, array("type" => 'build', "id"   => $this->getBuild()->id)
+                    $this->widgetLinks, array('type' => 'build', 'id'   => $this->getBuild()->id)
             );
         }
 
@@ -299,31 +299,31 @@ abstract class Controller_Widget extends Controller
      */
     public final function action_sample()
     {
-        $name  = "sample_" . $this->request->param('dashboard');
-        $name2 = "display_" . $this->request->param('dashboard');
+        $name  = 'sample_' . $this->request->param('dashboard');
+        $name2 = 'display_' . $this->request->param('dashboard');
         if (is_callable(array($this, $name))) {
             $this->$name();
-        } else if (is_callable(array($this, "sample_all"))) {
+        } else if (is_callable(array($this, 'sample_all'))) {
             $this->sample_all();
         } else if (is_callable(array($this, $name2))) {
             $this->$name2();
-        } else if (is_callable(array($this, "display_all"))) {
+        } else if (is_callable(array($this, 'display_all'))) {
             $this->display_all();
         } else {
-            throw new HTTP_Exception_500("Widget " . get_called_class() . " does not support dashboard preview " . $this->request->param('dashboard'));
+            throw new HTTP_Exception_500('Widget ' . get_called_class() . ' does not support dashboard preview ' . $this->request->param('dashboard'));
         }
 
         // Remove all links
         $this->widgetLinks = array(
             array(
-                "title" => 'delete',
-                "url"   => 'javascript:void(0)',
-                "js"    => '$.owaka.designer.widget.remove(this);'
+                'title' => 'delete',
+                'url'   => 'javascript:void(0)',
+                'js'    => '$.owaka.designer.widget.remove(this);'
             ),
             array(
-                "title" => 'move',
-                "url"   => 'javascript:void(0)',
-                "class" => 'widget-move'
+                'title' => 'move',
+                'url'   => 'javascript:void(0)',
+                'class' => 'widget-move'
             )
         );
 

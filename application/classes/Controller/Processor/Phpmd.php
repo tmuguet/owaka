@@ -61,7 +61,7 @@ class Controller_Processor_Phpmd extends Controller_Processor
     {
         $report = $this->getReportCompletePath($buildId, 'html');
 
-        if (!empty($report) && file_get_contents($report) != "") {
+        if (!empty($report) && file_get_contents($report) != '') {
             $content          = file_get_contents($report);
             $global           = ORM::factory('Phpmd_Globaldata');
             $global->build_id = $buildId;

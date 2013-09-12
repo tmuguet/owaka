@@ -14,11 +14,11 @@
     foreach ($params as $key => $value) {
         echo '<dt>';
         switch ($value['type']) {
-            case "project":
+            case 'project':
                 echo 'Project';
                 break;
 
-            case "build":
+            case 'build':
                 echo 'Build';
                 break;
 
@@ -28,7 +28,7 @@
         }
         echo ':</dt><dd>';
         switch ($value['type']) {
-            case "project":
+            case 'project':
                 echo <<<EOT
 <select id="widget_project"></select>
 <script type="text/javascript">
@@ -41,7 +41,7 @@ EOT;
                     echo 'o.append(\'<option value="">None or default</option>\');';
                 }
                 if (isset($value['default'])) {
-                    $def = "' + (data[i].id == " . $value['default'] . " ? ' selected=\"selected\"' : '') + '";
+                    $def = '\' + (data[i].id == ' . $value['default'] . ' ? \' selected=\"selected\"\' : \'\') + \'';
                 } else {
                     $def = '';
                 }
@@ -59,7 +59,7 @@ EOT;
 EOT;
                 break;
 
-            case "build":
+            case 'build':
                 echo <<<EOT
 <select id="widget_build"></select>
 <script type="text/javascript">
@@ -84,7 +84,7 @@ EOT;
 EOT;
                 break;
 
-            case "enum":
+            case 'enum':
                 echo '<select id="widget_' . $key . '">';
                 foreach ($value['enum'] as $enumValue) {
                     echo '<option value="' . $enumValue . '"';

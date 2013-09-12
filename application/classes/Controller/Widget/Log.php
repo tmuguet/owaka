@@ -66,8 +66,8 @@ class Controller_Widget_Log extends Controller_Widget_Raw
             $this->content = 'No data';
         } else {
             $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $build->id
+                'type' => 'build',
+                'id'   => $build->id
             );
 
             $this->content = file_get_contents($file);

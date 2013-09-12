@@ -71,7 +71,7 @@ class Controller_Processor_Codesniffer extends Controller_Processor
     {
         $report = $this->getReportCompletePath($buildId, 'xml');
 
-        if (!empty($report) && file_get_contents($report) != "") {
+        if (!empty($report) && file_get_contents($report) != '') {
             $global           = ORM::factory('Codesniffer_Globaldata');
             $global->build_id = $buildId;
             $global->warnings = 0;

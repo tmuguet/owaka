@@ -81,12 +81,12 @@ class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget
     {
         if (sizeof($builds) > 0) {
             $this->widgetLinks[] = array(
-                "type" => 'build',
-                "id"   => $builds[0]->id
+                'type' => 'build',
+                'id'   => $builds[0]->id
             );
             $this->widgetLinks[] = array(
-                "title" => 'latest report',
-                "url"   => Owaka::getReportUri($builds[0]->id, 'phpunit', 'report')
+                'title' => 'latest report',
+                'url'   => Owaka::getReportUri($builds[0]->id, 'phpunit', 'report')
             );
         }
 
@@ -102,8 +102,8 @@ class Controller_Widget_Phpunit_Latestbuildssparklines extends Controller_Widget
             }
         }
 
-        $this->sparklines[] = array("title" => "Tests", "data"  => array_reverse($tests));
-        $this->sparklines[] = array("title" => "Failures", "data"  => array_reverse($failures));
-        $this->sparklines[] = array("title" => "Errors", "data"  => array_reverse($errors));
+        $this->sparklines[] = array('title' => 'Tests', 'data'  => array_reverse($tests));
+        $this->sparklines[] = array('title' => 'Failures', 'data'  => array_reverse($failures));
+        $this->sparklines[] = array('title' => 'Errors', 'data'  => array_reverse($errors));
     }
 }

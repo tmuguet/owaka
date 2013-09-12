@@ -46,14 +46,14 @@ class Owaka
     {
         $processorClass = 'Controller_Processor_' . ucfirst($processor);
         if (!class_exists($processorClass)) {
-            throw new InvalidArgumentException("Cannot find processor $processor");
+            throw new InvalidArgumentException('Cannot find processor ' . $processor);
         }
         $reports = $processorClass::inputReports();
         $root    = APPPATH . 'reports' . DIR_SEP . $buildId . DIR_SEP . $processor . DIR_SEP;
         $uri     = 'reports/' . $buildId . '/' . $processor . '/';
         if ($type != NULL) {
             if (!isset($reports[$type])) {
-                throw new InvalidArgumentException("Report type $type is not defined for $processor");
+                throw new InvalidArgumentException('Report type ' . $type . ' is not defined for ' . $processor);
             }
 
             $path = realpath($root . $reports[$type]['keep-as']);
@@ -86,7 +86,7 @@ class Owaka
     {
         $processorClass = 'Controller_Processor_' . ucfirst($processor);
         if (!class_exists($processorClass)) {
-            throw new InvalidArgumentException("Cannot find processor $processor");
+            throw new InvalidArgumentException('Cannot find processor ' . $processor);
         }
         return $processorClass::projectParameters($projectId);
     }
@@ -111,7 +111,7 @@ class Owaka
         if (isset($link['type'])) {
             switch ($link['type']) {
                 case 'project':
-                    if ($from == "main") {
+                    if ($from == 'main') {
                         $url   = 'dashboard/project/' . $link['id'];
                         $title = 'project';
                     } else {
@@ -120,7 +120,7 @@ class Owaka
                     break;
 
                 case 'build':
-                    if ($from == "main" || $from == "project") {
+                    if ($from == 'main' || $from == 'project') {
                         $url   = 'dashboard/build/' . $link['id'];
                         $title = 'build';
                     } else {
