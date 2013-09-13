@@ -205,13 +205,13 @@ class Task_Run extends Minion_Task
                     Kohana::$log->add(Log::ERROR, 'Content: ' . $response->body());
                 }
 
+                Kohana::$log->add(Log::INFO, $name . ' : ' . $response->body());
                 if ($response->body() == Owaka::BUILD_ERROR) {
                     $build->status = Owaka::BUILD_ERROR;
                     break;
                 } else if ($response->body() == Owaka::BUILD_UNSTABLE) {
                     $build->status = Owaka::BUILD_UNSTABLE;
                 }
-                Kohana::$log->add(Log::INFO, $name . ' : ' . $build->status);
             }
         } else {
             Kohana::$log->add(Log::INFO, 'Skipping analyze of reports: status already set to '. $build->status);
