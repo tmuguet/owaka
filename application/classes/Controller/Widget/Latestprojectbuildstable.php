@@ -12,7 +12,9 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Table
 {
 
-    protected $autorefresh = TRUE;
+    public static $icon        = 'list';
+    public static $title       = 'Builds/project';
+    protected static $autorefresh = TRUE;
 
     /**
      * Gets the expected parameters
@@ -21,29 +23,9 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Table
      * 
      * @return array
      */
-    static public function getExpectedParameters(/* $dashboard */)
+    static public function expectedParameters(/* $dashboard */)
     {
         return array();
-    }
-
-    /**
-     * Gets the widget icon
-     * 
-     * @return string
-     */
-    protected function getWidgetIcon()
-    {
-        return 'list';
-    }
-
-    /**
-     * Gets the widget title
-     * 
-     * @return string
-     */
-    protected function getWidgetTitle()
-    {
-        return 'builds/project';
     }
 
     /**
@@ -76,7 +58,8 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Table
 
         foreach ($builds as $build) {
             if ($build->loaded()) {
-                $date = ($build->status == Owaka::BUILD_BUILDING || $build->status == Owaka::BUILD_QUEUED) ? $build->started : $build->finished;
+                $date = ($build->status == Owaka::BUILD_BUILDING || $build->status == Owaka::BUILD_QUEUED) ? $build->started
+                            : $build->finished;
 
                 $this->rows[] = array(
                     'link'    => array(

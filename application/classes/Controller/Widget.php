@@ -13,22 +13,34 @@ abstract class Controller_Widget extends Controller
 {
 
     /**
-     * Status of the widget (ok, unstable, error)
+     * Icon of the widget
      * @var string
      */
-    protected $widgetStatus = NULL;
+    public static $icon  = 'question';
+    
+    /**
+     * Title of the widget
+     * @var string
+     */
+    public static $title = 'unknown';
 
     /**
      * Determines whether the widget extends on hover
      * @var bool
      */
-    protected $extensible = TRUE;
+    protected static $extensible = TRUE;
 
     /**
      * Determines whether the widget should refresh itself automatically
      * @var bool
      */
-    protected $autorefresh = FALSE;
+    protected static $autorefresh = FALSE;
+
+    /**
+     * Status of the widget (ok, unstable, error)
+     * @var string
+     */
+    protected $widgetStatus = NULL;
 
     /**
      * Links provided by the widget
@@ -207,7 +219,7 @@ abstract class Controller_Widget extends Controller
         } else {
             // Find default value
             $class              = get_called_class();
-            $expectedParameters = $class::getExpectedParameters($this->request->param('dashboard'));
+            $expectedParameters = $class::expectedParameters($this->request->param('dashboard'));
             if (isset($expectedParameters[$name]) && isset($expectedParameters[$name]['default'])) {
                 return $expectedParameters[$name]['default'];
             } else {
@@ -220,20 +232,6 @@ abstract class Controller_Widget extends Controller
      * Renders the widget
      */
     abstract protected function render();
-
-    /**
-     * Gets the widget title
-     * 
-     * @return string
-     */
-    abstract protected function getWidgetTitle();
-
-    /**
-     * Gets the widget icon
-     * 
-     * @return string
-     */
-    abstract protected function getWidgetIcon();
 
     /**
      * Initializes the views by setting all needed variables
@@ -250,12 +248,12 @@ abstract class Controller_Widget extends Controller
         View::set_global('height', $this->getModelWidget()->height);
         View::set_global('column', $this->getModelWidget()->column);
         View::set_global('row', $this->getModelWidget()->row);
-        View::set_global('widgetIcon', $this->getWidgetIcon());
-        View::set_global('widgetTitle', $this->getWidgetTitle());
+        View::set_global('widgetIcon', static::$icon);
+        View::set_global('widgetTitle', static::$title);
         View::set_global('widgetStatus', $this->widgetStatus);
         View::set_global('widgetLinks', $this->widgetLinks);
-        View::set_global('extensible', $this->extensible);
-        View::set_global('autorefresh', $this->autorefresh);
+        View::set_global('extensible', static::$extensible);
+        View::set_global('autorefresh', static::$autorefresh);
         View::set_global('title', $this->_title);
         View::set_global('subtitle', $this->_subtitle);
     }

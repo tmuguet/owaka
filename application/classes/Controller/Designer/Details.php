@@ -51,9 +51,7 @@ class Controller_Designer_Details extends Controller
         if (!class_exists($name)) {
             throw new HTTP_Exception_404();
         }
-        $size           = $name::getPreferredSize();
-        $availableSizes = $name::getOptimizedSizes();
-        $params         = $name::getExpectedParameters($this->request->action());
+        $params         = $name::expectedParameters($this->request->action());
         $post           = $this->request->post();
         if (isset($params['project']) && !empty($post['projectId'])) {
             $params['project']['default'] = $post['projectId'];
@@ -62,8 +60,8 @@ class Controller_Designer_Details extends Controller
         $view = View::factory('designer_widgetdetails')
                 ->set('from', $this->request->action())
                 ->set('widget', $this->request->param('id'))
-                ->set('size', $size)
-                ->set('availableSizes', $availableSizes)
+                ->set('size', $name::$preferredSize)
+                ->set('availableSizes', $name::$availableSizes)
                 ->set('params', $params);
         $this->success($view);
     }

@@ -19,6 +19,9 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Widget_Pdepend_Latestbuildssparklines extends Controller_Widget_Sparklines
 {
 
+    public static $icon  = 'certificate';
+    public static $title = 'PHP Depend';
+
     /**
      * Gets the expected parameters
      * 
@@ -26,7 +29,7 @@ class Controller_Widget_Pdepend_Latestbuildssparklines extends Controller_Widget
      * 
      * @return array
      */
-    static public function getExpectedParameters($dashboard)
+    static public function expectedParameters($dashboard)
     {
         return array(
             'project' => array(
@@ -34,26 +37,6 @@ class Controller_Widget_Pdepend_Latestbuildssparklines extends Controller_Widget
                 'required' => ($dashboard == 'main')
             ),
         );
-    }
-
-    /**
-     * Gets the widget icon
-     * 
-     * @return string
-     */
-    protected function getWidgetIcon()
-    {
-        return 'certificate';
-    }
-
-    /**
-     * Gets the widget title
-     * 
-     * @return string
-     */
-    protected function getWidgetTitle()
-    {
-        return 'PHP Depend';
     }
 
     /**

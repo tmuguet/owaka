@@ -3,7 +3,10 @@
 class Controller_Widget_WidgetStub extends Controller_Widget
 {
 
-    static public function getExpectedParameters($dashboard)
+    public static $icon  = 'icon';
+    public static $title = 'title';
+
+    static public function expectedParameters($dashboard)
     {
         return array(
             'project' => array(
@@ -14,7 +17,7 @@ class Controller_Widget_WidgetStub extends Controller_Widget
                 'type'     => 'build',
                 'required' => false,
             ),
-            'foo' => array(
+            'foo'     => array(
                 'title'    => 'Param',
                 'type'     => 'enum',
                 'enum'     => array('grunge', 'splotchy'),
@@ -22,16 +25,6 @@ class Controller_Widget_WidgetStub extends Controller_Widget
                 'required' => false
             )
         );
-    }
-
-    protected function getWidgetIcon()
-    {
-        return 'icon';
-    }
-
-    protected function getWidgetTitle()
-    {
-        return 'title';
     }
 
     protected function render()

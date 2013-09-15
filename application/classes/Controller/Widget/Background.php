@@ -12,7 +12,11 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Widget_Background extends Controller_Widget
 {
 
-    protected $autorefresh = TRUE;
+    public static $icon           = 'picture';
+    public static $title          = 'background';
+    public static $preferredSize  = array(1, 1);
+    public static $availableSizes = array(array(1, 1));
+    protected static $autorefresh    = TRUE;
 
     /**
      * Theme of backgrounds
@@ -33,33 +37,13 @@ class Controller_Widget_Background extends Controller_Widget
     private $_additionalContent = NULL;
 
     /**
-     * Gets the preferred size (width, height)
-     * 
-     * @return int[]
-     */
-    static public function getPreferredSize()
-    {
-        return array(1, 1);
-    }
-
-    /**
-     * Gets the sizes (width, height) which this widget is optimized for
-     * 
-     * @return int[][]
-     */
-    static public function getOptimizedSizes()
-    {
-        return array(array(1, 1));
-    }
-
-    /**
      * Gets the expected parameters
      * 
      * //@param string $dashboard Type of dashboard
      * 
      * @return array
      */
-    static public function getExpectedParameters(/* $dashboard */)
+    static public function expectedParameters(/* $dashboard */)
     {
         return array(
             'theme' => array(
@@ -70,26 +54,6 @@ class Controller_Widget_Background extends Controller_Widget
                 'required' => false
             )
         );
-    }
-
-    /**
-     * Gets the widget icon
-     * 
-     * @return string
-     */
-    protected function getWidgetIcon()
-    {
-        return 'picture';
-    }
-
-    /**
-     * Gets the widget title
-     * 
-     * @return string
-     */
-    protected function getWidgetTitle()
-    {
-        return 'background';
     }
 
     /**

@@ -12,40 +12,23 @@ defined('SYSPATH') OR die('No direct script access.');
 abstract class Controller_Widget_Table extends Controller_Widget
 {
 
+    public static $preferredSize  = array(2, 4);
+    public static $availableSizes = array(
+        array(2, 2), array(2, 4), array(2, 6),
+        array(4, 2), array(4, 4), array(4, 6)
+    );
+
     /**
      * Name of the columns. Columns prefixed by `_` are shown only when the widget is hovered
      * @var array
      */
     protected $columnsHeaders = array();
-    
+
     /**
      * List of rows
      * @var array
      */
-    protected $rows           = array();
-
-    /**
-     * Gets the preferred size (width, height)
-     * 
-     * @return int[]
-     */
-    static public function getPreferredSize()
-    {
-        return array(2, 4);
-    }
-
-    /**
-     * Gets the sizes (width, height) which this widget is optimized for
-     * 
-     * @return int[][]
-     */
-    static public function getOptimizedSizes()
-    {
-        return array(
-            array(2, 2), array(2, 4), array(2, 6),
-            array(4, 2), array(4, 4), array(4, 6)
-        );
-    }
+    protected $rows = array();
 
     /**
      * Renders the widget

@@ -12,6 +12,9 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Icon
 {
 
+    public static $icon  = 'check';
+    public static $title = 'PHPUnit';
+
     /**
      * Gets the expected parameters
      * 
@@ -19,7 +22,7 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Icon
      * 
      * @return array
      */
-    static public function getExpectedParameters($dashboard)
+    static public function expectedParameters($dashboard)
     {
         return array(
             'project' => array(
@@ -31,26 +34,6 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Icon
                 'required' => false,
             )
         );
-    }
-
-    /**
-     * Gets the widget icon
-     * 
-     * @return string
-     */
-    protected function getWidgetIcon()
-    {
-        return 'check';
-    }
-
-    /**
-     * Gets the widget title
-     * 
-     * @return string
-     */
-    protected function getWidgetTitle()
-    {
-        return 'phpunit';
     }
 
     /**

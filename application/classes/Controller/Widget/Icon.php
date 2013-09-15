@@ -12,6 +12,9 @@ defined('SYSPATH') OR die('No direct script access.');
 abstract class Controller_Widget_Icon extends Controller_Widget
 {
 
+    public static $preferredSize  = array(2, 2);
+    public static $availableSizes = array(array(2, 2));
+
     /**
      * Array of data to show
      * 
@@ -23,26 +26,6 @@ abstract class Controller_Widget_Icon extends Controller_Widget
      * @var array
      */
     protected $data = array();
-
-    /**
-     * Gets the preferred size (width, height)
-     * 
-     * @return int[]
-     */
-    static public function getPreferredSize()
-    {
-        return array(2, 2);
-    }
-
-    /**
-     * Gets the sizes (width, height) which this widget is optimized for
-     * 
-     * @return int[][]
-     */
-    static public function getOptimizedSizes()
-    {
-        return array(array(2, 2));
-    }
 
     /**
      * Renders the widget

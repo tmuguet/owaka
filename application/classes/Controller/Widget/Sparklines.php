@@ -12,36 +12,17 @@ defined('SYSPATH') OR die('No direct script access.');
 abstract class Controller_Widget_Sparklines extends Controller_Widget_Raw
 {
 
+    public static $preferredSize  = array(4, 2);
+    public static $availableSizes = array(
+        array(4, 2), array(4, 4), array(4, 6)
+    );
+    protected static $extensible     = FALSE;
+
     /**
      * List of sparklines to display
      * @var array
      */
     protected $sparklines = array();
-    
-    
-    protected $extensible = FALSE;
-
-    /**
-     * Gets the preferred size (width, height)
-     * 
-     * @return int[]
-     */
-    static public function getPreferredSize()
-    {
-        return array(4, 2);
-    }
-
-    /**
-     * Gets the expected parameters
-     * 
-     * @return int[][]
-     */
-    static public function getOptimizedSizes()
-    {
-        return array(
-            array(4, 2), array(4, 4), array(4, 6)
-        );
-    }
 
     /**
      * Renders the widget

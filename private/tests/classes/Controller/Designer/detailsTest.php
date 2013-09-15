@@ -18,13 +18,13 @@ class Controller_Designer_detailsTest extends TestCase
                 ->execute();
         $this->assertResponseOK($response);
 
-        $params                       = Controller_Widget_Log::getExpectedParameters('main');
+        $params                       = Controller_Widget_Log::expectedParameters('main');
         $params['project']['default'] = 1;
         $expected                     = View::factory('designer_widgetdetails')
                 ->set('from', 'main')
                 ->set('widget', 'Log')
-                ->set('size', Controller_Widget_Log::getPreferredSize())
-                ->set('availableSizes', Controller_Widget_Log::getOptimizedSizes())
+                ->set('size', Controller_Widget_Log::$preferredSize)
+                ->set('availableSizes', Controller_Widget_Log::$availableSizes)
                 ->set('params', $params);
         $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
@@ -43,9 +43,9 @@ class Controller_Designer_detailsTest extends TestCase
         $expected = View::factory('designer_widgetdetails')
                 ->set('from', 'main')
                 ->set('widget', 'Background')
-                ->set('size', Controller_Widget_Background::getPreferredSize())
-                ->set('availableSizes', Controller_Widget_Background::getOptimizedSizes())
-                ->set('params', Controller_Widget_Background::getExpectedParameters('main'));
+                ->set('size', Controller_Widget_Background::$preferredSize)
+                ->set('availableSizes', Controller_Widget_Background::$availableSizes)
+                ->set('params', Controller_Widget_Background::expectedParameters('main'));
         $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
 
@@ -61,13 +61,13 @@ class Controller_Designer_detailsTest extends TestCase
                 ->execute();
         $this->assertResponseOK($response);
 
-        $params                       = Controller_Widget_Log::getExpectedParameters('project');
+        $params                       = Controller_Widget_Log::expectedParameters('project');
         $params['project']['default'] = 1;
         $expected                     = View::factory('designer_widgetdetails')
                 ->set('from', 'project')
                 ->set('widget', 'Log')
-                ->set('size', Controller_Widget_Log::getPreferredSize())
-                ->set('availableSizes', Controller_Widget_Log::getOptimizedSizes())
+                ->set('size', Controller_Widget_Log::$preferredSize)
+                ->set('availableSizes', Controller_Widget_Log::$availableSizes)
                 ->set('params', $params);
         $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
@@ -86,9 +86,9 @@ class Controller_Designer_detailsTest extends TestCase
         $expected = View::factory('designer_widgetdetails')
                 ->set('from', 'project')
                 ->set('widget', 'Background')
-                ->set('size', Controller_Widget_Background::getPreferredSize())
-                ->set('availableSizes', Controller_Widget_Background::getOptimizedSizes())
-                ->set('params', Controller_Widget_Background::getExpectedParameters('project'));
+                ->set('size', Controller_Widget_Background::$preferredSize)
+                ->set('availableSizes', Controller_Widget_Background::$availableSizes)
+                ->set('params', Controller_Widget_Background::expectedParameters('project'));
         $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
 
@@ -104,13 +104,13 @@ class Controller_Designer_detailsTest extends TestCase
                 ->execute();
         $this->assertResponseOK($response);
 
-        $params                       = Controller_Widget_Log::getExpectedParameters('build');
+        $params                       = Controller_Widget_Log::expectedParameters('build');
         $params['project']['default'] = 1;
         $expected                     = View::factory('designer_widgetdetails')
                 ->set('from', 'build')
                 ->set('widget', 'Log')
-                ->set('size', Controller_Widget_Log::getPreferredSize())
-                ->set('availableSizes', Controller_Widget_Log::getOptimizedSizes())
+                ->set('size', Controller_Widget_Log::$preferredSize)
+                ->set('availableSizes', Controller_Widget_Log::$availableSizes)
                 ->set('params', $params);
         $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
@@ -127,9 +127,9 @@ class Controller_Designer_detailsTest extends TestCase
         $expected = View::factory('designer_widgetdetails')
                 ->set('from', 'build')
                 ->set('widget', 'Background')
-                ->set('size', Controller_Widget_Background::getPreferredSize())
-                ->set('availableSizes', Controller_Widget_Background::getOptimizedSizes())
-                ->set('params', Controller_Widget_Background::getExpectedParameters('build'));
+                ->set('size', Controller_Widget_Background::$preferredSize)
+                ->set('availableSizes', Controller_Widget_Background::$availableSizes)
+                ->set('params', Controller_Widget_Background::expectedParameters('build'));
         $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
 

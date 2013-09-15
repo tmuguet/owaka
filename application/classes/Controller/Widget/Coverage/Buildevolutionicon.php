@@ -12,6 +12,9 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Icon
 {
 
+    public static $icon  = 'screenshot';
+    public static $title = 'Coverage';
+
     /**
      * Gets the expected parameters
      * 
@@ -19,7 +22,7 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ic
      * 
      * @return array
      */
-    static public function getExpectedParameters($dashboard)
+    static public function expectedParameters($dashboard)
     {
         return array(
             'project' => array(
@@ -38,26 +41,6 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ic
                 'required' => false,
             ),
         );
-    }
-
-    /**
-     * Gets the widget icon
-     * 
-     * @return string
-     */
-    protected function getWidgetIcon()
-    {
-        return 'screenshot';
-    }
-
-    /**
-     * Gets the widget title
-     * 
-     * @return string
-     */
-    protected function getWidgetTitle()
-    {
-        return 'Coverage';
     }
 
     /**

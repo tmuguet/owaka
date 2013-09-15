@@ -12,34 +12,17 @@ defined('SYSPATH') OR die('No direct script access.');
 abstract class Controller_Widget_Raw extends Controller_Widget
 {
 
+    public static $preferredSize  = array(6, 4);
+    public static $availableSizes = array(
+        array(4, 2), array(4, 4), array(4, 6),
+        array(6, 2), array(6, 4), array(6, 6)
+    );
+
     /**
      * Raw HTML content to display
      * @var string
      */
     protected $content = NULL;
-
-    /**
-     * Gets the preferred size (width, height)
-     * 
-     * @return int[]
-     */
-    static public function getPreferredSize()
-    {
-        return array(6, 4);
-    }
-
-    /**
-     * Gets the sizes (width, height) which this widget is optimized for
-     * 
-     * @return int[][]
-     */
-    static public function getOptimizedSizes()
-    {
-        return array(
-            array(4, 2), array(4, 4), array(4, 6),
-            array(6, 2), array(6, 4), array(6, 6)
-        );
-    }
 
     /**
      * Renders the widget

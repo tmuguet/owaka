@@ -12,6 +12,9 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Widget_Log extends Controller_Widget_Raw
 {
 
+    public static $icon  = 'file-text-alt';
+    public static $title = 'Log';
+
     /**
      * Gets the expected parameters
      * 
@@ -19,7 +22,7 @@ class Controller_Widget_Log extends Controller_Widget_Raw
      * 
      * @return array
      */
-    static public function getExpectedParameters($dashboard)
+    static public function expectedParameters($dashboard)
     {
         return array(
             'project' => array(
@@ -27,26 +30,6 @@ class Controller_Widget_Log extends Controller_Widget_Raw
                 'required' => ($dashboard == 'main')
             )
         );
-    }
-
-    /**
-     * Gets the widget icon
-     * 
-     * @return string
-     */
-    protected function getWidgetIcon()
-    {
-        return 'file-text-alt';
-    }
-
-    /**
-     * Gets the widget title
-     * 
-     * @return string
-     */
-    protected function getWidgetTitle()
-    {
-        return 'Log';
     }
 
     /**

@@ -7,9 +7,6 @@ class Controller_Widget_GenericTest extends TestCase
 
     private function _testClass($nameClass, $reflectionClass)
     {
-        $nameClass::getPreferredSize();
-        $nameClass::getOptimizedSizes();
-
         $nameClassShort = str_replace('Controller_Widget_', '', $nameClass);
 
         $this->assertLessThanOrEqual(
@@ -18,21 +15,21 @@ class Controller_Widget_GenericTest extends TestCase
         );  // 40 is the limit of widgets.type
 
         if ($reflectionClass->hasMethod('display_main') || $reflectionClass->hasMethod('display_all')) {
-            $nameClass::getExpectedParameters('main');
+            $nameClass::expectedParameters('main');
 
             $response = Request::factory('w/main/' . $nameClassShort . '/display/' . $this->genNumbers['widget3'])->login()->execute();
             $this->assertResponseOK($response,
                                     "Request failed for $nameClass : 'w/main/$nameClassShort/display/" . $this->genNumbers['widget3'] . "'");
         }
         if ($reflectionClass->hasMethod('display_project') || $reflectionClass->hasMethod('display_all')) {
-            $nameClass::getExpectedParameters('project');
+            $nameClass::expectedParameters('project');
 
             $response = Request::factory('w/project/' . $nameClassShort . '/display/' . $this->genNumbers['widget3'])->login()->execute();
             $this->assertResponseOK($response,
                                     "Request failed for $nameClass : 'w/project/$nameClassShort/display/" . $this->genNumbers['widget3'] . "'");
         }
         if ($reflectionClass->hasMethod('display_build') || $reflectionClass->hasMethod('display_all')) {
-            $nameClass::getExpectedParameters('build');
+            $nameClass::expectedParameters('build');
 
             $response = Request::factory('w/build/' . $nameClassShort . '/display/' . $this->genNumbers['widget3'])->login()->execute();
             $this->assertResponseOK($response,

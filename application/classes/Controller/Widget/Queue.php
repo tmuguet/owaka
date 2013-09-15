@@ -12,7 +12,9 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Widget_Queue extends Controller_Widget_Table
 {
 
-    protected $autorefresh = TRUE;
+    public static $icon        = 'time';
+    public static $title       = 'Queue';
+    protected static $autorefresh = TRUE;
 
     /**
      * Gets the expected parameters
@@ -21,7 +23,7 @@ class Controller_Widget_Queue extends Controller_Widget_Table
      * 
      * @return array
      */
-    static public function getExpectedParameters(/* $dashboard */)
+    static public function expectedParameters(/* $dashboard */)
     {
         return array(
             'max' => array(
@@ -32,26 +34,6 @@ class Controller_Widget_Queue extends Controller_Widget_Table
                 'validation' => array()
             )
         );
-    }
-
-    /**
-     * Gets the widget icon
-     * 
-     * @return string
-     */
-    protected function getWidgetIcon()
-    {
-        return 'time';
-    }
-
-    /**
-     * Gets the widget title
-     * 
-     * @return string
-     */
-    protected function getWidgetTitle()
-    {
-        return 'Queue';
     }
 
     /**
