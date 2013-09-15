@@ -24,12 +24,45 @@ abstract class TestCase_Processor extends TestCase
         parent::tearDown();
     }
 
+    public function testClass()
+    {
+        $class         = substr(get_called_class(), 0, -4); // remove Test at the end
+        $processorname = str_replace('Controller_Processor_', '', $class);
+        $this->assertLessThanOrEqual(
+                30, strlen($processorname),
+                           'Processor name must be shorter than 30 characters (' . $processorname . ': ' . strlen($processorname) . ' chars)'
+        );  // 30 is the limit of project_reports_parameters.processor
+    }
+
     public function testInputReports()
     {
-        // Code coverage purpose only
-        $class = substr(get_called_class(), 0, -4); // remove Test at the end
-        $class::inputReports();
-        $class::parameters();
+        $class         = substr(get_called_class(), 0, -4); // remove Test at the end
+        $processorname = str_replace('Controller_Processor_', '', $class);
+        $this->assertLessThanOrEqual(
+                30, strlen($processorname),
+                           'Processor name must be shorter than 30 characters (' . $processorname . ': ' . strlen($processorname) . ' chars)'
+        );  // 30 is the limit of project_reports_parameters.processor
+
+        $reports = $class::inputReports();
+        foreach (array_keys($reports) as $type) {
+            $completeType = $processorname . '_' . $type;
+            $this->assertLessThanOrEqual(
+                    80, strlen($completeType),
+                               'Processor name concatenated to report type must be shorter than 80 characters (' . $completeType . ': ' . strlen($completeType) . ' chars)'
+            );  // 80 is the limit of project_reports.type
+        }
+    }
+
+    public function testParameters()
+    {
+        $class         = substr(get_called_class(), 0, -4); // remove Test at the end
+        $parameters = $class::parameters();
+        foreach (array_keys($parameters) as $type) {
+            $this->assertLessThanOrEqual(
+                    255, strlen($type),
+                                'Processor parameter name must be shorter than 255 characters (' . $type . ': ' . strlen($type) . ' chars)'
+            );  // 255 is the limit of project_report_parameters.type
+        }
     }
 
     protected function CopyReport($type, $source)

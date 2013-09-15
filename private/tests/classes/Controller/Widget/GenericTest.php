@@ -10,34 +10,36 @@ class Controller_Widget_GenericTest extends TestCase
         $nameClass::getPreferredSize();
         $nameClass::getOptimizedSizes();
 
-        $nameClass2 = str_replace('Controller_Widget_', '', $nameClass);
+        $nameClassShort = str_replace('Controller_Widget_', '', $nameClass);
+
+        $this->assertLessThanOrEqual(
+                40, strlen($nameClassShort),
+                           'Widget name must be shorter than 40 characters (' . $nameClassShort . ': ' . strlen($nameClassShort) . ' chars)'
+        );  // 40 is the limit of widgets.type
 
         if ($reflectionClass->hasMethod('display_main') || $reflectionClass->hasMethod('display_all')) {
             $nameClass::getExpectedParameters('main');
 
-            $response = Request::factory('w/main/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->login()->execute();
+            $response = Request::factory('w/main/' . $nameClassShort . '/display/' . $this->genNumbers['widget3'])->login()->execute();
             $this->assertResponseOK($response,
-                                    "Request failed for $nameClass : 'w/main/$nameClass2/display/" . $this->genNumbers['widget3'] . "'");
+                                    "Request failed for $nameClass : 'w/main/$nameClassShort/display/" . $this->genNumbers['widget3'] . "'");
         }
         if ($reflectionClass->hasMethod('display_project') || $reflectionClass->hasMethod('display_all')) {
             $nameClass::getExpectedParameters('project');
 
-            $response = Request::factory('w/project/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->login()->execute();
+            $response = Request::factory('w/project/' . $nameClassShort . '/display/' . $this->genNumbers['widget3'])->login()->execute();
             $this->assertResponseOK($response,
-                                    "Request failed for $nameClass : 'w/project/$nameClass2/display/" . $this->genNumbers['widget3'] . "'");
+                                    "Request failed for $nameClass : 'w/project/$nameClassShort/display/" . $this->genNumbers['widget3'] . "'");
         }
         if ($reflectionClass->hasMethod('display_build') || $reflectionClass->hasMethod('display_all')) {
             $nameClass::getExpectedParameters('build');
 
-            $response = Request::factory('w/build/' . $nameClass2 . '/display/' . $this->genNumbers['widget3'])->login()->execute();
+            $response = Request::factory('w/build/' . $nameClassShort . '/display/' . $this->genNumbers['widget3'])->login()->execute();
             $this->assertResponseOK($response,
-                                    "Request failed for $nameClass : 'w/build/$nameClass2/display/" . $this->genNumbers['widget3'] . "'");
+                                    "Request failed for $nameClass : 'w/build/$nameClassShort/display/" . $this->genNumbers['widget3'] . "'");
         }
     }
 
-    /**
-     * @coversNothing
-     */
     public function testGeneric()
     {
         $basePath = APPPATH . 'classes' . DIR_SEP;
