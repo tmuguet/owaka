@@ -14,11 +14,12 @@ class Controller_UserTest extends TestCase
 
         $response = Request::factory('user/list')->login(Owaka::AUTH_ROLE_ADMIN)->execute();
         $this->assertResponseOK($response);
+        $actual = str_replace('1second', '0second', $response->body());
         $users = json_decode(Request::factory('api/user/list')->execute()->body(), TRUE);
         $expected = View::factory('user/list')->set('users', $users)->render();
         $expected = str_replace('1second', '0second', $expected);
 
-        $this->assertEquals($expected, $response->body(), "Rendering incorrect");
+        $this->assertEquals($expected, $actual, "Rendering incorrect");
     }
 
     /**
