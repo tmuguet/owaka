@@ -17,18 +17,6 @@ class Controller_Widget_Latestprojectbuildstable extends Controller_Widget_Table
     protected static $autorefresh = TRUE;
 
     /**
-     * Gets the expected parameters
-     * 
-     * //@param string $dashboard Type of dashboard
-     * 
-     * @return array
-     */
-    static public function expectedParameters(/* $dashboard */)
-    {
-        return array();
-    }
-
-    /**
      * Processes the widget for all dashboards
      */
     public function display_all()

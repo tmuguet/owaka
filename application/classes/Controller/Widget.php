@@ -16,8 +16,8 @@ abstract class Controller_Widget extends Controller
      * Icon of the widget
      * @var string
      */
-    public static $icon  = 'question';
-    
+    public static $icon = 'question';
+
     /**
      * Title of the widget
      * @var string
@@ -77,6 +77,19 @@ abstract class Controller_Widget extends Controller
      * @var string
      */
     private $_subtitle = NULL;
+
+    /**
+     * Gets the expected parameters
+     * 
+     * @param string $dashboard Type of dashboard
+     * 
+     * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    static public function expectedParameters($dashboard)
+    {
+        return array();
+    }
 
     /**
      * Automatically executed before the controller action.

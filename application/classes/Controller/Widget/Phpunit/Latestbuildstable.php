@@ -19,11 +19,12 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Tabl
     /**
      * Gets the expected parameters
      * 
-     * //@param string $dashboard Type of dashboard
+     * @param string $dashboard Type of dashboard
      * 
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    static public function expectedParameters(/* $dashboard */)
+    static public function expectedParameters($dashboard)
     {
         return array(
             'project' => array(
