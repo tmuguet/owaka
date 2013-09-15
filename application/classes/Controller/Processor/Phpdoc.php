@@ -12,22 +12,14 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Processor_Phpdoc extends Controller_Processor
 {
 
-    /**
-     * Gets the input reports
-     * 
-     * @return array
-     */
-    static public function inputReports()
-    {
-        return array(
-            'report' => array(
-                'title'       => 'HTML report',
-                'description' => 'PHPdoc report directory',
-                'type'        => 'dir',
-                'keep-as'     => '.'
-            )
-        );
-    }
+    public static $inputReports = array(
+        'report' => array(
+            'title'       => 'HTML report',
+            'description' => 'PHPdoc report directory',
+            'type'        => 'dir',
+            'keep-as'     => '.'
+        )
+    );
 
     /**
      * Processes a PHPDoc report

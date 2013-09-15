@@ -12,43 +12,26 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Processor_Phpmd extends Controller_Processor
 {
 
-    /**
-     * Gets the input reports
-     * 
-     * @return array
-     */
-    static public function inputReports()
-    {
-        return array(
-            'html' => array(
-                'title'       => 'HTML report',
-                'description' => 'PHPMD HTML report. This is the report used for processing data.',
-                'type'        => 'file',
-                'keep-as'     => 'report.html',
-            )
-        );
-    }
-
-    /**
-     * Gets the processor parameters
-     * 
-     * @return array
-     */
-    static public function parameters()
-    {
-        return array(
-            'threshold_errors_error'    => array(
-                'title'        => 'Errors to trigger error',
-                'description'  => 'Number of errors to trigger build error',
-                'defaultvalue' => -1
-            ),
-            'threshold_errors_unstable' => array(
-                'title'        => 'Errors to trigger unstable',
-                'description'  => 'Number of errors to trigger unstable build',
-                'defaultvalue' => 1
-            )
-        );
-    }
+    public static $inputReports = array(
+        'html' => array(
+            'title'       => 'HTML report',
+            'description' => 'PHPMD HTML report. This is the report used for processing data.',
+            'type'        => 'file',
+            'keep-as'     => 'report.html',
+        )
+    );
+    public static $parameters   = array(
+        'threshold_errors_error'    => array(
+            'title'        => 'Errors to trigger error',
+            'description'  => 'Number of errors to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_errors_unstable' => array(
+            'title'        => 'Errors to trigger unstable',
+            'description'  => 'Number of errors to trigger unstable build',
+            'defaultvalue' => 1
+        )
+    );
 
     /**
      * Processes a PHPMD HTML report

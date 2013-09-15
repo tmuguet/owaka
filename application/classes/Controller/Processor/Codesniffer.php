@@ -12,53 +12,36 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Processor_Codesniffer extends Controller_Processor
 {
 
-    /**
-     * Gets the input reports
-     * 
-     * @return array
-     */
-    static public function inputReports()
-    {
-        return array(
-            'xml' => array(
-                'title'       => 'XML report',
-                'description' => 'Code Sniffer XML report in checkstyle format',
-                'type'        => 'file',
-                'keep-as'     => 'index.xml'
-            )
-        );
-    }
-
-    /**
-     * Gets the processor parameters
-     * 
-     * @return array
-     */
-    static public function parameters()
-    {
-        return array(
-            'threshold_errors_error'      => array(
-                'title'        => 'Errors to trigger error',
-                'description'        => 'Number of errors to trigger build error',
-                'defaultvalue' => -1
-            ),
-            'threshold_errors_unstable'   => array(
-                'title'        => 'Errors to trigger unstable',
-                'description'        => 'Number of errors to trigger unstable build',
-                'defaultvalue' => 1
-            ),
-            'threshold_warnings_error'    => array(
-                'title'        => 'Warnings to trigger error',
-                'description'        => 'Number of warnings to trigger build error',
-                'defaultvalue' => -1
-            ),
-            'threshold_warnings_unstable' => array(
-                'title'        => 'Warnings to trigger unstable',
-                'description'        => 'Number of warnings to trigger unstable build',
-                'defaultvalue' => 1
-            )
-        );
-    }
+    public static $inputReports = array(
+        'xml' => array(
+            'title'       => 'XML report',
+            'description' => 'Code Sniffer XML report in checkstyle format',
+            'type'        => 'file',
+            'keep-as'     => 'index.xml'
+        )
+    );
+    static public $parameters = array(
+        'threshold_errors_error'      => array(
+            'title'        => 'Errors to trigger error',
+            'description'  => 'Number of errors to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_errors_unstable'   => array(
+            'title'        => 'Errors to trigger unstable',
+            'description'  => 'Number of errors to trigger unstable build',
+            'defaultvalue' => 1
+        ),
+        'threshold_warnings_error'    => array(
+            'title'        => 'Warnings to trigger error',
+            'description'  => 'Number of warnings to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_warnings_unstable' => array(
+            'title'        => 'Warnings to trigger unstable',
+            'description'  => 'Number of warnings to trigger unstable build',
+            'defaultvalue' => 1
+        )
+    );
 
     /**
      * Processes a Codesniffer XML report

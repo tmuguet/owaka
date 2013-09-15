@@ -264,7 +264,7 @@ class Controller_Api_Project extends Controller_Api
         foreach ($processors as $processor) {
             $name      = str_replace('Controller_Processor_', '', $processor);
             $namelower = strtolower($name);
-            foreach (array_keys($processor::inputReports()) as $key) {
+            foreach (array_keys($processor::$inputReports) as $key) {
                 $type = $namelower . '_' . $key;
                 if (array_key_exists($type, $post)) {
                     $report = ORM::factory(
@@ -300,7 +300,7 @@ class Controller_Api_Project extends Controller_Api
         foreach ($processors as $processor) {
             $name      = str_replace('Controller_Processor_', '', $processor);
             $namelower = strtolower($name);
-            foreach (array_keys($processor::parameters()) as $key) {
+            foreach (array_keys($processor::$parameters) as $key) {
                 $type = $namelower . '_' . $key;
                 if (array_key_exists($type, $post)) {
                     $parameter = ORM::factory(

@@ -137,7 +137,7 @@ echo View::factory('baseMenu')
                 }
 
                 $classname  = 'Controller_Processor_' . ucfirst($_controller);
-                $parameters = $classname::parameters();
+                $parameters = $classname::$parameters;
 
                 if ($project->loaded()) {
                     $parametersValues = $classname::projectParameters($project->id);

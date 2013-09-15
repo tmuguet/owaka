@@ -15,25 +15,18 @@ abstract class Controller_Processor extends Controller
     protected $requiredRole = Owaka::AUTH_ROLE_INTERNAL;
 
     /**
-     * Gets the input reports
-     * 
-     * @throws Exception
+     * Input reports
+     * @var array
      * @todo Document this
      */
-    static public function inputReports()
-    {
-        throw new Exception('Not implemented');
-    }
+    public static $inputReports = array();
 
     /**
-     * Gets the processor parameters
-     * 
-     * @return array
+     * Processor parameters
+     * @var array
+     * @todo Document this
      */
-    static public function parameters()
-    {
-        return array();
-    }
+    public static $parameters = array();
 
     /**
      * Gets the processor parameters
@@ -49,7 +42,7 @@ abstract class Controller_Processor extends Controller
                 ->where('processor', '=', static::_getName())
                 ->find_all();
         $parameters = array();
-        foreach (static::parameters() as $key => $info) {
+        foreach (static::$parameters as $key => $info) {
             $parameters[$key] = $info['defaultvalue'];
         }
         foreach ($params as $param) {
@@ -82,7 +75,7 @@ abstract class Controller_Processor extends Controller
 
         $command = new Command($build->project);
 
-        foreach (static::inputReports() as $type => $info) {
+        foreach (static::$inputReports as $type => $info) {
             $source      = $this->_getInputReportCompletePath($buildId, $type);
             $destination = $destinationDirectory . $info['keep-as'];    // TODO: this can get messy if mis-used !
 
@@ -125,7 +118,7 @@ abstract class Controller_Processor extends Controller
      * @param string $type Type of report to get
      * 
      * @return string
-     * @see inputReports() for report types
+     * @see inputReports for report types
      */
     /* private */ final function _getReportName($type)
     {
@@ -139,7 +132,7 @@ abstract class Controller_Processor extends Controller
      * @param string $type    Type of report to get
      * 
      * @return string|null
-     * @see inputReports() for report types
+     * @see inputReports for report types
      */
     /* private */ final function _getInputReportCompletePath($buildId, $type)
     {
@@ -170,13 +163,13 @@ abstract class Controller_Processor extends Controller
      * @param string $type    Type of report to get
      * 
      * @return string|null
-     * @see inputReports() for report types
+     * @see inputReports for report types
      */
     /* protected */ final function getReportCompletePath($buildId, $type)
     {
         $destination = APPPATH . 'reports' . DIR_SEP . $buildId . DIR_SEP
                 . $this->_getName() . DIR_SEP;
-        $reports     = static::inputReports();
+        $reports     = static::$inputReports;
         if (!isset($reports[$type]) || !isset($reports[$type]['keep-as'])) {
             return NULL;
         }

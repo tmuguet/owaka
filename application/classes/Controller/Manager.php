@@ -23,7 +23,7 @@ class Controller_Manager extends Controller
         $reports    = array();
         foreach ($processors as $processor) {
             $name           = str_replace('Controller_Processor_', '', $processor);
-            $reports[$name] = $processor::inputReports();
+            $reports[$name] = $processor::$inputReports;
         }
 
         $view = View::factory('manager')
@@ -45,7 +45,7 @@ class Controller_Manager extends Controller
         $reports    = array();
         foreach ($processors as $processor) {
             $name           = str_replace('Controller_Processor_', '', $processor);
-            $reports[$name] = $processor::inputReports();
+            $reports[$name] = $processor::$inputReports;
         }
         $project = ORM::factory('Project', $this->request->param('id'));
 
@@ -68,7 +68,7 @@ class Controller_Manager extends Controller
         $reports    = array();
         foreach ($processors as $processor) {
             $name           = str_replace('Controller_Processor_', '', $processor);
-            $reports[$name] = $processor::inputReports();
+            $reports[$name] = $processor::$inputReports;
         }
         $project = ORM::factory('Project', $this->request->param('id'));
         $project->name .= '-copy';

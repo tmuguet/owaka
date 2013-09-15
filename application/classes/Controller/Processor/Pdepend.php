@@ -12,46 +12,38 @@ defined('SYSPATH') OR die('No direct script access.');
 class Controller_Processor_Pdepend extends Controller_Processor
 {
 
-    /**
-     * Gets the input reports
-     * 
-     * @return array
-     */
-    static public function inputReports()
-    {
-        return array(
-            'summary'       => array(
-                'title'       => 'XML report',
-                'description' => 'PhpDepend XML report (logger summary-xml). This is the report used for processing data.',
-                'type'        => 'file',
-                'keep-as'     => 'summary.xml',
-            ),
-            'jdepend_chart' => array(
-                'title'       => 'jdepend chart',
-                'description' => 'PhpDepend jdepend chart (logger jdepend-chart)',
-                'type'        => 'file',
-                'keep-as'     => 'jdepend.svg'
-            ),
-            'jdepend_xml'   => array(
-                'title'       => 'jdepend XML',
-                'description' => 'PhpDepend jdepend XML (logger jdepend-xml)',
-                'type'        => 'file',
-                'keep-as'     => 'jdepend.xml'
-            ),
-            'pyramid'       => array(
-                'title'       => 'pyramid',
-                'description' => 'PhpDepend pyramid (logger overview-pyramid)',
-                'type'        => 'file',
-                'keep-as'     => 'pyramid.svg'
-            ),
-            'phpunit_xml'   => array(
-                'title'       => 'phpunit XML',
-                'description' => 'PhpDepend phpunit XML (logger phpunit-xml)',
-                'type'        => 'file',
-                'keep-as'     => 'phpunit.xml'
-            )
-        );
-    }
+    public static $inputReports = array(
+        'summary'       => array(
+            'title'       => 'XML report',
+            'description' => 'PhpDepend XML report (logger summary-xml). This is the report used for processing data.',
+            'type'        => 'file',
+            'keep-as'     => 'summary.xml',
+        ),
+        'jdepend_chart' => array(
+            'title'       => 'jdepend chart',
+            'description' => 'PhpDepend jdepend chart (logger jdepend-chart)',
+            'type'        => 'file',
+            'keep-as'     => 'jdepend.svg'
+        ),
+        'jdepend_xml'   => array(
+            'title'       => 'jdepend XML',
+            'description' => 'PhpDepend jdepend XML (logger jdepend-xml)',
+            'type'        => 'file',
+            'keep-as'     => 'jdepend.xml'
+        ),
+        'pyramid'       => array(
+            'title'       => 'pyramid',
+            'description' => 'PhpDepend pyramid (logger overview-pyramid)',
+            'type'        => 'file',
+            'keep-as'     => 'pyramid.svg'
+        ),
+        'phpunit_xml'   => array(
+            'title'       => 'phpunit XML',
+            'description' => 'PhpDepend phpunit XML (logger phpunit-xml)',
+            'type'        => 'file',
+            'keep-as'     => 'phpunit.xml'
+        )
+    );
 
     /**
      * Processes a PHPdepend XML report

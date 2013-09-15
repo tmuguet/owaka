@@ -33,16 +33,6 @@ class Controller_ProcessorTest extends TestCase
     }
 
     /**
-     * @covers Controller_Processor::inputReports
-     * @expectedException Exception
-     * @expectedExceptionMessage Not implemented
-     */
-    public function testInputReports()
-    {
-        Controller_Processor::inputReports();
-    }
-
-    /**
      * @covers Controller_Processor::_getName
      */
     public function testGetName()

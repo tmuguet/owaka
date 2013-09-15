@@ -43,7 +43,7 @@ abstract class TestCase_Processor extends TestCase
                            'Processor name must be shorter than 30 characters (' . $processorname . ': ' . strlen($processorname) . ' chars)'
         );  // 30 is the limit of project_reports_parameters.processor
 
-        $reports = $class::inputReports();
+        $reports = $class::$inputReports;
         foreach (array_keys($reports) as $type) {
             $completeType = $processorname . '_' . $type;
             $this->assertLessThanOrEqual(
@@ -55,8 +55,8 @@ abstract class TestCase_Processor extends TestCase
 
     public function testParameters()
     {
-        $class         = substr(get_called_class(), 0, -4); // remove Test at the end
-        $parameters = $class::parameters();
+        $class      = substr(get_called_class(), 0, -4); // remove Test at the end
+        $parameters = $class::$parameters;
         foreach (array_keys($parameters) as $type) {
             $this->assertLessThanOrEqual(
                     255, strlen($type),
@@ -69,7 +69,8 @@ abstract class TestCase_Processor extends TestCase
     {
         $destinationDir = APPPATH . 'reports' . DIR_SEP . $this->buildId . DIR_SEP
                 . $this->target->_getName() . DIR_SEP;
-        $reports        = $this->target->inputReports();
+        $t              = $this->target;
+        $reports        = $t::$inputReports;
         if (!isset($reports[$type]) || !isset($reports[$type]['keep-as'])) {
             throw new Exception("$type not available");
         }

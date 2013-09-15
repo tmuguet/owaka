@@ -15,8 +15,8 @@ class Controller_ManagerTest extends TestCase
         $this->assertResponseOK($response);
 
         $reports               = array();
-        $reports['processor1'] = Controller_Processor_processor1::inputReports();
-        $reports['processor2'] = Controller_Processor_processor2::inputReports();
+        $reports['processor1'] = Controller_Processor_processor1::$inputReports;
+        $reports['processor2'] = Controller_Processor_processor2::$inputReports;
 
         $expected = View::factory('manager')
                 ->set('action', 'add')
@@ -35,8 +35,8 @@ class Controller_ManagerTest extends TestCase
         $this->assertResponseOK($response);
 
         $reports               = array();
-        $reports['processor1'] = Controller_Processor_processor1::inputReports();
-        $reports['processor2'] = Controller_Processor_processor2::inputReports();
+        $reports['processor1'] = Controller_Processor_processor1::$inputReports;
+        $reports['processor2'] = Controller_Processor_processor2::$inputReports;
 
         $expected = View::factory('manager')
                 ->set('action', 'edit')
@@ -55,8 +55,8 @@ class Controller_ManagerTest extends TestCase
         $this->assertResponseOK($response);
 
         $reports               = array();
-        $reports['processor1'] = Controller_Processor_processor1::inputReports();
-        $reports['processor2'] = Controller_Processor_processor2::inputReports();
+        $reports['processor1'] = Controller_Processor_processor1::$inputReports;
+        $reports['processor2'] = Controller_Processor_processor2::$inputReports;
 
         $project       = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $project->name = $project->name . '-copy';
