@@ -122,6 +122,7 @@ Kohana::modules(array(
     // 'unittest'   => MODPATH.'unittest',   // Unit testing
     // 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
     'phpseclib' => MODPATH . 'phpseclib', // PHP Secure Communications Library
+    'phpmailer' => MODPATH . 'phpmailer', // PHP email class
 ));
 
 /**

@@ -29,6 +29,7 @@ owaka core:
 * jquery.pagevisibility (http://github.com/dcherman/jquery.pagevisibility): licensed under the MIT license
 * jquery.sparkline (http://omnipotent.net/jquery.sparkline/): licensed under the New BSD license
 * Kohana (http://kohanaframework.org): licensed under the New BSD license, see Kohana.LICENSE.md
+* PHPMailer (https://code.google.com/a/apache-extras.org/p/phpmailer/): licensed under the LGPL 3 license
 * phpseclib (http://phpseclib.sourceforge.net): licensed under the MIT license
 * textures LT_SplotchyDuotone (http://lostandtaken.com/blog/2013/3/31/7-splotchy-duotone-textures.html): free for personal and commercial use
 * textures LT_SubtleGrunge (http://lostandtaken.com/blog/2013/3/16/seven-simple-grunge-textures.html): free for personal and commercial use
@@ -42,5 +43,6 @@ owaka's phing project:
 As reference:
 * New BSD license: http://opensource.org/licenses/BSD-3-Clause
 * GPL license: http://opensource.org/licenses/GPL-2.0
+* LGPL license: http://opensource.org/icenses/LGPL-3.0
 * MIT license: http://opensource.org/licenses/MIT
 * SIL OFL 1.1 license: http://scripts.sil.org/OFL
