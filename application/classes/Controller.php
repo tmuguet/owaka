@@ -12,6 +12,10 @@ defined('SYSPATH') OR die('No direct script access.');
 abstract class Controller extends Kohana_Controller
 {
 
+    /**
+     * Required role for using methods
+     * @var string
+     */
     protected $requiredRole = Owaka::AUTH_ROLE_LOGIN;
 #ifdef TESTING
 
@@ -57,5 +61,53 @@ abstract class Controller extends Kohana_Controller
             }
             // @codeCoverageIgnoreEnd
         }
+
+        $this->beginTransaction();
+    }
+
+    /**
+     * Responds and commits the DB transaction
+     * 
+     * @param mixed $content Content
+     */
+    /* protected */ function success($content)
+    {
+        $this->commitTransaction();
+        $this->response->body($content);
+    }
+
+    /**
+     * Responds and rolls back the DB transaction
+     * 
+     * @param mixed $content Content
+     */
+    /* protected */ function error($content)
+    {
+        $this->rollbackTransaction();
+        $this->response->body($content);
+    }
+
+    /**
+     * Begins a new DB transaction
+     */
+    /* protected */ function beginTransaction()
+    {
+        Database::instance()->begin();
+    }
+
+    /**
+     * Commits the current DB transaction and starts a new one
+     */
+    /* protected */ function commitTransaction()
+    {
+        Database::instance()->commit();
+    }
+
+    /**
+     * Rolls back the current DB transaction and starts a new one
+     */
+    /* protected */ function rollbackTransaction()
+    {
+        Database::instance()->rollback();
     }
 }

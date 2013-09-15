@@ -30,7 +30,7 @@ class Controller_Dashboard extends Controller
                 ->set('from', 'main')
                 ->set('widgets', $widgetsView);
 
-        $this->response->body($view);
+        $this->success($view);
     }
 
     /**
@@ -55,7 +55,7 @@ class Controller_Dashboard extends Controller
                 ->set('projectId', $projectId)
                 ->set('widgets', $widgetsView);
 
-        $this->response->body($view);
+        $this->success($view);
     }
 
     /**
@@ -82,6 +82,6 @@ class Controller_Dashboard extends Controller
                 ->set('buildId', $buildId)
                 ->set('widgets', $widgetsView);
 
-        $this->response->body($view);
+        $this->success($view);
     }
 }

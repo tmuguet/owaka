@@ -25,7 +25,7 @@ class Controller_User extends Controller
 
         $view = View::factory('user/list')
                 ->set('users', $users);
-        $this->response->body($view);
+        $this->success($view);
     }
 
     /**
@@ -36,7 +36,7 @@ class Controller_User extends Controller
     public function action_add()
     {
         $view = View::factory('user/add');
-        $this->response->body($view);
+        $this->success($view);
     }
 
     /**
@@ -50,6 +50,6 @@ class Controller_User extends Controller
 
         $view = View::factory('user/edit')
                 ->set('user', $user);
-        $this->response->body($view);
+        $this->success($view);
     }
 }

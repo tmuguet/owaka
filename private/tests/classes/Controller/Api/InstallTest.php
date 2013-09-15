@@ -28,6 +28,8 @@ class Controller_Api_InstallTest extends TestCase
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(array(), $apiCall, "Incorrect API result");
 
+        $this->rollback();
+
         $actual              = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
         $expected->id        = $actual->id;
@@ -54,6 +56,8 @@ class Controller_Api_InstallTest extends TestCase
         $expected->logins     = 0;
         $expected->last_login = NULL;
         $expected->create();
+        
+        $this->commit();
 
         $request  = Request::factory('api/install/do');
         $request->method(Request::POST);

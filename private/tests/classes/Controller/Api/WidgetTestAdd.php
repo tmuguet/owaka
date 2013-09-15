@@ -24,6 +24,8 @@ class Controller_Api_WidgetTestAdd extends TestCase
                 ->execute();
         $this->assertResponseOK($response);
 
+        $this->rollback();
+
         $actual = json_decode($response->body(), TRUE);
         $this->assertArrayHasKey('widget', $actual, "Incorrect API result");
         $this->assertNotEmpty($actual['widget'], "Incorrect API result");
@@ -61,6 +63,8 @@ class Controller_Api_WidgetTestAdd extends TestCase
                 ->post($post)
                 ->execute();
         $this->assertResponseOK($response);
+
+        $this->rollback();
 
         $actual = json_decode($response->body(), TRUE);
         $this->assertArrayHasKey('widget', $actual, "Incorrect API result");
@@ -103,6 +107,8 @@ class Controller_Api_WidgetTestAdd extends TestCase
                 ->execute();
         $this->assertResponseOK($response);
 
+        $this->rollback();
+
         $actual = json_decode($response->body(), TRUE);
         $this->assertArrayHasKey('widget', $actual, "Incorrect API result");
         $this->assertNotEmpty($actual['widget'], "Incorrect API result");
@@ -142,6 +148,8 @@ class Controller_Api_WidgetTestAdd extends TestCase
                 ->post($post)
                 ->execute();
         $this->assertResponseOK($response);
+
+        $this->rollback();
 
         $actual = json_decode($response->body(), TRUE);
         $this->assertArrayHasKey('widget', $actual, "Incorrect API result");
@@ -183,6 +191,8 @@ class Controller_Api_WidgetTestAdd extends TestCase
                 ->post($post)
                 ->execute();
         $this->assertResponseOK($response);
+
+        $this->rollback();
 
         $actual = json_decode($response->body(), TRUE);
         $this->assertArrayHasKey('widget', $actual, "Incorrect API result");

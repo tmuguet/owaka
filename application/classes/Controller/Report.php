@@ -31,6 +31,6 @@ class Controller_Report extends Controller
         
         $mime = File::mime_by_ext(strtolower(pathinfo($path, PATHINFO_EXTENSION)));
         $this->response->headers('Content-Type', $mime);
-        $this->response->body(file_get_contents($path));
+        $this->success(file_get_contents($path));
     }
 }

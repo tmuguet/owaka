@@ -27,6 +27,7 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
         );
 
         $this->target->process($this->buildId);
+        $this->commit();
 
         $globaldataExpected = array(
             array(
@@ -61,6 +62,7 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
     public function testProcessEmpty()
     {
         $this->target->process($this->buildId);
+        $this->commit();
         $globaldata = DB::select('methodcount')
                         ->from('coverage_globaldatas')
                         ->where('id', '!=', $this->genNumbers['data3'])

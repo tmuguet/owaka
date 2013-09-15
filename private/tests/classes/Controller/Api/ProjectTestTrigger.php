@@ -40,11 +40,14 @@ class Controller_Api_ProjectTestTrigger extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/trigger/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseStatusEquals(Response::FAILURE, $response);
+
+        $this->rollback();
 
         $builds = ORM::factory('Build')
                 ->where('status', '=', 'queued')
@@ -86,12 +89,15 @@ class Controller_Api_ProjectTestTrigger extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/trigger/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
 
         $this->assertEquals(
                 array("project" => $project->id), $apiCall, "Incorrect API result"
@@ -137,12 +143,15 @@ class Controller_Api_ProjectTestTrigger extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/trigger/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
 
         $this->assertEquals(
                 array("project" => $project->id), $apiCall, "Incorrect API result"

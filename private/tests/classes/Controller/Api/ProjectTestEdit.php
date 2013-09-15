@@ -20,6 +20,8 @@ class Controller_Api_ProjectTestEdit extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
         $this->assertEquals(
                 array("project"    => $this->genNumbers['ProjectFoo'], 'scm_status' => $expected->scm_status), $apiCall,
                 "Incorrect API result"
@@ -27,7 +29,7 @@ class Controller_Api_ProjectTestEdit extends TestCase
 
         $actual = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $this->assertTrue($actual->loaded());
-        foreach ($actual->list_columns() as $column => $info) {
+        foreach (array_keys($actual->list_columns()) as $column) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of Project does not match'
             );
@@ -49,6 +51,8 @@ class Controller_Api_ProjectTestEdit extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
         $this->assertEquals(
                 array("project"    => $this->genNumbers['ProjectFoo'], 'scm_status' => $expected->scm_status), $apiCall,
                 "Incorrect API result"
@@ -56,7 +60,7 @@ class Controller_Api_ProjectTestEdit extends TestCase
 
         $actual = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $this->assertTrue($actual->loaded());
-        foreach ($actual->list_columns() as $column => $info) {
+        foreach (array_keys($actual->list_columns()) as $column) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of Project does not match'
             );
@@ -78,6 +82,8 @@ class Controller_Api_ProjectTestEdit extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
         $this->assertEquals(
                 array("project"    => $this->genNumbers['ProjectFoo'], 'scm_status' => $expected->scm_status), $apiCall,
                 "Incorrect API result"
@@ -85,7 +91,7 @@ class Controller_Api_ProjectTestEdit extends TestCase
 
         $actual = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $this->assertTrue($actual->loaded());
-        foreach ($actual->list_columns() as $column => $info) {
+        foreach (array_keys($actual->list_columns()) as $column) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of Project does not match'
             );
@@ -107,6 +113,8 @@ class Controller_Api_ProjectTestEdit extends TestCase
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
         $this->assertEquals(
                 array("project"    => $this->genNumbers['ProjectFoo'], 'scm_status' => $expected->scm_status), $apiCall,
                 "Incorrect API result"
@@ -114,7 +122,7 @@ class Controller_Api_ProjectTestEdit extends TestCase
 
         $actual = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $this->assertTrue($actual->loaded());
-        foreach ($actual->list_columns() as $column => $info) {
+        foreach (array_keys($actual->list_columns()) as $column) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of Project does not match'
             );

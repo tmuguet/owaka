@@ -12,7 +12,7 @@ class TestCase extends Kohana_Unittest_Database_TestCase
     protected $yesterday   = NULL;
     protected $tomorrow    = NULL;
     protected $genNumbers  = array();
-    private $_dataset = NULL;
+    private $_dataset    = NULL;
 
     /**
      * Creates a connection to the unittesting database
@@ -252,6 +252,15 @@ class TestCase extends Kohana_Unittest_Database_TestCase
         Auth::instance()->logout();
         Session::instance()->destroy();
         return $res;
+    }
+    
+    public function commit() {
+        Database::instance()->commit();
+    }
+
+    public function rollback()
+    {
+        Database::instance()->rollback();
     }
 
     /**

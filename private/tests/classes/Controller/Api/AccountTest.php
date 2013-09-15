@@ -24,6 +24,8 @@ class Controller_Api_AccountTest extends TestCase
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(array(), $apiCall, "Incorrect API result");
 
+        $this->rollback();
+
         $actual = ORM::factory('User', $this->genNumbers['userFoo']);
         $this->assertTrue($actual->loaded());
         foreach ($actual->list_columns() as $column => $info) {
@@ -66,6 +68,8 @@ class Controller_Api_AccountTest extends TestCase
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(array(), $apiCall, "Incorrect API result");
+
+        $this->rollback();
 
         $actual = ORM::factory('User', $this->genNumbers['userFoo']);
         $this->assertFalse($actual->loaded());

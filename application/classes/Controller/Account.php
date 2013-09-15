@@ -20,7 +20,7 @@ class Controller_Account extends Controller
     public function action_edit()
     {
         $view = View::factory('account/edit');
-        $this->response->body($view);
+        $this->success($view);
     }
 
     /**
@@ -31,6 +31,6 @@ class Controller_Account extends Controller
     public function action_delete()
     {
         $view = View::factory('account/delete');
-        $this->response->body($view);
+        $this->success($view);
     }
 }

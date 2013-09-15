@@ -65,6 +65,6 @@ class Controller_Designer_Details extends Controller
                 ->set('size', $size)
                 ->set('availableSizes', $availableSizes)
                 ->set('params', $params);
-        $this->response->body($view);
+        $this->success($view);
     }
 }

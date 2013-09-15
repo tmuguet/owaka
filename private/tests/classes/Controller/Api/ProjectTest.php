@@ -32,6 +32,8 @@ class Controller_Api_ProjectTest extends TestCase
         $target->request->post($post);
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editReports($project);
+        $this->commit();
+        
         $actual  = ORM::factory('Project_Report')
                 ->where('project_id', '=', $project->id)
                 ->order_by('type', 'ASC')
@@ -46,7 +48,7 @@ class Controller_Api_ProjectTest extends TestCase
         $expected[0]->value      = 'value2';
 
         for ($i = 0; $i < sizeof($actual); $i++) {
-            foreach ($actual[0]->list_columns() as $column => $info) {
+            foreach (array_keys($actual[0]->list_columns()) as $column) {
                 $this->assertEquals(
                         $expected[$i]->$column, $actual[$i]->$column,
                         'Column ' . $column . ' of Project_Report does not match'
@@ -65,6 +67,8 @@ class Controller_Api_ProjectTest extends TestCase
         $target->request->post($post);
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editParameters($project);
+        $this->commit();
+        
         $actual  = ORM::factory('Project_Report_Parameter')
                 ->where('project_id', '=', $project->id)
                 ->order_by('processor', 'ASC')
@@ -81,7 +85,7 @@ class Controller_Api_ProjectTest extends TestCase
         $expected[0]->value      = '5';
 
         for ($i = 0; $i < sizeof($actual); $i++) {
-            foreach ($actual[0]->list_columns() as $column => $info) {
+            foreach (array_keys($actual[0]->list_columns()) as $column) {
                 $this->assertEquals(
                         $expected[$i]->$column, $actual[$i]->$column,
                         'Column ' . $column . ' of Project_Report_Parameter does not match'
@@ -100,6 +104,8 @@ class Controller_Api_ProjectTest extends TestCase
         $target->request->post($post);
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editReports($project);
+        $this->commit();
+        
         $actual  = ORM::factory('Project_Report')
                 ->where('project_id', '=', $project->id)
                 ->order_by('type', 'ASC')
@@ -120,7 +126,7 @@ class Controller_Api_ProjectTest extends TestCase
         $expected[1]->value      = 'report.html';
 
         for ($i = 0; $i < sizeof($actual); $i++) {
-            foreach ($actual[0]->list_columns() as $column => $info) {
+            foreach (array_keys($actual[0]->list_columns()) as $column) {
                 $this->assertEquals(
                         $expected[$i]->$column, $actual[$i]->$column,
                         'Column ' . $column . ' of Project_Report does not match'
@@ -139,6 +145,8 @@ class Controller_Api_ProjectTest extends TestCase
         $target->request->post($post);
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editParameters($project);
+        $this->commit();
+        
         $actual  = ORM::factory('Project_Report_Parameter')
                 ->where('project_id', '=', $project->id)
                 ->order_by('processor', 'ASC')
@@ -162,7 +170,7 @@ class Controller_Api_ProjectTest extends TestCase
         $expected[1]->value      = '10';
 
         for ($i = 0; $i < sizeof($actual); $i++) {
-            foreach ($actual[0]->list_columns() as $column => $info) {
+            foreach (array_keys($actual[0]->list_columns()) as $column) {
                 $this->assertEquals(
                         $expected[$i]->$column, $actual[$i]->$column,
                         'Column ' . $column . ' of Project_Report_Parameter does not match'
@@ -181,6 +189,8 @@ class Controller_Api_ProjectTest extends TestCase
         $target->request->post($post);
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editReports($project);
+        $this->commit();
+        
         $actual  = ORM::factory('Project_Report')
                 ->where('project_id', '=', $project->id)
                 ->order_by('type', 'ASC')
@@ -198,6 +208,8 @@ class Controller_Api_ProjectTest extends TestCase
         $target->request->post($post);
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editParameters($project);
+        $this->commit();
+        
         $actual  = ORM::factory('Project_Report_Parameter')
                 ->where('project_id', '=', $project->id)
                 ->order_by('type', 'ASC')

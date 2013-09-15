@@ -75,10 +75,9 @@ abstract class Controller_Processor extends Controller
      */
     public final function action_copy()
     {
-        $buildId              = $this->request->param('id');    // TODO: validate
+        $buildId              = $this->request->param('id');
         $build                = ORM::factory('Build', $buildId);
-        $destinationDirectory = APPPATH . 'reports' . DIR_SEP . $buildId
-                . DIR_SEP . $this->_getName() . DIR_SEP;
+        $destinationDirectory = APPPATH . 'reports' . DIR_SEP . $buildId . DIR_SEP . $this->_getName() . DIR_SEP;
 
 
         $command = new Command($build->project);
@@ -107,6 +106,7 @@ abstract class Controller_Processor extends Controller
                 $command->rcopy($source, $destination);
             }
         }
+        $this->success('ok');
     }
 
     /**
@@ -199,9 +199,9 @@ abstract class Controller_Processor extends Controller
         $result  = $this->process($buildId);
         // TODO: proper error management
         if ($result) {
-            $this->response->body('true');
+            $this->success('true');
         } else {
-            $this->response->body('false');
+            $this->success('false');
         }
     }
 
@@ -219,6 +219,6 @@ abstract class Controller_Processor extends Controller
             $result  = $this->analyze($build, static::projectParameters($build->project_id));
         }
 
-        $this->response->body($result);
+        $this->success($result);
     }
 }

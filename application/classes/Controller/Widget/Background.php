@@ -110,7 +110,7 @@ EOT;
             $content .= $this->_additionalContent;
         }
 
-        $this->response->body($content);
+        $this->success($content);
     }
 
     /**

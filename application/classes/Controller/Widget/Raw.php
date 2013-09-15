@@ -50,6 +50,6 @@ abstract class Controller_Widget_Raw extends Controller_Widget
         $view = View::factory('widgets' . DIR_SEP . 'BaseText')
                 ->set('content', $this->content);
 
-        $this->response->body($view);
+        $this->success($view);
     }
 }

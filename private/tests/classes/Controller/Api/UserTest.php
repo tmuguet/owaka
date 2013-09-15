@@ -68,6 +68,8 @@ class Controller_Api_UserTest extends TestCase
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
 
+        $this->rollback();
+
         $actual              = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
         $expected->id        = $actual->id;
@@ -75,7 +77,7 @@ class Controller_Api_UserTest extends TestCase
         $expected->password  = $expected->_generateNewPassword($actual->challenge, 'test');
 
         $this->assertEquals(array("user" => $actual->id), $apiCall, "Incorrect API result");
-        foreach ($actual->list_columns() as $column => $info) {
+        foreach (array_keys($actual->list_columns()) as $column) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'
             );
@@ -103,13 +105,15 @@ class Controller_Api_UserTest extends TestCase
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
 
+        $this->rollback();
+
         $actual              = ORM::factory('User')->where('username', '=', 'ut')->find();
         $this->assertTrue($actual->loaded());
         $expected->id        = $actual->id;
         $expected->challenge = $actual->challenge;
         $expected->password  = $expected->_generateNewPassword($actual->challenge, 'test');
         $this->assertEquals(array("user" => $actual->id), $apiCall, "Incorrect API result");
-        foreach ($actual->list_columns() as $column => $info) {
+        foreach (array_keys($actual->list_columns()) as $column) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'
             );
@@ -178,11 +182,13 @@ class Controller_Api_UserTest extends TestCase
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(array("user" => $this->genNumbers['userFoo']), $apiCall, "Incorrect API result");
 
+        $this->rollback();
+
         $actual              = ORM::factory('User', $this->genNumbers['userFoo']);
         $this->assertTrue($actual->loaded());
         $expected->challenge = $actual->challenge;
         $expected->password  = $expected->_generateNewPassword($actual->challenge, 'new-password');
-        foreach ($actual->list_columns() as $column => $info) {
+        foreach (array_keys($actual->list_columns()) as $column) {
             $this->assertEquals(
                     $expected->$column, $actual->$column, 'Column ' . $column . ' of User does not match'
             );
@@ -233,6 +239,8 @@ class Controller_Api_UserTest extends TestCase
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(array("user" => $this->genNumbers['userBar']), $apiCall, "Incorrect API result");
 
+        $this->rollback();
+
         $expected->reload();
         $this->assertTrue($expected->has('roles', $role));
     }
@@ -264,6 +272,8 @@ class Controller_Api_UserTest extends TestCase
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(array("user" => $this->genNumbers['userFoo']), $apiCall, "Incorrect API result");
 
+        $this->rollback();
+
         $expected->reload();
         $this->assertFalse($expected->has('roles', $role));
     }
@@ -290,6 +300,8 @@ class Controller_Api_UserTest extends TestCase
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
         $this->assertEquals(array("user" => $this->genNumbers['userBar']), $apiCall, "Incorrect API result");
+
+        $this->rollback();
 
         $actual = ORM::factory('User', $this->genNumbers['userBar']);
         $this->assertFalse($actual->loaded());

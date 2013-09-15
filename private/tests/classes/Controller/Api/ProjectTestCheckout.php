@@ -40,6 +40,7 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/checkout/' . $project->id)->login();
         $request->method(Request::POST);
@@ -81,12 +82,15 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/checkout/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
 
         $this->assertEquals(
                 array("project"    => $project->id, 'scm_status' => 'ready'), $apiCall, "Incorrect API result"
@@ -130,12 +134,15 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/checkout/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
 
         $this->assertEquals(
                 array("project"    => $project->id, 'scm_status' => 'ready'), $apiCall, "Incorrect API result"
@@ -179,12 +186,15 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/checkout/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
 
         $this->assertEquals(
                 array("project"    => $project->id, 'scm_status' => 'ready'), $apiCall, "Incorrect API result"
@@ -230,12 +240,15 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/checkout/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
 
         $this->assertEquals(
                 array("project"    => $project->id, 'scm_status' => 'ready'), $apiCall, "Incorrect API result"
@@ -281,11 +294,14 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/checkout/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseStatusEquals(Response::FAILURE, $response);
+
+        $this->rollback();
 
         $project->reload();
         $this->assertEquals('checkedout', $project->scm_status);
@@ -321,12 +337,15 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/checkout/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
 
         $this->assertEquals(
                 array("project"    => $project->id, 'scm_status' => 'ready'), $apiCall, "Incorrect API result"
@@ -371,12 +390,15 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/checkout/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
+
+        $this->rollback();
 
         $this->assertEquals(
                 array("project"    => $project->id, 'scm_status' => 'ready'), $apiCall, "Incorrect API result"
@@ -415,11 +437,14 @@ class Controller_Api_ProjectTestCheckout extends TestCase
         $project->phing_target_validate = 'doc';
         $project->reports_path          = '/';
         $project->create();
+        $this->commit();
 
         $request  = Request::factory('api/project/checkout/' . $project->id)->login();
         $request->method(Request::POST);
         $response = $request->execute();
         $this->assertResponseStatusEquals(Response::FAILURE, $response);
+
+        $this->rollback();
 
         $project->reload();
         $this->assertEquals('void', $project->scm_status);

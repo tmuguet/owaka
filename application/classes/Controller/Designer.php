@@ -69,6 +69,6 @@ class Controller_Designer extends Controller
             $view->set('projectId', $projectId);
         }
 
-        $this->response->body($view);
+        $this->success($view);
     }
 }

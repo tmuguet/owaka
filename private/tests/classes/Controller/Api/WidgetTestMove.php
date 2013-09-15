@@ -22,6 +22,8 @@ class Controller_Api_WidgetTestMove extends TestCase
                                                                                     "Incorrect API result"
         );
 
+        $this->rollback();
+
         $result = Database::instance()->query(
                 Database::SELECT,
                 "SELECT `column`,`row` FROM `widgets` WHERE `id`=" . $this->genNumbers['mainBackground']
@@ -46,6 +48,8 @@ class Controller_Api_WidgetTestMove extends TestCase
                                                                                    "Incorrect API result"
         );
 
+        $this->rollback();
+
         $result = Database::instance()->query(
                 Database::SELECT,
                 "SELECT `column`,`row` FROM `project_widgets` WHERE `id`=" . $this->genNumbers['projectBarLog']
@@ -69,6 +73,8 @@ class Controller_Api_WidgetTestMove extends TestCase
                 array('widget' => $this->genNumbers['buildFooBackground']), json_decode($response->body(), TRUE),
                                                                                         "Incorrect API result"
         );
+
+        $this->rollback();
 
         $result = Database::instance()->query(
                 Database::SELECT,

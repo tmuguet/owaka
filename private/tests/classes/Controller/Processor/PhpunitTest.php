@@ -27,6 +27,7 @@ class Controller_Processor_PhpunitTest extends TestCase_Processor
         );
 
         $this->target->process($this->buildId);
+        $this->commit();
 
         $globaldataExpected = array(
             array(
@@ -71,6 +72,7 @@ class Controller_Processor_PhpunitTest extends TestCase_Processor
     public function testProcessEmpty()
     {
         $this->target->process($this->buildId);
+        $this->commit();
         $globaldata = DB::select('tests', 'failures', 'errors', 'time')
                         ->from('phpunit_globaldatas')
                         ->where('id', '!=', $this->genNumbers['data7'])

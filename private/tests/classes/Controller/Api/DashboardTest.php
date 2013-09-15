@@ -16,6 +16,8 @@ class Controller_Api_DashboardTest extends TestCase
         $this->assertResponseOK($response);
         $this->assertEquals(array(), json_decode($response->body(), TRUE), "Incorrect API result");
 
+        $this->rollback();
+
         $expected = array(
             ORM::factory('Project_Widget', $this->genNumbers['projectFooBackground']),
             ORM::factory('Project_Widget', $this->genNumbers['projectFooLog']),
@@ -46,6 +48,8 @@ class Controller_Api_DashboardTest extends TestCase
                         ->login()->execute();
         $this->assertResponseOK($response);
         $this->assertEquals(array(), json_decode($response->body(), TRUE), "Incorrect API result");
+
+        $this->rollback();
 
         $expected = array(
             ORM::factory('Build_Widget', $this->genNumbers['buildFooBackground']),

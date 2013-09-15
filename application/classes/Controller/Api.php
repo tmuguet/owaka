@@ -23,7 +23,7 @@ abstract class Controller_Api extends Controller
     {
         $this->response->headers('Content-Type', 'application/json');
         $this->response->status(Response::OK);
-        $this->response->body(json_encode($data));
+        $this->success(json_encode($data));
         return $this;
     }
 
@@ -39,7 +39,7 @@ abstract class Controller_Api extends Controller
     {
         $this->response->headers('Content-Type', 'application/json');
         $this->response->status($status);
-        $this->response->body(json_encode($data));
+        $this->error(json_encode($data));
         return $this;
     }
 }

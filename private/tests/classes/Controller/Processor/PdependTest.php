@@ -27,6 +27,7 @@ class Controller_Processor_PdependTest extends TestCase_Processor
         );
 
         $this->target->process($this->buildId);
+        $this->commit();
 
         $globaldataExpected = array(
             array(
@@ -69,6 +70,7 @@ class Controller_Processor_PdependTest extends TestCase_Processor
     public function testProcessEmpty()
     {
         $this->target->process($this->buildId);
+        $this->commit();
         $globaldata = DB::select('ahh')
                         ->from('pdepend_globaldatas')
                         ->where('id', '!=', $this->genNumbers['data4'])

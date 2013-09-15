@@ -29,7 +29,7 @@ class Controller_Auth extends Controller
 
         $view = View::factory('login');
 
-        $this->response->body($view);
+        $this->success($view);
     }
 
     /**

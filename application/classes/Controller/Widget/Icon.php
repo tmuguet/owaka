@@ -62,6 +62,6 @@ abstract class Controller_Widget_Icon extends Controller_Widget
         $view = View::factory('widgets' . DIR_SEP . 'BaseIcon')
                 ->set('data', $this->data);
 
-        $this->response->body($view);
+        $this->success($view);
     }
 }

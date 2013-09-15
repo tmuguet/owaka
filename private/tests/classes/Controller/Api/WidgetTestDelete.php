@@ -13,6 +13,8 @@ class Controller_Api_WidgetTestDelete extends TestCase
     {
         $response = Request::factory('api/widget/delete/main/' . $this->genNumbers['mainBackground'])->login()->execute();
         $this->assertResponseOK($response);
+
+        $this->rollback();
         $this->assertEquals(
                 array('widget' => $this->genNumbers['mainBackground']), json_decode($response->body(), TRUE),
                                                                                     "Incorrect API result"
@@ -39,6 +41,8 @@ class Controller_Api_WidgetTestDelete extends TestCase
                                                                                    "Incorrect API result"
         );
 
+        $this->rollback();
+
         $this->assertEquals(
                 0,
                 Database::instance()->query(
@@ -59,6 +63,8 @@ class Controller_Api_WidgetTestDelete extends TestCase
                 array('widget' => $this->genNumbers['buildFooBackground']), json_decode($response->body(), TRUE),
                                                                                         "Incorrect API result"
         );
+
+        $this->rollback();
 
         $this->assertEquals(
                 0,

@@ -27,6 +27,7 @@ class Controller_Processor_PhpmdTest extends TestCase_Processor
         );
 
         $this->target->process($this->buildId);
+        $this->commit();
 
         $globaldataExpected = array(array('errors' => 2, 'errors_delta' => -3));
         $globaldata         = DB::select('errors', 'errors_delta')
@@ -42,6 +43,7 @@ class Controller_Processor_PhpmdTest extends TestCase_Processor
     public function testProcessEmpty()
     {
         $this->target->process($this->buildId);
+        $this->commit();
         $globaldata = DB::select('errors')
                         ->from('phpmd_globaldatas')
                         ->where('id', '!=', $this->genNumbers['data5'])

@@ -31,7 +31,7 @@ class Controller_Manager extends Controller
                 ->set('uri', 'api/project/add')
                 ->set('project', ORM::factory('Project'))
                 ->set('reports', $reports);
-        $this->response->body($view);
+        $this->success($view);
     }
 
     /**
@@ -54,7 +54,7 @@ class Controller_Manager extends Controller
                 ->set('uri', 'api/project/edit/' . $project->id)
                 ->set('project', $project)
                 ->set('reports', $reports);
-        $this->response->body($view);
+        $this->success($view);
     }
 
     /**
@@ -78,6 +78,6 @@ class Controller_Manager extends Controller
                 ->set('uri', 'api/project/duplicate/' . $project->id)
                 ->set('project', $project)
                 ->set('reports', $reports);
-        $this->response->body($view);
+        $this->success($view);
     }
 }

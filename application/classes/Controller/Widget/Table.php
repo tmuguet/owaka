@@ -57,6 +57,6 @@ abstract class Controller_Widget_Table extends Controller_Widget
                 ->set('columns', $this->columnsHeaders)
                 ->set('rows', $this->rows);
 
-        $this->response->body($view);
+        $this->success($view);
     }
 }

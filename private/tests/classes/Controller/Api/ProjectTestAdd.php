@@ -55,6 +55,8 @@ class Controller_Api_ProjectTestAdd extends TestCase
         $this->assertResponseOK($response);
         $apiCall  = json_decode($response->body(), TRUE);
 
+        $this->rollback();
+
         $actual       = ORM::factory('Project')->where('name', '=', 'foo')->find();
         $this->assertTrue($actual->loaded());
         $expected->id = $actual->id;
@@ -72,7 +74,7 @@ class Controller_Api_ProjectTestAdd extends TestCase
         $this->assertEquals(1, sizeof($actual2));
         $expected2->project_id = $actual->id;
         $expected2->id         = $actual2[0]->id;
-        foreach ($actual2[0]->list_columns() as $column => $info) {
+        foreach (array_keys($actual2[0]->list_columns()) as $column) {
             $this->assertEquals(
                     $expected2->$column, $actual2[0]->$column, 'Column ' . $column . ' of Project_Report does not match'
             );
