@@ -96,8 +96,8 @@ class Controller_Widget_Pdepend_Latestbuildssparklines extends Controller_Widget
             }
         }
 
-        $this->sparklines[] = array('title' => 'Cyclo Complexity', 'data'  => array_reverse($ccn));
-        $this->sparklines[] = array('title' => 'Ext. Cyclo Complexity', 'data'  => array_reverse($ccn2));
+        $this->sparklines[] = array('title' => 'Complexity', 'data'  => array_reverse($ccn));
+        $this->sparklines[] = array('title' => 'Ext. Complexity', 'data'  => array_reverse($ccn2));
         $this->sparklines[] = array('title' => 'Comment Lines', 'data'  => array_reverse($cloc));
         $this->sparklines[] = array('title' => 'Executable Lines', 'data'  => array_reverse($eloc));
         $this->sparklines[] = array('title' => 'Logical Lines', 'data'  => array_reverse($lloc));

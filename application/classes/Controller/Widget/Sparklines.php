@@ -30,7 +30,7 @@ abstract class Controller_Widget_Sparklines extends Controller_Widget_Raw
     protected function render()
     {
         if (!empty($this->sparklines)) {
-            $this->content = '<table width="100%" style="margin-top: 30px"><tbody>';
+            $this->content = '<table width="100%"><tbody>';
             $width         = ($this->getModelWidget()->width - 1) * Owaka::GRIDCELL_SIZE - 2 * Owaka::GRIDCELL_SPACE;
 
             $i      = 0;
