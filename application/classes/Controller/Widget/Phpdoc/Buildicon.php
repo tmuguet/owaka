@@ -77,7 +77,9 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Icon
     {
         $path = Owaka::getReportUri($build->id, 'phpdoc', 'report');
         if (!empty($path)) {
-            $this->widgetStatus = Owaka::BUILD_OK;
+            $this->data[] = array(
+                'status' => Owaka::BUILD_OK
+            );
 
             $this->widgetLinks[] = array(
                 'type' => 'build',
