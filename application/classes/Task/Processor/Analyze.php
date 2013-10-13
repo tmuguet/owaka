@@ -75,7 +75,7 @@ class Task_Processor_Analyze extends Minion_Task
     /**
      * Runs the analysis for all processors
      * 
-     * @param Model_Build $build &Build
+     * @param Model_Build &$build Build
      * 
      * @return string Status
      */
