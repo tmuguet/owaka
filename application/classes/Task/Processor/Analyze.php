@@ -49,11 +49,20 @@ class Task_Processor_Analyze extends Minion_Task
 
     // @codingStandardsIgnoreEnd
 
+    /**
+     * Runs the analysis for one processor
+     * 
+     * @param array       $params Parameters. $params['processor'] must be defined
+     * @param Model_Build &$build Build
+     * 
+     * @return string|null Status, or null if $params['processor'] is not a valid processor or does not implement analyze()
+     */
     protected function run(array $params, Model_Build &$build)
     {
         $processorClass = 'Processor_' . ucfirst($params['processor']);
         if (!class_exists($processorClass)) {
             echo $params['processor'] . ' is not a valid processor';
+            return NULL;
         }
         $processor = new $processorClass();
         $res       = NULL;
@@ -63,6 +72,13 @@ class Task_Processor_Analyze extends Minion_Task
         return $res;
     }
 
+    /**
+     * Runs the analysis for all processors
+     * 
+     * @param Model_Build $build &Build
+     * 
+     * @return string Status
+     */
     protected function runAll(Model_Build &$build)
     {
         $status = Owaka::BUILD_OK;

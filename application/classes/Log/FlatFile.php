@@ -15,7 +15,7 @@ class Log_FlatFile extends Log_Writer
     /**
      * @var string File to place log messages in
      */
-    protected $_file;
+    protected $file;
 
     /**
      * Creates a new file logger. Checks that the parent directory exists and
@@ -35,7 +35,7 @@ class Log_FlatFile extends Log_Writer
         }
 
         // Determine the file path
-        $this->_file = $file;
+        $this->file = $file;
     }
 
     /**
@@ -49,14 +49,14 @@ class Log_FlatFile extends Log_Writer
      */
     public function write(array $messages)
     {
-        if (!file_exists($this->_file)) {
+        if (!file_exists($this->file)) {
             // Create the log file
-            file_put_contents($this->_file, Kohana::FILE_SECURITY . ' ?>' . PHP_EOL);
+            file_put_contents($this->file, Kohana::FILE_SECURITY . ' ?>' . PHP_EOL);
         }
 
         foreach ($messages as $message) {
             // Write each message into the log file
-            file_put_contents($this->_file, PHP_EOL . $this->format_message($message), FILE_APPEND);
+            file_put_contents($this->file, PHP_EOL . $this->format_message($message), FILE_APPEND);
         }
     }
 }

@@ -51,15 +51,27 @@ class Task_Processor_Copy extends Minion_Task
 
     // @codingStandardsIgnoreEnd
 
+    /**
+     * Copies reports for one processor
+     * 
+     * @param array       $params Parameters. $params['processor'] must be defined
+     * @param Model_Build &$build Build
+     */
     protected function run(array $params, Model_Build &$build)
     {
         $processorClass = 'Processor_' . ucfirst($params['processor']);
         if (!class_exists($processorClass)) {
             echo $params['processor'] . ' is not a valid processor';
+            return;
         }
         $this->copy(new $processorClass(), $build);
     }
 
+    /**
+     * Copies report for all processors
+     * 
+     * @param Model_Build &$build Build
+     */
     protected function runAll(Model_Build &$build)
     {
         foreach (File::findProcessors() as $processorClass) {
@@ -69,6 +81,14 @@ class Task_Processor_Copy extends Minion_Task
         }
     }
 
+    /**
+     * Copy reports for a processor
+     * 
+     * @param Processor   &$processor Processor
+     * @param Model_Build &$build     Build
+     * 
+     * @return boolean Always true
+     */
     protected function copy(Processor &$processor, Model_Build &$build)
     {
         $command = new Command($build->project);

@@ -74,8 +74,8 @@ abstract class Processor
     /**
      * Gets the path of an input report, or NULL if no report available
      * 
-     * @param Model_Build &$buildId Build
-     * @param string      $type     Type of report to get
+     * @param Model_Build &$build Build
+     * @param string      $type   Type of report to get
      * 
      * @return string|null
      * @see inputReports for report types
@@ -105,7 +105,7 @@ abstract class Processor
      * Gets the root path of all reports in owaka's data directory.
      * This does not guarantee the path exists.
      * 
-     * @param Model_Build &$buildId Build
+     * @param Model_Build &$build Build
      * 
      * @return string|null
      */
@@ -118,8 +118,8 @@ abstract class Processor
      * Gets the path of a report in owaka's data directory, or NULL if not available.
      * This does not guarantee the path exists. Use getReportCompleteRealPath when possible.
      * 
-     * @param Model_Build &$buildId Build
-     * @param string      $type     Type of report to get
+     * @param Model_Build &$build Build
+     * @param string      $type   Type of report to get
      * 
      * @return string|null
      * @see inputReports for report types
@@ -138,8 +138,8 @@ abstract class Processor
     /**
      * Gets the path of a report in owaka's data directory, or NULL if not existing or not available
      * 
-     * @param Model_Build &$buildId Build
-     * @param string      $type     Type of report to get
+     * @param Model_Build &$build Build
+     * @param string      $type   Type of report to get
      * 
      * @return string|null
      * @see inputReports for report types

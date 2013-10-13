@@ -51,16 +51,28 @@ class Task_Processor_Process extends Minion_Task
 
     // @codingStandardsIgnoreEnd
 
+    /**
+     * Processes build for a processor
+     * 
+     * @param array       $params Parameters. $params['processor'] must be defined
+     * @param Model_Build &$build Build
+     */
     protected function run(array $params, Model_Build &$build)
     {
         $processorClass = 'Processor_' . ucfirst($params['processor']);
         if (!class_exists($processorClass)) {
             echo $params['processor'] . ' is not a valid processor';
+            return;
         }
         $processor = new $processorClass();
         $processor->process($build);
     }
 
+    /**
+     * Processors build for all processors
+     * 
+     * @param Model_Build &$build Build
+     */
     protected function runAll(Model_Build &$build)
     {
         foreach (File::findProcessors() as $processorClass) {
