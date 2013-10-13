@@ -1,14 +1,13 @@
 <?php
 
-class Controller_Processor_CoverageTest extends TestCase_Processor
+class Processor_CoverageTest extends TestCase_Processor
 {
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->buildId = $this->genNumbers['build2'];
-        $this->target->request->setParam('id', $this->buildId);
+        $this->build = ORM::factory('Build', $this->genNumbers['build2']);
     }
 
     public function tearDown()
@@ -17,8 +16,8 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Coverage::process
-     * @covers Controller_Processor_Coverage::findDeltas
+     * @covers Processor_Coverage::process
+     * @covers Processor_Coverage::findDeltas
      */
     public function testProcess()
     {
@@ -26,7 +25,7 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
                 'raw', dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'coverage-report.xml'
         );
 
-        $this->target->process($this->buildId);
+        $this->target->process($this->build);
         $this->commit();
 
         $globaldataExpected = array(
@@ -57,11 +56,11 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Coverage::process
+     * @covers Processor_Coverage::process
      */
     public function testProcessEmpty()
     {
-        $this->target->process($this->buildId);
+        $this->target->process($this->build);
         $this->commit();
         $globaldata = DB::select('methodcount')
                         ->from('coverage_globaldatas')
@@ -71,7 +70,7 @@ class Controller_Processor_CoverageTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Coverage::analyze
+     * @covers Processor_Coverage::analyze
      */
     public function testAnalyze()
     {

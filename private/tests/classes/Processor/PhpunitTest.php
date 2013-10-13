@@ -1,14 +1,13 @@
 <?php
 
-class Controller_Processor_PhpunitTest extends TestCase_Processor
+class Processor_PhpunitTest extends TestCase_Processor
 {
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->buildId = $this->genNumbers['build2'];
-        $this->target->request->setParam('id', $this->buildId);
+        $this->build = ORM::factory('Build', $this->genNumbers['build2']);
     }
 
     public function tearDown()
@@ -17,8 +16,8 @@ class Controller_Processor_PhpunitTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Phpunit::process
-     * @covers Controller_Processor_Phpunit::findRegressions
+     * @covers Processor_Phpunit::process
+     * @covers Processor_Phpunit::findRegressions
      */
     public function testProcess()
     {
@@ -26,7 +25,7 @@ class Controller_Processor_PhpunitTest extends TestCase_Processor
                 'xml', dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'phpunit-report.xml'
         );
 
-        $this->target->process($this->buildId);
+        $this->target->process($this->build);
         $this->commit();
 
         $globaldataExpected = array(
@@ -67,11 +66,11 @@ class Controller_Processor_PhpunitTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Phpunit::process
+     * @covers Processor_Phpunit::process
      */
     public function testProcessEmpty()
     {
-        $this->target->process($this->buildId);
+        $this->target->process($this->build);
         $this->commit();
         $globaldata = DB::select('tests', 'failures', 'errors', 'time')
                         ->from('phpunit_globaldatas')
@@ -89,7 +88,7 @@ class Controller_Processor_PhpunitTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Phpunit::analyze
+     * @covers Processor_Phpunit::analyze
      */
     public function testAnalyze()
     {

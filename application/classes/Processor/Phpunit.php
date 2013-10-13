@@ -9,7 +9,7 @@ defined('SYSPATH') OR die('No direct script access.');
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
  */
-class Controller_Processor_Phpunit extends Controller_Processor
+class Processor_Phpunit extends Processor
 {
 
     static public $inputReports = array(
@@ -53,17 +53,17 @@ class Controller_Processor_Phpunit extends Controller_Processor
     /**
      * Processes a PHPUnit XML report
      * 
-     * @param int $buildId Build ID
+     * @param Model_Build &$build Build
      * 
      * @return bool true if report successfully treated; false if no report available
      */
-    public function process($buildId)
+    public function process(Model_Build &$build)
     {
-        $report = $this->getReportCompletePath($buildId, 'xml');
+        $report = $this->getReportCompleteRealPath($build, 'xml');
 
         if (!empty($report) && file_get_contents($report) != '') {
             $global           = ORM::factory('Phpunit_Globaldata');
-            $global->build_id = $buildId;
+            $global->build_id = $build->id;
             $global->tests    = 0;
             $global->failures = 0;
             $global->errors   = 0;
@@ -82,7 +82,7 @@ class Controller_Processor_Phpunit extends Controller_Processor
                             $errorNodes = $testcase->children();
 
                             $error            = ORM::factory('Phpunit_Error');
-                            $error->build_id  = $buildId;
+                            $error->build_id  = $build->id;
                             $error->testsuite = (string) $subtestsuite['name'];
                             $error->testcase  = (string) $testcase['name'];
                             $error->severity  = $errorNodes[0]->getName();
@@ -92,7 +92,7 @@ class Controller_Processor_Phpunit extends Controller_Processor
                 }
             }
 
-            $this->findRegressions($global);
+            $this->findRegressions($build, $global);
             $global->create();
             return true;
         }
@@ -103,11 +103,11 @@ class Controller_Processor_Phpunit extends Controller_Processor
     /**
      * Finds regressions and fixes with previous build
      * 
-     * @param Model_Phpunit_Globaldata &$data Current data
+     * @param Model_Build              &$build Build
+     * @param Model_Phpunit_Globaldata &$data  Current data
      */
-    protected function findRegressions(Model_Phpunit_Globaldata &$data)
+    protected function findRegressions(Model_Build &$build, Model_Phpunit_Globaldata &$data)
     {
-        $build     = $data->build;
         $prevBuild = $build->previousBuild()->find();
         if ($prevBuild->loaded()) {
             $data->failures_regressions = 0;

@@ -4,7 +4,7 @@ abstract class TestCase_Processor extends TestCase
 {
 
     protected $target;
-    protected $buildId;
+    protected $build;
     protected $xmlDataSet = '../../_files/processor';
 
     public function setUp()
@@ -27,7 +27,7 @@ abstract class TestCase_Processor extends TestCase
     public function testClass()
     {
         $class         = substr(get_called_class(), 0, -4); // remove Test at the end
-        $processorname = str_replace('Controller_Processor_', '', $class);
+        $processorname = str_replace('Processor_', '', $class);
         $this->assertLessThanOrEqual(
                 30, strlen($processorname),
                            'Processor name must be shorter than 30 characters (' . $processorname . ': ' . strlen($processorname) . ' chars)'
@@ -37,7 +37,7 @@ abstract class TestCase_Processor extends TestCase
     public function testInputReports()
     {
         $class         = substr(get_called_class(), 0, -4); // remove Test at the end
-        $processorname = str_replace('Controller_Processor_', '', $class);
+        $processorname = str_replace('Processor_', '', $class);
         $this->assertLessThanOrEqual(
                 30, strlen($processorname),
                            'Processor name must be shorter than 30 characters (' . $processorname . ': ' . strlen($processorname) . ' chars)'
@@ -67,12 +67,12 @@ abstract class TestCase_Processor extends TestCase
 
     protected function CopyReport($type, $source)
     {
-        $destinationDir = APPPATH . 'reports' . DIR_SEP . $this->buildId . DIR_SEP
+        $destinationDir = APPPATH . 'reports' . DIR_SEP . $this->build->id . DIR_SEP
                 . $this->target->_getName() . DIR_SEP;
         $t              = $this->target;
         $reports        = $t::$inputReports;
         if (!isset($reports[$type]) || !isset($reports[$type]['keep-as'])) {
-            throw new Exception("$type not available");
+            throw new Exception($type . ' not available');
         }
 
         $destination = $destinationDir . $reports[$type]['keep-as'];

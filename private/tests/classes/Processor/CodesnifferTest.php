@@ -1,19 +1,18 @@
 <?php
 
-class Controller_Processor_CodesnifferTest extends TestCase_Processor
+class Processor_CodesnifferTest extends TestCase_Processor
 {
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->buildId = $this->genNumbers['build2'];
-        $this->target->request->setParam('id', $this->buildId);
+        $this->build = ORM::factory('Build', $this->genNumbers['build2']);
     }
 
     /**
-     * @covers Controller_Processor_Codesniffer::process
-     * @covers Controller_Processor_Codesniffer::findRegressions
+     * @covers Processor_Codesniffer::process
+     * @covers Processor_Codesniffer::findRegressions
      */
     public function testProcess()
     {
@@ -22,7 +21,7 @@ class Controller_Processor_CodesnifferTest extends TestCase_Processor
                 dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'codesniffer-report.xml'
         );
 
-        $this->target->process($this->buildId);
+        $this->target->process($this->build);
         $this->commit();
 
         $globaldataExpected = array(
@@ -62,11 +61,11 @@ class Controller_Processor_CodesnifferTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Codesniffer::process
+     * @covers Processor_Codesniffer::process
      */
     public function testProcessEmpty()
     {
-        $this->target->process($this->buildId);
+        $this->target->process($this->build);
         $this->commit();
         $globaldata = DB::select('warnings', 'errors')
                         ->from('codesniffer_globaldatas')
@@ -76,7 +75,7 @@ class Controller_Processor_CodesnifferTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Codesniffer::analyze
+     * @covers Processor_Codesniffer::analyze
      */
     public function testAnalyze()
     {

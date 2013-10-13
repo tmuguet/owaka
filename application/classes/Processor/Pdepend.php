@@ -9,7 +9,7 @@ defined('SYSPATH') OR die('No direct script access.');
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
  */
-class Controller_Processor_Pdepend extends Controller_Processor
+class Processor_Pdepend extends Processor
 {
 
     public static $inputReports = array(
@@ -48,17 +48,17 @@ class Controller_Processor_Pdepend extends Controller_Processor
     /**
      * Processes a PHPdepend XML report
      * 
-     * @param int $buildId Build ID
+     * @param Model_Build &$build Build
      * 
      * @return bool true if report successfully treated; false if no report available
      */
-    public function process($buildId)
+    public function process(Model_build &$build)
     {
-        $report = $this->getReportCompletePath($buildId, 'summary');
+        $report = $this->getReportCompleteRealPath($build, 'summary');
 
         if (!empty($report) && file_get_contents($report) != '') {
             $global           = ORM::factory('Pdepend_Globaldata');
-            $global->build_id = $buildId;
+            $global->build_id = $build->id;
 
             $xml            = simplexml_load_file($report);
             $global->ahh    = (double) $xml['ahh'];

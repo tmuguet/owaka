@@ -160,7 +160,7 @@ class File extends Kohana_File
      */
     public static function findProcessors()
     {
-        return self::findClasses('Controller' . DIR_SEP . 'Processor' . DIR_SEP);
+        return self::findClasses('Processor' . DIR_SEP);
     }
 
     /**

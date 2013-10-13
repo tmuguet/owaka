@@ -262,7 +262,7 @@ class Controller_Api_Project extends Controller_Api
         $post       = $this->request->post();
         $processors = File::findProcessors();
         foreach ($processors as $processor) {
-            $name      = str_replace('Controller_Processor_', '', $processor);
+            $name      = str_replace('Processor_', '', $processor);
             $namelower = strtolower($name);
             foreach (array_keys($processor::$inputReports) as $key) {
                 $type = $namelower . '_' . $key;
@@ -298,7 +298,7 @@ class Controller_Api_Project extends Controller_Api
         $post       = $this->request->post();
         $processors = File::findProcessors();
         foreach ($processors as $processor) {
-            $name      = str_replace('Controller_Processor_', '', $processor);
+            $name      = str_replace('Processor_', '', $processor);
             $namelower = strtolower($name);
             foreach (array_keys($processor::$parameters) as $key) {
                 $type = $namelower . '_' . $key;

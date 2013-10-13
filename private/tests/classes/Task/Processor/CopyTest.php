@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__) . DIR_SEP . '_stubs' . DIR_SEP . 'ProcessorStub.php';
+require_once dirname(__FILE__) . DIR_SEP . '..' . DIR_SEP . '..' . DIR_SEP . '_stubs' . DIR_SEP . 'ProcessorStub.php';
 
-class Controller_ProcessorTestCopy extends TestCase
+class Task_Processor_CopyTest extends TestCase
 {
 
     protected $xmlDataSet = 'processor-copy';
@@ -16,8 +16,7 @@ class Controller_ProcessorTestCopy extends TestCase
         );
         mkdir($this->genNumbers['PathFoo'] . DIR_SEP . 'baz');
         file_put_contents(
-                $this->genNumbers['PathFoo'] . DIR_SEP . 'baz' . DIR_SEP . 'hello',
-                'hello-world2'
+                $this->genNumbers['PathFoo'] . DIR_SEP . 'baz' . DIR_SEP . 'hello', 'hello-world2'
         );
 
         mkdir($this->genNumbers['PathBar']);
@@ -39,14 +38,20 @@ class Controller_ProcessorTestCopy extends TestCase
     }
 
     /**
-     * @covers Controller_Processor::action_copy
+     * @covers Task_Processor_Copy::_execute
+     * @covers Task_Processor_Copy::run
+     * @covers Task_Processor_Copy::copy
      */
     public function testCopy()
     {
-        $target = new Controller_Processor_ProcessorStub();
-        $target->request->setParam('id', $this->genNumbers['build1']);
-
-        $target->action_copy();
+        $copy = Minion_Task::factory(
+                        array(
+                            'task'      => 'Processor:Copy',
+                            'id'        => $this->genNumbers['build1'],
+                            'processor' => 'ProcessorStub'
+                        )
+        );
+        $copy->execute();
 
         $basedir = APPPATH . 'reports' . DIR_SEP . $this->genNumbers['build1']
                 . DIR_SEP . 'processorstub' . DIR_SEP;
@@ -55,6 +60,9 @@ class Controller_ProcessorTestCopy extends TestCase
         // file
         $this->assertTrue(is_readable($basedir . 'foo.html'));
         $this->assertEquals('hello-world', file_get_contents($basedir . 'foo.html'));
+
+        // file2
+        $this->assertFalse(is_readable($basedir . 'bar.html'));
 
         // dir
         $this->assertTrue(is_readable($basedir . 'hello'));
@@ -67,17 +75,18 @@ class Controller_ProcessorTestCopy extends TestCase
     }
 
     /**
-     * @covers Controller_Processor::action_copy
+     * @covers Task_Processor_Copy::_execute
+     * @covers Task_Processor_Copy::runAll
+     * @covers Task_Processor_Copy::copy
      */
     public function testCopyFail()
     {
-        $target = new Controller_Processor_ProcessorStub();
-        $target->request->setParam('id', $this->genNumbers['build2']);
+        $copy = Minion_Task::factory(
+                        array('task'  => 'Processor:Copy', 'build' => ORM::factory('Build', $this->genNumbers['build2']))
+        );
+        $copy->execute();
 
-        $target->action_copy();
-
-        $basedir = APPPATH . 'reports' . DIR_SEP . $this->genNumbers['build2']
-                . DIR_SEP . 'processorstub' . DIR_SEP;
+        $basedir = APPPATH . 'reports' . DIR_SEP . $this->genNumbers['build2'];
         $this->assertFalse(is_dir($basedir));
     }
 }

@@ -9,7 +9,7 @@ defined('SYSPATH') OR die('No direct script access.');
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
  */
-class Controller_Processor_Codesniffer extends Controller_Processor
+class Processor_Codesniffer extends Processor
 {
 
     public static $inputReports = array(
@@ -46,17 +46,17 @@ class Controller_Processor_Codesniffer extends Controller_Processor
     /**
      * Processes a Codesniffer XML report
      * 
-     * @param int $buildId Build ID
+     * @param Model_Build &$build Build
      * 
      * @return bool true if report successfully treated; false if no report available
      */
-    public function process($buildId)
+    public function process(Model_Build &$build)
     {
-        $report = $this->getReportCompletePath($buildId, 'xml');
+        $report = $this->getReportCompleteRealPath($build, 'xml');
 
         if (!empty($report) && file_get_contents($report) != '') {
             $global           = ORM::factory('Codesniffer_Globaldata');
-            $global->build_id = $buildId;
+            $global->build_id = $build->id;
             $global->warnings = 0;
             $global->errors   = 0;
 
@@ -64,7 +64,7 @@ class Controller_Processor_Codesniffer extends Controller_Processor
             foreach ($xml->children() as $file) {
                 foreach ($file->children() as $item) {
                     $error           = ORM::factory('Codesniffer_Error');
-                    $error->build_id = $buildId;
+                    $error->build_id = $build->id;
                     $error->file     = (string) $file['name'];
                     $error->message  = (string) $item['message'];
                     $error->line     = (int) $item['line'];
@@ -80,7 +80,7 @@ class Controller_Processor_Codesniffer extends Controller_Processor
                     $error->create();
                 }
             }
-            $this->findRegressions($global);
+            $this->findRegressions($build, $global);
             $global->create();
             return true;
         }
@@ -91,11 +91,11 @@ class Controller_Processor_Codesniffer extends Controller_Processor
     /**
      * Finds regressions and fixes with previous build
      * 
-     * @param Model_Codesniffer_Globaldata &$data Current data
+     * @param Model_Build                  &$build Build
+     * @param Model_Codesniffer_Globaldata &$data  Current data
      */
-    protected function findRegressions(Model_Codesniffer_Globaldata &$data)
+    protected function findRegressions(Model_Build &$build, Model_Codesniffer_Globaldata &$data)
     {
-        $build     = $data->build;
         $prevBuild = $build->previousBuild()->find();
         $prevData  = $prevBuild->codesniffer_globaldata;
         if ($prevData->loaded()) {

@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processor_ProcessorStub extends Controller_Processor
+class Processor_ProcessorStub extends Processor
 {
 
     public $processResult = TRUE;
@@ -41,7 +41,7 @@ class Controller_Processor_ProcessorStub extends Controller_Processor
         ),
     );
 
-    public function process($buildId)
+    public function process(Model_Build &$build)
     {
         return $this->processResult;
     }

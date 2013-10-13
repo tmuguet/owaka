@@ -1,14 +1,13 @@
 <?php
 
-class Controller_Processor_PhpmdTest extends TestCase_Processor
+class Processor_PhpmdTest extends TestCase_Processor
 {
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->buildId = $this->genNumbers['build2'];
-        $this->target->request->setParam('id', $this->buildId);
+        $this->build = ORM::factory('Build', $this->genNumbers['build2']);
     }
 
     public function tearDown()
@@ -17,8 +16,8 @@ class Controller_Processor_PhpmdTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Phpmd::process
-     * @covers Controller_Processor_Phpmd::findDeltas
+     * @covers Processor_Phpmd::process
+     * @covers Processor_Phpmd::findDeltas
      */
     public function testProcess()
     {
@@ -26,7 +25,7 @@ class Controller_Processor_PhpmdTest extends TestCase_Processor
                 'html', dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'phpmd-report.html'
         );
 
-        $this->target->process($this->buildId);
+        $this->target->process($this->build);
         $this->commit();
 
         $globaldataExpected = array(array('errors' => 2, 'errors_delta' => -3));
@@ -38,11 +37,11 @@ class Controller_Processor_PhpmdTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Phpmd::process
+     * @covers Processor_Phpmd::process
      */
     public function testProcessEmpty()
     {
-        $this->target->process($this->buildId);
+        $this->target->process($this->build);
         $this->commit();
         $globaldata = DB::select('errors')
                         ->from('phpmd_globaldatas')
@@ -52,7 +51,7 @@ class Controller_Processor_PhpmdTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Phpmd::analyze
+     * @covers Processor_Phpmd::analyze
      */
     public function testAnalyze()
     {

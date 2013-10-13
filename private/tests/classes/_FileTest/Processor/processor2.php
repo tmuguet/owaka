@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Processor_processor2 extends Controller_Processor
+class Processor_processor2 extends Processor
 {
 
     public static $inputReports = array(
@@ -30,12 +30,12 @@ class Controller_Processor_processor2 extends Controller_Processor
         ),
     );
 
-    public function analyze()
+    public function analyze(Model_Build &$build, $params)
     {
         
     }
 
-    public function process($buildId)
+    public function process(Model_Build &$build)
     {
         
     }

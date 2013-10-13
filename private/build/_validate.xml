@@ -17,12 +17,7 @@
     </fileset>
     
     <fileset dir="${build.deploydir}/application" id="app-php-test">
-        <include name="classes/Auth/**/*.php" />
-        <include name="classes/Controller/**/*.php" />
-        <include name="classes/Model/**/*.php" />
-        <include name="classes/Helper/**/*.php" />
-        <include name="classes/Task/**/*.php" />
-        <include name="classes/*.php" />
+        <include name="classes/**/*.php" />
     </fileset>
     
     <target name="_prepare" hidden="true">

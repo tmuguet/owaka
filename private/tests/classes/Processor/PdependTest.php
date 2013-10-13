@@ -1,14 +1,13 @@
 <?php
 
-class Controller_Processor_PdependTest extends TestCase_Processor
+class Processor_PdependTest extends TestCase_Processor
 {
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->buildId = $this->genNumbers['build2'];
-        $this->target->request->setParam('id', $this->buildId);
+        $this->build = ORM::factory('Build', $this->genNumbers['build2']);
     }
 
     public function tearDown()
@@ -17,7 +16,7 @@ class Controller_Processor_PdependTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Pdepend::process
+     * @covers Processor_Pdepend::process
      */
     public function testProcess()
     {
@@ -26,7 +25,7 @@ class Controller_Processor_PdependTest extends TestCase_Processor
                 dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'pdepend-summary.xml'
         );
 
-        $this->target->process($this->buildId);
+        $this->target->process($this->build);
         $this->commit();
 
         $globaldataExpected = array(
@@ -65,11 +64,11 @@ class Controller_Processor_PdependTest extends TestCase_Processor
     }
 
     /**
-     * @covers Controller_Processor_Pdepend::process
+     * @covers Processor_Pdepend::process
      */
     public function testProcessEmpty()
     {
-        $this->target->process($this->buildId);
+        $this->target->process($this->build);
         $this->commit();
         $globaldata = DB::select('ahh')
                         ->from('pdepend_globaldatas')

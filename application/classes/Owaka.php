@@ -40,11 +40,11 @@ class Owaka
      * @return string|null URI to report, or null if not found
      * @throws InvalidArgumentException Invalid processor
      * @throws InvalidArgumentException Invalid report type
-     * @see Controller_Processor::inputReports
+     * @see Processor::inputReports
      */
     static public function getReportUri($buildId, $processor, $type = NULL)
     {
-        $processorClass = 'Controller_Processor_' . ucfirst($processor);
+        $processorClass = 'Processor_' . ucfirst($processor);
         if (!class_exists($processorClass)) {
             throw new InvalidArgumentException('Cannot find processor ' . $processor);
         }
@@ -80,11 +80,11 @@ class Owaka
      * 
      * @return array
      * @throws InvalidArgumentException Invalid processor
-     * @see Controller_Processor::parameters
+     * @see Processor::parameters
      */
     static public function getReportParameters($projectId, $processor)
     {
-        $processorClass = 'Controller_Processor_' . ucfirst($processor);
+        $processorClass = 'Processor_' . ucfirst($processor);
         if (!class_exists($processorClass)) {
             throw new InvalidArgumentException('Cannot find processor ' . $processor);
         }

@@ -75,6 +75,16 @@ class includeTest extends TestCase
     }
 
     /**
+     * Tests all the processors
+     */
+    public function testProcessors()
+    {
+        $files   = File::getFiles(APPPATH . 'classes' . DIR_SEP . 'Processor');
+        $files[] = APPPATH . 'classes' . DIR_SEP . 'Processor.php';
+        $this->_test($files);
+    }
+
+    /**
      * Tests all utils
      */
     public function testUtils()

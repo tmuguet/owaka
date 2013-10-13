@@ -9,7 +9,7 @@ defined('SYSPATH') OR die('No direct script access.');
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
  */
-class Controller_Processor_Coverage extends Controller_Processor
+class Processor_Coverage extends Processor
 {
 
     public static $inputReports = array(
@@ -62,17 +62,17 @@ class Controller_Processor_Coverage extends Controller_Processor
     /**
      * Processes a coverage XML report
      * 
-     * @param int $buildId Build ID
+     * @param Model_Build &$build Build
      * 
      * @return bool true if report successfully treated; false if no report available or if empty report
      */
-    public function process($buildId)
+    public function process(Model_Build &$build)
     {
-        $report = $this->getReportCompletePath($buildId, 'raw');
+        $report = $this->getReportCompleteRealPath($build, 'raw');
 
         if (!empty($report) && file_get_contents($report) != '') {
             $global           = ORM::factory('Coverage_Globaldata');
-            $global->build_id = $buildId;
+            $global->build_id = $build->id;
 
             $xml                    = simplexml_load_file($report);
             $global->methodcount    = (int) $xml['methodcount'];
@@ -88,7 +88,7 @@ class Controller_Processor_Coverage extends Controller_Processor
             $global->totalcoverage = Num::percent($global->totalcovered, $global->totalcount);
 
             if ($global->methodcount > 0 || $global->statementcount > 0 || $global->totalcount > 0) {
-                $this->findDeltas($global);
+                $this->findDeltas($build, $global);
                 $global->create();
             }
             return true;
@@ -100,11 +100,11 @@ class Controller_Processor_Coverage extends Controller_Processor
     /**
      * Computes deltas with previous build
      * 
-     * @param Model_Coverage_Globaldata &$data Current data
+     * @param Model_Build               &$build Build
+     * @param Model_Coverage_Globaldata &$data  Current data
      */
-    protected function findDeltas(Model_Coverage_Globaldata &$data)
+    protected function findDeltas(Model_Build &$build, Model_Coverage_Globaldata &$data)
     {
-        $build     = $data->build;
         $prevBuild = $build->previousBuild()->find();
         $prevData  = $prevBuild->coverage_globaldata;
         if ($prevData->loaded()) {

@@ -9,7 +9,7 @@ defined('SYSPATH') OR die('No direct script access.');
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
  */
-class Controller_Processor_Phpdoc extends Controller_Processor
+class Processor_Phpdoc extends Processor
 {
 
     public static $inputReports = array(
@@ -24,11 +24,11 @@ class Controller_Processor_Phpdoc extends Controller_Processor
     /**
      * Processes a PHPDoc report
      * 
-     * @param int $buildId Build ID
+     * @param Model_Build &$build Build
      * 
      * @return bool true if report successfully treated; false if no report available
      */
-    public function process($buildId)
+    public function process(Model_Build &$build)
     {
         /* nothing to do */
 

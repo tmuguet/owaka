@@ -136,7 +136,7 @@ echo View::factory('baseMenu')
                     echo '</div>';
                 }
 
-                $classname  = 'Controller_Processor_' . ucfirst($_controller);
+                $classname  = 'Processor_' . ucfirst($_controller);
                 $parameters = $classname::$parameters;
 
                 if ($project->loaded()) {

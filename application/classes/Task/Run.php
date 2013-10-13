@@ -49,7 +49,7 @@ class Task_Run extends Minion_Task
 
         try {
             $this->validate($build);
-            $this->parseReports($build);
+            $this->processReports($build);
             $this->analyzeReports($build);
         } catch (Exception $e) {
             Kohana_Exception::log($e);
@@ -148,18 +148,15 @@ class Task_Run extends Minion_Task
      */
     protected function copyReports(Model_Build &$build)
     {
-        Auth::instance()->force_login('owaka');
-        foreach (File::findProcessors() as $processor) {
-            $name     = str_replace('Controller_', '', $processor);
-            Kohana::$log->add(Log::INFO, 'Copying reports for ' . $name . '...');
-            $response = Request::factory($name . '/copy/' . $build->id)
-                    ->execute();
-            if ($response->status() != 200) {
-                Kohana::$log->add(Log::ERROR, 'Status: ' . $response->status());
-                Kohana::$log->add(Log::ERROR, 'Content: ' . $response->body());
-            }
+        ob_start();
+        $copy = Minion_Task::factory(
+                        array('task'  => 'Processor:Copy', 'build' => $build)
+        );
+        $copy->execute();
+        $res  = trim(ob_get_clean());
+        if ($res != 'ok') {
+            Kohana::$log->add(Log::ERROR, 'Failed: ' . $res);
         }
-        Auth::instance()->logout();
     }
 
     /**
@@ -167,20 +164,17 @@ class Task_Run extends Minion_Task
      * 
      * @param Model_Build &$build Build
      */
-    protected function parseReports(Model_Build &$build)
+    protected function processReports(Model_Build &$build)
     {
-        Auth::instance()->force_login('owaka');
-        foreach (File::findProcessors() as $processor) {
-            $name     = str_replace('Controller_', '', $processor);
-            Kohana::$log->add(Log::INFO, 'Processing reports for ' . $name . '...');
-            $response = Request::factory($name . '/process/' . $build->id)
-                    ->execute();
-            if ($response->status() != 200) {
-                Kohana::$log->add(Log::ERROR, 'Status: ' . $response->status());
-                Kohana::$log->add(Log::ERROR, 'Content: ' . $response->body());
-            }
+        ob_start();
+        $process = Minion_Task::factory(
+                        array('task'  => 'Processor:Process', 'build' => $build)
+        );
+        $process->execute();
+        $res     = trim(ob_get_clean());
+        if ($res != 'ok') {
+            Kohana::$log->add(Log::ERROR, 'Failed: ' . $res);
         }
-        Auth::instance()->logout();
     }
 
     /**
@@ -191,30 +185,23 @@ class Task_Run extends Minion_Task
     protected function analyzeReports(Model_Build &$build)
     {
         // Do not update if status is already set (-> error)
-        Auth::instance()->force_login('owaka');
         if ($build->status == Owaka::BUILD_BUILDING) {
             $build->status = Owaka::BUILD_OK;
 
-            foreach (File::findAnalyzers() as $processor) {
-                $name     = str_replace('Controller_', '', $processor);
-                Kohana::$log->add(Log::INFO, 'Analyzing reports for ' . $name . '...');
-                $response = Request::factory($name . '/analyze/' . $build->id)
-                        ->execute();
-                if ($response->status() != 200) {
-                    Kohana::$log->add(Log::ERROR, 'Status: ' . $response->status());
-                    Kohana::$log->add(Log::ERROR, 'Content: ' . $response->body());
-                }
+            ob_start();
+            $copy = Minion_Task::factory(
+                            array('task'  => 'Processor:Analyze', 'build' => $build)
+            );
+            $copy->execute();
+            $res  = trim(ob_get_clean());
 
-                Kohana::$log->add(Log::INFO, $name . ' : ' . $response->body());
-                if ($response->body() == Owaka::BUILD_ERROR) {
-                    $build->status = Owaka::BUILD_ERROR;
-                    break;
-                } else if ($response->body() == Owaka::BUILD_UNSTABLE) {
-                    $build->status = Owaka::BUILD_UNSTABLE;
-                }
+            if (in_array($res, array(Owaka::BUILD_OK, Owaka::BUILD_UNSTABLE, Owaka::BUILD_ERROR, Owaka::BUILD_NODATA))) {
+                $build->status = $res;
+            } else {
+                Kohana::$log->add(Log::ERROR, 'Failed: ' . $res);
             }
         } else {
-            Kohana::$log->add(Log::INFO, 'Skipping analyze of reports: status already set to '. $build->status);
+            Kohana::$log->add(Log::INFO, 'Skipping analyze of reports: status already set to ' . $build->status);
         }
         $build->finished = DB::expr('NOW()');
         $build->update();
