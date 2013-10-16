@@ -69,7 +69,7 @@ class Task_Processor_Process extends Minion_Task
     }
 
     /**
-     * Processors build for all processors
+     * Processes build for all processors
      * 
      * @param Model_Build &$build Build
      */

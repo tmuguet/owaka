@@ -67,7 +67,7 @@ class Task_Processor_Analyze extends Minion_Task
         $processor = new $processorClass();
         $res       = NULL;
         if (method_exists($processor, 'analyze')) {
-            $res = $processor->analyze($build, Processor::projectParameters($build->project_id));
+            $res = $processor->analyze($build, $processor::projectParameters($build->project_id));
         }
         return $res;
     }
@@ -89,7 +89,7 @@ class Task_Processor_Analyze extends Minion_Task
             $res       = NULL;
             if (method_exists($processor, 'analyze')) {
                 Kohana::$log->add(Log::INFO, 'Analyzing reports for ' . $name . '...');
-                $res = $processor->analyze($build, Processor::projectParameters($build->project_id));
+                $res = $processor->analyze($build, $processor::projectParameters($build->project_id));
             }
 
             Kohana::$log->add(Log::INFO, $name . ' : ' . $res);
