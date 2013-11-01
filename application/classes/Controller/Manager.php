@@ -25,12 +25,18 @@ class Controller_Manager extends Controller
             $name           = str_replace('Processor_', '', $processor);
             $reports[$name] = $processor::$inputReports;
         }
+        $postactions = array();
+        foreach (File::findPostactions() as $postaction) {
+            $name          = str_replace('Postaction_', '', $postaction);
+            $postactions[] = $name;
+        }
 
         $view = View::factory('manager')
                 ->set('action', 'add')
                 ->set('uri', 'api/project/add')
                 ->set('project', ORM::factory('Project'))
-                ->set('reports', $reports);
+                ->set('reports', $reports)
+                ->set('postactions', $postactions);
         $this->success($view);
     }
 
@@ -47,13 +53,19 @@ class Controller_Manager extends Controller
             $name           = str_replace('Processor_', '', $processor);
             $reports[$name] = $processor::$inputReports;
         }
+        $postactions = array();
+        foreach (File::findPostactions() as $postaction) {
+            $name          = str_replace('Postaction_', '', $postaction);
+            $postactions[] = $name;
+        }
         $project = ORM::factory('Project', $this->request->param('id'));
 
         $view = View::factory('manager')
                 ->set('action', 'edit')
                 ->set('uri', 'api/project/edit/' . $project->id)
                 ->set('project', $project)
-                ->set('reports', $reports);
+                ->set('reports', $reports)
+                ->set('postactions', $postactions);
         $this->success($view);
     }
 
@@ -70,6 +82,11 @@ class Controller_Manager extends Controller
             $name           = str_replace('Processor_', '', $processor);
             $reports[$name] = $processor::$inputReports;
         }
+        $postactions = array();
+        foreach (File::findPostactions() as $postaction) {
+            $name          = str_replace('Postaction_', '', $postaction);
+            $postactions[] = $name;
+        }
         $project = ORM::factory('Project', $this->request->param('id'));
         $project->name .= '-copy';
 
@@ -77,7 +94,8 @@ class Controller_Manager extends Controller
                 ->set('action', 'duplicate')
                 ->set('uri', 'api/project/duplicate/' . $project->id)
                 ->set('project', $project)
-                ->set('reports', $reports);
+                ->set('reports', $reports)
+                ->set('postactions', $postactions);
         $this->success($view);
     }
 }

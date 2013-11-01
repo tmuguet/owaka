@@ -7,3 +7,5 @@ db.user=owakaprod
 db.pass=owakaprod
 db.name=owakaprod
 build.owner=www:www
+config.owaka.base=http://mydomain
+config.owaka.https=0

@@ -75,7 +75,7 @@ class Task_Forcequeue extends Minion_Task
             $build->create();
 
             $command->chtobasedir();
-            echo 'ok';
+            echo Owaka::BUILD_OK;
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }

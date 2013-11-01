@@ -6,3 +6,5 @@ config.locale=en_US.utf-8
 config.lang=en-us
 config.cookiesalt=&3*g-r$JDJ
 config.auth.hashkey=8K[)]R+%a)
+config.owaka.email_sender=owaka@thomasmuguet.info
+config.owaka.email_admin=owaka@thomasmuguet.info

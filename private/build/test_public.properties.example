@@ -7,3 +7,5 @@ db.host=localhost
 db.user=owakatest
 db.pass=owakatest
 db.name=owakatest
+config.owaka.base=null
+config.owaka.https=0

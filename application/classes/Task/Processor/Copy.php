@@ -43,7 +43,7 @@ class Task_Processor_Copy extends Minion_Task
                 $this->runAll($build);
             }
 
-            echo 'ok';
+            echo Owaka::BUILD_OK;
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }

@@ -130,6 +130,21 @@ class FileTest extends TestCase
     }
 
     /**
+     * @covers File::findPostactions
+     */
+    public function testFindPostactions()
+    {
+        $actual   = File::findPostactions();
+        $expected = array(
+            'Postaction_Bar',
+            'Postaction_Foo'
+        );
+        sort($actual);
+        sort($expected);
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
      * @covers File::rrmdir
      * @covers File::rcopy
      */

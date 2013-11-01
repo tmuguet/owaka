@@ -2,21 +2,21 @@
 defined('SYSPATH') OR die('No direct script access.');
 
 /**
- * Task for processing reports for a processor
+ * Task for running post-build actions
  * 
  * @package   Task
  * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
  */
-class Task_Processor_Process extends Minion_Task
+class Task_Postaction extends Minion_Task
 {
 
     // @codingStandardsIgnoreStart
     protected $_options = array(
-        'processor' => NULL,
-        'id'        => NULL,
-        'build'     => NULL,
+        'postaction' => NULL,
+        'id'         => NULL,
+        'build'      => NULL,
     );
 
     /**
@@ -37,49 +37,51 @@ class Task_Processor_Process extends Minion_Task
                 return;
             }
 
-            if (!empty($params['processor'])) {
+            if (!empty($params['postaction'])) {
                 $this->run($params, $build);
             } else {
                 $this->runAll($build);
             }
 
-            echo Owaka::BUILD_OK;
+            echo 'ok';
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }
     }
-
     // @codingStandardsIgnoreEnd
 
     /**
-     * Processes build for a processor
+     * Processes build for a post action
      * 
-     * @param array       $params Parameters. $params['processor'] must be defined
+     * @param array       $params Parameters. $params['postaction'] must be defined
      * @param Model_Build &$build Build
      */
     protected function run(array $params, Model_Build &$build)
     {
-        $processorClass = 'Processor_' . ucfirst($params['processor']);
-        if (!class_exists($processorClass)) {
-            echo $params['processor'] . ' is not a valid processor';
+        $postactionClass = 'Postaction_' . ucfirst($params['postaction']);
+        if (!class_exists($postactionClass)) {
+            echo $params['postaction'] . ' is not a valid post action';
             return;
         }
-        $processor = new $processorClass();
-        $processor->process($build);
+        $postaction = new $postactionClass();
+        $postaction->process($build, $postaction::projectParameters($build->project_id));
     }
 
     /**
-     * Processes build for all processors
+     * Processes build for all post actions
      * 
      * @param Model_Build &$build Build
      */
     protected function runAll(Model_Build &$build)
     {
-        foreach (File::findProcessors() as $processorClass) {
-            $name      = str_replace('Processor_', '', $processorClass);
-            Kohana::$log->add(Log::INFO, 'Processing reports for ' . $name . '...');
-            $processor = new $processorClass();
-            $processor->process($build);
+        $postactions = ORM::factory('Project_Postaction')
+                ->where('project_id', '=', $build->project_id)
+                ->find_all();
+        foreach ($postactions as $postaction) {
+            $postactionClass = 'Postaction_' . $postaction->postaction;
+            Kohana::$log->add(Log::INFO, 'Executing post action ' . $postaction->postaction . '...');
+            $action          = new $postactionClass();
+            $action->process($build, $action::projectParameters($build->project_id));
         }
     }
 }

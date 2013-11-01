@@ -63,7 +63,7 @@ class Task_Checkout extends Minion_Task
 
             $project->scm_status = 'checkedout';
             $project->update();
-            echo 'ok';
+            echo Owaka::BUILD_OK;
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }

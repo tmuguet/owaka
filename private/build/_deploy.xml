@@ -117,6 +117,14 @@
         <echo msg="Deploying application in ${build.deploydir} with env ${build.env}..."/>
         <copy todir="${build.deploydir}">
             <fileset refid="kohana"/>
+            <filterchain>
+                <filterreader classname="preprocessor.PreProcessorFilter">
+                    <param name="${build.env}" value="1" />
+                    <param name="${OS}" value="1" />
+                    <!--<param name="macrodir" value="${src.dir}/private/macros" />
+                    <param name="codedir" value="${src.dir}/private/code" />-->
+                </filterreader>
+            </filterchain>
         </copy>
         <if>
             <equals arg1="${build.env}" arg2="TESTING"/>
@@ -188,6 +196,17 @@
             <filterchain>
                 <replacetokens begintoken="##" endtoken="##">
                     <token key="HASHKEY" value="${config.auth.hashkey}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <echo msg="Writing owaka configuration..."/>
+        <copy file="${build.srcdir}/application/config/owaka.php" tofile="${build.deploydir}/application/config/owaka.php" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="BASE" value="${config.owaka.base}" />
+                    <token key="HTTPS" value="${config.owaka.https}" />
+                    <token key="EMAIL_SENDER" value="${config.owaka.email_sender}" />
+                    <token key="EMAIL_ADMIN" value="${config.owaka.email_admin}" />
                 </replacetokens>
             </filterchain>
         </copy>

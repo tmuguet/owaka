@@ -303,3 +303,4 @@ class TestCase extends Kohana_Unittest_Database_TestCase
 }
 
 require_once dirname(__FILE__) . DIR_SEP . "TestCase" . DIR_SEP . "Processor.php";
+require_once dirname(__FILE__) . DIR_SEP . "TestCase" . DIR_SEP . "Postaction.php";

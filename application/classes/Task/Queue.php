@@ -65,7 +65,7 @@ class Task_Queue extends Minion_Task
             return;
         }
         $this->queue($project);
-        echo 'ok';
+        echo Owaka::BUILD_OK;
     }
 
     /**
@@ -92,7 +92,7 @@ class Task_Queue extends Minion_Task
         foreach ($projects as $project) {
             $this->queue($project);
         }
-        echo 'ok';
+        echo Owaka::BUILD_OK;
     }
 
     /**

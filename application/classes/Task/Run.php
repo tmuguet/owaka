@@ -51,6 +51,7 @@ class Task_Run extends Minion_Task
             $this->validate($build);
             $this->processReports($build);
             $this->analyzeReports($build);
+            $this->postactions($build);
         } catch (Exception $e) {
             Kohana_Exception::log($e);
         }
@@ -154,7 +155,7 @@ class Task_Run extends Minion_Task
         );
         $copy->execute();
         $res  = trim(ob_get_clean());
-        if ($res != 'ok') {
+        if ($res != Owaka::BUILD_OK) {
             Kohana::$log->add(Log::ERROR, 'Failed: ' . $res);
         }
     }
@@ -172,7 +173,7 @@ class Task_Run extends Minion_Task
         );
         $process->execute();
         $res     = trim(ob_get_clean());
-        if ($res != 'ok') {
+        if ($res != Owaka::BUILD_OK) {
             Kohana::$log->add(Log::ERROR, 'Failed: ' . $res);
         }
     }
@@ -205,6 +206,23 @@ class Task_Run extends Minion_Task
         }
         $build->finished = DB::expr('NOW()');
         $build->update();
-        Auth::instance()->logout();
+    }
+
+    /**
+     * Executes post actions
+     * 
+     * @param Model_Build &$build Build
+     */
+    protected function postactions(Model_Build &$build)
+    {
+        ob_start();
+        $action = Minion_Task::factory(
+                        array('task'  => 'Postaction', 'build' => $build)
+        );
+        $action->execute();
+        $res    = trim(ob_get_clean());
+        if ($res != Owaka::BUILD_OK) {
+            Kohana::$log->add(Log::ERROR, 'Failed: ' . $res);
+        }
     }
 }

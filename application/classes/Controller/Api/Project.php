@@ -83,6 +83,8 @@ class Controller_Api_Project extends Controller_Api
 
             $this->editReports($project);
             $this->editParameters($project);
+            $this->editPostactions($project);
+            $this->editPostactionParameters($project);
 
             $this->respondOk(array('project'    => $project->id, 'scm_status' => $project->scm_status));
         } catch (ORM_Validation_Exception $e) {
@@ -135,6 +137,8 @@ class Controller_Api_Project extends Controller_Api
 
             $this->editReports($project);
             $this->editParameters($project);
+            $this->editPostactions($project);
+            $this->editPostactionParameters($project);
 
             Request::factory('api/dashboard/duplicate/project/' . $this->request->param('id') . '/' . $project->id)->execute();
             Request::factory('api/dashboard/duplicate/build/' . $this->request->param('id') . '/' . $project->id)->execute();
@@ -243,6 +247,8 @@ class Controller_Api_Project extends Controller_Api
 
             $this->editReports($project);
             $this->editParameters($project);
+            $this->editPostactions($project);
+            $this->editPostactionParameters($project);
 
             $this->respondOk(array('project'    => $project->id, 'scm_status' => $project->scm_status));
         } catch (ORM_Validation_Exception $e) {
@@ -311,13 +317,85 @@ class Controller_Api_Project extends Controller_Api
                                 'type'       => $key
                                     )
                     );
-                    if (empty($post[$type]) || $post[$type] == -1) {
+                    if ($post[$type] == "" || $post[$type] == -1) {
                         if ($parameter->loaded()) {
                             $parameter->delete();
                         }
                     } else {
                         $parameter->project_id = $project->id;
                         $parameter->processor  = $namelower;
+                        $parameter->type       = $key;
+                        $parameter->value      = $post[$type];
+                        $parameter->save();
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Edits post actions for a project
+     * 
+     * @param Model_Project &$project Project
+     * 
+     * @return boolean
+     */
+    /* protected */ function editPostactions(Model_Project &$project)
+    {
+        $post        = $this->request->post();
+        $postactions = File::findPostactions();
+        foreach ($postactions as $postaction) {
+            $name      = str_replace('Postaction_', '', $postaction);
+            $namelower = strtolower($name);
+            $report    = ORM::factory(
+                            'Project_Postaction', array('project_id' => $project->id, 'postaction' => $namelower)
+            );
+            if (array_key_exists($namelower, $post) && $post[$namelower]) {
+                $report->project_id = $project->id;
+                $report->postaction = $namelower;
+                $report->save();
+            } else {
+                if ($report->loaded()) {
+                    $report->delete();
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Edits postaction parameters for a project
+     * 
+     * @param Model_Project &$project Project
+     * 
+     * @return boolean
+     */
+    /* protected */ function editPostactionParameters(Model_Project &$project)
+    {
+        $post        = $this->request->post();
+        $postactions = File::findPostactions();
+        foreach ($postactions as $postaction) {
+            $name      = str_replace('Postaction_', '', $postaction);
+            $namelower = strtolower($name);
+            foreach (array_keys($postaction::$parameters) as $key) {
+                $type = $namelower . '_' . $key;
+                if (array_key_exists($type, $post)) {
+                    $parameter = ORM::factory(
+                                    'Project_Postaction_Parameter',
+                                    array(
+                                'project_id' => $project->id,
+                                'postaction' => $namelower,
+                                'type'       => $key
+                                    )
+                    );
+                    if ($post[$type] == "" || $post[$type] == -1) {
+                        if ($parameter->loaded()) {
+                            $parameter->delete();
+                        }
+                    } else {
+                        $parameter->project_id = $project->id;
+                        $parameter->postaction = $namelower;
                         $parameter->type       = $key;
                         $parameter->value      = $post[$type];
                         $parameter->save();

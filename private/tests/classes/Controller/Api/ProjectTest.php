@@ -33,8 +33,8 @@ class Controller_Api_ProjectTest extends TestCase
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editReports($project);
         $this->commit();
-        
-        $actual  = ORM::factory('Project_Report')
+
+        $actual = ORM::factory('Project_Report')
                 ->where('project_id', '=', $project->id)
                 ->order_by('type', 'ASC')
                 ->find_all();
@@ -68,8 +68,8 @@ class Controller_Api_ProjectTest extends TestCase
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editParameters($project);
         $this->commit();
-        
-        $actual  = ORM::factory('Project_Report_Parameter')
+
+        $actual = ORM::factory('Project_Report_Parameter')
                 ->where('project_id', '=', $project->id)
                 ->order_by('processor', 'ASC')
                 ->order_by('type', 'ASC')
@@ -105,8 +105,8 @@ class Controller_Api_ProjectTest extends TestCase
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editReports($project);
         $this->commit();
-        
-        $actual  = ORM::factory('Project_Report')
+
+        $actual = ORM::factory('Project_Report')
                 ->where('project_id', '=', $project->id)
                 ->order_by('type', 'ASC')
                 ->find_all();
@@ -146,8 +146,8 @@ class Controller_Api_ProjectTest extends TestCase
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editParameters($project);
         $this->commit();
-        
-        $actual  = ORM::factory('Project_Report_Parameter')
+
+        $actual = ORM::factory('Project_Report_Parameter')
                 ->where('project_id', '=', $project->id)
                 ->order_by('processor', 'ASC')
                 ->order_by('type', 'ASC')
@@ -190,8 +190,8 @@ class Controller_Api_ProjectTest extends TestCase
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editReports($project);
         $this->commit();
-        
-        $actual  = ORM::factory('Project_Report')
+
+        $actual = ORM::factory('Project_Report')
                 ->where('project_id', '=', $project->id)
                 ->order_by('type', 'ASC')
                 ->find_all();
@@ -209,8 +209,195 @@ class Controller_Api_ProjectTest extends TestCase
         $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $target->editParameters($project);
         $this->commit();
-        
-        $actual  = ORM::factory('Project_Report_Parameter')
+
+        $actual = ORM::factory('Project_Report_Parameter')
+                ->where('project_id', '=', $project->id)
+                ->order_by('type', 'ASC')
+                ->find_all();
+        $this->assertEquals(0, sizeof($actual));
+    }
+
+    /**
+     * @covers Controller_Api_Project::editPostactions
+     */
+    public function testEditPostactions_replace()
+    {
+        $target  = new Controller_Api_Project();
+        $post    = array('foo' => '1');
+        $target->request->post($post);
+        $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
+        $target->editPostactions($project);
+        $this->commit();
+
+        $actual = ORM::factory('Project_Postaction')
+                ->where('project_id', '=', $project->id)
+                ->order_by('postaction', 'ASC')
+                ->find_all();
+        $this->assertEquals(1, sizeof($actual));
+
+        $expected                = array();
+        $expected[0]             = ORM::factory('Project_Postaction');
+        $expected[0]->project_id = $project->id;
+        $expected[0]->id         = $actual[0]->id;
+        $expected[0]->postaction = 'foo';
+
+        for ($i = 0; $i < sizeof($actual); $i++) {
+            foreach (array_keys($actual[0]->list_columns()) as $column) {
+                $this->assertEquals(
+                        $expected[$i]->$column, $actual[$i]->$column,
+                        'Column ' . $column . ' of Project_Postaction does not match'
+                );
+            }
+        }
+    }
+
+    /**
+     * @covers Controller_Api_Project::editPostactionParameters
+     */
+    public function testEditPostactionParameters_replace()
+    {
+        $target  = new Controller_Api_Project();
+        $post    = array('foo_recipients' => 'bar@thomasmuguet.info');
+        $target->request->post($post);
+        $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
+        $target->editPostactionParameters($project);
+        $this->commit();
+
+        $actual = ORM::factory('Project_Postaction_Parameter')
+                ->where('project_id', '=', $project->id)
+                ->order_by('postaction', 'ASC')
+                ->order_by('type', 'ASC')
+                ->find_all();
+        $this->assertEquals(1, sizeof($actual));
+
+        $expected                = array();
+        $expected[0]             = ORM::factory('Project_Postaction_Parameter');
+        $expected[0]->project_id = $project->id;
+        $expected[0]->id         = $actual[0]->id;
+        $expected[0]->postaction = 'foo';
+        $expected[0]->type       = 'recipients';
+        $expected[0]->value      = 'bar@thomasmuguet.info';
+
+        for ($i = 0; $i < sizeof($actual); $i++) {
+            foreach (array_keys($actual[0]->list_columns()) as $column) {
+                $this->assertEquals(
+                        $expected[$i]->$column, $actual[$i]->$column,
+                        'Column ' . $column . ' of Project_Postaction_Parameter does not match'
+                );
+            }
+        }
+    }
+
+    /**
+     * @covers Controller_Api_Project::editPostactions
+     */
+    public function testEditPostactions_add()
+    {
+        $target  = new Controller_Api_Project();
+        $post    = array('foo' => '1');
+        $target->request->post($post);
+        $project = ORM::factory('Project', $this->genNumbers['ProjectBar']);
+        $target->editPostactions($project);
+        $this->commit();
+
+        $actual = ORM::factory('Project_Postaction')
+                ->where('project_id', '=', $project->id)
+                ->order_by('postaction', 'ASC')
+                ->find_all();
+        $this->assertEquals(1, sizeof($actual));
+
+        $expected                = array();
+        $expected[0]             = ORM::factory('Project_Postaction');
+        $expected[0]->project_id = $project->id;
+        $expected[0]->id         = $actual[0]->id;
+        $expected[0]->postaction = 'foo';
+
+        for ($i = 0; $i < sizeof($actual); $i++) {
+            foreach (array_keys($actual[0]->list_columns()) as $column) {
+                $this->assertEquals(
+                        $expected[$i]->$column, $actual[$i]->$column,
+                        'Column ' . $column . ' of Project_Postaction does not match'
+                );
+            }
+        }
+    }
+
+    /**
+     * @covers Controller_Api_Project::editPostactionParameters
+     */
+    public function testEditPostactionParameters_add()
+    {
+        $target  = new Controller_Api_Project();
+        $post    = array('foo_on_error' => '0');
+        $target->request->post($post);
+        $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
+        $target->editPostactionParameters($project);
+        $this->commit();
+
+        $actual = ORM::factory('Project_Postaction_Parameter')
+                ->where('project_id', '=', $project->id)
+                ->order_by('postaction', 'ASC')
+                ->order_by('type', 'ASC')
+                ->find_all();
+        $this->assertEquals(2, sizeof($actual));
+
+        $expected                = array();
+        $expected[0]             = ORM::factory('Project_Postaction_Parameter');
+        $expected[0]->project_id = $project->id;
+        $expected[0]->id         = $actual[0]->id;
+        $expected[0]->postaction = 'foo';
+        $expected[0]->type       = 'on_error';
+        $expected[0]->value      = '0';
+
+        $expected[1]             = ORM::factory('Project_Postaction_Parameter');
+        $expected[1]->project_id = $project->id;
+        $expected[1]->id         = $actual[1]->id;
+        $expected[1]->postaction = 'foo';
+        $expected[1]->type       = 'recipients';
+        $expected[1]->value      = 'foo@thomasmuguet.info';
+
+        for ($i = 0; $i < sizeof($actual); $i++) {
+            foreach (array_keys($actual[0]->list_columns()) as $column) {
+                $this->assertEquals(
+                        $expected[$i]->$column, $actual[$i]->$column,
+                        'Column ' . $column . ' of Project_Postaction_Parameter does not match'
+                );
+            }
+        }
+    }
+
+    /**
+     * @covers Controller_Api_Project::editPostactions
+     */
+    public function testEditPostactions_delete()
+    {
+        $target  = new Controller_Api_Project();
+        $post    = array('foo' => '');
+        $target->request->post($post);
+        $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
+        $target->editPostactions($project);
+        $this->commit();
+
+        $actual = ORM::factory('Project_Postaction')
+                ->where('project_id', '=', $project->id)
+                ->order_by('postaction', 'ASC')
+                ->find_all();
+        $this->assertEquals(0, sizeof($actual));
+    }
+
+    /**
+     * @covers Controller_Api_Project::editPostactionParameters
+     */
+    public function testEditPostactionParameters_delete()
+    {
+        $target  = new Controller_Api_Project();
+        $post    = array('foo_recipients' => '');
+        $target->request->post($post);
+        $project = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
+        $target->editPostactionParameters($project);
+        $this->commit();
+
+        $actual = ORM::factory('Project_Postaction_Parameter')
                 ->where('project_id', '=', $project->id)
                 ->order_by('type', 'ASC')
                 ->find_all();

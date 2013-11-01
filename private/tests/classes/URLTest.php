@@ -11,6 +11,16 @@ class URLTest extends TestCase
      */
     public function testBase()
     {
-        $this->assertEquals('/', URL::base());
+        $c = Kohana::$config->load('owaka');
+        $this->assertEquals($c->get('base') . '/', URL::base());
+    }
+
+    /**
+     * @covers URL::site
+     */
+    public function testSite()
+    {
+        $c = Kohana::$config->load('owaka');
+        $this->assertEquals($c->get('base') . '/foo/bar', URL::site('foo/bar'));
     }
 }

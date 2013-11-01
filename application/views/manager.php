@@ -116,10 +116,10 @@ echo View::factory('baseMenu')
             </div>
         </fieldset>
         <fieldset>
-            <legend>Reports <label for="search">Add:</label> <input type="text" id="search"/></legend>
+            <legend>Reports <label for="search_processor">Add:</label> <input type="text" id="search_processor"/></legend>
             <?php
             foreach ($reports as $_controller => $_reports) {
-                echo '<div class="field reports" id="field-' . strtolower($_controller) . '"><strong>' . $_controller . '</strong>';
+                echo '<div class="field processor" id="field-' . strtolower($_controller) . '"><strong>' . $_controller . '</strong>';
                 foreach ($_reports as $_key => $_report) {
                     if ($project->loaded()) {
                         $value = ORM::factory('Project_Report')
@@ -157,11 +157,52 @@ echo View::factory('baseMenu')
             }
             ?>
         </fieldset>
+        <fieldset>
+            <legend>Post-actions</legend>
+            <?php
+            foreach ($postactions as $_postaction) {
+                if ($project->loaded()) {
+                    $enabled = ORM::factory('Project_Postaction')
+                                    ->where('project_id', '=', $project->id)
+                                    ->where('postaction', '=', strtolower($_postaction))
+                                    ->count_all() == 1;
+                } else {
+                    $enabled = false;
+                }
+
+                echo '<div class="field postaction" id="field-' . strtolower($_postaction) . '"><strong>' . $_postaction . '</strong>';
+                echo '<div class="field">';
+                echo '<label for="' . strtolower($_postaction) . '">Enabled</label>';
+                echo '<input type="checkbox" name="' . strtolower($_postaction) . '" id="' . strtolower($_postaction) . '" value="1"' . ($enabled
+                            ? ' checked="checked"' : '') . '/>';
+                echo '</div>';
+
+                $classname  = 'Postaction_' . ucfirst($_postaction);
+                $parameters = $classname::$parameters;
+
+                if ($project->loaded()) {
+                    $parametersValues = $classname::projectParameters($project->id);
+                } else {
+                    $parametersValues = $classname::projectParameters(0);
+                }
+                if (sizeof($parameters) > 0) {
+                    echo '<div class="details"><strong><a href="javascript:void(0)" onclick="$(\'.param-' . strtolower($_postaction) . '\').slideToggle();">Parameters</a></strong></div>';
+                    foreach ($parameters as $_paramkey => $_param) {
+                        echo '<div class="field param param-' . strtolower($_postaction) . '" id="field-' . strtolower($_postaction) . '_' . $_paramkey . '"><label for="' . strtolower($_postaction) . '_' . $_paramkey . '">' . $_param['title'] . ':</label>';
+                        echo '<input type="text" name="' . strtolower($_postaction) . '_' . $_paramkey . '" id="' . strtolower($_postaction) . '_' . $_paramkey . '" value="' . $parametersValues[$_paramkey] . '"/>';
+                        echo '<div class="details">' . $_param['description'] . '</div>';
+                        echo '</div>';
+                    }
+                }
+                echo '</div>';
+            }
+            ?>
+        </fieldset>
         <fieldset><legend>Misc</legend>
             <div class="field"><label for="is_active">Active:</label>
                 <input type="checkbox" name="is_active" id="is_active" value="1"<?php
-                echo ($project->is_active ? ' checked="checked"' : '');
-                ?>/>
+                       echo ($project->is_active ? ' checked="checked"' : '');
+                       ?>/>
                 <div class="details">Project will not be built in owaka if inactive.</div>
         </fieldset>
         <button type="submit" data-icon="icon-save"><?php echo $title; ?></button>
@@ -173,7 +214,7 @@ echo View::factory('baseMenu')
 <script type="text/javascript">
     $(document).ready(function() {
         $(".field.report.empty").hide();
-        $.each($(".field.reports"), function() {
+        $.each($(".field.processor"), function() {
             if ($(this).has('.field.report:visible').size() == 0) {
                 $(this).hide();
             }
@@ -185,8 +226,7 @@ echo View::factory('baseMenu')
             $("#form-checkout").attr("action", "api/project/checkout/" + data.project);
             $("#form-checkout").fadeIn();
         } else {
-<?php if ($action
-        == 'edit'): ?>
+<?php if ($action == 'edit'): ?>
                 alert('Project updated');
 <?php else: ?>
                 alert('Project added');
@@ -213,12 +253,16 @@ foreach ($reports as $_controller => $_reports) {
         );
     }
 }
-echo 'var data = ' . json_encode($data) . ';';
+echo 'var processors = ' . json_encode($data) . ';';
+
+foreach ($postactions as $_postaction) {
+    echo '$(".param-' . strtolower($_postaction) . '")';
+}
 ?>
 
-        $("#search").catcomplete({
+        $("#search_processor").catcomplete({
             delay: 0,
-            source: data,
+            source: processors,
             select: function(event, ui) {
                 $("#" + ui.item.parent).slideDown();
                 $("#" + ui.item.field).slideDown();

@@ -18,11 +18,14 @@ class Controller_ManagerTest extends TestCase
         $reports['processor1'] = Processor_processor1::$inputReports;
         $reports['processor2'] = Processor_processor2::$inputReports;
 
+        $postactions = array('mail');
+
         $expected = View::factory('manager')
                 ->set('action', 'add')
                 ->set('uri', 'api/project/add')
                 ->set('project', ORM::factory('Project'))
-                ->set('reports', $reports);
+                ->set('reports', $reports)
+                ->set('postactions', $postactions);
         $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
 
@@ -38,11 +41,14 @@ class Controller_ManagerTest extends TestCase
         $reports['processor1'] = Processor_processor1::$inputReports;
         $reports['processor2'] = Processor_processor2::$inputReports;
 
+        $postactions = array('mail');
+
         $expected = View::factory('manager')
                 ->set('action', 'edit')
                 ->set('uri', 'api/project/edit/' . $this->genNumbers['ProjectFoo'])
                 ->set('project', ORM::factory('Project', $this->genNumbers['ProjectFoo']))
-                ->set('reports', $reports);
+                ->set('reports', $reports)
+                ->set('postactions', $postactions);
         $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
 
@@ -58,13 +64,16 @@ class Controller_ManagerTest extends TestCase
         $reports['processor1'] = Processor_processor1::$inputReports;
         $reports['processor2'] = Processor_processor2::$inputReports;
 
+        $postactions = array('mail');
+
         $project       = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $project->name = $project->name . '-copy';
         $expected      = View::factory('manager')
                 ->set('action', 'duplicate')
                 ->set('uri', 'api/project/duplicate/' . $this->genNumbers['ProjectFoo'])
                 ->set('project', $project)
-                ->set('reports', $reports);
+                ->set('reports', $reports)
+                ->set('postactions', $postactions);
         $this->assertEquals($expected->render(), $response->body(), "Rendering incorrect");
     }
 }

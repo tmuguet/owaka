@@ -180,4 +180,14 @@ class File extends Kohana_File
         }
         return $analyzers;
     }
+
+    /**
+     * Finds all post-build actions
+     * 
+     * @return string[] Name of post-build actions
+     */
+    public static function findPostactions()
+    {
+        return self::findClasses('Postaction' . DIR_SEP);
+    }
 }

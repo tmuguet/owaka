@@ -92,6 +92,25 @@ class Owaka
     }
 
     /**
+     * Gets the post action parameters for a project
+     * 
+     * @param int    $projectId  Project ID
+     * @param string $postaction Postaction
+     * 
+     * @return array
+     * @throws InvalidArgumentException Invalid post action
+     * @see Postaction::parameters
+     */
+    static public function getPostactionParameters($projectId, $postaction)
+    {
+        $postactionClass = 'Postaction_' . ucfirst($postaction);
+        if (!class_exists($postactionClass)) {
+            throw new InvalidArgumentException('Cannot find post-action ' . $postaction);
+        }
+        return $postactionClass::projectParameters($projectId);
+    }
+
+    /**
      * Processes and formats a link
      * 
      * @param string $from     Source dashboard (main, project or build)

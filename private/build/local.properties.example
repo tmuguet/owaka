@@ -6,3 +6,5 @@ db.host=localhost
 db.user=owaka
 db.pass=owaka
 db.name=owaka
+config.owaka.base=http://mydomain
+config.owaka.https=0

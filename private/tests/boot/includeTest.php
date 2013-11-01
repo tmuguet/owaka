@@ -85,6 +85,16 @@ class includeTest extends TestCase
     }
 
     /**
+     * Tests all the post actions
+     */
+    public function testPostactions()
+    {
+        $files   = File::getFiles(APPPATH . 'classes' . DIR_SEP . 'Postaction');
+        $files[] = APPPATH . 'classes' . DIR_SEP . 'Postaction.php';
+        $this->_test($files);
+    }
+
+    /**
      * Tests all utils
      */
     public function testUtils()
