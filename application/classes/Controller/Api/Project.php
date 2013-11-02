@@ -9,6 +9,8 @@ defined('SYSPATH') OR die('No direct access allowed.');
  * @author    Thomas Muguet <t.muguet@thomasmuguet.info>
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
+ * 
+ * @todo Separate parameters
  */
 class Controller_Api_Project extends Controller_Api
 {

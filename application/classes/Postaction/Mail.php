@@ -63,7 +63,11 @@ class Postaction_Mail extends Postaction
      */
     /* protected */ function send(Model_Build &$build, array $parameters)
     {
-        $c    = Kohana::$config->load('owaka');
+        $c          = Kohana::$config->load('owaka');
+        $emailAdmin = $c->get('email_admin');
+        if (empty($emailAdmin)) {
+            Kohana::$log->add(Log::ERROR, 'Configuration missing for email');
+        }
         $root = URL::site('dashboard/build/' . $build->id);
 
         $project  = htmlentities($build->project->name, ENT_NOQUOTES, "UTF-8");
@@ -94,7 +98,7 @@ class Postaction_Mail extends Postaction
 EOT;
 
         $mail = new PHPMailer(TRUE);
-        $mail->AddReplyTo($c->get('email_admin'), 'Admin');
+        $mail->AddReplyTo($emailAdmin, 'Admin');
 #ifdef PRODUCTION
         $_tok = strtok(trim($parameters['recipients']), ' ,;');
 
@@ -104,10 +108,10 @@ EOT;
         }
 
 #elifdef STAGING
-        $mail->AddAddress($c->get('email_admin'));
+        $mail->AddAddress($emailAdmin);
         $messageHtml .= '-- Message sent from STAGING environment';
 #else
-        $mail->AddAddress($c->get('email_admin'));
+        $mail->AddAddress($emailAdmin);
         $messageHtml .= '-- Message sent from TESTING/DEVELOPMENT environment';
 #endif
 
@@ -118,8 +122,7 @@ EOT;
         $mail->Subject = '[TEST owaka] Project ' . utf8_decode($build->project->name) . ': ' . utf8_decode($build->status);
 #endif
         $mail->MsgHTML($messageHtml);
-        $res = $mail->Send();
-
-        return true;
+        $res           = $mail->Send();
+        return $res;
     }
 }

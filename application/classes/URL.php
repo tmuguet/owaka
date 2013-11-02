@@ -24,7 +24,7 @@ class URL extends Kohana_URL
     {
         if (!isset($_SERVER['HTTP_HOST']) && !isset($_SERVER['SERVER_NAME'])) {
             // CLI
-            $c = Kohana::$config->load('owaka');
+            $c    = Kohana::$config->load('owaka');
             $base = $c->get('base');
             return $base . (substr($base, -1) == '/' ? '' : '/');
             // @codeCoverageIgnoreStart
@@ -39,11 +39,13 @@ class URL extends Kohana_URL
      *
      *     echo URL::site('foo/bar');
      *
-     * @param   string  $uri        Site URI to convert
-     * @param   mixed   $protocol   Protocol string or [Request] class to use protocol from - NOT USED
-     * @param   boolean $index		Include the index_page in the URL - NOT USED
+     * @param string  $uri      Site URI to convert
+     * @param mixed   $protocol Protocol string or [Request] class to use protocol from - NOT USED
+     * @param boolean $index    Include the index_page in the URL - NOT USED
      * 
      * @return  string
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public static function site($uri = '', $protocol = NULL, $index = TRUE)
     {

@@ -18,7 +18,7 @@ class Controller_ManagerTest extends TestCase
         $reports['processor1'] = Processor_processor1::$inputReports;
         $reports['processor2'] = Processor_processor2::$inputReports;
 
-        $postactions = array('mail');
+        $postactions = array('Bar', 'Foo');
 
         $expected = View::factory('manager')
                 ->set('action', 'add')
@@ -41,7 +41,7 @@ class Controller_ManagerTest extends TestCase
         $reports['processor1'] = Processor_processor1::$inputReports;
         $reports['processor2'] = Processor_processor2::$inputReports;
 
-        $postactions = array('mail');
+        $postactions = array('Bar', 'Foo');
 
         $expected = View::factory('manager')
                 ->set('action', 'edit')
@@ -64,7 +64,7 @@ class Controller_ManagerTest extends TestCase
         $reports['processor1'] = Processor_processor1::$inputReports;
         $reports['processor2'] = Processor_processor2::$inputReports;
 
-        $postactions = array('mail');
+        $postactions = array('Bar', 'Foo');
 
         $project       = ORM::factory('Project', $this->genNumbers['ProjectFoo']);
         $project->name = $project->name . '-copy';

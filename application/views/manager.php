@@ -254,10 +254,6 @@ foreach ($reports as $_controller => $_reports) {
     }
 }
 echo 'var processors = ' . json_encode($data) . ';';
-
-foreach ($postactions as $_postaction) {
-    echo '$(".param-' . strtolower($_postaction) . '")';
-}
 ?>
 
         $("#search_processor").catcomplete({
