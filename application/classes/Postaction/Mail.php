@@ -67,6 +67,7 @@ class Postaction_Mail extends Postaction
         $emailAdmin = $c->get('email_admin');
         if (empty($emailAdmin)) {
             Kohana::$log->add(Log::ERROR, 'Configuration missing for email');
+            return false;
         }
         $root = URL::site('dashboard/build/' . $build->id);
 
