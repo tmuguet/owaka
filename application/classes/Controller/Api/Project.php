@@ -319,7 +319,7 @@ class Controller_Api_Project extends Controller_Api
                                 'type'       => $key
                                     )
                     );
-                    if ($post[$type] == "" || $post[$type] == -1) {
+                    if ($post[$type] == '') {
                         if ($parameter->loaded()) {
                             $parameter->delete();
                         }
@@ -391,7 +391,7 @@ class Controller_Api_Project extends Controller_Api
                                 'type'       => $key
                                     )
                     );
-                    if ($post[$type] == "" || $post[$type] == -1) {
+                    if ($post[$type] == '') {
                         if ($parameter->loaded()) {
                             $parameter->delete();
                         }
