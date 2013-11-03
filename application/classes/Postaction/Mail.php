@@ -78,11 +78,11 @@ class Postaction_Mail extends Postaction
 
         switch ($build->status) {
             case Owaka::BUILD_ERROR:
-                $color = '#cd0a0a';
+                $color = '#da4f49';
                 break;
 
             case Owaka::BUILD_UNSTABLE:
-                $color = '#363636';
+                $color = '#faa732';
                 break;
 
             default:
