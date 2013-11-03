@@ -78,7 +78,7 @@ class Task_Postaction extends Minion_Task
                 ->where('project_id', '=', $build->project_id)
                 ->find_all();
         foreach ($postactions as $postaction) {
-            $postactionClass = 'Postaction_' . $postaction->postaction;
+            $postactionClass = 'Postaction_' . ucfirst($postaction->postaction);
             Kohana::$log->add(Log::INFO, 'Executing post action ' . $postaction->postaction . '...');
             $action          = new $postactionClass();
             $action->process($build, $action::projectParameters($build->project_id));
