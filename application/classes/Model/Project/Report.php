@@ -55,7 +55,7 @@ class Model_Project_Report extends ORM
         $res = $this->where('project_id', '=', $projectId)
                 ->where('type', '=', $type)
                 ->find();
-        if (!$res->loaded() || empty($res->value)) {
+        if (!$res->loaded() || $res->value == '') {
             return NULL;
         } else {
             return $res->value;

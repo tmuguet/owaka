@@ -44,9 +44,7 @@ abstract class Processor
             $parameters[$key] = $info['defaultvalue'];
         }
         foreach ($params as $param) {
-            if ($param->value != -1) {
-                $parameters[$param->type] = $param->value;
-            }
+            $parameters[$param->type] = $param->value;
         }
         return $parameters;
     }
