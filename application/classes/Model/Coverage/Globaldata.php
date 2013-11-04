@@ -9,21 +9,8 @@ defined('SYSPATH') or die('No direct script access.');
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
  */
-class Model_Coverage_Globaldata extends ORM
+class Model_Coverage_Globaldata extends Model_Data
 {
-
-    // @codingStandardsIgnoreStart
-    /**
-     * "Belongs to" relationships
-     * @var array
-     */
-    protected $_belongs_to = array(
-        'build' => array(
-            'model'       => 'Build',
-            'foreign_key' => 'build_id'
-        ),
-    );
-    // @codingStandardsIgnoreEnd
 
     /**
      * Rule definitions for validation
@@ -84,14 +71,20 @@ class Model_Coverage_Globaldata extends ORM
      */
     public function buildStatus(array $parameters)
     {
-        if (($parameters['threshold_methodcoverage_error'] > 0 && $this->methodcoverage < $parameters['threshold_methodcoverage_error'])
-                || ($parameters['threshold_statementcoverage_error'] > 0 && $this->statementcoverage < $parameters['threshold_statementcoverage_error'])
-                || ($parameters['threshold_totalcoverage_error'] > 0 && $this->totalcoverage < $parameters['threshold_totalcoverage_error'])
+        if ($this->thresholdMin($parameters, 'methodcoverage', 'error')
+                || $this->thresholdMin($parameters, 'statementcoverage', 'error')
+                || $this->thresholdMin($parameters, 'totalcoverage', 'error')
+                || $this->thresholdDelta($parameters, 'methodcoverage_delta', 'error')
+                || $this->thresholdDelta($parameters, 'statementcoverage_delta', 'error')
+                || $this->thresholdDelta($parameters, 'totalcoverage_delta', 'error')
         ) {
             return Owaka::BUILD_ERROR;
-        } else if (($parameters['threshold_methodcoverage_unstable'] > 0 && $this->methodcoverage < $parameters['threshold_methodcoverage_unstable'])
-                || ($parameters['threshold_statementcoverage_unstable'] > 0 && $this->statementcoverage < $parameters['threshold_statementcoverage_unstable'])
-                || ($parameters['threshold_totalcoverage_unstable'] > 0 && $this->totalcoverage < $parameters['threshold_totalcoverage_unstable'])
+        } else if ($this->thresholdMin($parameters, 'methodcoverage', 'unstable')
+                || $this->thresholdMin($parameters, 'statementcoverage', 'unstable')
+                || $this->thresholdMin($parameters, 'totalcoverage', 'unstable')
+                || $this->thresholdDelta($parameters, 'methodcoverage_delta', 'unstable')
+                || $this->thresholdDelta($parameters, 'statementcoverage_delta', 'unstable')
+                || $this->thresholdDelta($parameters, 'totalcoverage_delta', 'unstable')
         ) {
             return Owaka::BUILD_UNSTABLE;
         } else {

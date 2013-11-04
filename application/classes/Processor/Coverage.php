@@ -27,35 +27,65 @@ class Processor_Coverage extends Processor
         )
     );
     public static $parameters   = array(
-        'threshold_methodcoverage_error'       => array(
+        'threshold_methodcoverage_error'             => array(
             'title'        => 'Method coverage to trigger error',
             'description'  => 'Threshold of method coverage to trigger build error',
             'defaultvalue' => -1
         ),
-        'threshold_methodcoverage_unstable'    => array(
+        'threshold_methodcoverage_unstable'          => array(
             'title'        => 'Method coverage to trigger unstable',
             'description'  => 'Threshold of method coverage to trigger unstable build',
             'defaultvalue' => 100
         ),
-        'threshold_statementcoverage_error'    => array(
+        'threshold_statementcoverage_error'          => array(
             'title'        => 'Statement coverage to trigger error',
             'description'  => 'Threshold of statement coverage to trigger build error',
             'defaultvalue' => -1
         ),
-        'threshold_statementcoverage_unstable' => array(
+        'threshold_statementcoverage_unstable'       => array(
             'title'        => 'Statement coverage to trigger unstable',
             'description'  => 'Threshold of statement coverage to trigger unstable build',
             'defaultvalue' => 100
         ),
-        'threshold_totalcoverage_error'        => array(
+        'threshold_totalcoverage_error'              => array(
             'title'        => 'Total coverage to trigger error',
             'description'  => 'Threshold of total coverage to trigger build error',
             'defaultvalue' => -1
         ),
-        'threshold_totalcoverage_unstable'     => array(
+        'threshold_totalcoverage_unstable'           => array(
             'title'        => 'Total coverage to trigger unstable',
             'description'  => 'Threshold of total coverage to trigger unstable build',
             'defaultvalue' => 100
+        ),
+        'threshold_methodcoverage_delta_error'       => array(
+            'title'        => 'Delta in method coverage to trigger error',
+            'description'  => 'Threshold of delta in method coverage to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_methodcoverage_delta_unstable'    => array(
+            'title'        => 'Delta in method coverage to trigger unstable',
+            'description'  => 'Threshold of delta in method coverage to trigger unstable build',
+            'defaultvalue' => 0.01
+        ),
+        'threshold_statementcoverage_delta_error'    => array(
+            'title'        => 'Delta in statement coverage to trigger error',
+            'description'  => 'Threshold of delta in statement coverage to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_statementcoverage_delta_unstable' => array(
+            'title'        => 'Delta in statement coverage to trigger unstable',
+            'description'  => 'Threshold of delta in statement coverage to trigger unstable build',
+            'defaultvalue' => 0.01
+        ),
+        'threshold_totalcoverage_delta_error'        => array(
+            'title'        => 'Delta in total coverage to trigger error',
+            'description'  => 'Threshold of delta in total coverage to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_totalcoverage_delta_unstable'     => array(
+            'title'        => 'Delta in total coverage to trigger unstable',
+            'description'  => 'Threshold of delta in total coverage to trigger unstable build',
+            'defaultvalue' => 0.01
         ),
     );
 

@@ -40,7 +40,27 @@ class Processor_Codesniffer extends Processor
             'title'        => 'Warnings to trigger unstable',
             'description'  => 'Number of warnings to trigger unstable build',
             'defaultvalue' => 1
-        )
+        ),
+        'threshold_errors_regressions_error'      => array(
+            'title'        => 'Regression errors to trigger error',
+            'description'  => 'Number of regression errors to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_errors_regressions_unstable'   => array(
+            'title'        => 'Regression errors to trigger unstable',
+            'description'  => 'Number of regression errors to trigger unstable build',
+            'defaultvalue' => 1
+        ),
+        'threshold_warnings_regressions_error'    => array(
+            'title'        => 'Regression warnings to trigger error',
+            'description'  => 'Number of regression warnings to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_warnings_regressions_unstable' => array(
+            'title'        => 'Regression warnings to trigger unstable',
+            'description'  => 'Number of regression warnings to trigger unstable build',
+            'defaultvalue' => 1
+        ),
     );
 
     /**

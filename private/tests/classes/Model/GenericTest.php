@@ -12,8 +12,11 @@ class Model_GenericTest extends TestCase
         $pos    = strlen(APPPATH . 'classes' . DIR_SEP);
         foreach ($models as $file) {
             $className = str_replace(DIR_SEP, "_", substr($file, $pos, -4));
-            $model     = new $className;
-            $model->rules();
+            $class = new ReflectionClass($className);
+            if ($class->isInstantiable()) {
+                $model     = new $className;
+                $model->rules();
+            }
         }
     }
 

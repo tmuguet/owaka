@@ -12,10 +12,14 @@ class OwakaTestGetReportParameters extends TestCase
     public function testGetReportParameters()
     {
         $expected = array(
-            'threshold_errors_error'      => -1,
-            'threshold_errors_unstable'   => 1,
-            'threshold_warnings_error'    => -1,
-            'threshold_warnings_unstable' => 1
+            'threshold_errors_error'                  => -1,
+            'threshold_errors_unstable'               => 1,
+            'threshold_warnings_error'                => -1,
+            'threshold_warnings_unstable'             => 1,
+            'threshold_errors_regressions_error'      => -1,
+            'threshold_warnings_regressions_error'    => -1,
+            'threshold_errors_regressions_unstable'   => 1,
+            'threshold_warnings_regressions_unstable' => 1,
         );
 
         $this->assertEquals($expected, Owaka::getReportParameters(42, 'codesniffer'));

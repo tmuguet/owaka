@@ -9,21 +9,8 @@ defined('SYSPATH') or die('No direct script access.');
  * @copyright 2013 Thomas Muguet
  * @license   New BSD license
  */
-class Model_Phpmd_Globaldata extends ORM
+class Model_Phpmd_Globaldata extends Model_Data
 {
-
-    // @codingStandardsIgnoreStart
-    /**
-     * "Belongs to" relationships
-     * @var array
-     */
-    protected $_belongs_to = array(
-        'build' => array(
-            'model'       => 'Build',
-            'foreign_key' => 'build_id'
-        ),
-    );
-    // @codingStandardsIgnoreEnd
 
     /**
      * Rule definitions for validation
@@ -50,9 +37,9 @@ class Model_Phpmd_Globaldata extends ORM
      */
     public function buildStatus(array $parameters)
     {
-        if (($parameters['threshold_errors_error'] > 0 && $this->errors >= $parameters['threshold_errors_error'])) {
+        if ($this->thresholdMax($parameters, 'errors', 'error') || $this->thresholdMax($parameters, 'errors_delta', 'error')) {
             return Owaka::BUILD_ERROR;
-        } else if (($parameters['threshold_errors_unstable'] > 0 && $this->errors >= $parameters['threshold_errors_unstable'])) {
+        } else if ($this->thresholdMax($parameters, 'errors', 'unstable') || $this->thresholdMax($parameters, 'errors_delta', 'unstable')) {
             return Owaka::BUILD_UNSTABLE;
         } else {
             return Owaka::BUILD_OK;

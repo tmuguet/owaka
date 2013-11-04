@@ -28,7 +28,7 @@ class Processor_PhpmdTest extends TestCase_Processor
         $this->target->process($this->build);
         $this->commit();
 
-        $globaldataExpected = array(array('errors' => 2, 'errors_delta' => -3));
+        $globaldataExpected = array(array('errors'       => 2, 'errors_delta' => -3));
         $globaldata         = DB::select('errors', 'errors_delta')
                         ->from('phpmd_globaldatas')
                         ->where('id', '!=', $this->genNumbers['data5'])
@@ -55,12 +55,14 @@ class Processor_PhpmdTest extends TestCase_Processor
      */
     public function testAnalyze()
     {
-        $build = ORM::factory('Build');
-        $build->phpmd_globaldata->errors    = 9;
+        $build                           = ORM::factory('Build');
+        $build->phpmd_globaldata->errors = 9;
 
         $parameters = array(
-            'threshold_errors_error'       => 10,
-            'threshold_errors_unstable'    => 1,
+            'threshold_errors_error'          => 10,
+            'threshold_errors_unstable'       => 1,
+            'threshold_errors_delta_error'    => -1,
+            'threshold_errors_delta_unstable' => 1,
         );
         $this->assertEquals(Owaka::BUILD_UNSTABLE, $this->target->analyze($build, $parameters));
     }

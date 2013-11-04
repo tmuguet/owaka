@@ -93,11 +93,16 @@ class Processor_PhpunitTest extends TestCase_Processor
     public function testAnalyze()
     {
         $thresholds                           = array(
-            'threshold_errors_error'      => 1,
-            'threshold_errors_unstable'   => -1,
-            'threshold_failures_error'    => -1,
-            'threshold_failures_unstable' => 1
+            'threshold_errors_error'                  => 1,
+            'threshold_errors_unstable'               => -1,
+            'threshold_failures_error'                => -1,
+            'threshold_failures_unstable'             => 1,
+            'threshold_errors_regressions_error'      => -1,
+            'threshold_errors_regressions_unstable'   => -1,
+            'threshold_failures_regressions_error'    => -1,
+            'threshold_failures_regressions_unstable' => -1
         );
+        
         $model1                               = ORM::factory('Build');
         $model1->phpunit_globaldata->failures = 0;
         $model1->phpunit_globaldata->errors   = 0;

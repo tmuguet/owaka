@@ -17,8 +17,7 @@ class Processor_CodesnifferTest extends TestCase_Processor
     public function testProcess()
     {
         $this->CopyReport(
-                'xml',
-                dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'codesniffer-report.xml'
+                'xml', dirname(__FILE__) . DIR_SEP . '_files' . DIR_SEP . 'codesniffer-report.xml'
         );
 
         $this->target->process($this->build);
@@ -79,15 +78,19 @@ class Processor_CodesnifferTest extends TestCase_Processor
      */
     public function testAnalyze()
     {
-        $build = ORM::factory('Build');
-        $build->codesniffer_globaldata->errors = 10;
+        $build                                   = ORM::factory('Build');
+        $build->codesniffer_globaldata->errors   = 10;
         $build->codesniffer_globaldata->warnings = 0;
 
         $parameters = array(
-            'threshold_errors_error'      => -1,
-            'threshold_warnings_error'    => -1,
-            'threshold_errors_unstable'   => 1,
-            'threshold_warnings_unstable' => -1,
+            'threshold_errors_error'                  => -1,
+            'threshold_warnings_error'                => -1,
+            'threshold_errors_unstable'               => 1,
+            'threshold_warnings_unstable'             => -1,
+            'threshold_errors_regressions_error'      => -1,
+            'threshold_warnings_regressions_error'    => -1,
+            'threshold_errors_regressions_unstable'   => -1,
+            'threshold_warnings_regressions_unstable' => -1,
         );
         $this->assertEquals(Owaka::BUILD_UNSTABLE, $this->target->analyze($build, $parameters));
     }

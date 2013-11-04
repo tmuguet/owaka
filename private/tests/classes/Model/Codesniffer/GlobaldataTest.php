@@ -8,6 +8,7 @@ class Model_Codesniffer_GlobaldataTest extends TestCase
 
     /**
      * @covers Model_Codesniffer_Globaldata::buildStatus
+     * @covers Model_Data::thresholdMax
      */
     public function testBuildStatus()
     {
@@ -23,46 +24,74 @@ class Model_Codesniffer_GlobaldataTest extends TestCase
         $target3->errors   = 10;
         $target3->warnings = 0;
 
+        $target4                       = ORM::factory('Codesniffer_Globaldata');
+        $target4->errors_regressions   = 10;
+        $target4->warnings_regressions = 0;
+
         $parameters1 = array(
-            'threshold_errors_error'      => -1,
-            'threshold_warnings_error'    => -1,
-            'threshold_errors_unstable'   => -1,
-            'threshold_warnings_unstable' => -1,
+            'threshold_errors_error'                  => -1,
+            'threshold_warnings_error'                => -1,
+            'threshold_errors_unstable'               => -1,
+            'threshold_warnings_unstable'             => -1,
+            'threshold_errors_regressions_error'      => 0.01,
+            'threshold_warnings_regressions_error'    => 0.01,
+            'threshold_errors_regressions_unstable'   => 0.01,
+            'threshold_warnings_regressions_unstable' => 0.01,
         );
 
         $parameters2 = array(
-            'threshold_errors_error'      => 1,
-            'threshold_warnings_error'    => -1,
-            'threshold_errors_unstable'   => -1,
-            'threshold_warnings_unstable' => -1,
+            'threshold_errors_error'                  => 1,
+            'threshold_warnings_error'                => -1,
+            'threshold_errors_unstable'               => -1,
+            'threshold_warnings_unstable'             => -1,
+            'threshold_errors_regressions_error'      => -1,
+            'threshold_warnings_regressions_error'    => -1,
+            'threshold_errors_regressions_unstable'   => -1,
+            'threshold_warnings_regressions_unstable' => -1,
         );
 
         $parameters3 = array(
-            'threshold_errors_error'      => -1,
-            'threshold_warnings_error'    => 1,
-            'threshold_errors_unstable'   => -1,
-            'threshold_warnings_unstable' => -1,
+            'threshold_errors_error'                  => -1,
+            'threshold_warnings_error'                => 1,
+            'threshold_errors_unstable'               => -1,
+            'threshold_warnings_unstable'             => -1,
+            'threshold_errors_regressions_error'      => -1,
+            'threshold_warnings_regressions_error'    => -1,
+            'threshold_errors_regressions_unstable'   => -1,
+            'threshold_warnings_regressions_unstable' => -1,
         );
 
         $parameters4 = array(
-            'threshold_errors_error'      => -1,
-            'threshold_warnings_error'    => -1,
-            'threshold_errors_unstable'   => 1,
-            'threshold_warnings_unstable' => -1,
+            'threshold_errors_error'                  => -1,
+            'threshold_warnings_error'                => -1,
+            'threshold_errors_unstable'               => 1,
+            'threshold_warnings_unstable'             => -1,
+            'threshold_errors_regressions_error'      => -1,
+            'threshold_warnings_regressions_error'    => -1,
+            'threshold_errors_regressions_unstable'   => -1,
+            'threshold_warnings_regressions_unstable' => -1,
         );
 
         $parameters5 = array(
-            'threshold_errors_error'      => -1,
-            'threshold_warnings_error'    => -1,
-            'threshold_errors_unstable'   => -1,
-            'threshold_warnings_unstable' => 1,
+            'threshold_errors_error'                  => -1,
+            'threshold_warnings_error'                => -1,
+            'threshold_errors_unstable'               => -1,
+            'threshold_warnings_unstable'             => 1,
+            'threshold_errors_regressions_error'      => -1,
+            'threshold_warnings_regressions_error'    => -1,
+            'threshold_errors_regressions_unstable'   => -1,
+            'threshold_warnings_regressions_unstable' => -1,
         );
 
         $parameters6 = array(
-            'threshold_errors_error'      => 20,
-            'threshold_warnings_error'    => 20,
-            'threshold_errors_unstable'   => 20,
-            'threshold_warnings_unstable' => 20,
+            'threshold_errors_error'                  => 20,
+            'threshold_warnings_error'                => 20,
+            'threshold_errors_unstable'               => 20,
+            'threshold_warnings_unstable'             => 20,
+            'threshold_errors_regressions_error'      => -1,
+            'threshold_warnings_regressions_error'    => -1,
+            'threshold_errors_regressions_unstable'   => -1,
+            'threshold_warnings_regressions_unstable' => -1,
         );
 
         $this->assertEquals(Owaka::BUILD_OK, $target1->buildStatus($parameters1));
@@ -85,5 +114,12 @@ class Model_Codesniffer_GlobaldataTest extends TestCase
         $this->assertEquals(Owaka::BUILD_UNSTABLE, $target3->buildStatus($parameters4));
         $this->assertEquals(Owaka::BUILD_OK, $target3->buildStatus($parameters5));
         $this->assertEquals(Owaka::BUILD_OK, $target3->buildStatus($parameters6));
+
+        $this->assertEquals(Owaka::BUILD_ERROR, $target4->buildStatus($parameters1));
+        $this->assertEquals(Owaka::BUILD_OK, $target4->buildStatus($parameters2));
+        $this->assertEquals(Owaka::BUILD_OK, $target4->buildStatus($parameters3));
+        $this->assertEquals(Owaka::BUILD_OK, $target4->buildStatus($parameters4));
+        $this->assertEquals(Owaka::BUILD_OK, $target4->buildStatus($parameters5));
+        $this->assertEquals(Owaka::BUILD_OK, $target4->buildStatus($parameters6));
     }
 }

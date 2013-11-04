@@ -86,6 +86,12 @@ class Processor_CoverageTest extends TestCase_Processor
             'threshold_methodcoverage_unstable'    => -1,
             'threshold_statementcoverage_unstable' => -1,
             'threshold_totalcoverage_unstable'     => -1,
+            'threshold_methodcoverage_delta_error'       => -1,
+            'threshold_statementcoverage_delta_error'    => -1,
+            'threshold_totalcoverage_delta_error'        => -1,
+            'threshold_methodcoverage_delta_unstable'    => -1,
+            'threshold_statementcoverage_delta_unstable' => -1,
+            'threshold_totalcoverage_delta_unstable'     => -1,
         );
         $this->assertEquals(Owaka::BUILD_ERROR, $this->target->analyze($build, $parameters));
     }

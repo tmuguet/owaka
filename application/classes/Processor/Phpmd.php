@@ -30,6 +30,16 @@ class Processor_Phpmd extends Processor
             'title'        => 'Errors to trigger unstable',
             'description'  => 'Number of errors to trigger unstable build',
             'defaultvalue' => 1
+        ),
+        'threshold_errors_delta_error'    => array(
+            'title'        => 'Regression errors to trigger error',
+            'description'  => 'Number of regression errors to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_errors_delta_unstable' => array(
+            'title'        => 'Regression errors to trigger unstable',
+            'description'  => 'Number of regression errors to trigger unstable build',
+            'defaultvalue' => 1
         )
     );
 

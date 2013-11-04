@@ -47,6 +47,26 @@ class Processor_Phpunit extends Processor
             'title'        => 'Failures to trigger unstable',
             'description'  => 'Number of failures to trigger unstable build',
             'defaultvalue' => 1
+        ),
+        'threshold_errors_regressions_error'      => array(
+            'title'        => 'Regression errors to trigger error',
+            'description'  => 'Number of regression errors to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_errors_regressions_unstable'   => array(
+            'title'        => 'Regression errors to trigger unstable',
+            'description'  => 'Number of regression errors to trigger unstable build',
+            'defaultvalue' => 1
+        ),
+        'threshold_failures_regressions_error'    => array(
+            'title'        => 'Regression failures to trigger error',
+            'description'  => 'Number of regression failures to trigger build error',
+            'defaultvalue' => -1
+        ),
+        'threshold_failures_regressions_unstable' => array(
+            'title'        => 'Regression failures to trigger unstable',
+            'description'  => 'Number of regression failures to trigger unstable build',
+            'defaultvalue' => 1
         )
     );
 
