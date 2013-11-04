@@ -28,9 +28,9 @@ abstract class Model_Data extends ORM
     /**
      * Returns whether a max-threshold is triggered or not
      * 
-     * @param array $parameters Parameters
-     * @param string $type Type
-     * @param string $trigger Trigger (error, unstable)
+     * @param array  $parameters Parameters
+     * @param string $type       Type
+     * @param string $trigger    Trigger (error, unstable)
      * 
      * @return bool Triggered if data is greater or equal to threshold
      */
@@ -42,9 +42,9 @@ abstract class Model_Data extends ORM
     /**
      * Returns whether a min-threshold is triggered or not
      * 
-     * @param array $parameters Parameters
-     * @param string $type Type
-     * @param string $trigger Trigger (error, unstable)
+     * @param array  $parameters Parameters
+     * @param string $type       Type
+     * @param string $trigger    Trigger (error, unstable)
      * 
      * @return bool Triggered if data is strictly lower than threshold
      */
@@ -56,9 +56,9 @@ abstract class Model_Data extends ORM
     /**
      * Returns whether a delta-threshold is triggered or not
      * 
-     * @param array $parameters Parameters
-     * @param string $type Type
-     * @param string $trigger Trigger (error, unstable)
+     * @param array  $parameters Parameters
+     * @param string $type       Type
+     * @param string $trigger    Trigger (error, unstable)
      * 
      * @return bool Triggered if -data is strictly greater than threshold
      */
