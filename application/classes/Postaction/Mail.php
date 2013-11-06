@@ -65,10 +65,12 @@ class Postaction_Mail extends Postaction
     {
         $c          = Kohana::$config->load('owaka');
         $emailAdmin = $c->get('email_admin');
+        // @codeCoverageIgnoreStart
         if (empty($emailAdmin) || $emailAdmin == '${config.owaka.email_admin}') {
             Kohana::$log->add(Log::ERROR, 'Configuration missing for email');
             return false;
         }
+        // @codeCoverageIgnoreEnd
         $root = URL::site('dashboard/build/' . $build->id);
 
         $project  = htmlentities($build->project->name, ENT_NOQUOTES, "UTF-8");
