@@ -93,6 +93,7 @@ EOT;
 
         foreach ($projects as $project) {
             $build = $project->builds
+                    ->where('status', 'IN', array(Owaka::BUILD_OK, Owaka::BUILD_UNSTABLE, Owaka::BUILD_ERROR))
                     ->order_by('id', 'DESC')
                     ->limit(1)
                     ->find();
@@ -117,11 +118,7 @@ EOT;
      */
     public function display_project()
     {
-        $build = $this->getProject()->builds
-                ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                ->order_by('id', 'DESC')
-                ->limit(1)
-                ->find();
+        $build = $this->getLastBuild();
 
         $this->_status = ($build->loaded() ? $build->status : Owaka::BUILD_OK);
         $this->_theme  = $this->getParameter('theme');

@@ -39,17 +39,7 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Table
      */
     public function display_main()
     {
-        if ($this->getProject() === NULL) {
-            $builds = ORM::factory('Build')
-                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                    ->order_by('id', 'DESC')
-                    ->limit(10)
-                    ->find_all();
-
-            $this->process($builds);
-        } else {
-            $this->display_project();
-        }
+        $this->display_project();
     }
 
     /**
@@ -57,12 +47,7 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Table
      */
     public function display_project()
     {
-        $builds = $this->getProject()->builds
-                ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                ->order_by('id', 'DESC')
-                ->limit(10)
-                ->find_all();
-
+        $builds = $this->getLastBuilds(10);
         $this->process($builds);
     }
 
@@ -85,8 +70,6 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Table
         }
 
         foreach ($builds as $build) {
-            $date         = ($build->status == Owaka::BUILD_BUILDING || $build->status == Owaka::BUILD_QUEUED) ? $build->started
-                        : $build->finished;
             $this->rows[] = array(
                 'link'    => array(
                     'type' => 'build',
@@ -95,8 +78,8 @@ class Controller_Widget_Latestbuildstable extends Controller_Widget_Table
                 'class'   => 'clickable build build-' . $build->status,
                 'columns' => array(
                     $build->project->name,
-                    Date::loose_span(strtotime($date)),
-                    $date,
+                    Date::loose_span(strtotime($build->finished)),
+                    $build->finished,
                     View::factory('icon')->set('status', $build->status)->render()
                 ),
             );

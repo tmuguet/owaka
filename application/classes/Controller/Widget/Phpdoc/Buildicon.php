@@ -43,9 +43,7 @@ class Controller_Widget_Phpdoc_Buildicon extends Controller_Widget_Icon
     {
         $build = $this->getBuild();
         if ($build === NULL) {
-            $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                    ->find();
+            $build = $this->getLastBuild();
         }
 
         $this->process($build);

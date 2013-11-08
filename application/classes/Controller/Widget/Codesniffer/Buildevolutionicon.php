@@ -43,10 +43,7 @@ class Controller_Widget_Codesniffer_Buildevolutionicon extends Controller_Widget
     {
         $build = $this->getBuild();
         if ($build === NULL) {
-            $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                    ->with('codesniffer_globaldata')
-                    ->find();
+            $build = $this->getLastBuild();
         }
 
         if ($build->codesniffer_globaldata->loaded()) {

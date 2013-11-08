@@ -39,18 +39,7 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Tabl
      */
     public function display_main()
     {
-        if ($this->getProject() === NULL) {
-            $builds = ORM::factory('Build')
-                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                    ->order_by('id', 'DESC')
-                    ->with('phpunit_globaldata')
-                    ->limit(10)
-                    ->find_all();
-
-            $this->process($builds);
-        } else {
-            $this->display_project();
-        }
+        $this->display_project();
     }
 
     /**
@@ -58,13 +47,7 @@ class Controller_Widget_Phpunit_Latestbuildstable extends Controller_Widget_Tabl
      */
     public function display_project()
     {
-        $builds = $this->getProject()->builds
-                ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                ->order_by('id', 'DESC')
-                ->with('phpunit_globaldata')
-                ->limit(10)
-                ->find_all();
-
+        $builds = $this->getLastBuilds(10);
         $this->process($builds);
     }
 

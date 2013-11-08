@@ -9,6 +9,10 @@
     
     <builds id="##ID_build2##" project_id="##ID_ProjectBar##" revision="abcdef" message="" status="ok" started="2010-10-05 17:15:23" eta="2010-10-05 17:16:30" finished="2010-10-05 17:16:23"/>
     
+    <builds id="##ID_build3##" project_id="##ID_ProjectFoo##" revision="41" message="" status="queued" started="2010-10-05 17:15:23" eta="##NULL##" finished="##NULL##"/>
+    
+    <builds id="##ID_build4##" project_id="##ID_ProjectFoo##" revision="42" message="" status="building" started="2010-10-05 17:15:23" eta="2010-10-05 17:16:30" finished="##NULL##"/>
+    
     <widgets id="##ID_widget0##" type="stub" params="" width="1" height="2" column="3" row="4"/>
     <widgets id="##ID_widget1##" type="stub" params="{}" width="1" height="2" column="3" row="4"/>
     <widgets id="##ID_widget2##" type="stub" params="{&quot;project&quot;:&quot;##ID_ProjectFoo##&quot;}" width="1" height="2" column="3" row="4"/>

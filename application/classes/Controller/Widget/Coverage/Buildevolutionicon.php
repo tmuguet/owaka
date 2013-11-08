@@ -50,10 +50,7 @@ class Controller_Widget_Coverage_Buildevolutionicon extends Controller_Widget_Ic
     {
         $build = $this->getBuild();
         if ($build === NULL) {
-            $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                    ->with('coverage_globaldata')
-                    ->find();
+            $build = $this->getLastBuild();
         }
 
         if ($build->coverage_globaldata->loaded()) {

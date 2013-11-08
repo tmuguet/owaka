@@ -60,14 +60,13 @@ class Controller_Widget_Queue extends Controller_Widget_Table
      */
     protected function process($builds)
     {
-
         $this->columnsHeaders = array(
             'Project', 'Time left', '_Date'
         );
         foreach ($builds as $build) {
             if ($build->status == Owaka::BUILD_BUILDING) {
                 if (strtotime($build->eta) < time()) {
-                    $status = 'unknown';
+                    $status = 'unknown (+' . Date::loose_span(strtotime($build->eta)) . ')';
                 } else {
                     $status = Date::loose_span(strtotime($build->eta));
                 }

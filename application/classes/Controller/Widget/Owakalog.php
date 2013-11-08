@@ -39,9 +39,7 @@ class Controller_Widget_Owakalog extends Controller_Widget_Raw
     {
         $build = $this->getBuild();
         if ($build === NULL) {
-            $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                    ->find();
+            $build = $this->getLastBuild();
         }
 
         $file = APPPATH . 'reports' . DIR_SEP . $build->id . DIR_SEP . 'owaka' . DIR_SEP . 'builder.log';

@@ -43,10 +43,7 @@ class Controller_Widget_Phpunit_Buildicon extends Controller_Widget_Icon
     {
         $build = $this->getBuild();
         if ($build === NULL) {
-            $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                    ->with('phpunit_globaldata')
-                    ->find();
+            $build = $this->getLastBuild();
         }
         if ($build->phpunit_globaldata->loaded()) {
             $this->process($build);

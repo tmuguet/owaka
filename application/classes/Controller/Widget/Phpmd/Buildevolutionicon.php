@@ -43,10 +43,7 @@ class Controller_Widget_Phpmd_Buildevolutionicon extends Controller_Widget_Icon
     {
         $build = $this->getBuild();
         if ($build === NULL) {
-            $build = $this->getProject()->lastBuild()
-                    ->where('status', 'NOT IN', array(Owaka::BUILD_BUILDING, Owaka::BUILD_QUEUED))
-                    ->with('phpmd_globaldata')
-                    ->find();
+            $build = $this->getLastBuild();
         }
 
         if ($build->phpmd_globaldata->loaded()) {

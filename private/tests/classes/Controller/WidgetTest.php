@@ -305,6 +305,176 @@ class Controller_WidgetTest extends TestCase
     }
 
     /**
+     * @covers Controller_Widget::getLastBuild
+     */
+    public function testGetLastBuildMain()
+    {
+        $target1 = new Controller_Widget_WidgetStub();
+        $target1->request->setParam('id', $this->genNumbers['widget1']);
+        $target1->request->setParam('dashboard', Owaka::WIDGET_MAIN);
+        $target1->request->action(Owaka::WIDGET_MAIN);
+        $this->assertNull($target1->getLastBuild());
+
+        $target2   = new Controller_Widget_WidgetStub();
+        $target2->request->setParam('id', $this->genNumbers['widget2']);
+        $target2->request->setParam('dashboard', Owaka::WIDGET_MAIN);
+        $target2->request->action(Owaka::WIDGET_MAIN);
+        $expected2 = ORM::factory('Build', $this->genNumbers['build1']);
+        $this->assertTrue($expected2->loaded());
+        $this->assertEquals($expected2, $target2->getLastBuild());
+
+        $expected3 = ORM::factory('Build', $this->genNumbers['build3']);
+        $this->assertTrue($expected3->loaded());
+        $this->assertEquals($expected3, $target2->getLastBuild(array(Owaka::BUILD_QUEUED)));
+    }
+
+    /**
+     * @covers Controller_Widget::getLastBuild
+     */
+    public function testGetLastBuildProject()
+    {
+        $target1   = new Controller_Widget_WidgetStub();
+        $target1->request->setParam('id', $this->genNumbers['widget11']);
+        $target1->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
+        $target1->request->setParam('data', $this->genNumbers['ProjectFoo']);
+        $target1->request->action(Owaka::WIDGET_PROJECT);
+        $expected1 = ORM::factory('Build', $this->genNumbers['build1']);
+        $this->assertTrue($expected1->loaded());
+        $this->assertEquals($expected1, $target1->getLastBuild());
+
+        $target2   = new Controller_Widget_WidgetStub();
+        $target2->request->setParam('id', $this->genNumbers['widget12']);
+        $target2->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
+        $target2->request->action(Owaka::WIDGET_PROJECT);
+        $expected2 = ORM::factory('Build', $this->genNumbers['build1']);
+        $this->assertTrue($expected2->loaded());
+        $this->assertEquals($expected2, $target2->getLastBuild());
+
+        $target3   = new Controller_Widget_WidgetStub();
+        $target3->request->setParam('id', $this->genNumbers['widget13']);
+        $target3->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
+        $target3->request->action(Owaka::WIDGET_PROJECT);
+        $expected3 = ORM::factory('Build', $this->genNumbers['build2']);
+        $this->assertTrue($expected3->loaded());
+        $this->assertEquals($expected3, $target3->getLastBuild());
+
+        $target4   = new Controller_Widget_WidgetStub();
+        $target4->request->setParam('id', $this->genNumbers['widget14']);
+        $target4->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
+        $target4->request->action(Owaka::WIDGET_PROJECT);
+        $expected4 = ORM::factory('Build', $this->genNumbers['build1']);
+        $this->assertTrue($expected4->loaded());
+        $this->assertEquals($expected4, $target4->getLastBuild());
+
+        $target5   = new Controller_Widget_WidgetStub();
+        $target5->request->setParam('id', $this->genNumbers['widget15']);
+        $target5->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
+        $target5->request->action(Owaka::WIDGET_PROJECT);
+        $expected5 = ORM::factory('Build', $this->genNumbers['build2']);
+        $this->assertTrue($expected5->loaded());
+        $this->assertEquals($expected5, $target5->getLastBuild());
+    }
+
+    /**
+     * @covers Controller_Widget::getLastBuilds
+     */
+    public function testGetLastBuildsMain()
+    {
+        $target1 = new Controller_Widget_WidgetStub();
+        $target1->request->setParam('id', $this->genNumbers['widget1']);
+        $target1->request->setParam('dashboard', Owaka::WIDGET_MAIN);
+        $target1->request->action(Owaka::WIDGET_MAIN);
+        $expected1 = array(
+            ORM::factory('Build', $this->genNumbers['build2']),
+            ORM::factory('Build', $this->genNumbers['build1'])
+        );
+        $actual1 = $target1->getLastBuilds(10);
+        $this->assertEquals(2, sizeof($actual1));
+        $this->assertEquals($expected1[0], $actual1[0]);
+        $this->assertEquals($expected1[1], $actual1[1]);
+
+        $target2   = new Controller_Widget_WidgetStub();
+        $target2->request->setParam('id', $this->genNumbers['widget2']);
+        $target2->request->setParam('dashboard', Owaka::WIDGET_MAIN);
+        $target2->request->action(Owaka::WIDGET_MAIN);
+        $expected2 = array(
+            ORM::factory('Build', $this->genNumbers['build1'])
+        );
+        $actual2 = $target2->getLastBuilds(10);
+        $this->assertEquals(1, sizeof($actual2));
+        $this->assertEquals($expected2[0], $actual2[0]);
+        
+        $expected3 = array(
+            ORM::factory('Build', $this->genNumbers['build3'])
+        );
+        $actual3 = $target2->getLastBuilds(10, array(Owaka::BUILD_QUEUED));
+        $this->assertEquals(1, sizeof($actual3));
+        $this->assertEquals($expected3[0], $actual3[0]);
+    }
+
+    /**
+     * @covers Controller_Widget::getLastBuilds
+     */
+    public function testGetLastBuildsProject()
+    {
+        $target1   = new Controller_Widget_WidgetStub();
+        $target1->request->setParam('id', $this->genNumbers['widget11']);
+        $target1->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
+        $target1->request->setParam('data', $this->genNumbers['ProjectFoo']);
+        $target1->request->action(Owaka::WIDGET_PROJECT);
+        $expected1 = array(
+            ORM::factory('Build', $this->genNumbers['build1'])
+        );
+        $actual1 = $target1->getLastBuilds(10);
+        $this->assertEquals(1, sizeof($actual1));
+        $this->assertEquals($expected1[0], $actual1[0]);
+
+        $target2   = new Controller_Widget_WidgetStub();
+        $target2->request->setParam('id', $this->genNumbers['widget12']);
+        $target2->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
+        $target2->request->action(Owaka::WIDGET_PROJECT);
+        $expected2 = array(
+            ORM::factory('Build', $this->genNumbers['build1'])
+        );
+        $actual2 = $target2->getLastBuilds(10);
+        $this->assertEquals(1, sizeof($actual2));
+        $this->assertEquals($expected2[0], $actual2[0]);
+
+        $target3   = new Controller_Widget_WidgetStub();
+        $target3->request->setParam('id', $this->genNumbers['widget13']);
+        $target3->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
+        $target3->request->action(Owaka::WIDGET_PROJECT);
+        $expected3 = array(
+            ORM::factory('Build', $this->genNumbers['build2'])
+        );
+        $actual3 = $target3->getLastBuilds(10);
+        $this->assertEquals(1, sizeof($actual3));
+        $this->assertEquals($expected3[0], $actual3[0]);
+
+        $target4   = new Controller_Widget_WidgetStub();
+        $target4->request->setParam('id', $this->genNumbers['widget14']);
+        $target4->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
+        $target4->request->action(Owaka::WIDGET_PROJECT);
+        $expected4 = array(
+            ORM::factory('Build', $this->genNumbers['build1'])
+        );
+        $actual4 = $target4->getLastBuilds(10);
+        $this->assertEquals(1, sizeof($actual4));
+        $this->assertEquals($expected4[0], $actual4[0]);
+
+        $target5   = new Controller_Widget_WidgetStub();
+        $target5->request->setParam('id', $this->genNumbers['widget15']);
+        $target5->request->setParam('dashboard', Owaka::WIDGET_PROJECT);
+        $target5->request->action(Owaka::WIDGET_PROJECT);
+        $expected5 = array(
+            ORM::factory('Build', $this->genNumbers['build2'])
+        );
+        $actual5 = $target5->getLastBuilds(10);
+        $this->assertEquals(1, sizeof($actual5));
+        $this->assertEquals($expected5[0], $actual5[0]);
+    }
+
+    /**
      * @covers Controller_Widget::before
      * @covers Controller_Widget::initViews
      */

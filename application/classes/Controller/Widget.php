@@ -204,6 +204,51 @@ abstract class Controller_Widget extends Controller
     }
 
     /**
+     * Gets the last build of a project
+     * 
+     * @param array $status Accepted status
+     * 
+     * @return Model_Build|null
+     */
+    /* protected */ final function getLastBuild($status = array(Owaka::BUILD_OK, Owaka::BUILD_UNSTABLE, Owaka::BUILD_ERROR))
+    {
+        $project = $this->getProject();
+        if ($project === NULL) {
+            return NULL;
+        } else {
+            return $project->lastBuild()
+                            ->where('status', 'IN', $status)
+                            ->find();
+        }
+    }
+
+    /**
+     * Gets the X last builds of a project
+     * 
+     * @param array $status Accepted status
+     * 
+     * @return Model_Build[]
+     */
+    /* protected */ final function getLastBuilds($limit,
+            $status = array(Owaka::BUILD_OK, Owaka::BUILD_UNSTABLE, Owaka::BUILD_ERROR))
+    {
+        $project = $this->getProject();
+        if ($project === NULL) {
+            return ORM::factory('Build')
+                    ->where('status', 'IN', $status)
+                    ->order_by('id', 'DESC')
+                    ->limit($limit)
+                    ->find_all();
+        } else {
+            return $project->lastBuild()
+                            ->where('status', 'IN', $status)
+                            ->order_by('id', 'DESC')
+                            ->limit($limit)
+                            ->find_all();
+        }
+    }
+
+    /**
      * Gets all the widget parameter values.
      * 
      * @return array
