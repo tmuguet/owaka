@@ -225,12 +225,12 @@ abstract class Controller_Widget extends Controller
     /**
      * Gets the X last builds of a project
      * 
+     * @param int   $limit  Number of builds to get
      * @param array $status Accepted status
      * 
      * @return Model_Build[]
      */
-    /* protected */ final function getLastBuilds($limit,
-            $status = array(Owaka::BUILD_OK, Owaka::BUILD_UNSTABLE, Owaka::BUILD_ERROR))
+    /* protected */ final function getLastBuilds($limit, $status = array(Owaka::BUILD_OK, Owaka::BUILD_UNSTABLE, Owaka::BUILD_ERROR))
     {
         $project = $this->getProject();
         if ($project === NULL) {
