@@ -55,7 +55,7 @@ class Controller_Api_Build extends Controller_Api
             }
             $id = $build->id;
             $build->delete();
-            $this->respondOk(array('build' => $id, 'next_build'   => $next->id));
+            $this->respondOk(array('build' => $id, 'next_build'   => ($next->loaded() ? $next->id : '')));
         } else {
             throw new HTTP_Exception_404();
         }
