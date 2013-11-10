@@ -73,10 +73,10 @@ class Postaction_Mail extends Postaction
         // @codeCoverageIgnoreEnd
         $root = URL::site('dashboard/build/' . $build->id);
 
-        $project  = htmlentities($build->project->name, ENT_NOQUOTES, "UTF-8");
-        $revision = htmlentities($build->getRevision(), ENT_NOQUOTES, "UTF-8");
-        $status   = htmlentities($build->status, ENT_NOQUOTES, "UTF-8");
-        $id       = htmlentities($build->id, ENT_NOQUOTES, "UTF-8");
+        $project  = $build->project->name;
+        $revision = $build->getRevision();
+        $status   = $build->status;
+        $id       = $build->id;
 
         switch ($build->status) {
             case Owaka::BUILD_ERROR:
@@ -101,6 +101,7 @@ class Postaction_Mail extends Postaction
 EOT;
 
         $mail = new PHPMailer(TRUE);
+        $mail->CharSet = 'UTF-8';
         $mail->AddReplyTo($emailAdmin, 'Admin');
 #ifdef PRODUCTION
         $_tok = strtok(trim($parameters['recipients']), ' ,;');
@@ -120,9 +121,9 @@ EOT;
 
         $mail->SetFrom($c->get('email_sender'), 'owaka');
 #ifdef PRODUCTION
-        $mail->Subject = '[owaka] Project ' . utf8_decode($build->project->name) . ': ' . utf8_decode($build->status);
+        $mail->Subject = '[owaka] Project ' . $build->project->name . ': ' . $build->status;
 #else
-        $mail->Subject = '[TEST owaka] Project ' . utf8_decode($build->project->name) . ': ' . utf8_decode($build->status);
+        $mail->Subject = '[TEST owaka] Project ' . $build->project->name . ': ' . $build->status;
 #endif
         $mail->MsgHTML($messageHtml);
         $res           = $mail->Send();
